@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Redirect } from "react-router-dom";
 import Defaults from "../layouts/private/Defaults";
-// import Loader from "../layouts/Loader";
 import { isAuth } from "../utils/helpers";
+import Loader from "../layouts/Loader";
 
 function Private(props) {
 	const { component, ...rest } = props;
@@ -16,7 +16,7 @@ function Private(props) {
 		<Route
 			{...rest}
 			render={(props) => (
-				<Suspense fallback={<div>Loading....</div>}>
+				<Suspense fallback={<Loader />}>
 					<Defaults>
 						<Component {...props} />
 					</Defaults>
