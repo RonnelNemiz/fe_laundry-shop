@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const Https = axios.create();
+export const Http = axios.create();
 
 Http.defaults.baseURL = process.env.REACT_APP_API_DOMAIN;
 Http.defaults.headers.common["Accept"] = "application/json";
