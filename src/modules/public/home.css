@@ -1,0 +1,34 @@
+/* Homepage */
+.home{
+    height: 50%;
+    width: 90%;
+}
+
+.mainSection{
+    display: flex;
+    background-color: gray;
+    justify-content: space-around;
+    align-items: center;
+}
+.contentBox{
+    width: 40%;   
+}
+.contentBox h1{
+    font-size: 3rem;
+}
+.contentBox p{
+    margin: 1em 0;
+    color: white;
+}
+.viewMore{
+    color: black;
+    font-size: 1rem;
+    text-decoration: none;
+}
+.imgContainer{
+    width: 40%;
+}
+.btnBox{
+    width: 100%;
+    margin-top: 3em;
+}
