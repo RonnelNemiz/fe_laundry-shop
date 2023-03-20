@@ -42,6 +42,14 @@ const routes = [
 		component: "modules/private/reviews/Reviews",
 		auth: true,
 	},
+	{
+		path: "/login",
+		component: "modules/public/auth/Login",
+	},
+	{
+		path: "/register",
+		component: "modules/public/auth/Register",
+	},
 ];
 
 export default routes;
