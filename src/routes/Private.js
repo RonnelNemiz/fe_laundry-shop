@@ -9,7 +9,7 @@ function Private(props) {
 	const Component = lazy(() => import(`../${component}`));
 
 	if (!isAuth()) {
-		return <Route render={() => <Redirect to="login" />} />;
+		return <Route render={() => <Redirect to="/login" />} />;
 	}
 
 	return (

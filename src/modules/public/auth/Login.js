@@ -7,11 +7,6 @@ import Http from "./../../../services/Http";
 import { isAuth } from "../../../utils/helpers";
 
 function Login() {
-	useEffect(() => {
-		if (isAuth()) {
-			history.push("/dashboard");
-		}
-	}, []);
 	const history = useHistory();
 	const [loginInput, setLogin] = useState({
 		email: "",
@@ -24,27 +19,24 @@ function Login() {
 		setLogin((prev) => ({ ...prev, [name]: value }));
 	};
 
-	console.log(loginInput);
-
 	const loginSubmit = (e) => {
 		e.preventDefault();
-		Http.post("/login", {
-			email: loginInput.email,
-			password: loginInput.password,
-		})
-			.then((res) => {
-				localStorage.setItem("access_token", res.data.access_token);
-				swal("Success", res.data.message, "success");
-				history.push("/");
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		Http.post("/login", loginInput).then((res) => {
+			console.log(res);
+			localStorage.setItem("access_token", res.data.access_token);
+			swal("Success", "Yeheey!!!", "success");
+			history.push("/dashboard");
+		});
 	};
+	useEffect(() => {
+		if (isAuth()) {
+			history.push("/dashboard");
+			console.log("effect rendered");
+		}
+	}, [history]);
 
 	return (
 		<section>
-			{/* <Navbar /> */}
 			<div
 				className="registerLoginbox "
 				style={{ background: `url(${bg2})no-repeat` }}>
