@@ -13,6 +13,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { logout } from "../../utils/helpers";
 
+
 const drawerWidth = 240;
 const style = {
   modal: {

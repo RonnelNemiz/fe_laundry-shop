@@ -15,7 +15,7 @@ function View() {
                         <div class="col-wrapper order-year-model">
                             <div class="table-col order-year">Year</div>
                             <div class="table-col order-model">Model</div>
-                        </div>
+                        </div>  
                         <div class="table-col order-customer">Customer</div>
                     </div>
                     
