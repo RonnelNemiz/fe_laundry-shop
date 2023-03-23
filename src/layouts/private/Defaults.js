@@ -14,7 +14,17 @@ import Modal from "react-bootstrap/Modal";
 import { logout } from "../../utils/helpers";
 
 const drawerWidth = 240;
-
+const style = {
+  modal: {
+    marginTop: "10%",
+    marginLeft: "5%",
+  },
+  logoutbtn: {
+    marginInlineStart: "auto",
+    borderColor: "none",
+    backgroundColor: "none",
+  },
+};
 function Defaults({ children }) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -55,7 +65,10 @@ function Defaults({ children }) {
           <Typography variant="h6" noWrap component="div">
             Responsive drawer
           </Typography>
-          <Button variant="primary" onClick={handleShow}>
+          <Button
+            // variant="primary"
+            onClick={handleShow}
+            style={style.logoutbtn}>
             Logout
           </Button>
         </Toolbar>
@@ -101,7 +114,7 @@ function Defaults({ children }) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}>
         <Toolbar />
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} style={style.modal}>
           <Modal.Body>Are you sure you want to logout?</Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={handleClose}>
