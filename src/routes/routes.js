@@ -11,36 +11,43 @@ const routes = [
     path: "/dashboard",
     component: "modules/private/dashboard/Dashboard",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/orders",
     component: "modules/private/orders/Orders",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/settings",
     component: "modules/private/settings/Settings",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/customers",
     component: "modules/private/customer/Customers",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/reports",
     component: "modules/private/reports/Reports",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/sms",
     component: "modules/private/sms/SMS",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/reviews",
     component: "modules/private/reviews/Reviews",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/login",
@@ -71,31 +78,37 @@ const routes = [
     path: "/orders",
     component: "modules/private/orders/Orders",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/settings",
     component: "modules/private/settings/Settings",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/customers",
     component: "modules/private/customer/Customers",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/reports",
     component: "modules/private/reports/Reports",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/sms",
     component: "modules/private/sms/SMS",
     auth: true,
+    role: "Admin",
   },
   {
     path: "/reviews",
     component: "modules/private/reviews/Reviews",
     auth: true,
+    role: "Admin",
   },
 ];
 

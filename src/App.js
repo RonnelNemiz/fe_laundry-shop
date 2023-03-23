@@ -6,20 +6,20 @@ import Public from "./routes/Public";
 import NotFound from "./routes/NotFound";
 
 function App() {
-	return (
-		<BrowserRouter history={createBrowserHistory()}>
-			<Switch>
-				{routes.map((route, index) => {
-					if (route.auth) {
-						return <Private exact key={index} {...route} />;
-					} else {
-						return <Public exact key={index} {...route} />;
-					}
-				})}
-				<Route component={NotFound} />
-			</Switch>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter history={createBrowserHistory()}>
+      <Switch>
+        {routes.map((route, index) => {
+          if (route.auth && route.role !== "Customer") {
+            return <Private exact key={index} {...route} />;
+          } else {
+            return <Public exact key={index} {...route} />;
+          }
+        })}
+        <Route component={NotFound} />
+      </Switch>
+    </BrowserRouter>
+  );
 }
 
 export default App;

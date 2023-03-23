@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Navbar from "../../layouts/public/Navbar";
-// import Footer from "../../layouts/public/Footer";
+import Footer from "../../layouts/public/Footer";
 import "./services.css";
 import img1 from "../../assets/images/garments.jpg";
 import img2 from "../../assets/images/whitebedsheets.jpg";
@@ -166,7 +166,7 @@ function Services() {
           </div>
         </section>
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
