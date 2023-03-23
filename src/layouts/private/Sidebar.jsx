@@ -9,6 +9,10 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
 import { useHistory, useLocation } from "react-router-dom";
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import ReviewsIcon from '@mui/icons-material/Reviews';
+import SmsIcon from '@mui/icons-material/Sms';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 function Sidebar() {
 	const history = useHistory();
@@ -33,22 +37,22 @@ function Sidebar() {
 		{
 			path: "/reports",
 			label: "Reports",
-			icon: <PeopleIcon />,
+			icon: <AssessmentIcon />,
 		},
 		{
 			path: "/reviews",
 			label: "Reviews",
-			icon: <PeopleIcon />,
+			icon: <ReviewsIcon />,
 		},
 		{
 			path: "/sms",
 			label: "Sms",
-			icon: <PeopleIcon />,
+			icon: <SmsIcon/>,
 		},
 		{
 			path: "/settings",
 			label: "Settings",
-			icon: <PeopleIcon />,
+			icon: <SettingsIcon />,
 		},
 	];
 

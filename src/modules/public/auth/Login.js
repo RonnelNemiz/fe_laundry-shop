@@ -26,7 +26,7 @@ function Login() {
 			localStorage.setItem("access_token", res.data.access_token);
 			swal("Success", "Yeheey!!!", "success");
 			history.push("/dashboard");
-		});
+		}).catch(()=>{alert("Network Error")});
 	};
 	useEffect(() => {
 		if (isAuth()) {
