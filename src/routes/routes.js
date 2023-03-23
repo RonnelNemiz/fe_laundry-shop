@@ -8,8 +8,16 @@ const routes = [
     component: "modules/public/About",
   },
   {
+    path: "/services",
+    component: "modules/public/Services",
+  },
+  {
     path: "/contact",
     component: "modules/public/Contact",
+  },
+  {
+    path: "/order",
+    component: "modules/public/orderfe/Order",
   },
   {
     path: "/dashboard",
@@ -65,14 +73,7 @@ const routes = [
     path: "/home",
     component: "modules/public/Home",
   },
-  {
-    path: "/about",
-    component: "modules/public/About",
-  },
-  {
-    path: "/services",
-    component: "modules/public/Services",
-  },
+
   {
     path: "/dashboard",
     component: "modules/private/dashboard/Dashboard",
