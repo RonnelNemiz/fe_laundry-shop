@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
-// import Loader from "../layouts/Loader";
-// import BackdropLoader from "../layouts/BackdropLoader";
+import Loader from "../layouts/Loader";
+
 
 function Public(props) {
   const { component, ...rest } = props;
@@ -11,7 +11,7 @@ function Public(props) {
     <Route
       {...rest}
       render={(props) => (
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={<Loader/>}>
           <Component {...props} />
         </Suspense>
       )}

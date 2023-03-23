@@ -8,6 +8,10 @@ const routes = [
     component: "modules/public/About",
   },
   {
+    path: "/contact",
+    component: "modules/public/Contact",
+  },
+  {
     path: "/dashboard",
     component: "modules/private/dashboard/Dashboard",
     auth: true,

@@ -1,0 +1,17 @@
+.Mainsection{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 100px;
+   
+}
+.main-heading{
+    text-align: center;
+}   
+
+.section{
+    padding-top: 40px;
+    padding-bottom: 100PX;
+    background-color: lightgray;
+}
