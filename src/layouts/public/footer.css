@@ -1,0 +1,14 @@
+.laundrylogo {
+  margin-left: 50%;
+  width: 230px;
+}
+.container1 {
+  margin-right: 5%;
+}
+#footer {
+  height: 40vh;
+}
+.footer a {
+  color: white;
+  text-decoration: none !important;
+}

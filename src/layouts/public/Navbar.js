@@ -1,19 +1,20 @@
 import React from 'react';
 import { Link,} from 'react-router-dom';
-import logo1 from '../../assets/images/logo1.png'
+import logo1 from '../../assets/images/laundrylogo.png'
+import './navbar.css'
 
 
 
-function NavbarFe() {
+function Navbar() {
 
     return (
        
-        <nav className="navbar navbar-expand-lg bg-light sticky-top">
+        <nav className="navbar navbar-expand-lg bg-light sticky-top px-5">
             <div className="logoContainer">
-                <img src={logo1} alt="logo" className="logo-name1" />
+                <img src={logo1} alt="logo" className="logo-name1"  />
             </div>
             <div className="container-fluid">
-                <Link to="/" className="navbar-brand">Laundry Shop Management System</Link>
+                {/* <Link to="/" className="navbar-brand">Laundry Shop Management System</Link> */}
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -48,4 +49,4 @@ function NavbarFe() {
     )
 }
 
-export default NavbarFe;
+export default Navbar;

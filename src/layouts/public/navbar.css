@@ -1,73 +1,11 @@
-/* Navbar */
-.navbar-brand{
-    font-style: italic;
-    padding-left: 2%;
+.logo-name1 {
+  margin-left: 10%;
+  width: 230%;
 }
-.logo-name1{
-    width: 120%;
-    margin-left: 10%;
+.logoContainer {
+  width: 5%;
+  margin-left: 2%;
 }
-.logoContainer{
-    width: 5%;
-    margin-left: 2%;
-}
-
-.section{
-    padding-top: 40px;
-    padding-bottom: 40px;
-}
-
-.underline{
-    height: 04px;
-    width: 4rem;
-    background-color: #f76c2f;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-.section h1{
-    font-size: 2rem;
-}
-.service{
-    margin: 1rem;
-    text-align: center;
-    color: blue;
-    font-size: 20px;
-    font-weight: 500;
-}
-.Section{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    
-}
-.content-Box{
-    width: 90%;
-    padding-left: 1em;
-}
-.content-Box h2{
-    font-size: 2rem;
-}
-.content-Box p{
-    margin: 2em 0; 
-}
-.clickHere{
-    text-decoration: none;
-}
-.btn-Box{
-    display: flex;
-}
-.main{
-    color: blue;
-    margin: 1rem 0;
-    text-align: center;
-}
-.main p{
-    text-align: center !important;
-}
-.footer a{
-    color: white;
-    text-decoration: none !important;
-}
-.logo-container{
-    width: 50%;
+.logo-container {
+  width: 50%;
 }

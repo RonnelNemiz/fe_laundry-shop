@@ -5,25 +5,25 @@ import { isAuth } from "../utils/helpers";
 import Loader from "../layouts/Loader";
 
 function Private(props) {
-	const { component, ...rest } = props;
-	const Component = lazy(() => import(`../${component}`));
+  const { component, ...rest } = props;
+  const Component = lazy(() => import(`../${component}`));
 
-	if (!isAuth()) {
-		return <Route render={() => <Redirect to="/login" />} />;
-	}
+  if (!isAuth()) {
+    return <Route render={() => <Redirect to="/login" />} />;
+  }
 
-	return (
-		<Route
-			{...rest}
-			render={(props) => (
-				<Suspense fallback={<Loader />}>
-					<Defaults>
-						<Component {...props} />
-					</Defaults>
-				</Suspense>
-			)}
-		/>
-	);
+  return (
+    <Route
+      {...rest}
+      render={(props) => (
+        <Suspense fallback={<Loader />}>
+          <Defaults>
+            <Component {...props} />
+          </Defaults>
+        </Suspense>
+      )}
+    />
+  );
 }
 
 export default Private;

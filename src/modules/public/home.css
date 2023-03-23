@@ -1,34 +1,164 @@
 /* Homepage */
-.home{
-    height: 50%;
-    width: 90%;
+/* First Section */
+.mainSection {
+  display: flex;
+  background-color: transparent;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 80vh;
+}
+.section {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  height: 100vh;
+}
+.section1 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  height: 60vh;
+}
+.section h1 {
+  font-size: 2rem;
+}
+.Section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.contentBox {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.contentBox h1 {
+  font-size: 3.8rem;
+  font-weight: 600;
 }
 
-.mainSection{
-    display: flex;
-    background-color: gray;
-    justify-content: space-around;
-    align-items: center;
+.viewMore {
+  font-size: 1rem;
+  text-decoration: none;
 }
-.contentBox{
-    width: 40%;   
+.imgContainer {
+  width: 40%;
 }
-.contentBox h1{
-    font-size: 3rem;
+.btnBox {
+  width: 100%;
+  margin-top: 3em;
 }
-.contentBox p{
-    margin: 1em 0;
-    color: white;
+.underline {
+  height: 04px;
+  width: 4rem;
+  background-color: rgb(11, 157, 214);
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-.viewMore{
-    color: black;
-    font-size: 1rem;
-    text-decoration: none;
+.service {
+  margin: 1rem;
+  text-align: center;
+  color: rgb(11, 157, 214);
+  font-size: 25px;
+  font-weight: 500;
 }
-.imgContainer{
-    width: 40%;
+.card-body h4 {
+  color: rgb(11, 157, 214);
 }
-.btnBox{
-    width: 100%;
-    margin-top: 3em;
+.sec-p h5 {
+  color: rgb(11, 157, 214);
+  padding-top: 5%;
+  padding-bottom: 2%;
+}
+/* CSS */
+.button-29 {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #5adaff 0,
+    #5468ff 100%
+  );
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow 0.15s, transform 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow, transform;
+  font-size: 18px;
+  width: 14vw;
+}
+
+.button-29:focus {
+  box-shadow: #3c4fe0 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+}
+
+.button-29:hover {
+  box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #3c4fe0 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-29:active {
+  box-shadow: #3c4fe0 0 3px 7px inset;
+  transform: translateY(2px);
+}
+
+.container-home {
+  text-align: center;
+}
+.container-home1 {
+  text-align: center;
+}
+.sec-p {
+  width: 40%;
+}
+
+.card-container-ni-karen {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.card-container-ni-karen div {
+  margin: 0.3em;
+}
+
+.img {
+  transition: 1s ease;
+}
+
+.img:hover {
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  transition: 0.3s ease;
+}
+/* .description {
+  padding-top: 20%;
+  padding-bottom: 5%;
+} */
+.title {
+  color: rgb(11, 157, 214);
+}
+#service h1 {
+  padding-bottom: 5%;
 }
