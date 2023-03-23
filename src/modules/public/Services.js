@@ -89,7 +89,7 @@ function Services() {
                       <li>Whites (Garments & towel): 5 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow" role="button">
+                      <button class="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
@@ -111,7 +111,7 @@ function Services() {
                       <li>Whites (Bedsheet & Towel) : 6 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow" role="button">
+                      <button class="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
@@ -133,7 +133,7 @@ function Services() {
                       <li>Colored (Bedsheet & Towel): 5 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow" role="button">
+                      <button class="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
@@ -155,7 +155,7 @@ function Services() {
                       <li>Colored (Tshirt, Pants, Underwear): 7 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow" role="button">
+                      <button class="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
