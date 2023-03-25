@@ -115,6 +115,12 @@ const routes = [
     auth: true,
     role: "Admin",
   },
+  {
+    path: "/users",
+    component: "modules/private/users/Users",
+    auth: true,
+    role: "Admin",
+  },
 ];
 
 export default routes;

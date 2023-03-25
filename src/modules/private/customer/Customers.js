@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Http from "../../../services/Http";
-import "./customers.css";
+import "./../assets/table.css";
 
 function Customers() {
 
@@ -19,7 +19,7 @@ console.log(customers);
       <div className="card mt-5">
         <div className="card-body">
 
-          <table class="table table-striped">
+          <table className="table table-striped">
             <thead>
               <tr>
                 <th>Full Name</th>

@@ -4,7 +4,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import PeopleIcon from "@mui/icons-material/People";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
@@ -13,6 +12,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
+import GroupIcon from '@mui/icons-material/Group';
 
 function Sidebar() {
 	const history = useHistory();
@@ -33,6 +33,11 @@ function Sidebar() {
 			path: "/orders",
 			label: "Orders",
 			icon: <ShoppingCartIcon />,
+		},
+		{
+			path: "/users",
+			label: "Users",
+			icon: <GroupIcon />,
 		},
 		{
 			path: "/reports",
