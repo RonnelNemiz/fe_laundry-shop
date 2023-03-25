@@ -1,48 +1,31 @@
 import React from "react";
+import "./../assets/table.css"
 
 function Orders() {
 	return <div>
-<<<<<<< Updated upstream
-		
-=======
 		ORDER NI ATE ANABELE
->>>>>>> Stashed changes
 		<div className="container bg-light">
           <h1>List Of Orders</h1>
               <div className ="card mt-5">
                 <div className="card-body">
-<<<<<<< Updated upstream
                 <a name="add new" className="btn btn-primary" href="Add.js" role="button">+ Add New</a><br /><br />
             
                 <table className="table table-striped ">
 	
-=======
-            
-                <table class="table table-striped">
->>>>>>> Stashed changes
     <thead>
       <tr>
         <th>Service Type</th>
         <th>Full Name</th>
         <th>Address</th>
-<<<<<<< Updated upstream
         <th>Contact Number</th>
-=======
-        <th>Mobile Number</th>
->>>>>>> Stashed changes
         <th>Quantity</th>
         <th>Weight</th>
         <th>Total</th>
         <th>Amount Recieved</th>
         <th>Change</th>
-<<<<<<< Updated upstream
         <th>Payment Status</th>
         <th>Orders Status</th>
         <th>Action</th>
-=======
-        <th>Action</th>
-        <th>Orders</th>
->>>>>>> Stashed changes
       </tr>
     </thead>
     <tbody>
@@ -63,7 +46,6 @@ function Orders() {
           
         </select>
         </td>
-<<<<<<< Updated upstream
      <td>
       <select name="cars" id="cars">
         <option value="volvo">pending</option>
@@ -72,7 +54,7 @@ function Orders() {
         </select>
         </td>
         <td>
-          <button type="button"class="btn btn-primary">View</button>
+          <button type="button"className="btn btn-primary">View</button>
         </td>
         </tr>
       <tr>
@@ -192,8 +174,6 @@ function Orders() {
           
         </select>
         </td>
-=======
->>>>>>> Stashed changes
         <td>
         <select name="cars" id="cars">
         <option value="volvo">pending</option>
@@ -207,12 +187,8 @@ function Orders() {
                  </div>
                 </div>
             </div>
-<<<<<<< Updated upstream
 		</div>;
 			
-=======
-	</div>;
->>>>>>> Stashed changes
 }
 
 export default Orders;
