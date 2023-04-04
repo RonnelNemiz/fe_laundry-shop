@@ -1,6 +1,6 @@
 import React from 'react'
 
-function View() {
+function ViewCustomers() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function View() {
   )
 }
 
-export default View
+export default ViewCustomers
