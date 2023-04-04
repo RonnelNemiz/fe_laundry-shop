@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Delete() {
+function DeleteCustomers() {
   return (
     <div>
       	<button onclick="document.getElementById('id01').style.display='block'">Delete</button>
@@ -23,4 +23,4 @@ function Delete() {
   )
 }
 
-export default Delete
+export default DeleteCustomers

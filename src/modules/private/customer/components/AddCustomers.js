@@ -1,69 +1,41 @@
 import React, { useState } from "react";
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import "./auth.css";
 import swal from 'sweetalert';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 // import bg2 from "./../../../assets/images/bg2.jpg";
-import Http from "../../../services/Http";
-import { Input, InputAdornment, TextField, Typography } from '@mui/material';
+import { Input, InputAdornment, Modal, TextField, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import bg6R from "./../../../assets/images/bg6R.jpg";
-import { styled } from '@mui/material/styles';
+import Http from "../../../../services/Http";
+import styled from "@emotion/styled";
+import { useHistory } from "react-router-dom";
 
-const CssTextField = styled(TextField)({
-	'& label.Mui-focused': {
-		color: 'white',
-		borderColor: '#fff !important',
-	},
-	'& label.MuiInputLabel-root': {
-		color: 'white',
-	},
-	'& .MuiInput-underline:after': {
-		borderBottomColor: 'white',
-	},
-	'& .MuiInput-underline:before': {
-		borderBottomColor: 'white',
-	},
-	'&:hover .MuiInput-underline:before': {
-		borderBottomColor: 'white !important',
-	},
-	'& .MuiInput-input': {
-		color: 'white',
-	},
-});
+
 const CssInput = styled(FormControl)({
-	'& label.Mui-focused': {
-		color: 'white',
-		borderColor: '#fff !important',
-	},
-	'& label.MuiInputLabel-root': {
-		color: 'white',
-	},
-	'& .MuiInput-underline:after': {
-		borderBottomColor: 'white',
-	},
-	'& .MuiInput-underline:before': {
-		borderBottomColor: 'white',
-	},
-	'&:hover .MuiInput-underline:before': {
-		borderBottomColor: 'white !important',
-	},
 	'& .MuiInput-input': {
-		color: 'white',
+		color: 'black',
 	},
-
 	'& .MuiSvgIcon-root': {
 		color: 'blue',
 	},
 
-
 });
 const styles = {
+  modalStyle:{
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  },
 	mainBox: {
 		display: 'flex',
 		justifyContent: 'center',
@@ -87,13 +59,12 @@ const styles = {
 		margin:'10% 0%',
 	},
 	inputStyle: {
-		mb: 2,
+		mb: 1,
 		color: '#fff !important',
 	},
 	registerText: {
-		fontSize: '2em',
+		fontSize: '1.5em',
 		textAlign: 'center',
-		color: 'white',
 	},
 	inputBox: {
 		position: 'relative',
@@ -105,18 +76,23 @@ const styles = {
 		width: '100%',
 		height: '40px',
 		borderRadius: '40px',
-		background: '#fff',
+		background: 'grey',
 		border: 'none',
 		outline: 'none',
 		cursor: 'pointer',
 		fontSize: '1em',
 		fontWeight: 600,
+    textTransform: 'capitalize',
 	}
 
 };
 
-function Register() {
-	const history = useHistory();
+export default function AddCustomers() {
+ 
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const history = useHistory();
 	const [showPassword, setShowPassword] = React.useState(false);
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -126,6 +102,7 @@ function Register() {
 	};
 
 	const [registerInput, setRegister] = useState({
+    id:'',
 		first_name: '',
 		last_name: '',
 		purok: '',
@@ -149,7 +126,7 @@ function Register() {
 			.then((res) => {
 				if (res.status === 200) {
 					swal("Success", res.data.message, "success");
-					history.push("/");
+					// history.push("/");
 					setRegister({
 						first_name: '',
 						last_name: '',
@@ -174,13 +151,23 @@ function Register() {
 
 	return (
 		<div >
-			<Box sx={styles.mainBox}
-				style={{ background: `url(${bg6R})no-repeat` }}>
-				<Box  >
+      <Button onClick={handleOpen}>Add Customers</Button>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        
+      >
+    
+			<Box sx={styles.modalStyle}
+				// style={{ background: `url(${bg6R})no-repeat` }}
+        >
+				<Box sx={styles.mainBox} >
 					<Box sx={styles.boxStyle} >
 						<Box sx={styles.inputBox} >
-							<Typography sx={styles.registerText} >Register</Typography>
-							<CssTextField
+							<Typography sx={styles.registerText} >Add Customers</Typography>
+							<TextField
 								id="standard-basic "
 								label="First Name"
 								value={registerInput.first_name}
@@ -191,7 +178,7 @@ function Register() {
 								variant="standard"
 
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Last Name"
 								value={registerInput.last_name}
@@ -201,7 +188,7 @@ function Register() {
 								sx={styles.inputStyle}
 								variant="standard"
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Purok"
 								value={registerInput.purok}
@@ -211,7 +198,7 @@ function Register() {
 								sx={styles.inputStyle}
 								variant="standard"
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Barangay"
 								value={registerInput.brgy}
@@ -221,7 +208,7 @@ function Register() {
 								sx={styles.inputStyle}
 								variant="standard"
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Municipality"
 								value={registerInput.municipality}
@@ -231,7 +218,7 @@ function Register() {
 								sx={styles.inputStyle}
 								variant="standard"
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Contact Number"
 								type="number"
@@ -242,7 +229,7 @@ function Register() {
 								sx={styles.inputStyle}
 								variant="standard"
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Landmark"
 								value={registerInput.land_mark}
@@ -252,7 +239,7 @@ function Register() {
 								sx={styles.inputStyle}
 								variant="standard"
 							/>
-							<CssTextField
+							<TextField
 								id="standard-basic "
 								label="Email"
 								type="email"
@@ -291,11 +278,7 @@ function Register() {
 							</CssInput>
 							<Button
 								fullWidth
-								style={{
-									color: 'black', fontWeight: 600, fontSize: '1em', outline: 'none !important',
-									border: 'none !important', textTransform: 'capitalize',
-									backgroundColor: 'white', cursor: 'pointer', borderRadius: '40px'
-								}}
+                sx={styles.buttonStyle}
 								variant="contained"
 								onClick={registerSubmit}
 							>
@@ -304,10 +287,9 @@ function Register() {
 						</Box>
 					</Box>
 				</Box>
-
-			</Box>
+        </Box>
+      </Modal>
 		</div>
 	);
 }
 
-export default Register

@@ -1,47 +1,19 @@
-import React from "react";
-import "./../assets/table.css";
+import { Button } from '@mui/material'
+import React from 'react'
+import Expenditures from './expenditures/Expenditures';
+import Sales from './sales/Sales';
 
 function Reports() {
   return (
     <div>
-      <div className="container bg-light">
-        <h1>List Of Orders</h1>
-        <div className="card mt-5">
-          <div className="card-body">
-
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>Today</th>
-                  <th>Yesterday</th>
-                  <th>This Week</th>
-                  <th>Last week</th>
-                  <th>Monthly</th>
-                  <th>Quarterly</th>
-                  <th>Annually</th>
-                  <th>Custom Defined</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>2500</td>
-                  <td>5400</td>
-                  <td>1050</td>
-                  <td>18400</td>
-                  <td>50600</td>
-                  <td>98600</td>
-                  <td>98600</td>
-                  <td>Custom Defined</td>
-                </tr>
-
-
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      <Button>
+        <Expenditures />
+      </Button>
+      <Button>
+        <Sales /> 
+      </Button>
     </div>
   )
 }
 
-export default Reports;
+export default Reports

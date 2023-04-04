@@ -25,12 +25,12 @@ function Sidebar() {
 			icon: <DashboardIcon />,
 		},
 		{
-			path: "/customers",
+			path: "/admin/customers",
 			label: "Customers",
 			icon: <PersonIcon />,
 		},
 		{
-			path: "/orders",
+			path: "/admin/orders",
 			label: "Orders",
 			icon: <ShoppingCartIcon />,
 		},

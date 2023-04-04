@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 83vh;
+    min-height: 100vh;
     width: 100%;
     background-position: center !important;
     background-size: cover !important;
@@ -47,7 +47,7 @@ h2{
 }
 .inputInput:focus ~ label,
 .inputInput:valid ~ label{
-    top: -5px;
+    top: -10px;
 }
 .inputbox .inputInput {
     width: 100%;
@@ -70,3 +70,11 @@ h2{
     font-size: 1em;
     font-weight: 600;
 }
+.span-eye{
+    position: absolute;
+    right: 15px;
+    transform: translate(0,-50%);
+    top: 50%;
+    cursor: pointer;
+    color: blue;
+} 
