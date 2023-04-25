@@ -1,7 +1,13 @@
-import React from "react";
+import React from 'react'
+import DashCard from './components/DashCard'
+
 
 function Dashboard() {
-	return <div>DASHBOARD NI KAREN</div>;
+  return (
+	<div>
+	  <DashCard />
+	</div>
+  )
 }
 
-export default Dashboard;
+export default Dashboard

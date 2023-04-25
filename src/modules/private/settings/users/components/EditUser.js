@@ -1,11 +1,10 @@
 import * as React from 'react';
+import Http from '../../../../../services/Http';
+import ToastNotification from '../../../../../components/ToastNotification';
+import { handleErrorResponse } from '../../../../../utils/helpers';
+import ToastNotificationContainer from '../../../../../components/ToastNotificationContainer';
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material';
-import Http from '../../../../services/Http';
-import ToastNotification from '../../../../components/ToastNotification';
-import ToastNotificationContainer from '../../../../components/ToastNotificationContainer';
-import FormFieldData from '../../../../components/FormFieldData';
-import { handleErrorResponse } from '../../../../utils/helpers';
-
+import FormFieldData from '../../../../../components/FormFieldData';
 
 const style = {
     position: "absolute",
@@ -31,7 +30,7 @@ const options = {
 
 export default function EditUser(props) {
     const { open, onClose, selectedItem, loading, forceUpdate } = props;
-    // const [roles, setRoles] = React.useState([]);
+    const [roles, setRoles] = React.useState([]);
     const [data, setData] = React.useState({
        values: {
             email: "",
@@ -41,18 +40,18 @@ export default function EditUser(props) {
             brgy: "",
             municipality: "",
             contact_number: "",
-            role: "Customer",
+            role: "",
             password: "",
         }
     });
-    // const handleRole = () => {
-    //     Http.get("/roles").then((res) => {
-    //         setRoles(res.data.roles);
-    //     });
-    // };
+    const handleRole = () => {
+        Http.get("/roles").then((res) => {
+            setRoles(res.data.roles);
+        });
+    };
 
     React.useEffect(() => {
-        // handleRole();
+        handleRole();
         if (selectedItem.user){
         setData({
             values:{
@@ -160,7 +159,7 @@ export default function EditUser(props) {
                         onChange={handleChange}
                        
                     />
-                    {/* <FormControl
+                    <FormControl
                         fullWidth
                         size="small"
                         variant="outlined"
@@ -184,7 +183,7 @@ export default function EditUser(props) {
                                 );
                             })}
                         </Select>
-                    </FormControl> */}
+                    </FormControl>
                     <Button
                         loading={loading}
                         fullWidth

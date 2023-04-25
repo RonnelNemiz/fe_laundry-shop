@@ -4,7 +4,6 @@ import "../../assets/table.css"
 function Services() {
   return (
     <div>
-    Services ni Anabella
     <div className="container bg-light">
       <h1>Service Table</h1>
           <div className ="card mt-5">

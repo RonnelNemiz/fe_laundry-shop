@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Users() {
+function CMS() {
   return (
     <div>
-      Hello
+      
     </div>
   )
 }
 
-export default Users
+export default CMS

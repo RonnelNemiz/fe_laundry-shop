@@ -1,0 +1,14 @@
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root.Mui-selected {
+    background-color: rgba(25, 118, 210, 0.08);
+    position: relative;
+}
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root.Mui-selected::before{
+    content: '';
+    width:8px;
+	height:100%;
+	background: var( --bs-gray);
+    margin-right:calc(1rem - 8px);
+    position: absolute;
+    left: 2px;
+}
+

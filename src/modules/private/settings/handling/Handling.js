@@ -4,7 +4,6 @@ import"../../assets/table.css"
 function Users() {
   return (
     <div>
-		ORDER NI ATE ANABELE
 		<div className="container bg-light">
           <h1>Handling Table</h1>
               <div className ="card mt-5">
