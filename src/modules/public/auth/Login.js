@@ -32,16 +32,16 @@ function Login() {
 		e.preventDefault();
 		Http.post("/login", loginInput).then((res) => {
 			console.log(res);
-			if(res.data.user.role === "Customer"){
+			if (res.data.user.role === "Customer") {
 				history.push("/");
 			}
-			else{
-			
-			history.push("/dashboard");
+			else {
+
+				history.push("/dashboard");
 			}
 			localStorage.setItem("access_token", res.data.access_token);
 			swal("Success", "Yeheey!!!", "success");
-		}).catch(()=>{alert("Network Error")});
+		}).catch(() => { alert("Network Error") });
 	};
 	useEffect(() => {
 		if (isAuth()) {
@@ -61,6 +61,7 @@ function Login() {
 							<h2>Login</h2>
 							<div className="inputbox">
 								<input
+									autoFocus
 									type="email"
 									name="email"
 									className="inputInput"
@@ -71,16 +72,16 @@ function Login() {
 								<label className="labelLabel">Email</label>
 								<span>{loginInput.error_list.email}</span>
 							</div>
-							
+
 							<div className="inputbox">
 								<input
-									type={visible ? "text": "password"}
+									type={visible ? "text" : "password"}
 									name="password"
 									className="inputInput"
 									onChange={handleInput}
 									value={loginInput.password}
 									required
-									
+
 								/>
 
 								<label className="labelLabel">Password</label>
@@ -90,12 +91,12 @@ function Login() {
 									}
 								</div>
 								<span>{loginInput.error_list.password}</span>
-								</div>
+							</div>
 							<div>
 								<button type="submit" className="buttonButton">
 									Login
 								</button>
-								
+
 							</div>
 						</form>
 					</div>
@@ -103,7 +104,7 @@ function Login() {
 			</div>
 		</section>
 
-		
+
 	);
 }
 

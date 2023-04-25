@@ -6,13 +6,14 @@ import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PersonIcon from "@mui/icons-material/Person";
 import { useHistory, useLocation } from "react-router-dom";
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReviewsIcon from '@mui/icons-material/Reviews';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
-import GroupIcon from '@mui/icons-material/Group';
+import PeopleIcon from '@mui/icons-material/People';
+// import GroupIcon from '@mui/icons-material/Group';
+import "../../assets/css/admin.css";
 
 function Sidebar() {
 	const history = useHistory();
@@ -27,18 +28,18 @@ function Sidebar() {
 		{
 			path: "/admin/customers",
 			label: "Customers",
-			icon: <PersonIcon />,
+			icon: <PeopleIcon />,
 		},
 		{
 			path: "/admin/orders",
 			label: "Orders",
 			icon: <ShoppingCartIcon />,
 		},
-		{
-			path: "/users",
-			label: "Users",
-			icon: <GroupIcon />,
-		},
+		// {
+		// 	path: "/users",
+		// 	label: "Users",
+		// 	icon: <GroupIcon />,
+		// },
 		{
 			path: "/reports",
 			label: "Reports",
@@ -78,13 +79,14 @@ function Sidebar() {
 							"&:hover .Mui-selected": {
 								backgroundColor: "darkgray",
 							},
+
 						}}
 						key={index}
-						disablePadding>
+						disablePadding className="sidebarItem">
 						<ListItemButton
 							onClick={() => handleNavigate(link.path)}
 							selected={link.path === location.pathname}>
-							<ListItemIcon sx={{ color: "#0E4C91" }}>{link.icon}</ListItemIcon>
+							<ListItemIcon sx={{ color: "#0E4C91", marginLeft:"8px"}}>{link.icon}</ListItemIcon>
 							<ListItemText primary={link.label} />
 						</ListItemButton>
 					</ListItem>

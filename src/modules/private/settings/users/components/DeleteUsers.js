@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Http from '../../../../services/Http';
 import  DeleteIcon from '@mui/icons-material/Delete';
 import { Box, Button, Modal } from '@mui/material';
 import { Typography } from '@mui/material';
+import Http from '../../../../../services/Http';
 
 const style = {
   position: "absolute",
@@ -18,13 +18,13 @@ const style = {
   borderRadius: "10px 10px",
 };
 
-export default function DeleteCustomers() {
+export default function DeleteUsers() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleDelete = (id) => {
-    Http.delete(`delete/customers/${id}`)
+    Http.delete(`delete/user/${id}`)
   }
   return (
     <span>

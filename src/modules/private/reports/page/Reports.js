@@ -1,7 +1,7 @@
 import { Button } from '@mui/material'
 import React from 'react'
-import Expenditures from './expenditures/Expenditures';
-import Sales from './sales/Sales';
+import Expenditures from '../components/Expenditures';
+import Sales from '../components/Sales';
 
 function Reports() {
   return (
