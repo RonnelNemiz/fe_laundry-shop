@@ -1,129 +1,23 @@
-import React, { useState } from "react";
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import "./auth.css";
+import React, { useState } from 'react'
+import machine from "./../../../assets/images/machine.gif";
+import Http from '../../../services/Http';
 import swal from 'sweetalert';
-import { useHistory } from 'react-router-dom';
-// import bg2 from "./../../../assets/images/bg2.jpg";
-import Http from "../../../services/Http";
-import { Input, InputAdornment, TextField, Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import bg6R from "./../../../assets/images/bg6R.jpg";
-import { styled } from '@mui/material/styles';
+import { Link, useHistory } from 'react-router-dom';
+import logo1 from './../../../assets/images/laundrylogo.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import "./auth.css";
 
-const CssTextField = styled(TextField)({
-	'& label.Mui-focused': {
-		color: 'white',
-		borderColor: '#fff !important',
-	},
-	'& label.MuiInputLabel-root': {
-		color: 'white',
-	},
-	'& .MuiInput-underline:after': {
-		borderBottomColor: 'white',
-	},
-	'& .MuiInput-underline:before': {
-		borderBottomColor: 'white',
-	},
-	'&:hover .MuiInput-underline:before': {
-		borderBottomColor: 'white !important',
-	},
-	'& .MuiInput-input': {
-		color: 'white',
-	},
-});
-const CssInput = styled(FormControl)({
-	'& label.Mui-focused': {
-		color: 'white',
-		borderColor: '#fff !important',
-	},
-	'& label.MuiInputLabel-root': {
-		color: 'white',
-	},
-	'& .MuiInput-underline:after': {
-		borderBottomColor: 'white',
-	},
-	'& .MuiInput-underline:before': {
-		borderBottomColor: 'white',
-	},
-	'&:hover .MuiInput-underline:before': {
-		borderBottomColor: 'white !important',
-	},
-	'& .MuiInput-input': {
-		color: 'white',
-	},
-
-	'& .MuiSvgIcon-root': {
-		color: 'blue',
-	},
-
-
-});
-const styles = {
-	mainBox: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		minHeight: '110vh',
-		width: '100%',
-		backgroundPosition: 'center !important',
-		backgroundSize: 'cover !important',
-		position: 'relative',
-	},
-	boxStyle: {
-		width: '450px',
-		height: '700px',
-		background: 'transparent',
-		border: `2px solid white`,
-		borderRadius: '20px',
-		backdropFilter: `blur(15px)`,
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		margin:'10% 0%',
-	},
-	inputStyle: {
-		mb: 2,
-		color: '#fff !important',
-	},
-	registerText: {
-		fontSize: '2em',
-		textAlign: 'center',
-		color: 'white',
-	},
-	inputBox: {
-		position: 'relative',
-		margin: '30px 0',
-		width: '310px',
-		// borderBottom: `2px solid #fff`,
-	},
-	buttonStyle: {
-		width: '100%',
-		height: '40px',
-		borderRadius: '40px',
-		background: '#fff',
-		border: 'none',
-		outline: 'none',
-		cursor: 'pointer',
-		fontSize: '1em',
-		fontWeight: 600,
-	}
-
-};
 
 function Register() {
-	const history = useHistory();
-	const [showPassword, setShowPassword] = React.useState(false);
+    const history = useHistory();
+    const [visible, setVisible] = useState(true);
+	// const [showPassword, setShowPassword] = React.useState(false);
 
-	const handleClickShowPassword = () => setShowPassword((show) => !show);
+	// const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-	const handleMouseDownPassword = (event) => {
-		event.preventDefault();
-	};
+	// const handleMouseDownPassword = (event) => {
+	// 	event.preventDefault();
+	// };
 
 	const [registerInput, setRegister] = useState({
 		first_name: '',
@@ -149,7 +43,7 @@ function Register() {
 			.then((res) => {
 				if (res.status === 200) {
 					swal("Success", res.data.message, "success");
-					history.push("/");
+					history.push("/login");
 					setRegister({
 						first_name: '',
 						last_name: '',
@@ -170,144 +64,164 @@ function Register() {
 				}
 			});
 	};
+  return (
+    <div className="sec-boxLogin">
+    <div className="form-wrapper">
+      <div className="form-container">
+        <div className="form-left">
+            <h4>Welcome To LaundryShop</h4>
+            <p className="textLorem"><i>"At our laundry shop system, we believe that clean clothes can make all the difference. From fresh-smelling linens to crisp business attire, our goal is to help you look and feel your best everyday." </i></p>
+            <img src={machine} alt="images" width="300px" />
+        </div>
+        <div className="form-right">
+            <div className="social-login">
+                <div className="form-value formValue-reg">
+                    <form onSubmit={registerSubmit}>
+                        <div className="logo-login" style={{marginBottom:"0%"}}><img src={logo1} alt="logo" className="logo-laundry" /></div>
+                 
+                            <h2 className="login-text">Register</h2>
+                            <div className="fullName">
+                            <div className="inputbox fn1" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="first_name"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.first_name}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">First Name</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                            <div className="inputbox ln2" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="last_name"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.last_name}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Last Name</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                            </div>
+                            <div className="address">
+                            <div className="inputbox prk1" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="purok"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.purok}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Purok</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                            <div className="inputbox brgy2" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="brgy"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.brgy}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Barangay</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                            </div>
+                            <div className="munCon">
+                            <div className="inputbox muncplty1" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="municipality"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.municipality}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Municipality</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                          
+                            <div className="inputbox contct2" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="contact_number"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.contact_number}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Contact</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                            </div>
+                            <div className="inputbox" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    name="land_mark"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.land_mark}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Landmark</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                            <div className="inputbox" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    autoFocus
+                                    type="email"
+                                    name="email"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.email}
+                                    required
+                                />
+                                    <label className="labelLabel sizeLabel">Email</label>
+                                    {/* <span>{loginInput.error_list.email}</span> */}
+                            </div>
+                       
+                            <div className="inputbox" style={{margin:"20px 0px 0px 0px"}}>
+                                <input
+                                    type={visible ? "text" : "password"}
+                                    name="password"
+                                    className="inputInput sizeLabel"
+                                    onChange={handleInput}
+                                    value={registerInput.password}
+                                    required
+                                />
 
+                                    <label className="labelLabel sizeLabel">Password</label>
+                                    <div className="p-2 span-eye" onClick={() => setVisible(!visible)}>
+                                        {
+                                            visible ? <FontAwesomeIcon icon="fa-solid fa-eye" /> : <FontAwesomeIcon icon="fa-solid fa-eye-slash" />
+                                        }
+                                    </div>
+                                    {/* <span>{loginInput.error_list.password}</span> */}
+                            </div>
+                            <div>
+                                <button type="submit" className="buttonButton">
+                                    Register
+                                </button>
+                            </div>
+                            
+                            <div className="form-account">
+                                <p className="p-acc">Have already an account?</p>
+                                <Link to="/login" className="nav-link active link-acc" aria-current="page">Login</Link>          
+                            </div>
+                    </form>
+                </div>
+            </div>
 
-	return (
-		<div >
-			<Box sx={styles.mainBox}
-				style={{ background: `url(${bg6R})no-repeat` }}>
-				<Box  >
-					<Box sx={styles.boxStyle} >
-						<Box sx={styles.inputBox} >
-							<Typography sx={styles.registerText} >Register</Typography>
-							<CssTextField
-								id="standard-basic "
-								label="First Name"
-								value={registerInput.first_name}
-								name="first_name"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Last Name"
-								value={registerInput.last_name}
-								name="last_name"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Purok"
-								value={registerInput.purok}
-								name="purok"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Barangay"
-								value={registerInput.brgy}
-								name="brgy"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Municipality"
-								value={registerInput.municipality}
-								name="municipality"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Contact Number"
-								type="number"
-								value={registerInput.contact_number}
-								name="contact_number"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Landmark"
-								value={registerInput.land_mark}
-								name="land_mark"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssTextField
-								id="standard-basic "
-								label="Email"
-								type="email"
-								value={registerInput.email}
-								name="email"
-								onChange={handleInput}
-								fullWidth
-								sx={styles.inputStyle}
-								variant="standard"
-							/>
-							<CssInput fullWidth variant="standard">
-								<InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-								<Input
-									id="standard-adornment-password"
-									type={showPassword ? 'text' : 'password'}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="toggle password visibility"
-												onClick={handleClickShowPassword}
-												onMouseDown={handleMouseDownPassword}
-												edge="end"
-											>
-												{showPassword ? <VisibilityOff /> : <Visibility />}
-											</IconButton>
-										</InputAdornment>
-									}
-									label="Password"
-									value={registerInput.password}
-									name="password"
-									onChange={handleInput}
-									fullWidth
-									sx={styles.inputStyle}
-
-								/>
-							</CssInput>
-							<Button
-								fullWidth
-								style={{
-									color: 'black', fontWeight: 600, fontSize: '1em', outline: 'none !important',
-									border: 'none !important', textTransform: 'capitalize',
-									backgroundColor: 'white', cursor: 'pointer', borderRadius: '40px'
-								}}
-								variant="contained"
-								onClick={registerSubmit}
-							>
-								Submit
-							</Button>
-						</Box>
-					</Box>
-				</Box>
-
-			</Box>
-		</div>
-	);
+        </div>
+      </div>
+    </div>
+    </div>
+  )
 }
 
 export default Register

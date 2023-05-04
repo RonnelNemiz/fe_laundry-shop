@@ -41,7 +41,8 @@ const options = {
   theme: "colored",
 };
 
-export default function AddUser() {
+export default function AddUser(props) {
+  const { forceUpdate,  } = props;
   const [formValues, setFormValues] = React.useState({
     email: "",
     first_name: "",
@@ -50,6 +51,7 @@ export default function AddUser() {
     brgy: "",
     municipality: "",
     contact_number: "",
+    land_mark:"Leyte",
     role: "",
     password: "password123",
   });
@@ -72,6 +74,23 @@ export default function AddUser() {
       });
   };
 
+  React.useEffect(() => {
+    if (open) {
+      setFormValues({
+        email: "",
+        first_name: "",
+        last_name: "",
+        purok: "",
+        brgy: "",
+        municipality: "",
+        contact_number: "",
+        land_mark:"Leyte",
+        role: "",
+        password: "password123",
+      });
+    }
+  }, [open]);
+
   const handleChange = (e) => {
     const newData = { ...formValues };
     newData[e.target.name] = e.target.value;
@@ -80,15 +99,15 @@ export default function AddUser() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/users", formValues)
-      .then((res) => {
-        if (res.data.status === 200) {
-          handleClose();
-          ToastNotification("success", "Successfully Saved Data!", options);
-        } else {
-          ToastNotification("error", res.data.message, options);
-        }
-      })
+    Http.post("/add/users", formValues).then((res) => {
+      if (res.data.status === 200) {
+        forceUpdate();
+        handleClose();    
+        ToastNotification("success", "Successfully Saved Data!", options);
+      }else{
+        ToastNotification('error', res.data.message, options);
+      }
+    })
       .catch((err) => {
         ToastNotification("error", handleErrorResponse(err), options);
       });

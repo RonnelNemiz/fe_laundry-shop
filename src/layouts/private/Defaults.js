@@ -23,6 +23,9 @@ import Logout from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import MailIcon from "@mui/icons-material/Mail";
+import logo1 from '../../assets/images/laundrylogo.png'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 const drawerWidth = 240;
 const style = {
@@ -44,6 +47,9 @@ function Defaults({ children }) {
 
   const drawer = (
     <div>
+      <div style={{position:"absolute", top:"-10px", left:"20%"}}>
+       <img src={logo1} alt="logo" width="120px" className="logo-laundry" /> 
+       </div>
       <Toolbar />
       <Divider />
       <Sidebar />
@@ -67,7 +73,8 @@ function Defaults({ children }) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}>
-        <Toolbar>
+        <Toolbar >
+     
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -77,7 +84,8 @@ function Defaults({ children }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            {/* Responsive drawer */}
+            <ArrowBackIcon />
           </Typography>
 
           <React.Fragment>

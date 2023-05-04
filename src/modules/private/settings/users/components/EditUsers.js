@@ -1,11 +1,11 @@
 import * as React from 'react';
+import Http from '../../../../../services/Http';
+import ToastNotification from '../../../../../components/ToastNotification';
+import { handleErrorResponse } from '../../../../../utils/helpers';
+import ToastNotificationContainer from '../../../../../components/ToastNotificationContainer';
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material';
+import FormFieldData from '../../../../../components/FormFieldData';
 import Reevalidate from 'ree-validate-18';
-import Http from '../../../../services/Http';
-import ToastNotification from '../../../../components/ToastNotification';
-import { handleErrorResponse } from '../../../../utils/helpers';
-import ToastNotificationContainer from '../../../../components/ToastNotificationContainer';
-import FormFieldData from '../../../../components/FormFieldData';
 
 
 const validator = new Reevalidate.Validator({
@@ -16,36 +16,35 @@ const validator = new Reevalidate.Validator({
     brgy: "required",
     municipality: "required",
     contact_number: "required|numeric",
-   land_mark: "required",
-    // role: "required",
+    role: "required",
     password: "required|max:8",
 });
 
 const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    borderColor: "none",
-    borderRadius: "10px 10px",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  borderColor: "none",
+  borderRadius: "10px 10px",
 };
 const options = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    draggable: true,
-    draggableDirection: 60,
-    theme: "colored",
+  position: "top-right",
+  autoClose: 3000,
+  hideProgressBar: false,
+  draggable: true,
+  draggableDirection: 60,
+  theme: "colored",
 };
 
 export default function EditUsers(props) {
     const { open, onClose, selectedItem, loading, forceUpdate } = props;
-    // const [roles, setRoles] = React.useState([]);
+    const [roles, setRoles] = React.useState([]);
     const [data, setData] = React.useState({
         values: {
             email: "",
@@ -55,20 +54,20 @@ export default function EditUsers(props) {
             brgy: "",
             municipality: "",
             contact_number: "",
-            land_mark:"",
-            role: "Customer",
+            land_mark:"Leyte",
+            role: "",
         },
         errors: validator.errors,
     });
-    // const handleRole = () => {
-    //     Http.get("/roles").then((res) => {
-    //         console.log(res.data.roles);
-    //         setRoles(res.data.roles);
-    //     });
-    // };
+    const handleRole = () => {
+        Http.get("/roles").then((res) => {
+            console.log(res.data.roles);
+            setRoles(res.data.roles);
+        });
+    };
 
     React.useEffect(() => {
-        // handleRole();
+        handleRole();
         if (selectedItem.profile) {
             setData({
                 values: {
@@ -79,7 +78,6 @@ export default function EditUsers(props) {
                     brgy: selectedItem.profile[0].brgy,
                     municipality: selectedItem.profile[0].municipality,
                     contact_number: selectedItem.profile[0].contact_number,
-                    land_mark: selectedItem.profile[0].land_mark,
                     role: selectedItem.role,
                 }
 
@@ -207,16 +205,7 @@ export default function EditUsers(props) {
                         }}
 
                     />
-                    <FormFieldData
-                        fullWidth
-                        label="Landmark"
-                        id="land_mark"
-                        value={data.values.land_mark}
-                        name="land_mark"
-                        onChange={handleChange}
-                        errors={data.errors}
-                    />
-                    {/* <FormControl
+                    <FormControl
                         fullWidth
                         size="small"
                         variant="outlined"
@@ -241,7 +230,7 @@ export default function EditUsers(props) {
                                 );
                             })}
                         </Select>
-                    </FormControl> */}
+                    </FormControl>
                     <Button
                         loading={loading}
                         fullWidth
@@ -257,5 +246,3 @@ export default function EditUsers(props) {
         </>
     );
 }
-
-

@@ -9,7 +9,7 @@ import DataTableCustomers from '../components/DataTableCustomers';
 
 function Customers() {
   const [loading, setLoading] = useState(false);
-  const [userList, setUserList] = useState({
+  const [customerList, setCustomerList] = useState({
     data: [],
     meta: {},
   });
@@ -24,14 +24,16 @@ function Customers() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/users",{
+    Http.get("/all-customers",{
       params: {
         ...filters,
         ...params,
       },
+
     }).then((res) => {
       if (res.data.data) {
-        setUserList({
+        console.log(res.data.data)
+        setCustomerList({
           data: res.data.data,
           meta: res.data.meta,
         });
@@ -42,44 +44,65 @@ function Customers() {
 
   const columns = [
     {
-      name: "image",
+      name: "profile",
       label: "Image", 
-    },
-    {
-      name: "user",
-      label: "Email", 
       customBodyRender: (item) => {
-        return item.email;
+        return item[0] && item[0].image;
       }
     },
     {
-      name: "first_name",
+      name: "email",
+      label: "Email", 
+    },
+    {
+      name: "profile",
       label: "First Name", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].first_name;
+      }
     },
     {
-      name: "last_name",
+      name: "profile",
       label: "Last Name", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].last_name;
+      }
     },
     {
-      name: "purok",
+      name: "profile",
       label: "Purok", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].purok;
+      }
     },
     {
-      name: "brgy",
+      name: "profile",
       label: "Barangay", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].brgy;
+      }
     },
     {
-      name: "municipality",
+      name: "profile",
       label: "Municipality", 
-    },
-    {
-      name: "contact_number",
-      label: "Contact Number", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].municipality;
+      }
     },
    
     {
-        name: "land_mark",
+        name: "profile",
         label: "Landmark", 
+        customBodyRender: (item) => {
+          return item[0] && item[0].land_mark;
+        }
+    },
+    {
+      name: "profile",
+      label: "Contact Number", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].contact_number;
+      }
     },
    
   ];
@@ -111,11 +134,11 @@ function Customers() {
   };
 
   const handleUpdate = (values) => {
-    Http.get(`update/customers/${values}`).then();
+    Http.get(`update/user/${values}`).then();
   };
 
   const handleDelete = (values) => {
-    Http.delete(`delete/customers/${values}`).then(
+    Http.delete(`/delete/user/${values}`).then(
       forceUpdate(),
       ToastNotification("success", "Successfully Deleted!", options)
     )
@@ -127,18 +150,18 @@ function Customers() {
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
-      <AddCustomers data={userList.data}/>
+      <AddCustomers forceUpdate={() => forceUpdate()} data={customerList.data}/>
       <DataTableCustomers
         withPagination
         forceUpdate={() => forceUpdate()}
         onEdit={handleUpdate}
         onDelete={handleDelete}
         loading={loading}
-        data={userList.data}
+        data={customerList.data}
         columns={columns}
         rowsPerPage={filters.limit}
-        count={userList.meta.total || 0}
-        page={userList.meta.curent_page - 1 || 0}
+        count={customerList.meta.total || 0}
+        page={customerList.meta.curent_page - 1 || 0}
         onChangePage={handleChangePage}
         onRowsChangePage={handleRowChange}
       />

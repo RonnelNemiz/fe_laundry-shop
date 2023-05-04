@@ -6,7 +6,7 @@ function Sales() {
   return (
     <div>
       <div className="container bg-light">
-        <h1>Sales</h1>
+        <h2>Sales</h2>
         <div className="card mt-5">
           <div className="card-body">
 

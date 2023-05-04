@@ -4,9 +4,9 @@ import"../../assets/table.css"
 function PaymentMethod() {
   return (
     <div>
-      ORDER NI ATE ANABELE
+    
 		<div className="container bg-light">
-          <h1>Payment Method Table</h1>
+          <h2>Payment Method Table</h2>
               <div className ="card mt-5">
                 <div className="card-body">
                 <a name="add new" className="btn btn-primary" href="Add.js" role="button">+ Add New</a><br /><br />

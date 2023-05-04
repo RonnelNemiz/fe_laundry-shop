@@ -99,13 +99,13 @@ const routes = [
     auth: true,
     role: "Admin",
   },
-  // {
-  //   path: "/admin/users",
-  //   component: "modules/private/settings/users/pages/Users",
-  //   auth: true,
-  //   role: "Admin",
+  {
+    path: "/admin/users",
+    component: "modules/private/settings/users/pages/Users",
+    auth: true,
+    role: "Admin",
 
-  // },
+  },
   {
     path: "/admin/handling",
     component: "modules/private/settings/handling/Handling",
