@@ -8,17 +8,19 @@ const routes = [
     component: "modules/public/About",
   },
   {
-    path: "/services",
-    component: "modules/public/Services",
-  },
-  {
     path: "/contact",
     component: "modules/public/Contact",
   },
   {
+    path: "/services",
+    component: "modules/public/Services",
+  },
+
+  {
     path: "/order",
     component: "modules/public/orderfe/Order",
   },
+
   {
     path: "/dashboard",
     component: "modules/private/dashboard/Dashboard",
@@ -109,14 +111,12 @@ const routes = [
     component: "modules/private/settings/handling/Handling",
     auth: true,
     role: "Admin",
-    
   },
   {
     path: "/admin/paymentMethod",
     component: "modules/private/settings/paymentMethod/PaymentMethod",
     auth: true,
     role: "Admin",
-    
   },
 ];
 export default routes;

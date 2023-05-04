@@ -1,142 +1,170 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700");
-
-.container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
-}
-@media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
-  }
-}
-.d-flex {
+/* Order Details */
+.garment-count-wrapper {
   display: flex;
-  flex-direction: row;
-  background: #f6f6f6;
-  border-radius: 0 0 5px 5px;
-  padding: 25px;
-}
-form {
-  flex: 4;
-}
-.Yorder {
-  flex: 2;
-}
-.title {
-  background: -webkit-gradient(
-    linear,
-    left top,
-    right bottom,
-    color-stop(0, #5195a8),
-    color-stop(100, #70eaff)
-  );
-  background: -moz-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
-  background: -ms-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
-  background: -o-linear-gradient(top left, #5195a8 0%, #70eaff 100%);
-  background: linear-gradient(to bottom right, #5195a8 0%, #70eaff 100%);
-  border-radius: 5px 5px 0 0;
-  padding: 20px;
-  color: #f6f6f6;
-}
-h2 {
-  margin: 0;
-  padding-left: 15px;
-}
-.required {
-  color: red;
-}
-label,
-table {
-  display: block;
-  margin: 15px;
-}
-label > span {
-  float: left;
-  width: 25%;
-  margin-top: 12px;
-  padding-right: 10px;
-}
-input[type="text"],
-input[type="tel"],
-input[type="email"],
-select {
-  width: 70%;
-  height: 30px;
-  padding: 5px 10px;
-  margin-bottom: 10px;
-  border: 1px solid #dadada;
-  color: #888;
-}
-select {
-  width: 72%;
-  height: 45px;
-  padding: 5px 10px;
-  margin-bottom: 10px;
-}
-.Yorder {
-  margin-top: 15px;
-  height: 600px;
-  padding: 20px;
-  border: 1px solid #dadada;
-}
-table {
-  margin: 0;
-  padding: 0;
-}
-th {
-  border-bottom: 1px solid #dadada;
-  padding: 10px 0;
-}
-tr > td:nth-child(1) {
-  text-align: left;
-  color: #2d2d2a;
-}
-tr > td:nth-child(2) {
-  text-align: right;
-  color: #52ad9c;
-}
-td {
-  border-bottom: 1px solid #dadada;
-  padding: 25px 25px 25px 0;
+  gap: 1.875rem;
+  flex-wrap: wrap;
 }
 
-p {
-  display: block;
-  color: #888;
-  margin: 0;
-  padding-left: 25px;
-}
-.Yorder > div {
-  padding: 15px 0;
+.garment-count-container {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  border: 1px solid #777777;
+  padding: 1rem;
+  border-radius: 20px;
 }
 
-button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  border: none;
+/* Payment Method */
+
+.main-checkout {
+  margin-block: 3rem;
+  max-width: 100rem;
+  margin-inline: auto;
+  display: flex;
+  gap: 30px;
+}
+.main-checkout > * {
+  box-shadow: 0px 13px 30px rgba(7, 6, 41, 0.16);
   border-radius: 30px;
-  background: #52ad9c;
-  color: #fff;
-  font-size: 15px;
-  font-weight: bold;
 }
-button:hover {
-  cursor: pointer;
-  background: #428a7d;
+.main-checkout > * h1 {
+  font-size: 2.1875rem;
+  margin-bottom: 1em;
 }
-.form-container {
-  flex-basis: 70%;
+
+.main-checkout .checkout-section {
+  width: 70%;
+  padding: 3rem;
 }
-#order-container .align-items-start {
-  text-align: center;
-  border: 1px solid #00000023;
-  margin-left: 4%;
-  padding-top: 6%;
+.main-checkout .order-summary-section {
+  width: 30%;
+  padding: 2rem;
+  height: max-content;
 }
-.select {
+.main-checkout .order-summary-section .discountCodeInput {
+  width: 92%;
+}
+.main-checkout .order-summary-section .checkoutButton {
   width: 100%;
+}
+.main-checkout .order-summary-section .order-total-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.main-checkout .order-summary-section .order-total-container .grandTotal {
+  font-family: gilroy-semiBold;
+  font-size: 1.8rem;
+}
+.main-checkout .order-summary-section .garment-selected-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+.main-checkout .order-summary-section .garment-img-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.main-checkout .order-summary-section .garment-img-wrapper img {
+  width: 60px;
+}
+.main-checkout .order-summary-section .garment-img-wrapper h2 {
+  font-size: 1.5rem;
+  font-family: gilroy-semiBold;
+}
+.main-checkout .order-summary-section .garment-img-wrapper p {
+  color: #777777;
+}
+.main-checkout form {
+  max-width: 60rem;
+}
+.main-checkout .section-flex {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 3rem;
+}
+.main-checkout .section-flex .section-flex-title {
+  width: 150px;
+  font-family: gilroy-semiBold;
+}
+.payment-main .input-container-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+.payment-main .input-container-flex > * {
+  width: 43%;
+}
+.payment-main .shipping-radio-flex {
+  display: flex;
+  align-items: center;
+  border: 1px solid #777777;
+  gap: 60px;
+  padding: 1rem;
+  border-radius: 10px;
+}
+.main-checkout .shipping-radio-flex h2 {
+  font-family: gilroy-semiBold;
+}
+.main-checkout .shipping-radio-flex p {
+  font-size: 0.8rem;
+}
+.main-checkout .shipping-radio-flex span {
+  color: #777777;
+}
+.main-checkout .payment-radio-flex {
+  display: flex;
+  align-items: center;
+  border: 1px solid #777777;
+  border-radius: 10px;
+  gap: 15px;
+  padding: 1rem;
+}
+.main-checkout .payment-radio-flex span {
+  font-family: gilroy-semiBold;
+  font-size: 0.8rem;
+}
+.main-checkout .margin-bottom-1rem {
+  margin-bottom: 1.8rem;
+}
+
+/* Order Details */
+.payment-main {
+  box-shadow: 0px 13px 30px rgba(7, 6, 41, 0.16);
+  padding: 3rem;
+  margin-block: 3rem;
+  max-width: 96rem;
+  margin-inline: auto;
+  border-radius: 30px;
+}
+.payment-main .schedule-section {
+  margin-bottom: 3rem;
+}
+.payment-main .schedule-section .schedule-input-container > input {
+  padding: 0.5rem;
+  width: 15em;
+}
+.payment-main .schedule-section label {
+  margin-right: 1rem;
+}
+s .payment-main .schedule-section label[for="timeInput"] {
+  margin-left: 3rem;
+}
+.payment-main h1 {
+  font-size: 2.1875rem;
+  font-family: gilroy-bold;
+  margin-bottom: 1em;
+}
+.payment-main h2 {
+  font-size: 1.25rem;
+  font-family: gilroy-semiBold;
+  margin-bottom: 1rem;
+}
+#cod {
+  margin-left: 5px;
+}
+#gcash {
+  margin-left: 5px;
 }

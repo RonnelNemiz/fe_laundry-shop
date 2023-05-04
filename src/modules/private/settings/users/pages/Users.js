@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer } from "react";
 import "../../../assets/table.css";
-import { Paper } from '@mui/material';
+import { Paper } from "@mui/material";
 import ToastNotification from "../../../../../components/ToastNotification";
-import  ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
+import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
 import AddUser from "../components/AddUser";
 import DataTable from "../components/DataTable";
-import Http from '../../../../../services/Http';
+import Http from "../../../../../services/Http";
 // import Delete from '../../../orders/components/Delete';
 
 function Users() {
@@ -25,7 +25,7 @@ function Users() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/users",{
+    Http.get("/users", {
       params: {
         ...filters,
         ...params,
@@ -44,48 +44,48 @@ function Users() {
   const columns = [
     {
       name: "image",
-      label: "Image", 
+      label: "Image",
     },
     {
       name: "user",
-      label: "Email", 
+      label: "Email",
       customBodyRender: (item) => {
         return item.email;
-      }
+      },
     },
     {
       name: "first_name",
-      label: "First Name", 
+      label: "First Name",
     },
     {
       name: "last_name",
-      label: "Last Name", 
+      label: "Last Name",
     },
     {
       name: "purok",
-      label: "Purok", 
+      label: "Purok",
     },
     {
       name: "brgy",
-      label: "Barangay", 
+      label: "Barangay",
     },
     {
       name: "municipality",
-      label: "Municipality", 
+      label: "Municipality",
     },
     {
       name: "contact_number",
-      label: "Contact Number", 
+      label: "Contact Number",
     },
     {
       name: "user",
       label: "Role",
       customBodyRender: (item) => {
         return item.role;
-      } 
+      },
     },
   ];
-  
+
   const options = {
     position: "top-right",
     autoClose: 3000,
@@ -108,7 +108,7 @@ function Users() {
   };
 
   const handleRowChange = (value) => {
-    fetchingData({ limit: value});
+    fetchingData({ limit: value });
     handleFilterChange("limit", value);
   };
 
@@ -117,19 +117,20 @@ function Users() {
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`).then(
-      forceUpdate(),
-      ToastNotification("success", "Successfully Deleted!", options)
-    )
-    .catch((err) => {
-      ToastNotification("error", err, options);
-    });
+    Http.delete(`/delete/user/${values}`)
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", options)
+      )
+      .catch((err) => {
+        ToastNotification("error", err, options);
+      });
   };
 
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
-      <AddUser data={userList.data}/>
+      <AddUser data={userList.data} />
       <DataTable
         withPagination
         forceUpdate={() => forceUpdate()}

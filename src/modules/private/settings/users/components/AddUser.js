@@ -1,8 +1,17 @@
 import * as React from "react";
-import { Http } from './../../../../../services/Http';
-import ToastNotification from './../../../../../components/ToastNotification';
-import ToastNotificationContainer from './../../../../../components/ToastNotificationContainer';
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from "@mui/material";
+import { Http } from "./../../../../../services/Http";
+import ToastNotification from "./../../../../../components/ToastNotification";
+import ToastNotificationContainer from "./../../../../../components/ToastNotificationContainer";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from "@mui/material";
 import { handleErrorResponse } from "../../../../../utils/helpers";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FormFieldData from "../../../../../components/FormFieldData";
@@ -49,18 +58,19 @@ export default function AddUser() {
   const handleClose = () => setOpen(false);
   const [roles, setRoles] = React.useState([]);
 
-
   React.useEffect(() => {
     fetchRoles();
   }, []);
 
   const fetchRoles = () => {
-    Http.get('roles').then(res => {
-      setRoles(res.data.roles)
-    }).catch(err => {
-      console.log(err)
-    });
-  }
+    Http.get("roles")
+      .then((res) => {
+        setRoles(res.data.roles);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleChange = (e) => {
     const newData = { ...formValues };
@@ -70,19 +80,19 @@ export default function AddUser() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/users", formValues).then((res) => {
-      if (res.data.status === 200) {
-        handleClose();
-        ToastNotification("success", "Successfully Saved Data!", options);
-      }else{
-        ToastNotification('error', res.data.message, options);
-      }
-    })
+    Http.post("/add/users", formValues)
+      .then((res) => {
+        if (res.data.status === 200) {
+          handleClose();
+          ToastNotification("success", "Successfully Saved Data!", options);
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+      })
       .catch((err) => {
         ToastNotification("error", handleErrorResponse(err), options);
       });
   };
-
 
   return (
     <div>
@@ -102,11 +112,11 @@ export default function AddUser() {
           },
         }}
       />
-      <Modal open={open}
+      <Modal
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add User
@@ -180,8 +190,7 @@ export default function AddUser() {
             size="small"
             variant="outlined"
             margin="dense"
-            sx={inputStyle}
-          >
+            sx={inputStyle}>
             <InputLabel id="role-label">Role</InputLabel>
             <Select
               labelId="role-label"
@@ -189,8 +198,7 @@ export default function AddUser() {
               id="role"
               label="Role"
               value={formValues.role}
-              onChange={handleChange}
-            >
+              onChange={handleChange}>
               {roles.map((role) => {
                 return (
                   <MenuItem key={role.id} value={role.name} id="role">
@@ -204,8 +212,7 @@ export default function AddUser() {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
-          >
+            onClick={handleSubmit}>
             Submit
           </Button>
         </Box>
@@ -213,5 +220,3 @@ export default function AddUser() {
     </div>
   );
 }
-
-
