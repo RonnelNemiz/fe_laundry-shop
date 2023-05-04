@@ -1,8 +1,8 @@
-import * as React from 'react';
-import  DeleteIcon from '@mui/icons-material/Delete';
-import { Box, Button, Modal } from '@mui/material';
-import { Typography } from '@mui/material';
-import Http from '../../../../../services/Http';
+import * as React from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { Box, Button, Modal } from "@mui/material";
+import { Typography } from "@mui/material";
+import Http from "../../../../../services/Http";
 
 const style = {
   position: "absolute",
@@ -24,42 +24,40 @@ export default function DeleteUsers() {
   const handleClose = () => setOpen(false);
 
   const handleDelete = (id) => {
-    Http.delete(`delete/user/${id}`)
-  }
+    Http.delete(`delete/user/${id}`);
+  };
   return (
     <span>
-     <DeleteIcon onClick={handleOpen}
-      sx={{
-        fontSize: '20px',
-        color: 'red',
-        mr: 1,
-        cursor: 'pionter',
-        "&:hover":{
-          color:'black',
-        }
-      }} 
-     />
-     <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-     >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          Are you sure? If deleted you will not able to recover the data.
-        </Typography>
+      <DeleteIcon
+        onClick={handleOpen}
+        sx={{
+          fontSize: "20px",
+          color: "red",
+          mr: 1,
+          cursor: "pionter",
+          "&:hover": {
+            color: "black",
+          },
+        }}
+      />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description">
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Are you sure? If deleted you will not able to recover the data.
+          </Typography>
 
-        <Button variant="outlined" color="primary" onClick={handleClose} >
-          Cancel
-        </Button>
-        <Button variant="outlined" color="error" onClick={handleDelete} >
-          Procced
-        </Button>
-      </Box>
-     </Modal>
-      
+          <Button variant="outlined" color="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button variant="outlined" color="error" onClick={handleDelete}>
+            Procced
+          </Button>
+        </Box>
+      </Modal>
     </span>
   );
 }
-

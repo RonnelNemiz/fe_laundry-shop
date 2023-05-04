@@ -22,6 +22,7 @@ function Services() {
             <div className="col-md-4 text-center">
               <div className="iconbox-icon rounded-circle">
                 <button
+                  id="icon-btn"
                   type="button"
                   className="btn btn-primary rounded-circle">
                   <i className="fa-solid fa-thumbs-up boxicon"></i>
@@ -37,6 +38,7 @@ function Services() {
             <div className="col-md-4 text-center">
               <div className="iconbox-icon rounded-circle">
                 <button
+                  id="icon-btn"
                   type="button"
                   className="btn btn-primary rounded-circle">
                   <i className="fa-solid fa-shirt boxicon"></i>
@@ -52,6 +54,7 @@ function Services() {
             <div className="col-md-4 text-center">
               <div className="iconbox-icon rounded-circle">
                 <button
+                  id="icon-btn"
                   type="button"
                   className="btn btn-primary rounded-circle">
                   <i className="fa-solid fa-truck boxicon"></i>
@@ -67,7 +70,7 @@ function Services() {
         </div>
 
         <section className="section bg-light border-top">
-          <div className="container">
+          <div className="container" id="price-container">
             <h2 className="text-center title">Pricing</h2>
             <div className="underline mx-auto"></div>
             <p className="text-center description">
@@ -89,7 +92,7 @@ function Services() {
                       <li>Whites (Garments & towel): 5 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow">
+                      <button className="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
@@ -111,7 +114,7 @@ function Services() {
                       <li>Whites (Bedsheet & Towel) : 6 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow">
+                      <button className="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
@@ -133,7 +136,7 @@ function Services() {
                       <li>Colored (Bedsheet & Towel): 5 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow">
+                      <button className="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
@@ -155,7 +158,7 @@ function Services() {
                       <li>Colored (Tshirt, Pants, Underwear): 7 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
-                      <button class="button-29" id="orderNow">
+                      <button className="button-29" id="orderNow">
                         Order Now
                       </button>
                     </NavLink>
