@@ -2,10 +2,10 @@ import { CircularProgress, Grid, IconButton, Paper, Table, TableBody, TableCell,
 import React, { memo, useState } from 'react';
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditModal from "./EditCustomers";
-import ConfirmationDialog from '../../../../components/ConfirmationDialog';
+import EditServices from './EditServices';
+import ConfirmationDialog from '../../../../../components/ConfirmationDialog';
 
-function DataTableCustomers(props) {
+function DataTableServices(props) {
     const {
         data = [],
         columns = [],
@@ -156,7 +156,7 @@ function DataTableCustomers(props) {
             onConfirm={handleConfirmDelete}
             loading={deleteLoading}
         />
-        <EditModal
+        <EditServices
             forceUpdate={forceUpdate}
             open={showEditModal}
             onClose={() => setShowEditModal(false)}
@@ -168,4 +168,4 @@ function DataTableCustomers(props) {
   )
 }
 
-export default memo(DataTableCustomers);
+export default memo(DataTableServices);

@@ -1,58 +1,78 @@
-// import React, {useState} from 'react';
-// import ReactApexChart from 'react-apexcharts';
+import React from 'react'
+import Chart from 'react-apexcharts';
+import "../page/reviews.css";
 
-// function ChartReviews() {
-//   const [state, setState] = useState({
-//     series: [{
-//       name: "STOCK ABC",
-//       data: series.monthDataSeries1.prices
-//     }],
-//     options: {
-//       chart: {
-//         type: 'area',
-//         height: 350,
-//         zoom: {
-//           enabled: false
-//         }
-//       },
-//       dataLabels: {
-//         enabled: false
-//       },
-//       stroke: {
-//         curve: 'straight'
-//       },
-      
-//       title: {
-//         text: 'Fundamental Analysis of Stocks',
-//         align: 'left'
-//       },
-//       subtitle: {
-//         text: 'Price Movements',
-//         align: 'left'
-//       },
-//       labels: series.monthDataSeries1.dates,
-//       xaxis: {
-//         type: 'datetime',
-//       },
-//       yaxis: {
-//         opposite: true
-//       },
-//       legend: {
-//         horizontalAlign: 'left'
-//       }
-//     },
-  
-  
-//   })
-   
+const ChartReviews = () => {
+    const data = {
+        series:[
+            {
+                name: "Review",
+                data: [10, 50, 30, 90, 40, 120, 100],
+            },
+        ],
+        options: {
+          chart: {
+            type: "area",
+            height: "auto",
+          },
+    
+          dropShadow: {
+            enabled: false,
+            enabledOnSeries: undefined,
+            top: 0,
+            left: 0,
+            blur: 3,
+            color: "#000",
+            opacity: 0.35,
+          },
+    
+          fill: { 
+            colors: ["#fff"],
+            type: "gradient",
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            curve: "smooth",
+            colors: ["#fff"],
+          },
+          tooltip: {
+            x: {
+              format: "dd/MM/yy HH:mm",
+            },
+          },
+          grid: {
+            show: true,
+          },
+          xaxis: {
+            type: "datetime",
+            categories: [
+              "2018-09-19T00:00:00.000Z",
+              "2018-09-19T01:30:00.000Z",
+              "2018-09-19T02:30:00.000Z",
+              "2018-09-19T03:30:00.000Z",
+              "2018-09-19T04:30:00.000Z",
+              "2018-09-19T05:30:00.000Z",
+              "2018-09-19T06:30:00.000Z",
+            ],
+          },
+          yaxis: {
+            show: true
+          },
+          toolbar:{
+            show: true
+          }
+        },
+      };
 
-//   return (
-//     <div className="container">
-//       <h1>Chart</h1>
-//       <ReactApexChart options={state.options} series={state.series} type="area" height={350} width={500} />
-//     </div>
-//   )
-// }
+  return (
+    <div className="reviewContainer">
+        <div className="customerReview">
+        <Chart series={data.series} options={data.options} type='area' />
+        </div>
+    </div>
+  )
+}
 
-// export default ChartReviews;
-
+export default ChartReviews

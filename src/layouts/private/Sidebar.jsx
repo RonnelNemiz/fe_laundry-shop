@@ -12,8 +12,8 @@ import ReviewsIcon from '@mui/icons-material/Reviews';
 import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
-// import GroupIcon from '@mui/icons-material/Group';
 import "../../assets/css/admin.css";
+import logo1 from '../../assets/images/laundrylogo.png'
 
 function Sidebar() {
 	const history = useHistory();
@@ -35,11 +35,7 @@ function Sidebar() {
 			label: "Orders",
 			icon: <ShoppingCartIcon />,
 		},
-		// {
-		// 	path: "/users",
-		// 	label: "Users",
-		// 	icon: <GroupIcon />,
-		// },
+		
 		{
 			path: "/reports",
 			label: "Reports",
@@ -68,6 +64,7 @@ function Sidebar() {
 
 	return (
 		<div>
+			
 			<List>
 				{links.map((link, index) => (
 					<ListItem

@@ -14,9 +14,11 @@ function Users() {
     data: [],
     meta: {},
   });
-  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  //   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  // const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [filters, setFilters] = useState({
-    limit: 25,
+    limit: 10,
   });
 
   useEffect(() => {
@@ -32,6 +34,7 @@ function Users() {
       },
     }).then((res) => {
       if (res.data.data) {
+      
         setUserList({
           data: res.data.data,
           meta: res.data.meta,
@@ -43,46 +46,61 @@ function Users() {
 
   const columns = [
     {
-      name: "image",
-      label: "Image",
-    },
-    {
-      name: "user",
-      label: "Email",
+      name: "profile",
+      label: "Image", 
       customBodyRender: (item) => {
-        return item.email;
-      },
+        return item[0] && item[0].image;
+      }
     },
     {
-      name: "first_name",
-      label: "First Name",
+      name: "email",
+      label: "Email", 
     },
     {
-      name: "last_name",
-      label: "Last Name",
+      name: "profile",
+      label: "First Name", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].first_name;
+      }
     },
     {
-      name: "purok",
-      label: "Purok",
+      name: "profile",
+      label: "Last Name", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].last_name;
+      }
     },
     {
-      name: "brgy",
-      label: "Barangay",
+      name: "profile",
+      label: "Purok", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].purok;
+      }
     },
     {
-      name: "municipality",
-      label: "Municipality",
+      name: "profile",
+      label: "Barangay", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].brgy;
+      }
     },
     {
-      name: "contact_number",
-      label: "Contact Number",
+      name: "profile",
+      label: "Municipality", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].municipality;
+      }
     },
     {
-      name: "user",
+      name: "profile",
+      label: "Contact Number", 
+      customBodyRender: (item) => {
+        return item[0] && item[0].contact_number;
+      }
+    },
+    {
+      name: "role",
       label: "Role",
-      customBodyRender: (item) => {
-        return item.role;
-      },
     },
   ];
 
@@ -113,7 +131,8 @@ function Users() {
   };
 
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`).then();
+    Http.get(`update/user/${values}`).then(
+    );
   };
 
   const handleDelete = (values) => {
@@ -130,7 +149,7 @@ function Users() {
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
-      <AddUser data={userList.data} />
+      <AddUser  forceUpdate={() => forceUpdate()} data={userList.data}/>
       <DataTable
         withPagination
         forceUpdate={() => forceUpdate()}

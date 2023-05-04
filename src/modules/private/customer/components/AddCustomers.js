@@ -46,7 +46,8 @@ const options = {
     theme: "colored",
 };
 
-export default function AddCustomers() {
+export default function AddCustomers(props) {
+    const { forceUpdate,  } = props;
     const [formValues, setFormValues] = React.useState({
         email: "",
         first_name: "",
@@ -55,6 +56,7 @@ export default function AddCustomers() {
         brgy: "",
         municipality: "",
         contact_number: "",
+        land_mark:"",
         role: 'Customer',
         password: "",
     });
@@ -74,10 +76,28 @@ export default function AddCustomers() {
         setFormValues(newData);
     };
 
+    React.useEffect(() => {
+        if (open) {
+          setFormValues({
+            email: "",
+            first_name: "",
+            last_name: "",
+            purok: "",
+            brgy: "",
+            municipality: "",
+            contact_number: "",
+            land_mark:"",
+            role: 'Customer',
+            password: "",
+          });
+        }
+      }, [open]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        Http.post("/register", formValues).then((res) => {
+        Http.post("/add/customer", formValues).then((res) => {
             if (res.data.status === 200) {
+                forceUpdate();
                 handleClose();
                 ToastNotification("success", "Successfully Saved Data!", options);
             } else {

@@ -5,7 +5,7 @@ function Expenditures() {
   return (
     <div>
       <div className="container bg-light">
-        <h1>Expenditures</h1>
+        <h2>Expenditures</h2>
         <div className="card mt-5">
           <div className="card-body">
 

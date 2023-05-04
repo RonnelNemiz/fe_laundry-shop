@@ -6,9 +6,11 @@
     content: '';
     width:8px;
 	height:100%;
-	background: var( --bs-gray);
+	/* background: var( --bs-gray); */
     margin-right:calc(1rem - 8px);
     position: absolute;
     left: 2px;
+    background: -webkit-linear-gradient(0deg, rgb(241, 68, 55) 0%, rgb(237, 91, 13) 99%);
 }
+
 

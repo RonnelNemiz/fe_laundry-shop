@@ -7,7 +7,7 @@ export const CardsData = [
     {
         title: "New Orders",
         color: {
-          backGround: "linear-gradient(90deg, rgba(10,6,96,1) 26%, rgba(28,35,115,1) 72%)",
+          backGround: "radial-gradient( 100% 100% at 100% 0, #5adaff 0, #5468ff 100% )",
           boxShadow: "0px 10px 20px 0px #e0c6f5",
         },
         barValue: 70,
@@ -23,7 +23,7 @@ export const CardsData = [
       {
         title: "Sales",
         color: {
-          backGround: "linear-gradient(90deg, rgba(193,10,10,1) 47%, rgba(240,30,30,1) 100%, rgba(251,15,15,1) 100%)",
+          backGround: "-webkit-linear-gradient(0deg, #f14437 0%, #ed5b0d 99%)",
           boxShadow: "0px 10px 20px 0px #FDC0C7",
         },
         barValue: 80,

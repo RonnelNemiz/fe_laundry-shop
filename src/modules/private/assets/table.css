@@ -1,6 +1,4 @@
 /* Table CSS */
-
-
 table td, table th {
     border: 1px solid #ddd;
     padding: 8px;
@@ -16,5 +14,4 @@ table td, table th {
     text-align: center;
     background-color: #04AA6D;
     color: black;
-  
-      }
+  }
