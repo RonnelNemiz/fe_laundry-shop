@@ -12,7 +12,9 @@ const CustomerReviews = () => {
   }, []);
 
   const fetchReviews = () => {
-    Http.get("/reviews")
+    Http.get("/reviews",{headers:{
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }})
       .then((res) => {
         setReviews(res.data.data);
       })
@@ -27,7 +29,9 @@ const CustomerReviews = () => {
       reply_at: new Date().toISOString(),
     };
 
-    Http.post(`/reviews/${reviewId}/reply`, data)
+    Http.post(`/reviews/${reviewId}/reply`, data,{headers:{
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }})
       .then(response => {
         console.log('Reply submitted successfully:', response.data);
         // Update the reviews state or perform any other necessary actions
@@ -37,7 +41,9 @@ const CustomerReviews = () => {
       });
   };
   const handleDelete = (reviewId) => {
-    Http.delete(`/delete/reviews/${reviewId}`)
+    Http.delete(`/delete/reviews/${reviewId}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem('access_token')}`
+    }})
       .then(response => {
         console.log('Review deleted successfully:', response.data);
         // Update the reviews state or perform any other necessary actions

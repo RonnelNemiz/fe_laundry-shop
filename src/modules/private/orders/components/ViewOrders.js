@@ -9,8 +9,8 @@ import {
 import React from "react";
 import "../../../../assets/css/admin.css";
 
-const ViewOrders = ({ viewOrder, onClose }) => {
-  if (!viewOrder) {
+const ViewOrders = ({ showOrder, onClose }) => {
+  if (!showOrder) {
     return <div>...</div>;
   }
 
@@ -25,51 +25,53 @@ const ViewOrders = ({ viewOrder, onClose }) => {
         <DialogContent>
           {/* <p><b>:</b> {viewOrder.email}</p> */}
           <p>
-            <b>Transaction Number:</b> {viewOrder.trans_number}
+            <b>Transaction Number:</b> {showOrder.trans_number}
+          </p>
+          <p>
+            <b>First Name:</b>{" "}
+            {showOrder.user.profile?.first_name ?? "ADMIN"}
+              {/* {showOrder.profile && showOrder.profile[0].last_name} */}
           </p>
           <p>
             <b>Last Name:</b>{" "}
-            {viewOrder.profile &&
-              viewOrder.profile[0] &&
-              viewOrder.profile[0].first_name}
+            {/* {showOrder.profile &&
+              showOrder.profile[0] &&
+              showOrder.profile[0].last_name} */}
+              {showOrder.user.profile?.last_name ?? "ADMIN"}
           </p>
           <p>
-            <b>Last Name:</b>{" "}
-            {viewOrder.profile &&
-              viewOrder.profile[0] &&
-              viewOrder.profile[0].last_name}
+            <b>Order Status:</b> {showOrder.status}
           </p>
           <p>
-            <b>Order Status:</b> {viewOrder.status}
+            <b>Payment Status:</b> {showOrder.payment_status}
           </p>
           <p>
-            <b>Payment Status:</b> {viewOrder.payment_status}
+            <b>Total:</b> {showOrder.total}
           </p>
           <p>
-            <b>Total:</b> {viewOrder.total}
-          </p>
-          <p>
-            <b>Approved By:</b> {viewOrder.approved_by}
+            <b>Approved By:</b> {showOrder.approved_by}
           </p>
           <p>
             <b>Handling:</b>{" "}
-            {viewOrder.handling && viewOrder.handling.handling_name}
+            {showOrder.handling_id === 1 && "Pickup & Delivery" || showOrder.handling_id === 2 && "Pickup" || showOrder.handling_id === 3 && "Delivery" || showOrder.handling_id === 4 && "Walk-in"}
           </p>
           <p>
             <b>Payment:</b>{" "}
-            {viewOrder.payment && viewOrder.payment.payment_name}
+            {showOrder.payment_id === 1 && "GCASH" || showOrder.payment_id === 2 && "COD" ||  showOrder.payment_id === 3 && "SAGPA"}
           </p>
           <p>
-            <b>Categories:</b>{" "}
-            <Typography component="ul">
-              {viewOrder &&
-                viewOrder.categories.map((category, i) => (
-                  <Typography key={i} component="li">
-                    {category.name}
-                  </Typography>
-                ))}
-            </Typography>
-          </p>
+  <b>Categories:</b>{" "}
+  <Typography component="ul">
+    {showOrder &&
+      showOrder.categories &&
+      showOrder?.categories?.map((category, i) => (
+        <Typography key={i} component="li">
+          {category.name} (Quantity: {category.pivot.quantity})
+        </Typography>
+      ))}
+  </Typography>
+</p>
+
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose}>Close</Button>

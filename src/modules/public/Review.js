@@ -32,11 +32,16 @@ function Review() {
   const [comment, setComment] = useState('');
   const [userComment, setUserComment] = useState('');
   const [adminReply, setAdminReply] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchUserComment();
-    fetchAdminReply();
   }, []);
+
+  useEffect(() => {
+    fetchAdminReply();
+    fetchUserComment();
+  }, [loading]);
 
   const fetchUserComment = (userId) => {
     Http.get(`user/comments/${userId}`)
@@ -73,6 +78,7 @@ function Review() {
           ToastNotification('success', 'Successfully Saved Data!');
           setRating(0);
           setComment('');
+          setLoading(!loading);
         } else {
           // Handle error message
           ToastNotification('error', res.data.message);
@@ -121,7 +127,7 @@ function Review() {
               <Typography variant="h6">User Comment:</Typography>
               {userComment ? (
                 <>
-                  {userComment.length > 100 ? (
+                  {userComment?.length > 100 ? (
                     <>
                       <Typography>{`${userComment.slice(0, 100)}...`}</Typography>
                       <Typography color="primary">See More</Typography>
@@ -136,10 +142,10 @@ function Review() {
             </Box>
             <Box p={2}>
               <Typography variant="h6">Admin Reply:</Typography>
-              {adminReply.length > 0 ? (
+              {adminReply?.length > 0 ? (
                 adminReply.map((reply, index) => (
                   <div key={index}>
-                    {reply.length > 100 ? (
+                    {reply?.length > 100 ? (
                       <>
                         <Typography>{`${reply.slice(0, 100)}...`}</Typography>
                         <Typography color="primary">See More</Typography>
