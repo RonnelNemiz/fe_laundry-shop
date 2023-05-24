@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, Typography } from '@mui/material';
+import { Box, Button, Modal, Typography } from '@mui/material';
 import Reevalidate from 'ree-validate-18';
 import Http from '../../../../services/Http';
 import ToastNotification from '../../../../components/ToastNotification';
@@ -17,7 +17,6 @@ const validator = new Reevalidate.Validator({
     municipality: "required",
     contact_number: "required|numeric",
    land_mark: "required",
-    // role: "required",
     password: "required|max:8",
 });
 
@@ -42,10 +41,12 @@ const options = {
     draggableDirection: 60,
     theme: "colored",
 };
+const inputStyle = {
+    mb: 1,
+};
 
-export default function EditUsers(props) {
+export default function EditCustomers(props) {
     const { open, onClose, selectedItem, loading, forceUpdate } = props;
-    // const [roles, setRoles] = React.useState([]);
     const [data, setData] = React.useState({
         values: {
             email: "",
@@ -60,15 +61,8 @@ export default function EditUsers(props) {
         },
         errors: validator.errors,
     });
-    // const handleRole = () => {
-    //     Http.get("/roles").then((res) => {
-    //         console.log(res.data.roles);
-    //         setRoles(res.data.roles);
-    //     });
-    // };
 
     React.useEffect(() => {
-        // handleRole();
         if (selectedItem.profile) {
             setData({
                 values: {
@@ -147,6 +141,7 @@ export default function EditUsers(props) {
                         name="email"
                         onChange={handleChange}
                         errors={data.errors}
+                        sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
@@ -156,6 +151,7 @@ export default function EditUsers(props) {
                         name="first_name"
                         onChange={handleChange}
                         errors={data.errors}
+                        sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
@@ -165,6 +161,7 @@ export default function EditUsers(props) {
                         name="last_name"
                         onChange={handleChange}
                         errors={data.errors}
+                        sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
@@ -174,6 +171,7 @@ export default function EditUsers(props) {
                         name="purok"
                         onChange={handleChange}
                         errors={data.errors}
+                        sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
@@ -183,6 +181,7 @@ export default function EditUsers(props) {
                         name="brgy"
                         onChange={handleChange}
                         errors={data.errors}
+                        sx={inputStyle}
 
                     />
                     <FormFieldData
@@ -193,6 +192,7 @@ export default function EditUsers(props) {
                         name="municipality"
                         onChange={handleChange}
                         errors={data.errors}
+                        sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
@@ -205,6 +205,7 @@ export default function EditUsers(props) {
                         inputProps={{
                             maxLength: 11,
                         }}
+                        sx={inputStyle}
 
                     />
                     <FormFieldData
@@ -216,32 +217,6 @@ export default function EditUsers(props) {
                         onChange={handleChange}
                         errors={data.errors}
                     />
-                    {/* <FormControl
-                        fullWidth
-                        size="small"
-                        variant="outlined"
-                        margin="dense"
-
-                    >
-                        <InputLabel id="role-label">Role</InputLabel>
-                        <Select
-                            labelId="role-label"
-                            name="role"
-                            id="role"
-                            label="Role"
-                            value={data.values.role}
-                            onChange={handleChange}
-                            errors={data.errors}
-                        >
-                            {roles.map((role) => {
-                                return (
-                                    <MenuItem key={role.id} value={role.name} id="role">
-                                        {role.name}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl> */}
                     <Button
                         loading={loading}
                         fullWidth

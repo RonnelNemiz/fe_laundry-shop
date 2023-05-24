@@ -6,30 +6,8 @@ import Blanket from "../../../../assets/images/blanket.png";
 import Pillowcase from "../../../../assets/images/pillows.png";
 import Curtain from "../../../../assets/images/curtains.png";
 
-function WhiteBedShTowel() {
-  const [clothingItems, setClothingItems] = useState({
-    towel: { checked: false, quantity: 0 },
-    bedsheet: { checked: false, quantity: 0 },
-    blanket: { checked: false, quantity: 0 },
-    pillowcase: { checked: false, quantity: 0 },
-    curtain: { checked: false, quantity: 0 },
-  });
-
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setClothingItems({
-      ...clothingItems,
-      [name]: { ...clothingItems[name], checked },
-    });
-  };
-
-  const handleQuantityChange = (event) => {
-    const { name, value } = event.target;
-    setClothingItems({
-      ...clothingItems,
-      [name]: { ...clothingItems[name], quantity: parseInt(value) },
-    });
-  };
+function WhiteBedShTowel(props) {
+  const { garments, handleChange } = props;
 
   return (
     <div>
@@ -37,15 +15,36 @@ function WhiteBedShTowel() {
         <div className="garment-count-wrapper">
           <article className="garment-count-container">
             <img src={Towel} alt="Towel" />
-            <input type="number" required id="towelInput" defaultValue={0} />
+            <input
+              type="number"
+              required
+              onChange={handleChange}
+              id="towelInput"
+              value={garments.values.whitebdst_towel}
+              name="whitebdst_towel"
+            />
           </article>
           <article className="garment-count-container">
             <img src={BedSheet} alt="BedSheet" />
-            <input type="number" id="bedsheetInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="bedsheetInput"
+              required
+              onChange={handleChange}
+              value={garments.values.whitebdst_bedsheet}
+              name="whitebdst_bedsheet"
+            />
           </article>
           <article className="garment-count-container">
             <img src={Blanket} alt="Blanket" />
-            <input type="number" id="blanketInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="blanketInput"
+              required
+              onChange={handleChange}
+              value={garments.values.whitebdst_blanket}
+              name="whitebdst_blanket"
+            />
           </article>
           <article className="garment-count-container">
             <img src={Pillowcase} alt="Pillowcase" />
@@ -53,12 +52,21 @@ function WhiteBedShTowel() {
               type="number"
               id="pillowcaseInput"
               required
-              defaultValue={0}
+              onChange={handleChange}
+              value={garments.values.whitebdst_pillowcase}
+              name="whitebdst_pillowcase"
             />
           </article>
           <article className="garment-count-container">
             <img src={Curtain} alt="Curtain" />
-            <input type="number" id="curtainInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="curtainInput"
+              required
+              onChange={handleChange}
+              value={garments.values.whitebdst_curtain}
+              name="whitebdst_curtain"
+            />
           </article>
         </div>
       </section>

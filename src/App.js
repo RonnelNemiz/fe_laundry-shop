@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter history={createBrowserHistory()}>
       <Switch>
         {routes.map((route, index) => {
-          if (route.auth && route.role !== "Customer") {
+          if (route.auth) {
             return <Private exact key={index} {...route} />;
           } else {
             return <Public exact key={index} {...route} />;

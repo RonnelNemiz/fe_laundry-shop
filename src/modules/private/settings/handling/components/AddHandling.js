@@ -33,12 +33,11 @@ const options = {
   theme: "colored",
 };
 
-export default function AddServices(props) {
+export default function AddHandling(props) {
   const { forceUpdate,  } = props;
   const [formValues, setFormValues] = React.useState({
-    service_name: "",
-    description: "",
-    image: "",
+    handling_name: "",
+    handling_price: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -53,9 +52,8 @@ export default function AddServices(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        service_name: "",
-        description: "",
-        image: "",
+        handling_name: "",
+        handling_price: "",
       });
      
     }
@@ -63,7 +61,7 @@ export default function AddServices(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/services", formValues).then((res) => {
+    Http.post("/add/handlings", formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();
@@ -73,7 +71,7 @@ export default function AddServices(props) {
       }
     })
       .catch((err) => {
-        ToastNotification("error", err.message, options);
+        ToastNotification("error", handleErrorResponse(err), options);
       });
   };
 
@@ -81,7 +79,7 @@ export default function AddServices(props) {
   return (
     <div>
       <ToastNotificationContainer />
-      <AddBoxIcon         
+      <AddBoxIcon
         onClick={handleOpen}
         sx={{
           m: 1,
@@ -107,28 +105,19 @@ export default function AddServices(props) {
           </Typography>
           <FormFieldData
             fullWidth
-            label="Service"
-            id="service_name"
-            value={formValues.service_name}
-            name="service_name"
+            label="Handling"
+            id="handling_name"
+            value={formValues.handling_name}
+            name="handling_name"
             onChange={handleChange}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
-            label="Description"
-            id="description"
-            value={formValues.description}
-            name="description"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Image"
-            id="image"
-            value={formValues.image}
-            name="image"
+            label="Price"
+            id="handling_price"
+            value={formValues.handling_price}
+            name="handling_price"
             onChange={handleChange}
             sx={inputStyle}
           />

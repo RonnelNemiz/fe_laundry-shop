@@ -7,7 +7,14 @@ import img1 from "../../assets/images/garments.jpg";
 import img2 from "../../assets/images/whitebedsheets.jpg";
 import img3 from "../../assets/images/colored.jpg";
 import img4 from "../../assets/images/coloredgarments.png";
+import Review from "./Review";
 
+
+const reviewCon = {
+  padding:"5%",
+  // display:"flex",
+  // justifyContent:"center",
+}
 function Services() {
   return (
     <div>
@@ -69,7 +76,7 @@ function Services() {
           </div>
         </div>
 
-        <section className="section bg-light border-top">
+        <section className="section bg-light border-top" style={{height:"100vh"}}>
           <div className="container" id="price-container">
             <h2 className="text-center title">Pricing</h2>
             <div className="underline mx-auto"></div>
@@ -168,6 +175,9 @@ function Services() {
             </div>
           </div>
         </section>
+        <div className=" bg-light border-top " style={reviewCon} >
+          <Review />
+        </div>
       </div>
       <Footer />
     </div>

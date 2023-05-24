@@ -1,4 +1,4 @@
-import React from 'react';
+  import React from 'react';
 // import { motion } from "framer-motion";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "../Dash.css";
@@ -13,7 +13,7 @@ export default function CompactCard({ param}) {
           background: param.color.backGround,
           boxShadow: param.color.boxShadow,
         }}
-        layoutId="expandableCard"
+        layoutid="expandableCard"
         // onClick={setExpanded}
        
       >

@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Redirect } from "react-router-dom";
 import Defaults from "../layouts/private/Defaults";
-import { isAuth } from "../utils/helpers";
+import { isAuth, isCustomer } from "../utils/helpers";
 import Loader from "../layouts/Loader";
 
 function Private(props) {
@@ -11,7 +11,9 @@ function Private(props) {
   if (!isAuth()) {
     return <Route render={() => <Redirect to="/login" />} />;
   }
-
+  if (isCustomer()) {
+    return <Route render={() => <Redirect to="/" />} />;
+  }
   return (
     <Route
       {...rest}

@@ -4,6 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditModal from "./EditCustomers";
 import ConfirmationDialog from '../../../../components/ConfirmationDialog';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ShowCustomer from './ShowCustomer';
 
 function DataTableCustomers(props) {
     const {
@@ -19,12 +21,14 @@ function DataTableCustomers(props) {
         deleteLoading,
         editLoading,
         forceUpdate,
+        onRowClick,
         ...rest
     } = props;
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedItem, setSelectedItem] = useState({});
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showCustomer, setShowCustomer] = useState(null);
 
     const getCellValue = (item, col) => {
         const keys = (col.name && col.name.split(".")) || [];
@@ -76,6 +80,9 @@ function DataTableCustomers(props) {
             setShowDeleteModal(false);
         }
     };
+    const handleShow = (item) => { 
+        setShowCustomer(item);
+    }
 
   return (
     <Paper>
@@ -100,10 +107,16 @@ function DataTableCustomers(props) {
                 <TableBody>
                     {!loading &&
                     data.map((item, itemIndex) => (
-                        <TableRow key={itemIndex} >
-                            {(onDelete || onEdit || withNumber) && (
+                        <TableRow key={itemIndex} >         
+                            {(onRowClick|| onDelete || onEdit || withNumber) && (
                                 <TableCell size="small" sx={{display:"flex"}}>
                                     {withNumber && itemIndex + 1}
+                                    {onRowClick && (
+                                        <IconButton size="small" color="gray" onClick={() => handleShow(item)}>
+                                         <VisibilityIcon   />
+                                    </IconButton>
+                                        
+                                    )}
                                     {onEdit && (
                                         <IconButton size="small" color="primary" onClick={() => handleEdit(item)}>
                                             <EditIcon />
@@ -164,6 +177,13 @@ function DataTableCustomers(props) {
             selectedItem={selectedItem}
             loading={editLoading} 
         />
+       
+         <ShowCustomer 
+              sx={{width:"200%"}} 
+              showCustomer={showCustomer} 
+              onClose={() => setShowCustomer(null) }
+        />
+        
     </Paper>
   )
 }
