@@ -22,7 +22,7 @@ import ViewOrders from "./ViewOrders";
 
 function DataTableOrders(props) {
   const {
-    data = [],
+    data,
     columns = [],
     onChangePage,
     onRowsChangePage,
@@ -37,6 +37,7 @@ function DataTableOrders(props) {
     onRowClick,
     ...rest
   } = props;
+
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
