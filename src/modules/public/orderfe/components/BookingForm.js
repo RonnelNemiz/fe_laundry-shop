@@ -1,26 +1,45 @@
-import React, { useState } from "react";
+import { Box, FormHelperText } from "@mui/material";
+import React from "react";
+import Http from "../../../../services/Http";
 
-function BookingForm() {
-  const [service, setService] = useState("");
-  const handleSubmit = (event) => {
-    event.preventDefault();
+function BookingForm(props) {
+  const { error, formValues, setFormValues, handleRadioChange, handleSelectHandling } = props;
 
-    // TODO: Implement booking submission logic
+  const [handling, setHandling] = React.useState([]);
+
+  React.useEffect(() => {
+    fetchHandlings();
+    const savedhandling = JSON.parse(localStorage.getItem('handling'));
+    if (savedhandling) {
+      setFormValues((prev) => ({
+        ...prev,
+        values: {
+          ...prev.values,
+          ...savedhandling.values 
+        }
+      }))
+    }
+  }, [setFormValues]);
+
+  const fetchHandlings = () => {
+    Http.get("/show/handlings")
+      .then((res) => {
+        setHandling(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-  const handleServiceChange = (event) => {
-    setService(event.target.value);
-  };
-  const handleReset = () => {
-    setService("");
-  };
+
 
   return (
-    <form onSubmit={handleSubmit}>
-      <main class="payment-main">
-        <section className="schedule-section mt-5">
-          <h1>SELECT SERVICES</h1>
-          {/* <div className="schedule-input-container mt-4"> */}
-          {/* <label for="dateInput">Date:</label>
+    <Box>
+      <form>
+        <main className="payment-main">
+          <section className="schedule-section mt-5">
+            <h1>Handling</h1>
+            {/* <div className="schedule-input-container mt-4"> */}
+            {/* <label for="dateInput">Date:</label>
             <input
               type="date"
               value="2023-01-11"
@@ -38,57 +57,36 @@ function BookingForm() {
               id="timeControl"
               name="timeInput"
             /> */}
-          <div className="section-flex">
-            <label htmlFor="oneday">
-              <article className="shipping-radio-flex">
-                <div>
-                  <h2>Pickup & Delivery</h2>
-                </div>
-                <div className="radio">
-                  <span>₱100.00</span>
-                  <input
-                    id="oneday"
-                    name="shipping"
-                    type="radio"
-                    defaultValue={100}
-                  />
-                </div>
-              </article>
-            </label>
-            <label htmlFor="oneday">
-              <article className="shipping-radio-flex">
-                <div>
-                  <h2>Pickup</h2>
-                </div>
-                <div className="radio">
-                  <input id="oneday" name="shipping" type="radio" />
-                </div>
-              </article>
-            </label>
-            <label htmlFor="oneday">
-              <article className="shipping-radio-flex">
-                <div>
-                  <h2>Deliver</h2>
-                </div>
-                <div className="radio">
-                  <input id="oneday" name="shipping" type="radio" />
-                </div>
-              </article>
-            </label>
-            <label htmlFor="oneday">
-              <article className="shipping-radio-flex">
-                <div>
-                  <h2>Walk-In</h2>
-                </div>
-                <div className="radio">
-                  <input id="oneday" name="shipping" type="radio" />
-                </div>
-              </article>
-            </label>
-          </div>
-        </section>
-      </main>
-    </form>
+
+            <div className="section-flex">
+              {handling && handling.map((handlingItem) => (
+                <label key={handlingItem.id} htmlFor={handlingItem.handling_name} onClick={() => handleSelectHandling(handlingItem.handling_name, handlingItem.handling_price)}>
+                  <article className="shipping-radio-flex">
+                    <div>
+                      <h2>{handlingItem.handling_name}</h2>
+                    </div>
+                    <div className="radio">
+                      <h6><b>Add</b></h6>
+                      <span>₱{handlingItem.handling_price.toFixed(2)}</span>
+                      <input
+                        id={handlingItem.handling_name}
+                        name="handling"
+                        type="radio"
+                        value={handlingItem.handling_name}
+                        checked={formValues.values.handling === handlingItem.handling_name}
+                        onChange={handleRadioChange}
+                        required
+                      />
+                    </div>
+                  </article>
+                </label>
+              ))}
+            </div>
+            {error && <FormHelperText error>{error.items[0] && error.items[0].msg}</FormHelperText>}
+          </section>
+        </main>
+      </form>
+    </Box>
   );
 }
 

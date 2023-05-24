@@ -40,7 +40,7 @@ const inputStyle = {
     mb: 1,
   };
 
-export default function EditHandling(props) {
+export default function EditPayMeth(props) {
     const { selectedItem, loading, forceUpdate } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -49,9 +49,8 @@ export default function EditHandling(props) {
 
     const [data, setData] = React.useState({
         values: {
-            service_name: "",
-            description: "",
-            image: "",
+            payment_name: "",
+           
         },
         errors: validator.errors,
     });
@@ -62,9 +61,8 @@ export default function EditHandling(props) {
         if (selectedItem) {
             setData({
                 values: {
-                    service_name: selectedItem.service_name,
-                    description: selectedItem.description,
-                    image: selectedItem.image,
+                    payment_name: selectedItem.payment_name,
+                   
                 }
 
             });
@@ -91,7 +89,7 @@ export default function EditHandling(props) {
     const handleUpdate = () => {
         validator.validateAll(data.values).then(success => {
             if (success) {
-                Http.put(`update/services/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/payments/${selectedItem.id}`, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);
@@ -141,31 +139,14 @@ export default function EditHandling(props) {
                     </Typography>
                      <FormFieldData
                         fullWidth
-                        label="Service Name"
-                        value={data.values.service_name}
-                        name="service_name"
+                        label="Payment Method"
+                        value={data.values.payment_name}
+                        name="payment_name"
                         onChange={handleChange}
                         errors={data.errors}
                         sx={inputStyle}
                     />
-                    <FormFieldData
-                        fullWidth
-                        label="Description"
-                        value={data.values.description}
-                        name="description"
-                        onChange={handleChange}
-                        errors={data.errors}
-                        sx={inputStyle}
-                    />
-                    <FormFieldData
-                        fullWidth
-                        label="Image"
-                        value={data.values.image}
-                        name="image"
-                        onChange={handleChange}
-                        errors={data.errors}
-                        sx={inputStyle}
-                    />
+                  
                     
                     <Button
                         loading={loading}

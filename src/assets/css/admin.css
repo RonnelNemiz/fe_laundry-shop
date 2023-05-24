@@ -13,4 +13,10 @@
     background: -webkit-linear-gradient(0deg, rgb(241, 68, 55) 0%, rgb(237, 91, 13) 99%);
 }
 
+/* ShowCustomer */
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    width:500px;
+}
+
 

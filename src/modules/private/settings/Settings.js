@@ -8,7 +8,8 @@ import Services from './dashServices/pages/Services';
 import Users from './users/pages/Users';
 import CMS from './cms/CMS';
 import Handling from './handling/Handling';
-import PaymentMethod from './paymentMethod/PaymentMethod';
+import PaymentMethod from './paymentMethod/pages/PaymentMethod';
+
 
 
 export default function LabTabs() {
@@ -23,27 +24,27 @@ export default function LabTabs() {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Services" value="1" />
-            <Tab label="Users" value="2" />
-            <Tab label="CMS" value="3" />
-			<Tab label="Handling" value="4" />
-			<Tab label="Payment Method" value="5" />
+            <Tab label="Users" value="1" />
+            <Tab label="Services" value="2" />
+			<Tab label="Handling" value="3" />
+			<Tab label="Payment Method" value="4" />
+      <Tab label="CMS" value="5" />
           </TabList>
         </Box>
         <TabPanel value="1">
-			<Services />
-		</TabPanel>
-        <TabPanel value="2">
 			<Users />
 		</TabPanel>
-        <TabPanel value="3">
-			<CMS />
-		</TabPanel>
-		<TabPanel value="4">
+        <TabPanel value="2">
+			<Services />
+		</TabPanel>      
+		<TabPanel value="3">
 			<Handling />
 		</TabPanel>
-		<TabPanel value="5">
+		<TabPanel value="4">
 			<PaymentMethod />
+		</TabPanel>
+    <TabPanel value="5">
+			<CMS />
 		</TabPanel>
       </TabContext>
     </Box>

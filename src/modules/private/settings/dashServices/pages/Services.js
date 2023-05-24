@@ -1,108 +1,119 @@
-import React, { useEffect, useState, useReducer } from 'react';
-import "../../../assets/table.css";
-import { Paper } from '@mui/material';
-import  ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
-import Http from '../../../../../services/Http';
-import AddServices from '../components/AddServices';
-import DataTableServices from '../components/DataTableServices';
-import ToastNotification from '../../../../../components/ToastNotification';
-// import Delete from '../../../orders/components/Delete';
+import React, { useState, useEffect, useReducer } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
+import AddServices from './../components/AddServices';
+import EditServices from './../components/EditServices';
+import DeleteServices from "../components/DeleteServices";
+import Http from "../../../../../services/Http";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ShowHandling from "../../handling/components/ShowHandling";
 
-function Services() {
-  const [loading, setLoading] = useState(false);
-  const [services, setServices] = useState({
-    data: [],
-    meta: {},
-  });
+
+const Services = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [serviceData, setServiceData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedItem, setSelectedItem] =useState(null);
 
   useEffect(() => {
-    fetchingData();
-  }, [ignored]); //eslint-disable-line
-
-  const fetchingData = (params = {}) => {
-    console.log();
-    setLoading(true);
-    Http.get("/services").then((res) => {
-      if (res.data.data) {
-        setServices({
-          data: res.data.data,
-          meta: res.data.meta,
-        });
-      }
-      setLoading(false);
-    });
-  };
-
-  const columns = [
-    
-    {
-      name: "name",
-      label: "Service Name", 
-    },
-    {
-      name: "description",
-      label: "Description", 
-    },
-    {
-      name: "price",
-      label: "Price", 
-      customBodyRender: (item) => {
-        return item[0] && item[0].price_value;
-      }
-    },
-    // {
-    //   name: "price_value",
-    //   label: "Price ", 
-    // },
-   
-    {
-      name: "image",
-      label: "Image", 
-    },
-   
-  ];
+    setIsLoading(true);
+    Http.get("/services")
+      .then((res) => {
+        setServiceData(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  }, [ignored]);
   
-  const options = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    draggable: true,
-    draggableDirection: "x" | "y",
-    draggablePercent: 60,
-    theme: "colored",
-  };
-
   const handleUpdate = (values) => {
-    Http.get(`update/service/${values}`).then();
+    Http.get(`update/services/${values}`).then(
+    );
+  };
+  const handleDelete = (id) => {
+    Http.delete(`delete/services/${id}`)
+      .then(
+
+      );
   };
 
-  const handleDelete = (values) => {
-    Http.delete(`/delete/service/${values}`).then(
-      forceUpdate(),
-      ToastNotification("success", "Successfully Deleted!", options)
-    )
+  const handleShow = (id) => {
+    Http.get(`view/services/${id}`)
+    .then((res) => {
+      setSelectedItem(res.data);
+    })
     .catch((err) => {
-      ToastNotification("error", err, options);
-    });
-  };
+      console.log(err)
+    })
+  }
+
 
   return (
-    <Paper sx={{ width: "100%" }}>
-      <ToastNotificationContainer />
-      <AddServices forceUpdate={() => forceUpdate()} data={services.data}/>
-      <DataTableServices
-        forceUpdate={() => forceUpdate()}
-        onEdit={handleUpdate}
-        onDelete={handleDelete}
-        loading={loading}
-        data={services.data}
-        columns={columns}
-        count={services.meta.total || 0}
-       
-      />
-    </Paper>
+    <>
+    <AddServices  forceUpdate={() => forceUpdate()} />
+    <TableContainer component={Paper}>
+      {isLoading ? (
+        <CircularProgress />
+      ) : (
+        <Table>
+          <TableHead sx={{
+                        "& th": {
+                            color: "white",
+                            backgroundColor: "#0E4C91",
+                        },
+                    }}>
+            <TableRow>
+            <TableCell size="small">Actions</TableCell>
+              <TableCell size="small">Service Name</TableCell>
+              <TableCell size="small">Description </TableCell>
+              <TableCell size="small">Image</TableCell>
+              
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {serviceData.map((service) => (
+              <TableRow key={service.id}>
+                 <TableCell size="small" sx={{display:"flex", alignItems:"center"}}>
+                  <VisibilityIcon 
+                    onClick={() => handleShow(service.id)}
+                    style={{cursor:"pointer", color:"gray"}}
+                  />
+                  <EditServices
+                      selectedItem={service}
+                      onEdit={handleUpdate}
+                      forceUpdate={() => forceUpdate()}
+                    />
+                  <DeleteServices
+                  selectedItem={service}
+                  onDelete={handleDelete} 
+                    forceUpdate={() => forceUpdate()} />
+
+                </TableCell>
+                <TableCell size="small">{service.service_name}</TableCell>
+                <TableCell size="small" sx={{width:"40%"}}>{service.description}</TableCell>
+                <TableCell size="small">{service.image}</TableCell>
+               
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      )}
+    </TableContainer>
+           {selectedItem && (
+              <ShowHandling sx={{maxWidth:"500px"}} selectedItem={selectedItem} onClose={() => setSelectedItem(null) } />
+           )}   
+    </>
   );
-}
+};
 
 export default Services;

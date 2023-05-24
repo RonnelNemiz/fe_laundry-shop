@@ -56,7 +56,7 @@ const options = {
   theme: "colored",
 };
 
-export default function AddUser(props) {
+export default function AddUser2(props) {
   const { forceUpdate,  } = props;
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -75,15 +75,12 @@ const handleMouseDownPassword = (event) => {
     land_mark:"Leyte",
     role: "",
     password: "",
-    image: null, // Add image property
 
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [roles, setRoles] = React.useState([]);
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState("");
-
 
   React.useEffect(() => {
     fetchRoles();
@@ -112,7 +109,7 @@ const handleMouseDownPassword = (event) => {
         land_mark:"Leyte",
         role: "",
         password: "",
-        image: null,
+       
       });
     }
   }, [open]);
@@ -123,56 +120,22 @@ const handleMouseDownPassword = (event) => {
     setFormValues(newData);
   };
 
- 
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    const newData = { ...formValues };
-    newData.image = file;
-    setFormValues(newData);
-  
-    // Generate image preview URL
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreviewUrl(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Http.post("/add/users", formValues).then((res) => {
+      if (res.data.status === 200) {
+        forceUpdate();
+        handleClose();    
+        ToastNotification("success", "Successfully Saved Data!", options);
+      }else{
+        ToastNotification('error', res.data.message, options);
+      }
+    })
+      .catch((err) => {
+        ToastNotification("error", handleErrorResponse(err), options);
+      });
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append("email", formValues.email);
-  formData.append("first_name", formValues.first_name);
-  formData.append("last_name", formValues.last_name);
-  formData.append("purok", formValues.purok);
-  formData.append("brgy", formValues.brgy);
-  formData.append("municipality", formValues.municipality);
-  formData.append("contact_number", formValues.contact_number);
-  formData.append("land_mark", formValues.land_mark);
-  formData.append("role", formValues.role);
-  formData.append("password", formValues.password);
-  formData.append("image", formValues.image); // Append image to the form data
-  Http.post("/add/users", formData)
-  .then((res) => {
-    if (res.data.status === 200) {
-      forceUpdate();
-      handleClose();
-      ToastNotification(
-        "success",
-        "Successfully Saved Data!",
-        options
-      );
-    } else {
-      ToastNotification("error", res.data.message, options);
-    }
-  })
-  .catch((err) => {
-    ToastNotification("error", handleErrorResponse(err), options);
-  });
-};
  
 
   return (
@@ -318,31 +281,8 @@ const handleSubmit = (e) => {
             </Select>
           </FormControl>
           <Typography>Image</Typography>
-          {/* <input
-        type="file"
-        onChange={handleImageChange} // Handle image change event
-      /> */}
-          <FormFieldData
-  fullWidth
-  label="Image"
-  id="image"
-  name="image"
-  type="file"
-  inputProps={{
-    accept: "image/*",
-    onChange: handleImageChange,
-  }}
-  sx={inputStyle}
-/>
-
-{imagePreviewUrl && (
-  <img
-    src={imagePreviewUrl}
-    alt="Preview"
-    style={{ maxWidth: "50%", marginTop: 5 }}
-  />
-)}
-
+         
+          
           <Button
             fullWidth
             variant="contained"

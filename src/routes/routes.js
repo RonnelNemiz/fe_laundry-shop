@@ -25,19 +25,19 @@ const routes = [
     path: "/dashboard",
     component: "modules/private/dashboard/Dashboard",
     auth: true,
-    role: "Admin",
+    role: "Admin, Staff, Delivery Boy",
   },
   {
     path: "/admin/orders",
     component: "modules/private/orders/Orders",
     auth: true,
-    role: "Admin",
+    role: "Admin, Staff, Delivery Boy",
   },
   {
     path: "/sms",
     component: "modules/private/sms/SMS",
     auth: true,
-    role: "Admin",
+    role: "Admin, Staff",
   },
   {
     path: "/reviews",
@@ -57,12 +57,6 @@ const routes = [
     path: "/home",
     component: "modules/public/Home",
   },
-
-  {
-    path: "/dashboard",
-    component: "modules/private/dashboard/Dashboard",
-    auth: true,
-  },
   {
     path: "/settings",
     component: "modules/private/settings/Settings",
@@ -73,7 +67,7 @@ const routes = [
     path: "/admin/customers",
     component: "modules/private/customer/page/Customers",
     auth: true,
-    role: "Admin",
+    role: "Admin, Staff",
   },
   {
     path: "/reports",

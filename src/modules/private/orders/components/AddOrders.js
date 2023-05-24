@@ -1,8 +1,8 @@
 import React from 'react'
-function Add() {
+function AddOrders() {
   return (
     <div>
-         <form>
+         {/* <form>
       <label htmlFor="name">Name:</label>
       <input type="text" id="name" name="name"/>
 
@@ -13,9 +13,9 @@ function Add() {
       <textarea id="message" name="message" />
 
       <button type="submit">Submit</button>
-    </form>
+    </form> */}
     </div>
   )
 }
 
-export default Add
+export default AddOrders

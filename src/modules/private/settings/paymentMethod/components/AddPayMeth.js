@@ -3,7 +3,6 @@ import { Http } from './../../../../../services/Http';
 import ToastNotification from './../../../../../components/ToastNotification';
 import ToastNotificationContainer from './../../../../../components/ToastNotificationContainer';
 import { Box, Button, Modal, Typography } from "@mui/material";
-import { handleErrorResponse } from "../../../../../utils/helpers";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import FormFieldData from "../../../../../components/FormFieldData";
 
@@ -33,12 +32,10 @@ const options = {
   theme: "colored",
 };
 
-export default function AddServices(props) {
+export default function AddPayMeth(props) {
   const { forceUpdate,  } = props;
   const [formValues, setFormValues] = React.useState({
-    service_name: "",
-    description: "",
-    image: "",
+    payment_name: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -53,9 +50,8 @@ export default function AddServices(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        service_name: "",
-        description: "",
-        image: "",
+        payment_name: "",
+    
       });
      
     }
@@ -63,7 +59,7 @@ export default function AddServices(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/services", formValues).then((res) => {
+    Http.post("/add/payments", formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();
@@ -103,32 +99,14 @@ export default function AddServices(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Services
+            Add Payment Method
           </Typography>
           <FormFieldData
             fullWidth
             label="Service"
-            id="service_name"
-            value={formValues.service_name}
-            name="service_name"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Description"
-            id="description"
-            value={formValues.description}
-            name="description"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Image"
-            id="image"
-            value={formValues.image}
-            name="image"
+            id="payment_name"
+            value={formValues.payment_name}
+            name="payment_name"
             onChange={handleChange}
             sx={inputStyle}
           />

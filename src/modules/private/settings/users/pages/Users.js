@@ -3,10 +3,11 @@ import "../../../assets/table.css";
 import { Paper } from "@mui/material";
 import ToastNotification from "../../../../../components/ToastNotification";
 import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
-import AddUser from "../components/AddUser";
 import DataTable from "../components/DataTable";
 import Http from "../../../../../services/Http";
+import AddUser from "../components/AddUser";
 // import Delete from '../../../orders/components/Delete';
+import ViewUser from './../components/ViewUser';
 
 function Users() {
   const [loading, setLoading] = useState(false);
@@ -14,8 +15,7 @@ function Users() {
     data: [],
     meta: {},
   });
-  //   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
-  // const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
   const [filters, setFilters] = useState({
     limit: 10,
@@ -44,18 +44,17 @@ function Users() {
     });
   };
 
+ 
+  
+
   const columns = [
-    {
-      name: "profile",
-      label: "Image", 
-      customBodyRender: (item) => {
-        return item[0] && item[0].image;
-      }
-    },
+   
     {
       name: "email",
       label: "Email", 
     },
+   
+  
     {
       name: "profile",
       label: "First Name", 
@@ -102,6 +101,37 @@ function Users() {
       name: "role",
       label: "Role",
     },
+    // {
+    //   name: "profile",
+    //   label: "Image", 
+    //   customBodyRender: (item) => {
+    //     return item[0] && item[0].image;
+    //   }
+    // },
+    // {
+    //   name: "profile",
+    //   label: "Image",
+    //   customBodyRender: (item) => {
+    //     return item[0] && item[0].image ? (
+    //       <img src={item[0].image} alt="User Image" style={{ width: 50, height: 50 }} />
+    //     ) : null;
+    //   }
+    // },  
+    {
+      name: "profile",
+      label: "Image",
+      type: "image",
+      customBodyRender: (item) => {
+        return (
+          <img
+            src={item.image}
+            alt="User"
+            style={{ width: 50, height: 50 }}
+          />
+        );
+      },
+    },
+   
   ];
 
   const options = {
@@ -146,6 +176,12 @@ function Users() {
       });
   };
 
+  const handleShow = (id) => {
+    Http.get(`show/users/${id}`)
+      .then();   
+  };
+  
+
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
@@ -163,7 +199,9 @@ function Users() {
         page={userList.meta.curent_page - 1 || 0}
         onChangePage={handleChangePage}
         onRowsChangePage={handleRowChange}
+        onRowClick={handleShow}
       />
+      
     </Paper>
   );
 }

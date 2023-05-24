@@ -10,8 +10,8 @@ import EditIcon from "@mui/icons-material/Edit";
 
 
 const validator = new Reevalidate.Validator({
-    service_name: 'required',
-    description: "required",
+    handling_name: 'required',
+    handling_price: "required|numeric",
    
 });
 
@@ -49,9 +49,8 @@ export default function EditHandling(props) {
 
     const [data, setData] = React.useState({
         values: {
-            service_name: "",
-            description: "",
-            image: "",
+            handling_name: "",
+            handling_price: "",
         },
         errors: validator.errors,
     });
@@ -62,9 +61,9 @@ export default function EditHandling(props) {
         if (selectedItem) {
             setData({
                 values: {
-                    service_name: selectedItem.service_name,
-                    description: selectedItem.description,
-                    image: selectedItem.image,
+                    handling_name: selectedItem.handling_name,
+                    handling_price: selectedItem.handling_price,
+                   
                 }
 
             });
@@ -91,7 +90,7 @@ export default function EditHandling(props) {
     const handleUpdate = () => {
         validator.validateAll(data.values).then(success => {
             if (success) {
-                Http.put(`update/services/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/handlings/${selectedItem.id}`, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);
@@ -112,22 +111,22 @@ export default function EditHandling(props) {
         <>
             <ToastNotificationContainer />
             <Tooltip title="Edit">
-                <EditIcon 
-                    onClick={handleOpen}
-                    sx={{
-                    m: 1,
-                    fontsize: "30px",
-                    cursor: "pointer",
-                    color: "#0d6efd",
-                    position: "relative",
-                    left: "10px",
-                    transition: ".5s",
-                    "&:hover": {
-                        color: "black",
-                    },
-                    }}
-                />
-            </Tooltip>
+            <EditIcon 
+        onClick={handleOpen}
+        sx={{
+          m: 1,
+          fontsize: "30px",
+          cursor: "pointer",
+          color: "#0d6efd",
+          position: "relative",
+          left: "10px",
+          transition: ".5s",
+          "&:hover": {
+            color: "black",
+          },
+        }}
+      />
+        </Tooltip>
             <Modal
               
                 open={open}
@@ -141,28 +140,24 @@ export default function EditHandling(props) {
                     </Typography>
                      <FormFieldData
                         fullWidth
-                        label="Service Name"
-                        value={data.values.service_name}
-                        name="service_name"
+                        label="Handling"
+                        // id="handling_name"
+                        value={data.values.handling_name}
+                        name="handling_name"
                         onChange={handleChange}
                         errors={data.errors}
                         sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
-                        label="Description"
-                        value={data.values.description}
-                        name="description"
+                        label="Price"
+                        // id="handling_price"
+                        value={data.values.handling_price}
+                        name="handling_price"
                         onChange={handleChange}
-                        errors={data.errors}
-                        sx={inputStyle}
-                    />
-                    <FormFieldData
-                        fullWidth
-                        label="Image"
-                        value={data.values.image}
-                        name="image"
-                        onChange={handleChange}
+                        inputProps={{
+                            maxLength: 11,
+                        }}
                         errors={data.errors}
                         sx={inputStyle}
                     />

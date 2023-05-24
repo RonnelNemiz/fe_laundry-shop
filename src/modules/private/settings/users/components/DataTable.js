@@ -19,6 +19,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 // import EditModal from "./EditUser";
 import ConfirmationDialog from '../../../../../components/ConfirmationDialog';
 import EditUsers from './EditUsers';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import ViewUser from "./ViewUser";
 
 function DataTable(props) {
   const {
@@ -34,12 +36,16 @@ function DataTable(props) {
     deleteLoading,
     editLoading,
     forceUpdate,
+    onRowClick,
     ...rest
   } = props;
+
+  
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState({});
   const [showEditModal, setShowEditModal] = useState(false);
+  const [viewUser, setViewUser] = useState(null);
 
     const getCellValue = (item, col) => {
         const keys = (col.name && col.name.split(".")) || [];
@@ -50,6 +56,11 @@ function DataTable(props) {
         keys.forEach((key) => {
             value = value[key] !== undefined && value[key] !== null ? value[key] : "";
         });
+       // Generate image preview URL if column is an image
+    if (col.type === "image" && value) {
+        return <img src={item.image} alt="Preview" style={{ width: "100px" }} />;
+      }
+  
         return value;
     };
 
@@ -92,6 +103,9 @@ function DataTable(props) {
       setShowDeleteModal(false);
     }
   };
+  const handleView = (item) => { 
+    setViewUser(item);
+}
 
     return (
         <Paper>
@@ -120,6 +134,12 @@ function DataTable(props) {
                                     {(onDelete || onEdit || withNumber) && (
                                         <TableCell size="small" sx={{ display: "flex" }}>
                                             {withNumber && itemIndex + 1}
+                                            {onRowClick && (
+                                                <IconButton size="small" color="gray" onClick={() => handleView(item)}>
+                                                    <VisibilityIcon   />
+                                                </IconButton>
+                                        
+                                             )}
                                             {onEdit && (
                                                 <IconButton size="small" color="primary" onClick={() => handleEdit(item)}>
                                                     <EditIcon />
@@ -135,7 +155,7 @@ function DataTable(props) {
                                     {columns.map((col, colIndex) => (
                                         <TableCell size="small" key={colIndex}>
                                             {col.customBodyRender
-                                                ? col.customBodyRender(
+                                                ?  col.customBodyRender(
                                                     getCellValue(item, col),
                                                     item,
                                                     colIndex,
@@ -143,7 +163,8 @@ function DataTable(props) {
                                                 )
                                                 : getCellValue(item, col)}
                                         </TableCell>
-                                    ))}
+                                      
+                                    ))} 
                                 </TableRow>
                             ))}
                     </TableBody>
@@ -179,6 +200,12 @@ function DataTable(props) {
                 onConfirm={handleConfirmEdit}
                 selectedItem={selectedItem}
                 loading={editLoading}
+            />
+             <ViewUser 
+              sx={{width:"200%"}} 
+              viewUser={viewUser} 
+              onClose={() => setViewUser(null) }
+              profileImage={viewUser && viewUser.profileImage} // Pass the profile image as a prop
             />
         </Paper>
     )

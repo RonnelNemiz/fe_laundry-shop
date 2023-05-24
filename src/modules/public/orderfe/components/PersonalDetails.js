@@ -1,158 +1,293 @@
 import React, { useState } from "react";
 import "../order.css";
-import COD from "../../../../assets/images/codIcon.svg";
-import Gcash from "../../../../assets/images/gcashIcon.svg";
+// import COD from "../../../../assets/images/codIcon.svg";
+// import Gcash from "../../../../assets/images/gcashIcon.svg";
+import { Box } from "@mui/material";
+import { Button } from "react-bootstrap";
+import Reevalidate from "ree-validate-18";
+import PaymentMethodFe from "./PaymentMethodFe";
+import FormFieldData from "../../../../components/FormFieldData";
 
-function PersonalDetails() {
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [purok, setPurok] = useState("");
-  const [brgy, setBrgy] = useState("");
-  const [municipality, setMunicipality] = useState("");
-  const [phone, setPhone] = useState("");
-  const [landmark, setLandmark] = useState("");
+const validator = new Reevalidate.Validator({
+  firstname: "required",
+  lastname: "required",
+  purok: "required",
+  brgy: "required",
+  municipality: "required",
+  phone: "required|numeric|regex:^09[0-9]{9}$",
+  landmark: "required",
+});
+
+function PersonalDetails(props) {
+  const {
+    steps,
+    handleBack,
+    handleNext,
+    activeStep,
+    paymentMethodContainer,
+    personalDetailsContainer,
+    setPaymentMethodContainer,
+    setPersonalDetailsContainer,
+  } = props;
+
+  const [personalDetails, setPersonnalDetails] = useState({
+    values: {
+      firstname: "",
+      lastname: "",
+      purok: "",
+      brgy: "",
+      municipality: "",
+      phone: "",
+      landmark: "",
+    },
+    errors: validator.errors,
+  });
+
+  const [paymentMethod, setPaymentMethod] = React.useState({
+    values: {
+      paymentMethod: "",
+    },
+  });
+
+  React.useEffect(() => {
+    if (personalDetailsContainer) {
+      setPersonnalDetails((prev) => ({
+        ...prev,
+        values: {
+          ...personalDetailsContainer,
+        },
+      }));
+    }
+    if (paymentMethodContainer) {
+      setPaymentMethod((prev) => ({
+        ...prev,
+        values: {
+          ...paymentMethodContainer,
+        },
+      }));
+    }
+  }, []);
+
+  //   const handleSelectPaymentMethod = (type) => {
+  //     setPaymentMethod(type);
+  //   };
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setPersonnalDetails((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        [name]: value,
+      },
+    }));
+
+    const { errors } = validator;
+
+    validator.validate(name, value).then((success) => {
+      if (!success) {
+        setPersonnalDetails((prev) => ({
+          ...prev,
+          errors: errors,
+        }));
+      }
+    });
+  };
+
+  //   const handleNextStep = () => {
+  //     localStorage.setItem('personalData', JSON.stringify(personalDetails));
+  //     // localStorage.setItem('paymentMethod', paymentMethod);
+  //     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
+  //     handleNext()
+  //   }
+
+  const handleSelectPayment = (value) => {
+    setPaymentMethod({
+      values: {
+        paymentMethod: value,
+      },
+    });
+  };
+
+  const handleRadioChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+
+    setPaymentMethod((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        [name]: value,
+      },
+    }));
+
+    // const { errors } = validator;
+
+    // validator.validate(name, value).then((success) => {
+    //   if (!success) {
+    //     setPaymentMethod((prev) => ({
+    //       ...prev,
+    //       errors: errors,
+    //     }));
+    //   }
+    // });
+  };
+
+  const handleNextStep = () => {
+    validator.validateAll(personalDetails.values).then((success) => {
+      if (success) {
+        setPersonalDetailsContainer(personalDetails.values);
+        setPaymentMethodContainer(paymentMethod.values);
+        handleNext();
+      } else {
+        setPersonnalDetails((prev) => ({
+          ...prev,
+          errors: validator.errors,
+        }));
+      }
+    });
+  };
+
   return (
-    <main class="main-checkout">
-      <section class="checkout-section">
-        <h1>CHECKOUT</h1>
-        <h5>Personal Details:</h5>
-        <div className="row">
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>First Name</label>
-              <input
-                type="text"
-                name="firstname"
-                className="form-control"
-                placeholder="Enter your first name"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}></input>
+    <Box>
+      <main className="main-checkout">
+        <section className="checkout-section">
+          <h1>CHECKOUT</h1>
+          <h5>Personal Details:</h5>
+          <div className="row">
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>First Name</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="text"
+                  name="firstname"
+                  className="form-control"
+                  placeholder="Enter your first name"
+                  value={personalDetails.values.firstname}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Last Name</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="text"
+                  name="lastname"
+                  className="form-control"
+                  placeholder="Enter your last name"
+                  value={personalDetails.values.lastname}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Purok</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="text"
+                  name="purok"
+                  className="form-control"
+                  placeholder="e.g, Proper"
+                  value={personalDetails.values.purok}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Brgy</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="text"
+                  name="brgy"
+                  className="form-control"
+                  placeholder="e.g, Sta. Margarita"
+                  value={personalDetails.values.brgy}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Municipality</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="text"
+                  name="municipality"
+                  className="form-control"
+                  placeholder="e.g, Hilongos"
+                  value={personalDetails.values.municipality}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Phone</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  name="phone"
+                  className="form-control"
+                  placeholder="Phone"
+                  value={personalDetails.values.phone}
+                  onChange={handleChange}
+                  inputProps={{
+                    inputMode: "numeric",
+                    pattern: "[0-9]*",
+                    maxLength: 11,
+                  }}
+                  required
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Landmark</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="text"
+                  name="landmark"
+                  className="form-control"
+                  placeholder="Landmark"
+                  value={personalDetails.values.landmark}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
             </div>
           </div>
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>Last Name</label>
-              <input
-                type="text"
-                name="lastname"
-                className="form-control"
-                placeholder="Enter your last name"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}></input>
-            </div>
-          </div>
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>Purok</label>
-              <input
-                type="text"
-                name="purok"
-                className="form-control"
-                placeholder="e.g, Proper"
-                value={purok}
-                onChange={(e) => setPurok(e.target.value)}></input>
-            </div>
-          </div>
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>Brgy</label>
-              <input
-                type="text"
-                name="brgy"
-                className="form-control"
-                placeholder="e.g, Sta. Margarita"
-                value={brgy}
-                onChange={(e) => setBrgy(e.target.value)}></input>
-            </div>
-          </div>
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>Municipality</label>
-              <input
-                type="text"
-                name="municipality"
-                className="form-control"
-                placeholder="e.g, Hilongos"
-                value={municipality}
-                onChange={(e) => setMunicipality(e.target.value)}></input>
-            </div>
-          </div>
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>Phone</label>
-              <input
-                type="number"
-                name="phone"
-                className="form-control"
-                placeholder="Phone"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}></input>
-            </div>
-          </div>
-          <div className="col-md-5">
-            <div className="form-group mb-3">
-              <label>Landmark</label>
-              <input
-                type="text"
-                name="landmark"
-                className="form-control"
-                placeholder="Landmark"
-                value={landmark}
-                onChange={(e) => setLandmark(e.target.value)}></input>
-            </div>
-          </div>
-        </div>
 
-        <section className="section-flex py-5">
-          <h2 className="section-flex-title">PAYMENT METHOD</h2>
-          <section>
-            <section className="section-flex margin-bottom-1rem ">
-              <label className="payment-radio-flex">
-                <img src={COD} alt="" />
-                <div className="radio">
-                  <span>COD</span>
-                  <input id="cod" name="payment" type="radio" />
-                </div>
-              </label>
-              <label htmlFor="gcash">
-                <article className="payment-radio-flex">
-                  <img src={Gcash} alt="" />
-                  <div className="radio">
-                    <span>GCASH</span>
-                    <input id="gcash" name="payment" type="radio" />
-                  </div>
-                </article>
-              </label>
-              <label htmlFor="debitcard"></label>
-            </section>
-          </section>
+          <Box>
+            <PaymentMethodFe
+              error={paymentMethod.errors}
+              setFormValues={setPaymentMethod}
+              formValues={paymentMethod.values}
+              handleRadioChange={handleRadioChange}
+              handleSelectPayment={handleSelectPayment}
+            />
+          </Box>
         </section>
-      </section>
-      <section className="order-summary-section">
-        <h1>ORDER SUMMARY</h1>
-        <section className="garment-selected-container" />
-        <input
-          className="discountCodeInput margin-bottom-1rem"
-          type="text"
-          placeholder="Discount Code"
-        />
-        <div className="order-total-container margin-bottom-1rem">
-          <p>Subtotal:</p>
-          <span className="subTotal">0.00</span>
-        </div>
-        <div className="order-total-container margin-bottom-1rem">
-          <p>Delivery cost:</p>
-          <span className="deliveryCost">0.00</span>
-        </div>
-        <div className="order-total-container margin-bottom-1rem">
-          <p>Total:</p>
-          <span className="grandTotal">0.00</span>
-        </div>
-        <button className="checkoutButton" type="submit">
-          CHECKOUT
-        </button>
-      </section>
-    </main>
+      </main>
+
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+        <Button onClick={handleNextStep}>
+          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+        </Button>
+      </Box>
+    </Box>
   );
 }
 

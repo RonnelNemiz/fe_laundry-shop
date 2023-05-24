@@ -5,7 +5,7 @@ import DashCardItem from './DashCardItem';
 
 const DashCard = () => {
   return (
-    <div className="Cards">
+    <div className="chartcards">
     {CardsData.map((card, id) => {
       return (
         <div className="parentContainer" key={id}>

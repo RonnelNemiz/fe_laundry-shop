@@ -17,6 +17,7 @@ function Customers() {
   const [filters, setFilters] = useState({
     limit: 25,
   });
+  
 
   useEffect(() => {
     fetchingData();
@@ -147,6 +148,11 @@ function Customers() {
     });
   };
 
+  const handleShow = (id) => {
+    Http.get(`show/users/${id}`)
+      .then();   
+  };
+
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
@@ -164,7 +170,9 @@ function Customers() {
         page={customerList.meta.curent_page - 1 || 0}
         onChangePage={handleChangePage}
         onRowsChangePage={handleRowChange}
+        onRowClick={handleShow}
       />
+   
     </Paper>
   );
 }

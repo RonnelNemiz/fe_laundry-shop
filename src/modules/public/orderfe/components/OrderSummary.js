@@ -1,34 +1,91 @@
-import React from "react";
+import { Box, Grid, Typography } from "@mui/material";
+import React, { useEffect } from "react";
+import { Button } from "react-bootstrap";
+import FormFieldData from "../../../../components/FormFieldData";
+import Http from "../../../../services/Http";
+import swal from "sweetalert";
+import { useHistory } from "react-router-dom";
 
-function OrderSummary() {
+// const groupedData = (data) => {
+//   if (data) {
+//     return Object.entries(data.values)
+//       .reduce((acc, [key, value]) => {
+//         const [group, item] = key.split("_");
+//         if (!acc[group]) {
+//           acc[group] = {};
+//         }
+//         acc[group][item] = value;
+//         return acc;
+//       }, {});
+//   }
+// };
+
+function OrderSummary(props) {
+  const {
+    steps,
+    handleBack,
+    handleNext,
+    activeStep,
+    garments,
+    handling,
+    paymentMethod,
+    personalDetails,
+  } = props;
+
+  const history = useHistory();
+  // const formData = new FormData();
+  // formData.append('garments', JSON.stringify(garments.values));
+  // formData.append('personalDetails', JSON.stringify(personalDetails.values));
+  // formData.append('paymentMethod', JSON.stringify(paymentMethod.values));
+  // formData.append('handling', JSON.stringify(handling.values));
+
+  const handleSubmit = () => {
+    Http.post("/new/orders", {
+      body: {
+        garments: garments,
+        personal_details: personalDetails,
+        payment_method: paymentMethod,
+        handling: handling,
+      },
+    })
+      .then((res) => {
+        if (res.data.status === 200) {
+          swal("success", "Yehey!!!", "success");
+          history.push("/");
+        }
+      })
+      .catch((err) => {
+        swal("error", err.message, "error");
+      });
+  };
+
   return (
     <div>
-      <main class="main-checkout">
-        <section className="order-summary-section">
-          <h1>ORDER SUMMARY</h1>
-          <section className="garment-selected-container" />
-          <input
-            className="discountCodeInput margin-bottom-1rem"
-            type="text"
-            placeholder="Discount Code"
-          />
-          <div className="order-total-container margin-bottom-1rem">
-            <p>Subtotal:</p>
-            <span className="subTotal">0.00</span>
-          </div>
-          <div className="order-total-container margin-bottom-1rem">
-            <p>Delivery cost:</p>
-            <span className="deliveryCost">0.00</span>
-          </div>
-          <div className="order-total-container margin-bottom-1rem">
-            <p>Total:</p>
-            <span className="grandTotal">0.00</span>
-          </div>
-          <button className="checkoutButton" type="submit">
-            CHECKOUT
-          </button>
-        </section>
-      </main>
+      <Box>
+        <Typography>Handling</Typography>
+        <Typography>{handling.handling}</Typography>
+      </Box>
+      <Box>
+        <Typography>Payment Method</Typography>
+        <Typography>{paymentMethod.handling}</Typography>
+      </Box>
+
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+        <Button
+          color="inherit"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          Back
+        </Button>
+
+        <Button
+          onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+        >
+          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+        </Button>
+      </Box>
     </div>
   );
 }

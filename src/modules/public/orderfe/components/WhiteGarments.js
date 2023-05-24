@@ -9,33 +9,8 @@ import Blouse from "../../../../assets/images/blouse.png";
 import Socks from "../../../../assets/images/socks.png";
 import Handkerchief from "../../../../assets/images/handkerchief.png";
 
-function WhiteGarments() {
-  const [clothingItems, setClothingItems] = useState({
-    tshirt: { checked: false, quantity: 0 },
-    underwear: { checked: false, quantity: 0 },
-    shorts: { checked: false, quantity: 0 },
-    trousers: { checked: false, quantity: 0 },
-    jacket: { checked: false, quantity: 0 },
-    blouse: { checked: false, quantity: 0 },
-    socks: { checked: false, quantity: 0 },
-    handkerchief: { checked: false, quantity: 0 },
-  });
-
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setClothingItems({
-      ...clothingItems,
-      [name]: { ...clothingItems[name], checked },
-    });
-  };
-
-  const handleQuantityChange = (event) => {
-    const { name, value } = event.target;
-    setClothingItems({
-      ...clothingItems,
-      [name]: { ...clothingItems[name], quantity: parseInt(value) },
-    });
-  };
+function WhiteGarments(props) {
+  const { garments, handleChange } = props;
 
   return (
     <div>
@@ -43,7 +18,14 @@ function WhiteGarments() {
         <div className="garment-count-wrapper">
           <article className="garment-count-container">
             <img src={Shirt} alt="Shirt" />
-            <input type="number" required id="shirtInput" defaultValue={0} />
+            <input
+              type="number"
+              required
+              onChange={handleChange}
+              name="whitegart_tshirt"
+              id="shirtInput"
+              value={garments.values.whitegart_tshirt}
+            />
           </article>
           <article className="garment-count-container">
             <img src={Underwear} alt="Underwear" />
@@ -51,28 +33,65 @@ function WhiteGarments() {
               type="number"
               id="underwearInput"
               required
-              defaultValue={0}
+              onChange={handleChange}
+              name="whitegart_underwear"
+              value={garments.values.whitegart_underwear}
             />
           </article>
           <article className="garment-count-container">
             <img src={Short} alt="Short" />
-            <input type="number" id="shortInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="shortInput"
+              required
+              onChange={handleChange}
+              name="whitegart_shorts"
+              value={garments.values.whitegart_shorts}
+            />
           </article>
           <article className="garment-count-container">
             <img src={Trousers} alt="Trousers" />
-            <input type="number" id="trousersInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="trousersInput"
+              required
+              onChange={handleChange}
+              name="whitegart_trousers"
+              value={garments.values.whitegart_trousers}
+            />
           </article>
           <article className="garment-count-container">
             <img src={Jacket} alt="Jacket" />
-            <input type="number" id="hoodieInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="hoodieInput"
+              required
+              onChange={handleChange}
+              name="whitegart_jacket"
+              value={garments.values.whitegart_jacket}
+            />
           </article>
           <article className="garment-count-container">
             <img src={Blouse} alt="Blouse" />
-            <input type="number" id="blouseInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="blouseInput"
+              required
+              onChange={handleChange}
+              name="whitegart_blouse"
+              value={garments.values.whitegart_blouse}
+            />
           </article>
           <article className="garment-count-container">
             <img src={Socks} alt="Socks" />
-            <input type="number" id="socksInput" required defaultValue={0} />
+            <input
+              type="number"
+              id="socksInput"
+              required
+              onChange={handleChange}
+              name="whitegart_socks"
+              value={garments.values.whitegart_socks}
+            />
           </article>
           <article className="garment-count-container">
             <img src={Handkerchief} alt="Handkerchief" />
@@ -80,7 +99,9 @@ function WhiteGarments() {
               type="number"
               id="handkerchiefInput"
               required
-              defaultValue={0}
+              onChange={handleChange}
+              name="whitegart_handkerchief"
+              value={garments.values.whitegart_handkerchief}
             />
           </article>
         </div>

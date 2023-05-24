@@ -35,7 +35,7 @@ function Sidebar() {
 			label: "Orders",
 			icon: <ShoppingCartIcon />,
 		},
-		
+
 		{
 			path: "/reports",
 			label: "Reports",
@@ -49,7 +49,7 @@ function Sidebar() {
 		{
 			path: "/sms",
 			label: "Sms",
-			icon: <SmsIcon/>,
+			icon: <SmsIcon />,
 		},
 		{
 			path: "/settings",
@@ -64,7 +64,7 @@ function Sidebar() {
 
 	return (
 		<div>
-			
+
 			<List>
 				{links.map((link, index) => (
 					<ListItem
@@ -83,7 +83,7 @@ function Sidebar() {
 						<ListItemButton
 							onClick={() => handleNavigate(link.path)}
 							selected={link.path === location.pathname}>
-							<ListItemIcon sx={{ color: "#0E4C91", marginLeft:"8px"}}>{link.icon}</ListItemIcon>
+							<ListItemIcon sx={{ color: "#0E4C91", marginLeft: "8px" }}>{link.icon}</ListItemIcon>
 							<ListItemText primary={link.label} />
 						</ListItemButton>
 					</ListItem>
