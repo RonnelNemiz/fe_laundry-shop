@@ -87,7 +87,7 @@ const Orders = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isKiloModalOpen, setIsKiloModalOpen] = useState(false);
 const [selectedOrderId, setSelectedOrderId] = useState("");
-const [kiloIndexes, setKiloIndexes] = useState({});
+// const [kiloIndexes, setKiloIndexes] = useState({});
 
 
 
@@ -95,15 +95,8 @@ const [kiloIndexes, setKiloIndexes] = useState({});
     setIsLoading(true);
     Http.get("/orders")
       .then((res) => {
-        const ordersData = res.data;
         setOrders(res.data);
         setIsLoading(false);
-        const indexes = {};
-      ordersData.forEach((order, index) => {
-        indexes[order.id] = index;
-      });
-      setKiloIndexes(indexes);
-      localStorage.setItem("orders", JSON.stringify(ordersData)); // Store orders in localStorage
       })
       .catch((err) => {
         console.log(err);
@@ -178,7 +171,6 @@ const closeModal = () => {
 const handleKiloSubmit = (orderId, kiloValue) => {
   Http.put(`/orders/${orderId}/kilo`, { kilo: kiloValue })
     .then(() => {
-      // Update the kilo value for the selected order
       const updatedOrders = orders.map((order) => {
         if (order.id === orderId) {
           return {
@@ -190,12 +182,8 @@ const handleKiloSubmit = (orderId, kiloValue) => {
       });
 
       setOrders(updatedOrders);
-      const updatedIndexes = { ...kiloIndexes };
-  updatedIndexes[orderId] = updatedOrders.findIndex((order) => order.id === orderId);
-  setKiloIndexes(updatedIndexes);
-
-  localStorage.setItem("orders", JSON.stringify(updatedOrders)); // Update localStorage
       closeModal();
+      forceUpdate();
     })
     .catch((error) => {
       console.log(error);
@@ -284,14 +272,12 @@ const handleKiloSubmit = (orderId, kiloValue) => {
                 <TableCell size="small">{data.user.profile?.last_name ?? "Admin"}</TableCell>
                 <TableCell size="small">{data.handling_id === 1 && "Pickup & Delivery" || data.handling_id === 2 && "Pickup" || data.handling_id === 3 && "Delivery" || data.handling_id === 4 && "Walk-in"}</TableCell>
                 <TableCell size="small">{data.handling_id === 1 && "40" || data.handling_id === 2 && "20" || data.handling_id === 3 && "20" || data.handling_id === 4 && "0"}</TableCell>
-                {/* <TableCell size="small">{data.kilo}</TableCell> */}
-                <TableCell size="small"   onClick={() => openModal(data.id)}>
-                  <span
-                    onClick={() => openModal(data.id)}
-                    style={{ textDecoration: "underline", cursor: "pointer" }}
-                  >
-                    {data.kilo}
-                  </span>
+                 <TableCell size="small"  onClick={() => openModal(data.id)}>
+                    {data && data.categories.map((category) => (
+                      <span key={category.id}>
+                      {category.pivot.kilo}
+                      </span>
+                    ))}
                 </TableCell>
                 <TableCell size="small">{data.total}</TableCell>
                 <TableCell size="small" style={makeStyles(data.status)} onClick={() => handleUpdate(data.id, data.status)}>
@@ -301,7 +287,7 @@ const handleKiloSubmit = (orderId, kiloValue) => {
               {data.payment_status}
             </TableCell>
                 {/* <TableCell size="small">{data.payment_status}</TableCell> */}
-                <TableCell size="small">{data.payment_id === 1 && "GCASH" || data.payment_id === 2 && "COD" ||  data.payment_id === 3 && "SAGPA"}</TableCell>
+                <TableCell size="small">{data.payment_id === 1 && "GCASH" || data.payment_id === 2 && "COD" ||  data.payment_id === 3 && "CASH"}</TableCell>
                 <TableCell size="small">{data.approved_by}</TableCell>
                 <TableCell size="small">{data.created_at}</TableCell>
                
@@ -316,11 +302,6 @@ const handleKiloSubmit = (orderId, kiloValue) => {
       onClose={closeModal}
       onSubmit={(kiloValue) => handleKiloSubmit(selectedOrderId, kiloValue)}
   
-        // Handle the submission logic here
-        // You can use the selectedOrderId and kiloValue
-        // Example: Call an API or update the orders list
-
-    
     />
 
     {selectedOrder && (
