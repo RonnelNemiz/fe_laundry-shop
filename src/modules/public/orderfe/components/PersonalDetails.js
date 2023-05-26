@@ -16,6 +16,7 @@ const validator = new Reevalidate.Validator({
   municipality: "required",
   phone: "required|numeric|regex:^09[0-9]{9}$",
   landmark: "required",
+  email: "required",
 });
 
 function PersonalDetails(props) {
@@ -39,6 +40,7 @@ function PersonalDetails(props) {
       municipality: "",
       phone: "",
       landmark: "",
+      email:"",
     },
     errors: validator.errors,
   });
@@ -256,6 +258,20 @@ function PersonalDetails(props) {
                   className="form-control"
                   placeholder="Landmark"
                   value={personalDetails.values.landmark}
+                  onChange={handleChange}
+                ></FormFieldData>
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="form-group mb-3">
+                <label>Email</label>
+                <FormFieldData
+                  errors={personalDetails.errors}
+                  type="email"
+                  name="email"
+                  className="form-control"
+                  placeholder="Email"
+                  value={personalDetails.values.email}
                   onChange={handleChange}
                 ></FormFieldData>
               </div>

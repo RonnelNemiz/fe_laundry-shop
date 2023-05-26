@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import FormFieldData from "../../../../components/FormFieldData";
+// import FormFieldData from "../../../../components/FormFieldData";
 import Http from "../../../../services/Http";
 import swal from "sweetalert";
 import { useHistory } from "react-router-dom";
@@ -29,7 +29,8 @@ function OrderSummary(props) {
     garments,
     handling,
     paymentMethod,
-    personalDetails,
+    // personalDetails,
+    personal,
   } = props;
 
   const history = useHistory();
@@ -39,11 +40,12 @@ function OrderSummary(props) {
   // formData.append('paymentMethod', JSON.stringify(paymentMethod.values));
   // formData.append('handling', JSON.stringify(handling.values));
 
+  console.log(personal)
   const handleSubmit = () => {
     Http.post("/new/orders", {
       body: {
         garments: garments,
-        personal_details: personalDetails,
+        personal_details: personal,
         payment_method: paymentMethod,
         handling: handling,
       },
