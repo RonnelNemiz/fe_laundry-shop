@@ -1,8 +1,8 @@
 import React from 'react'
-import Navbar from '../../layouts/public/Navbar';
-import Footer from '../../layouts/public/Footer';
 import './contact.css';
-import '../../layouts/public/navbar.css';
+import '../../../layouts/public/navbar.css';
+import Navbar from '../../../layouts/public/Navbar';
+import Footer from '../../../layouts/public/Footer';
 
 function Contact() {
     return (

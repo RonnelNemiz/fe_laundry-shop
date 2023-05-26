@@ -16,13 +16,13 @@ const ViewOrders = ({ showOrder, onClose }) => {
 
   return (
     <>
-      <Dialog open={true} onClose={onClose}>
+      <Dialog open={true} onClose={onClose} >
         <DialogTitle
           sx={{ color: "#1976d2", fontWeight: "500", textAlign: "center" }}
         >
           User Details
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ overflowY: "auto", maxHeight: "500px" }}>
           {/* <p><b>:</b> {viewOrder.email}</p> */}
           <p>
             <b>Transaction Number:</b> {showOrder.trans_number}
@@ -38,6 +38,30 @@ const ViewOrders = ({ showOrder, onClose }) => {
               showOrder.profile[0] &&
               showOrder.profile[0].last_name} */}
               {showOrder.user.profile?.last_name ?? "ADMIN"}
+          </p>
+          <p>
+            <b>Purok:</b>{" "}
+              {showOrder.user.profile?.purok}
+          </p>
+          <p>
+            <b>Brgy:</b>{" "}
+              {showOrder.user.profile?.brgy}
+          </p>
+          <p>
+            <b>Municipality:</b>{" "}
+              {showOrder.user.profile?.municipality}
+          </p>
+          <p>
+            <b>Landmark:</b>{" "}
+              {showOrder.user.profile?.land_mark}
+          </p>
+          <p>
+            <b>Contact Number:</b>{" "}
+              {showOrder.user.profile?.contact_number}
+          </p>
+          <p>
+            <b>Email:</b>{" "}
+              {showOrder.user.email}
           </p>
           <p>
             <b>Order Status:</b> {showOrder.status}
@@ -60,24 +84,24 @@ const ViewOrders = ({ showOrder, onClose }) => {
             {showOrder.payment_id === 1 && "GCASH" || showOrder.payment_id === 2 && "COD" ||  showOrder.payment_id === 3 && "SAGPA"}
           </p>
           <p>
-  <b>Categories:</b>{" "}
-  <Typography component="ul">
-    {showOrder &&
-      showOrder.categories &&
-      showOrder?.categories?.map((category, i) => (
-        <Typography key={i} component="li">
-          {category.name} (Quantity: {category.pivot.quantity})
-        </Typography>
-      ))}
-  </Typography>
-</p>
+            <b>Categories:</b>{" "}
+            <Typography component="ul">
+              {showOrder &&
+                showOrder.categories &&
+                showOrder?.categories?.map((category, i) => (
+                  <Typography key={i} component="li">
+                    {category.name} (Quantity: {category.pivot.quantity})
+                  </Typography>
+                ))}
+            </Typography>
+          </p>
 
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose}>Close</Button>
-        </DialogActions>
-      </Dialog>
-    </>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={onClose}>Close</Button>
+              </DialogActions>
+            </Dialog>
+          </>
   );
 };
 

@@ -1,19 +1,19 @@
 const routes = [
   {
     path: "/",
-    component: "modules/public/Home",
+    component: "modules/public/home/Home",
   },
   {
     path: "/about",
-    component: "modules/public/About",
+    component: "modules/public/about/About",
   },
   {
     path: "/contact",
-    component: "modules/public/Contact",
+    component: "modules/public/contact/Contact",
   },
   {
     path: "/services",
-    component: "modules/public/Services",
+    component: "modules/public/services/Services",
   },
 
   {
@@ -55,7 +55,7 @@ const routes = [
   },
   {
     path: "/home",
-    component: "modules/public/Home",
+    component: "modules/public/home/Home",
   },
   {
     path: "/settings",

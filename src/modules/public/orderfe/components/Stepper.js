@@ -129,7 +129,7 @@ export default function HorizontalLinearStepper(props) {
               activeStep={activeStep}
               garments={garments}
               handling={handling}
-              personalDetails={personalDetails}
+              personal={personalDetails}
               paymentMethod={paymentMethod}
             />
           )}

@@ -1,9 +1,9 @@
 import React from 'react'
-import Navbar from '../../layouts/public/Navbar';
-import Footer from '../../layouts/public/Footer';
+import Footer from '../../../layouts/public/Footer';
 import './about.css';
-import '../../layouts/public/navbar.css';
-import imageA from '../../assets/images/imageA.jpeg';
+import '../../../layouts/public/navbar.css';
+import imageA from '../../../assets/images/imageA.jpeg';
+import Navbar from '../../../layouts/public/Navbar';
 
 
 
@@ -113,6 +113,7 @@ function About() {
 		  </section>
 	   </div>
 			<Footer/>
+			
 	  </div>
 	)
   }

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Box, Button, Paper, Rating, TextField, Typography } from '@mui/material';
-import ToastNotification from '../../components/ToastNotification';
-import { handleErrorResponse } from '../../utils/helpers';
-import Http from '../../services/Http';
+import Http from '../../../services/Http';
+import ToastNotification from '../../../components/ToastNotification';
+import { handleErrorResponse } from '../../../utils/helpers';
+
 
 const reviewBox = {
   width: '50%',
