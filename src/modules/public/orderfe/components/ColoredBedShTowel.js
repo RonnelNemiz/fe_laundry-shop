@@ -1,5 +1,4 @@
 import React from "react";
-// import { NavLink } from "react-router-dom";
 import BedSheet from "../../../../assets/images/bed-sheets.png";
 import Towel from "../../../../assets/images/towel.png";
 import Curtain from "../../../../assets/images/curtains.png";

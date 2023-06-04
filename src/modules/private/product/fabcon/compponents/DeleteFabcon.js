@@ -23,7 +23,7 @@ const options = {
   theme: "colored",
 };
 
-export default function DeleteHandling(props) {
+export default function DeleteFabcon(props) {
   const { selectedItem, onDelete, forceUpdate } = props;
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -38,7 +38,7 @@ export default function DeleteHandling(props) {
 
   const handleDelete = (id) => {
     setLoading(true);
-    Http.delete(`/delete/handlings/${id}`)
+    Http.delete(`/delete/fabcons/${id}`)
       .then((res) => {
         onDelete();
         forceUpdate();
@@ -69,10 +69,10 @@ export default function DeleteHandling(props) {
         }}
       /></Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Delete Handling</DialogTitle>
+        <DialogTitle>Delete Fabcon</DialogTitle>
         <DialogContent>
           <DialogContentText sx={{fontWeight:"500"}}>
-            Are you sure you want to delete the handling "{selectedItem.handling_name}"?
+            Are you sure you want to delete the fabcon "{selectedItem.fabcon_name}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

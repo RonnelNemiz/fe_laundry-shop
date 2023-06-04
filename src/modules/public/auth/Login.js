@@ -3,7 +3,6 @@ import "./auth.css";
 import { Link, useHistory } from "react-router-dom";
 import swal from "sweetalert";
 import machine from "./../../../assets/images/machine.gif";
-import Http from "./../../../services/Http";
 import { isAuth } from "../../../utils/helpers";
 import * as service from './service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

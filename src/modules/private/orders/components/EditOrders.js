@@ -5,17 +5,12 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  InputLabel,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import FormFieldData from "../../../../components/FormFieldData";
 import Http from "../../../../services/Http";
-import { FormControl } from "react-bootstrap";
 
 const EditOrders = ({ order, onClose, onUpdate }) => {
   const [editedOrder, setEditedOrder] = useState(order);
-//   const [handlingOptions, setHandlingOptions] = useState([]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -41,26 +36,6 @@ const EditOrders = ({ order, onClose, onUpdate }) => {
         console.log(err);
       });
   };
-//   const handleHandling = () => {
-//     Http.get("/show/handlings").then((res) => {
-//       setHandling(res.data.handling);
-//     });
-//   };
-// React.useEffect(() => {
-//     const handleHandling = () => {
-//       Http.get("/show/handlings")
-//         .then((res) => {
-//           setHandlingOptions(res.data.handling);
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//           // Handle the error appropriately
-//         });
-//     };
-  
-//     handleHandling();
-//   }, []);
-  
 
   return (
     <Dialog open={true} onClose={onClose}>
@@ -124,25 +99,7 @@ const EditOrders = ({ order, onClose, onUpdate }) => {
             fullWidth
             margin="normal"
           />
-         {/* <FormControl fullWidth size="small" variant="outlined" margin="dense">
-            <InputLabel id="handling-label">Handling</InputLabel>
-            <Select
-                labelId="handling-label"
-                name="handling_id"
-                id="handling_id"
-                label="Handling"
-                value={editedOrder.handling_id}
-                onChange={handleInputChange}
-            >
-                {handlingOptions.map((handling) => (
-                <MenuItem key={handling.id} value={handling.id}>
-                    {handling.handling_name}
-                </MenuItem>
-                ))}
-            </Select>
-            </FormControl> */}
-
-      
+  
         </form>
       </DialogContent>
       <DialogActions>

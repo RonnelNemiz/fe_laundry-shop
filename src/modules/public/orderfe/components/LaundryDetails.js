@@ -10,6 +10,7 @@ import Reevalidate from "ree-validate-18";
 
 const validator = new Reevalidate.Validator({
   handling: "required",
+  service: "required",
 });
 
 function LaundryDetails(props) {
@@ -22,6 +23,8 @@ function LaundryDetails(props) {
     setGarmentsContainer,
     handlingContainer,
     setHandlingContainer,
+    serviceContainer,
+    setServiceContainer,
   } = props;
 
   const [selectedPage, setSelectedPage] = useState(0);
@@ -62,9 +65,19 @@ function LaundryDetails(props) {
   const [formValues, setFormValues] = React.useState({
     values: {
       handling: "",
+      // service: "",
     },
     errors: validator.errors,
   });
+
+  const [servformValues, setServFormValues] = React.useState({
+    values: {
+      service: "",
+    },
+    errors: validator.errors,
+  });
+
+ 
 
   useEffect(() => {
     if (garmentsContainer) {
@@ -83,22 +96,40 @@ function LaundryDetails(props) {
         },
       }));
     }
+    if (serviceContainer) {
+      setServFormValues((prev) => ({
+        ...prev,
+        values: {
+          ...serviceContainer,
+        },
+      }));
+    }
+   
   }, []);
 
   const handleSelectHandling = (value, price) => {
-    setFormValues({
+    setFormValues((prev) => ({
+      ...prev,
       values: {
+        ...prev.values,
         handling: value,
         price: price,
       },
-    });
+    }));
   };
-
+  
   const handleRadioChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
 
     setFormValues((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        [name]: value,
+      },
+    }));
+    setServFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
@@ -114,8 +145,23 @@ function LaundryDetails(props) {
           ...prev,
           errors: errors,
         }));
+        setServFormValues((prev) => ({
+          ...prev,
+          errors: errors,
+        }));
       }
     });
+  };
+
+  const handleSelectService = (value, price) => {
+    setServFormValues((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        service: value,
+        price: price,
+      },
+    }));
   };
 
   const handleChange = (e) => {
@@ -132,15 +178,20 @@ function LaundryDetails(props) {
   };
 
   const handleNextStep = () => {
-    validator.validateAll(formValues.values).then((success) => {
+    validator.validateAll(formValues.values, servformValues.values).then((success) => {
       if (success) {
         setGarmentsContainer(garments.values);
         setHandlingContainer(formValues.values);
+        setServiceContainer(servformValues.values);
         handleNext();
-      } else {
+      } else{
         setFormValues((prev) => ({
           ...prev,
           errors: validator.errors,
+        }));
+        setServFormValues((prev) => ({
+          ...prev,
+          errors: validator.errors, // or set the specific error for servformValues
         }));
       }
     });
@@ -185,6 +236,10 @@ function LaundryDetails(props) {
           formValues={formValues}
           handleRadioChange={handleRadioChange}
           handleSelectHandling={handleSelectHandling}
+          handleSelectService={handleSelectService}
+          errorServ={servformValues.errors}
+          setServFormValues={setServFormValues}
+          servformValues={servformValues}
         />
       </Box>
       <main className="payment-main">
@@ -215,13 +270,7 @@ function LaundryDetails(props) {
         >
           Back
         </Button>
-        {/* <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )} */}
-
+       
         <Button onClick={handleNextStep}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>

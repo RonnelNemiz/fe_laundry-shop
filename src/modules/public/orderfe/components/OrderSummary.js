@@ -1,24 +1,10 @@
-import { Box, Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, Typography } from "@mui/material";
+import React from "react";
 import { Button } from "react-bootstrap";
-// import FormFieldData from "../../../../components/FormFieldData";
 import Http from "../../../../services/Http";
 import swal from "sweetalert";
 import { useHistory } from "react-router-dom";
 
-// const groupedData = (data) => {
-//   if (data) {
-//     return Object.entries(data.values)
-//       .reduce((acc, [key, value]) => {
-//         const [group, item] = key.split("_");
-//         if (!acc[group]) {
-//           acc[group] = {};
-//         }
-//         acc[group][item] = value;
-//         return acc;
-//       }, {});
-//   }
-// };
 
 function OrderSummary(props) {
   const {
@@ -28,18 +14,12 @@ function OrderSummary(props) {
     activeStep,
     garments,
     handling,
+    service,
     paymentMethod,
-    // personalDetails,
     personal,
   } = props;
 
   const history = useHistory();
-  // const formData = new FormData();
-  // formData.append('garments', JSON.stringify(garments.values));
-  // formData.append('personalDetails', JSON.stringify(personalDetails.values));
-  // formData.append('paymentMethod', JSON.stringify(paymentMethod.values));
-  // formData.append('handling', JSON.stringify(handling.values));
-
   console.log(personal)
   const handleSubmit = () => {
     Http.post("/new/orders", {
@@ -48,6 +28,7 @@ function OrderSummary(props) {
         personal_details: personal,
         payment_method: paymentMethod,
         handling: handling,
+        service: service,
       },
     })
       .then((res) => {
@@ -63,6 +44,10 @@ function OrderSummary(props) {
 
   return (
     <div>
+       <Box>
+        <Typography>Service</Typography>
+        <Typography>{service.service}</Typography>
+      </Box>
       <Box>
         <Typography>Handling</Typography>
         <Typography>{handling.handling}</Typography>

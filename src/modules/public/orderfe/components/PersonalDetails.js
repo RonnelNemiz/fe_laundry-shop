@@ -70,10 +70,6 @@ function PersonalDetails(props) {
     }
   }, []);
 
-  //   const handleSelectPaymentMethod = (type) => {
-  //     setPaymentMethod(type);
-  //   };
-
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -98,13 +94,6 @@ function PersonalDetails(props) {
     });
   };
 
-  //   const handleNextStep = () => {
-  //     localStorage.setItem('personalData', JSON.stringify(personalDetails));
-  //     // localStorage.setItem('paymentMethod', paymentMethod);
-  //     localStorage.setItem('paymentMethod', JSON.stringify(paymentMethod));
-  //     handleNext()
-  //   }
-
   const handleSelectPayment = (value) => {
     setPaymentMethod({
       values: {
@@ -124,17 +113,6 @@ function PersonalDetails(props) {
         [name]: value,
       },
     }));
-
-    // const { errors } = validator;
-
-    // validator.validate(name, value).then((success) => {
-    //   if (!success) {
-    //     setPaymentMethod((prev) => ({
-    //       ...prev,
-    //       errors: errors,
-    //     }));
-    //   }
-    // });
   };
 
   const handleNextStep = () => {

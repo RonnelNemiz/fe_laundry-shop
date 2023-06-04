@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import {  Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
 import { Button } from "react-bootstrap";
 
-const KiloModal = ({ isOpen, onClose, onSubmit}) => {
-  const [kiloValue, setKiloValue] = useState("");
+const RefNumModal = ({ isOpen, onClose, onSubmit }) => {
+  const [refValue, setRefValue] = useState("");
 
   const handleSubmit = () => {
-    onSubmit(kiloValue);
+    onSubmit(refValue);
   };
   const handleInputChange = (e) => {
-    setKiloValue(e.target.value);
+    setRefValue(e.target.value);
   };
   return (
 
 
   <Dialog open={isOpen} onClose={onClose}>
-  <DialogTitle>Enter Kilo</DialogTitle>
+  <DialogTitle>Enter Reference No.</DialogTitle>
   <DialogContent>
-    <input type="number"  label="Kilo" value={kiloValue} onChange={handleInputChange} />
+    <input type="number"  label="Reference#" value={refValue} onChange={handleInputChange} />
   </DialogContent>
   <DialogActions>
     <Button onClick={onClose}>Cancel</Button>
@@ -27,4 +27,4 @@ const KiloModal = ({ isOpen, onClose, onSubmit}) => {
 );
 };
 
-export default KiloModal;
+export default RefNumModal;

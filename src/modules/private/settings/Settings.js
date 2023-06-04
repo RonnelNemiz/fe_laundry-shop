@@ -10,8 +10,6 @@ import CMS from './cms/CMS';
 import Handling from './handling/Handling';
 import PaymentMethod from './paymentMethod/pages/PaymentMethod';
 
-
-
 export default function LabTabs() {
   const [value, setValue] = React.useState('1');
 

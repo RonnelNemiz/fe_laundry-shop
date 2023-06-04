@@ -6,8 +6,6 @@ import ToastNotificationContainer from "../../../../../components/ToastNotificat
 import DataTable from "../components/DataTable";
 import Http from "../../../../../services/Http";
 import AddUser from "../components/AddUser";
-// import Delete from '../../../orders/components/Delete';
-import ViewUser from './../components/ViewUser';
 
 function Users() {
   const [loading, setLoading] = useState(false);
@@ -43,9 +41,6 @@ function Users() {
       setLoading(false);
     });
   };
-
- 
-  
 
   const columns = [
    
@@ -101,22 +96,7 @@ function Users() {
       name: "role",
       label: "Role",
     },
-    // {
-    //   name: "profile",
-    //   label: "Image", 
-    //   customBodyRender: (item) => {
-    //     return item[0] && item[0].image;
-    //   }
-    // },
-    // {
-    //   name: "profile",
-    //   label: "Image",
-    //   customBodyRender: (item) => {
-    //     return item[0] && item[0].image ? (
-    //       <img src={item[0].image} alt="User Image" style={{ width: 50, height: 50 }} />
-    //     ) : null;
-    //   }
-    // },  
+  
     {
       name: "profile",
       label: "Image",

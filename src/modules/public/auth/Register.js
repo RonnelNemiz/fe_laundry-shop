@@ -11,13 +11,6 @@ import "./auth.css";
 function Register() {
     const history = useHistory();
     const [visible, setVisible] = useState(true);
-	// const [showPassword, setShowPassword] = React.useState(false);
-
-	// const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-	// const handleMouseDownPassword = (event) => {
-	// 	event.preventDefault();
-	// };
 
 	const [registerInput, setRegister] = useState({
 		first_name: '',
