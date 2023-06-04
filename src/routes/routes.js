@@ -64,6 +64,12 @@ const routes = [
     role: "Admin",
   },
   {
+    path: "/products",
+    component: "modules/private/product/Product",
+    auth: true,
+    role: "Admin",
+  },
+  {
     path: "/admin/customers",
     component: "modules/private/customer/page/Customers",
     auth: true,

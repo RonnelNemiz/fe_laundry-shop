@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { TextField, Button, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 import Http from '../../../../services/Http';
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -6,10 +6,11 @@ import ReplyIcon from '@mui/icons-material/Reply';
 
 const CustomerReviews = () => {
   const [reviews, setReviews] = useState([]);
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     fetchReviews();
-  }, []);
+  }, [ignored]);
 
   const fetchReviews = () => {
     Http.get("/reviews",{headers:{
@@ -45,6 +46,7 @@ const CustomerReviews = () => {
       Authorization: `Bearer ${localStorage.getItem('access_token')}`
     }})
       .then(response => {
+        forceUpdate();
         console.log('Review deleted successfully:', response.data);
         // Update the reviews state or perform any other necessary actions
       })
@@ -111,7 +113,7 @@ const ReviewItem = ({ review, onReplySubmit, onDelete }) => {
 
   return (
     <Box my={2}>
-      <Typography variant="medium">{review.user.first_name} {review.user.last_name}</Typography>
+      <Typography variant="medium">{review.user?.profile?.first_name} {review.user?.profile?.last_name}</Typography>
       <Typography>Rating: {review.ratings}</Typography>
       <Typography>Comment: {review.comments}</Typography>
       {adminReply && <Typography>Admin Reply: {adminReply}</Typography>}

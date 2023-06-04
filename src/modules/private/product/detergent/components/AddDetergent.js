@@ -32,12 +32,12 @@ const options = {
   theme: "colored",
 };
 
-export default function AddServices(props) {
+export default function AddDetergent(props) {
   const { forceUpdate,  } = props;
   const [formValues, setFormValues] = React.useState({
-    service_name: "",
-    service_price: "",
-    description: "",
+    detergent_name: "",
+    detergent_price: "",
+    detergent_scoop: "",
     image: "",
   });
   const [open, setOpen] = React.useState(false);
@@ -53,9 +53,9 @@ export default function AddServices(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        service_name: "",
-        service_price: "",
-        description: "",
+        detergent_name: "",
+        detergent_price: "",
+        detergent_scoop: "",
         image: "",
       });
      
@@ -64,7 +64,7 @@ export default function AddServices(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/services", formValues).then((res) => {
+    Http.post("/add/detergents", formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();
@@ -104,14 +104,14 @@ export default function AddServices(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Services
+            Add Detergent
           </Typography>
           <FormFieldData
             fullWidth
-            label="Service"
-            id="service_name"
-            value={formValues.service_name}
-            name="service_name"
+            label="Detergent"
+            id="detergent_name"
+            value={formValues.detergent_name}
+            name="detergent_name"
             onChange={handleChange}
             sx={inputStyle}
           />
@@ -119,18 +119,18 @@ export default function AddServices(props) {
             fullWidth
             label="Price"
             type="number"
-            id="service_price"
-            value={formValues.service_price}
-            name="service_price"
+            id="detergent_price"
+            value={formValues.detergent_price}
+            name="detergent_price"
             onChange={handleChange}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
-            label="Description"
-            id="description"
-            value={formValues.description}
-            name="description"
+            label="Scoop"
+            id="detergent_scoop"
+            value={formValues.detergent_scoop}
+            name="detergent_scoop"
             onChange={handleChange}
             sx={inputStyle}
           />

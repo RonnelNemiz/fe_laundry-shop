@@ -10,10 +10,10 @@ import EditIcon from "@mui/icons-material/Edit";
 
 
 const validator = new Reevalidate.Validator({
-    service_name: 'required',
-    description: "required",
-    service_price: "required",
-    image: "        ",
+    fabcon_name: 'required',
+    fabcon_price: "required",
+    fabcon_scoop: "required",
+    image: " ",
 });
 
 const style = {
@@ -41,7 +41,7 @@ const inputStyle = {
     mb: 1,
   };
 
-export default function EditServices(props) {
+export default function EditDetergent(props) {
     const { selectedItem, loading, forceUpdate } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -50,9 +50,9 @@ export default function EditServices(props) {
 
     const [data, setData] = React.useState({
         values: {
-            service_name: "",
-            description: "",
-            service_price:"",
+            detergent_name: "",
+            detergent_price: "",
+            detergent_scoop: "",
             image: "",
         },
         errors: validator.errors,
@@ -64,9 +64,9 @@ export default function EditServices(props) {
         if (selectedItem) {
             setData({
                 values: {
-                    service_name: selectedItem.service_name,
-                    description: selectedItem.description,
-                    service_price: selectedItem.service_price,
+                    detergent_name: selectedItem.detergent_name,
+                    detergent_price: selectedItem.detergent_price,
+                    detergent_scoop: selectedItem.detergent_scoop,
                     image: selectedItem.image,
                 }
 
@@ -95,14 +95,14 @@ export default function EditServices(props) {
         validator.validateAll(data.values).then(success => {
             if (success) {
                 const formData = new FormData();
-            formData.append('service_name', data.values.service_name);
-            formData.append('description', data.values.description);
-            formData.append('service_price', data.values.service_price);
+            formData.append('detergent_name', data.values.detergent_name);
+            formData.append('detergent_price', data.values.detergent_price);
+            formData.append('detergent_scoop', data.values.detergent_scoop);
             
             if (data.values.image instanceof File) {
                 formData.append('image', data.values.image);
             }
-                Http.put(`update/services/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/detergents/${selectedItem.id}`, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);
@@ -150,31 +150,31 @@ export default function EditServices(props) {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Edit User
+                        Edit Detergent
                     </Typography>
                      <FormFieldData
                         fullWidth
-                        label="Service Name"
-                        value={data.values.service_name}
-                        name="service_name"
+                        label="Detergent Name"
+                        value={data.values.detergent_name}
+                        name="detergent_name"
                         onChange={handleChange}
                         errors={data.errors}
                         sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
-                        label="Description"
-                        value={data.values.description}
-                        name="description"
+                        label="Price"
+                        value={data.values.detergent_price}
+                        name="detergent_price"
                         onChange={handleChange}
-                        // errors={data.errors}
+                        errors={data.errors}
                         sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
-                        label="Price"
-                        value={data.values.service_price}
-                        name="service_price"
+                        label="Scoop"
+                        value={data.values.detergent_scoop}
+                        name="detergent_scoop"
                         onChange={handleChange}
                         errors={data.errors}
                         sx={inputStyle}

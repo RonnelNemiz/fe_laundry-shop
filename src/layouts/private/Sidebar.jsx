@@ -14,6 +14,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
 import "../../assets/css/admin.css";
 import logo1 from '../../assets/images/laundrylogo.png'
+import Inventory2Icon from '@mui/icons-material/Inventory2';
 
 function Sidebar() {
 	const history = useHistory();
@@ -55,6 +56,11 @@ function Sidebar() {
 			path: "/settings",
 			label: "Settings",
 			icon: <SettingsIcon />,
+		},
+		{
+			path: "/products",
+			label: "Products",
+			icon: <Inventory2Icon />,
 		},
 	];
 

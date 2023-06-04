@@ -268,31 +268,30 @@ const handleSubmit = (e) => {
             sx={inputStyle}
           />
           <CssInput fullWidth variant="standard">
-                        <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                        <Input
-                            id="standard-adornment-password"
-                            type={showPassword ? 'text' : 'password'}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                            value={formValues.password}
-                            name="password"
-                            onChange={handleChange}
-                            fullWidth
-                            sx={inputStyle}
+              <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
+                  <Input
+                    id="standard-adornment-password"
+                    type={showPassword ? 'text' : 'password'}
+                    endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end">
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                      </InputAdornment>
+                        }
+                        label="Password"
+                        value={formValues.password}
+                        name="password"
+                        onChange={handleChange}
+                        fullWidth
+                        sx={inputStyle}
 
-                        />
-                    </CssInput>
+                      />
+            </CssInput>
 
           <FormControl
             fullWidth
@@ -323,25 +322,25 @@ const handleSubmit = (e) => {
         onChange={handleImageChange} // Handle image change event
       /> */}
           <FormFieldData
-  fullWidth
-  label="Image"
-  id="image"
-  name="image"
-  type="file"
-  inputProps={{
-    accept: "image/*",
-    onChange: handleImageChange,
-  }}
-  sx={inputStyle}
-/>
+            fullWidth
+            label="Image"
+            id="image"
+            name="image"
+            type="file"
+            inputProps={{
+              accept: "image/*",
+              onChange: handleImageChange,
+            }}
+            sx={inputStyle}
+          />
 
-{imagePreviewUrl && (
-  <img
-    src={imagePreviewUrl}
-    alt="Preview"
-    style={{ maxWidth: "50%", marginTop: 5 }}
-  />
-)}
+        {imagePreviewUrl && (
+          <img
+            src={imagePreviewUrl}
+            alt="Preview"
+            style={{ maxWidth: "50%", marginTop: 5 }}
+          />
+        )}
 
           <Button
             fullWidth

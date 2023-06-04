@@ -27,6 +27,7 @@
     "react-fontawesome": "^1.7.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
+    "react-to-print": "^2.14.12",
     "react-toastify": "^9.1.2",
     "ree-validate-18": "^3.3.4",
     "styled-components": "^5.3.9",

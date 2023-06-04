@@ -5,8 +5,8 @@ import Http from "../../../../services/Http";
 function PaymentMethodFe(props) {
   const {
     error,
-    formValues,
-    setFormValues,
+    // formValues,
+    // setFormValues,
     handleRadioChange,
     handleSelectPayment,
   } = props;

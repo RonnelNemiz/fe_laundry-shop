@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import { Stepper, Step, StepLabel, Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
-// import BookingForm from "./BookingForm";
 import PersonalDetails from "./PersonalDetails";
 import LaundryDetails from "./LaundryDetails";
 import OrderSummary from "./OrderSummary";
@@ -16,6 +15,7 @@ export default function HorizontalLinearStepper(props) {
   //garments state
   const [garments, setGarments] = React.useState();
   const [handling, setHandling] = React.useState();
+  const [service, setService] = React.useState();
 
   // personal details state
   const [personalDetails, setPersonalDetails] = React.useState();
@@ -44,21 +44,6 @@ export default function HorizontalLinearStepper(props) {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-  // const handleSkip = () => {
-  //   if (!isStepOptional(activeStep)) {
-  //     // You probably want to guard against something like this,
-  //     // it should never occur unless someone's actively trying to break something.
-  //     throw new Error("You can't skip a step that isn't optional.");
-  //   }
-
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  //   setSkipped((prevSkipped) => {
-  //     const newSkipped = new Set(prevSkipped.values());
-  //     newSkipped.add(activeStep);
-  //     return newSkipped;
-  //   });
-  // };
-
   const handleReset = () => {
     setActiveStep(0);
   };
@@ -70,9 +55,7 @@ export default function HorizontalLinearStepper(props) {
           const stepProps = {};
           const labelProps = {};
           if (isStepOptional(index)) {
-            // labelProps.optional = (
-            //   <Typography variant="caption">Optional</Typography>
-            // );
+
           }
           if (isStepSkipped(index)) {
             stepProps.completed = false;
@@ -86,9 +69,6 @@ export default function HorizontalLinearStepper(props) {
       </Stepper>
       {activeStep === steps.length ? (
         <React.Fragment>
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography> */}
           <Typography variant="h5">Thank you for your order.</Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
@@ -107,6 +87,8 @@ export default function HorizontalLinearStepper(props) {
               setGarmentsContainer={setGarments}
               handlingContainer={handling}
               setHandlingContainer={setHandling}
+              serviceContainer={service}
+              setServiceContainer={setService}
             />
           )}
           {activeStep === 1 && (
@@ -129,33 +111,12 @@ export default function HorizontalLinearStepper(props) {
               activeStep={activeStep}
               garments={garments}
               handling={handling}
+              service={service}
               personal={personalDetails}
               paymentMethod={paymentMethod}
             />
           )}
 
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-          {}
-
-          {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}>
-              Back
-            </Button>
-            {/* <Box sx={{ flex: "1 1 auto" }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )} 
-
-          <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? "Finish" : "Next"}
-            </Button>
-          </Box> */}
         </React.Fragment>
       )}
     </Box>

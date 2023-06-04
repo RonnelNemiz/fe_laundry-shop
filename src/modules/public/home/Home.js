@@ -8,8 +8,6 @@ import img3 from "../../../assets/images/img3.jpg";
 import delivery from "../../../assets/images/delivery.gif";
 import Footer from "../../../layouts/public/Footer";
 import Navbar from "../../../layouts/public/Navbar";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faCoffee } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   return (

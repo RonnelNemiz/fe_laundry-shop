@@ -15,8 +15,6 @@ import {
 import React, { memo, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-// import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
-// import EditModal from "./EditUser";
 import ConfirmationDialog from '../../../../../components/ConfirmationDialog';
 import EditUsers from './EditUsers';
 import VisibilityIcon from '@mui/icons-material/Visibility';

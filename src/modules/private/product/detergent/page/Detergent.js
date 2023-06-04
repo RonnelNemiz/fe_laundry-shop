@@ -9,17 +9,17 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
-import AddServices from './../components/AddServices';
-import EditServices from './../components/EditServices';
-import DeleteServices from "../components/DeleteServices";
 import Http from "../../../../../services/Http";
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import ShowHandling from "../../handling/components/ShowHandling";
+import ShowDetergent from "../components/ShowDetergent";
+import DeleteDetergent from "../components/DeleteDetergent";
+import EditDetergent from "../components/EditDetergent";
+import AddDetergent from "../components/AddDetergent";
 
 
-const Services = () => {
+const Detergent = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [serviceData, setServiceData] = useState([]);
+  const [detergentData, setDetergentData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItem, setSelectedItem] =useState(null);
   const [imageUrls, setImageUrls] = useState({});
@@ -27,9 +27,9 @@ const Services = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/services")
+    Http.get("/detergents")
       .then((res) => {
-        setServiceData(res.data);
+        setDetergentData(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -39,17 +39,17 @@ const Services = () => {
   }, [ignored]);
   
   const handleUpdate = (values) => {
-    Http.get(`update/services/${values}`).then(
+    Http.get(`update/detergents/${values}`).then(
     );
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/services/${id}`)
+    Http.delete(`delete/detergents/${id}`)
       .then(
 
       );
   };
   const handleShow = (id) => {
-    Http.get(`view/services/${id}`)
+    Http.get(`view/detergents/${id}`)
       .then((res) => {
         setSelectedItem(res.data);
         setImageUrls((prevImageUrls) => ({
@@ -65,7 +65,7 @@ const Services = () => {
 
   return (
     <>
-    <AddServices  forceUpdate={() => forceUpdate()} />
+    <AddDetergent  forceUpdate={() => forceUpdate()} />
     <TableContainer component={Paper}>
       {isLoading ? (
         <CircularProgress />
@@ -79,44 +79,40 @@ const Services = () => {
                     }}>
             <TableRow>
             <TableCell size="small">Actions</TableCell>
-              <TableCell size="small">Service Name</TableCell>
-              <TableCell size="small">Description </TableCell>
+              <TableCell size="small">Detergent Name</TableCell>
               <TableCell size="small">Price </TableCell>
+              <TableCell size="small">Scoop</TableCell>
               <TableCell size="small">Image</TableCell>
               
             </TableRow>
           </TableHead>
           <TableBody>
-            {serviceData.map((service) => (
-              <TableRow key={service.id}>
+            {detergentData.map((detergent) => (
+              <TableRow key={detergent.id}>
                  <TableCell size="small" sx={{display:"flex", alignItems:"center"}}>
                   <VisibilityIcon 
-                    onClick={() => handleShow(service.id)}
+                    onClick={() => handleShow(detergent.id)}
                     style={{cursor:"pointer", color:"gray"}}
                   />
-                  <EditServices
-                      selectedItem={service}
+                  <EditDetergent
+                      selectedItem={detergent}
                       onEdit={handleUpdate}
                       forceUpdate={() => forceUpdate()}
                     />
-                  <DeleteServices
-                  selectedItem={service}
+                  <DeleteDetergent
+                  selectedItem={detergent}
                   onDelete={handleDelete} 
                     forceUpdate={() => forceUpdate()} />
 
                 </TableCell>
-                <TableCell size="small">{service.service_name}</TableCell>
-                <TableCell size="small" sx={{width:"40%"}}>{service.description}</TableCell>
-                <TableCell size="small">{service.service_price}</TableCell>
-                {/* <TableCell size="small">{service.image}</TableCell> */}
+                <TableCell size="small">{detergent.detergent_name}</TableCell>
+                <TableCell size="small" sx={{width:"40%"}}>{detergent.detergent_price}</TableCell>
+                <TableCell size="small">{detergent.detergent_scoop}</TableCell>
                 <TableCell size="small">
-                  {service.image && (
-                    <img src={imageUrls[service.id]} alt="Service Image" style={{ width: '100px' }} />
+                  {detergent && detergent.image && (
+                    <img src={imageUrls[detergent.id]} alt="Fabcon Image" style={{ width: '100px' }} />
                   )}
-                </TableCell>
-
-
-               
+                </TableCell>         
               </TableRow>
             ))}
           </TableBody>
@@ -124,10 +120,10 @@ const Services = () => {
       )}
     </TableContainer>
            {selectedItem && (
-              <ShowHandling sx={{maxWidth:"500px"}} selectedItem={selectedItem} onClose={() => setSelectedItem(null) } />
+              <ShowDetergent sx={{maxWidth:"500px"}} selectedItem={selectedItem} onClose={() => setSelectedItem(null) } />
            )}   
     </>
   );
 };
 
-export default Services;
+export default Detergent;

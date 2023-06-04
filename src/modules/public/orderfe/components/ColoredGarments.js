@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import React from "react";
 import Shirt from "../../../../assets/images/tshirt.png";
 import Short from "../../../../assets/images/shorts.png";
 import Trousers from "../../../../assets/images/trousers.png";

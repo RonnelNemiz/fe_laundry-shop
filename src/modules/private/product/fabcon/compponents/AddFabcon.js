@@ -32,17 +32,24 @@ const options = {
   theme: "colored",
 };
 
-export default function AddServices(props) {
+export default function AddFabcon(props) {
   const { forceUpdate,  } = props;
   const [formValues, setFormValues] = React.useState({
-    service_name: "",
-    service_price: "",
-    description: "",
+    fabcon_name: "",
+    fabcon_price: "",
+    fabcon_scoop: "",
     image: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [selectedImage, setSelectedImage] = React.useState(null);
+
+  const handleImageSelect = (e) => {
+    const file = e.target.files[0];
+    setSelectedImage(file);
+  };
+  
 
   const handleChange = (e) => {
     const newData = { ...formValues };
@@ -53,9 +60,9 @@ export default function AddServices(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        service_name: "",
-        service_price: "",
-        description: "",
+        fabcon_name: "",
+        fabcon_price: "",
+        fabcon_scoop: "",
         image: "",
       });
      
@@ -64,7 +71,15 @@ export default function AddServices(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/services", formValues).then((res) => {
+    const formData = new FormData();
+    formData.append("image", selectedImage);
+  
+    for (const key in formValues) {
+      formData.append(key, formValues[key]);
+      formData.append('image', selectedImage);
+
+    }
+    Http.post("/add/fabcons",  formData).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();
@@ -104,14 +119,14 @@ export default function AddServices(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Services
+            Add Fabcon
           </Typography>
           <FormFieldData
             fullWidth
-            label="Service"
-            id="service_name"
-            value={formValues.service_name}
-            name="service_name"
+            label="Fabcon"
+            id="fabcon_name"
+            value={formValues.fabcon_name}
+            name="fabcon_name"
             onChange={handleChange}
             sx={inputStyle}
           />
@@ -119,31 +134,42 @@ export default function AddServices(props) {
             fullWidth
             label="Price"
             type="number"
-            id="service_price"
-            value={formValues.service_price}
-            name="service_price"
+            id="fabcon_price"
+            value={formValues.fabcon_price}
+            name="fabcon_price"
             onChange={handleChange}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
-            label="Description"
-            id="description"
-            value={formValues.description}
-            name="description"
+            label="Cups"
+            id="fabcon_scoop"
+            value={formValues.fabcon_scoop}
+            name="fabcon_scoop"
             onChange={handleChange}
             sx={inputStyle}
           />
-          <FormFieldData
+          {/* <FormFieldData
             fullWidth
             label="Image"
             id="image"
             value={formValues.image}
             name="image"
-            onChange={handleChange}
+            type="file"
+            // onChange={handleChange}
+            onChange={handleImageSelect}
             sx={inputStyle}
-          />
-         
+          /> */}
+                  <label htmlFor="image">
+              Image:
+              <input
+                type="file"
+                accept="image/*"
+                id="image"
+                name="image"
+                onChange={handleImageSelect}
+              />
+            </label>
           <Button
             fullWidth
             variant="contained"

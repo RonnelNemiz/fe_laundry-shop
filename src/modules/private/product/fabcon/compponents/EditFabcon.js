@@ -41,7 +41,7 @@ const inputStyle = {
     mb: 1,
   };
 
-export default function EditServices(props) {
+export default function EditFabcon(props) {
     const { selectedItem, loading, forceUpdate } = props;
 
     const [open, setOpen] = React.useState(false);
@@ -50,9 +50,9 @@ export default function EditServices(props) {
 
     const [data, setData] = React.useState({
         values: {
-            service_name: "",
-            description: "",
-            service_price:"",
+            fabcon_name: "",
+            fabcon_price: "",
+            fabcon_scoop:"",
             image: "",
         },
         errors: validator.errors,
@@ -64,9 +64,9 @@ export default function EditServices(props) {
         if (selectedItem) {
             setData({
                 values: {
-                    service_name: selectedItem.service_name,
-                    description: selectedItem.description,
-                    service_price: selectedItem.service_price,
+                    fabcon_name: selectedItem.fabcon_name,
+                    fabcon_price: selectedItem.fabcon_price,
+                    fabcon_scoop: selectedItem.fabcon_scoop,
                     image: selectedItem.image,
                 }
 
@@ -95,14 +95,14 @@ export default function EditServices(props) {
         validator.validateAll(data.values).then(success => {
             if (success) {
                 const formData = new FormData();
-            formData.append('service_name', data.values.service_name);
-            formData.append('description', data.values.description);
-            formData.append('service_price', data.values.service_price);
+            formData.append('fabcon_name', data.values.fabcon_name);
+            formData.append('fabcon_price', data.values.fabcon_price);
+            formData.append('fabcon_scoop', data.values.fabcon_scoop);
             
             if (data.values.image instanceof File) {
                 formData.append('image', data.values.image);
             }
-                Http.put(`update/services/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/fabcons/${selectedItem.id}`, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);
@@ -150,31 +150,31 @@ export default function EditServices(props) {
             >
                 <Box sx={style}>
                     <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Edit User
+                        Edit Fabcon
                     </Typography>
                      <FormFieldData
                         fullWidth
-                        label="Service Name"
-                        value={data.values.service_name}
-                        name="service_name"
+                        label="Fabcon Name"
+                        value={data.values.fabcon_name}
+                        name="fabcon_name"
                         onChange={handleChange}
                         errors={data.errors}
                         sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
-                        label="Description"
-                        value={data.values.description}
-                        name="description"
+                        label="Price"
+                        value={data.values.fabcon_price}
+                        name="fabcon_price"
                         onChange={handleChange}
                         // errors={data.errors}
                         sx={inputStyle}
                     />
                     <FormFieldData
                         fullWidth
-                        label="Price"
-                        value={data.values.service_price}
-                        name="service_price"
+                        label="Cups"
+                        value={data.values.fabcon_scoop}
+                        name="fabcon_scoop"
                         onChange={handleChange}
                         errors={data.errors}
                         sx={inputStyle}
@@ -183,7 +183,7 @@ export default function EditServices(props) {
                         fullWidth
                         label="Image"
                         type="file"
-                        // value={data.values.image}
+                        value={data.values.image}
                         name="image"
                         onChange={handleChange}
                         // errors={data.errors}

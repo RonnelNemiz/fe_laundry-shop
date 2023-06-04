@@ -5,9 +5,6 @@ import '../../../layouts/public/navbar.css';
 import imageA from '../../../assets/images/imageA.jpeg';
 import Navbar from '../../../layouts/public/Navbar';
 
-
-
-
 function About() {
 	return (
 	  <div>
