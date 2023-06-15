@@ -14,7 +14,7 @@ function Users() {
     meta: {},
   });
 
-  const [ignored, forceUpdate] = useReducer(x => x + 1, 0);
+  const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [filters, setFilters] = useState({
     limit: 10,
   });
@@ -25,14 +25,15 @@ function Users() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/users", {
+    Http.get("/users",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, {
       params: {
         ...filters,
         ...params,
       },
     }).then((res) => {
       if (res.data.data) {
-      
         setUserList({
           data: res.data.data,
           meta: res.data.meta,
@@ -43,75 +44,66 @@ function Users() {
   };
 
   const columns = [
-   
     {
       name: "email",
-      label: "Email", 
+      label: "Email",
     },
-   
-  
+
     {
       name: "profile",
-      label: "First Name", 
+      label: "First Name",
       customBodyRender: (item) => {
         return item[0] && item[0].first_name;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Last Name", 
+      label: "Last Name",
       customBodyRender: (item) => {
         return item[0] && item[0].last_name;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Purok", 
+      label: "Purok",
       customBodyRender: (item) => {
         return item[0] && item[0].purok;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Barangay", 
+      label: "Barangay",
       customBodyRender: (item) => {
         return item[0] && item[0].brgy;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Municipality", 
+      label: "Municipality",
       customBodyRender: (item) => {
         return item[0] && item[0].municipality;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Contact Number", 
+      label: "Contact Number",
       customBodyRender: (item) => {
         return item[0] && item[0].contact_number;
-      }
+      },
     },
     {
       name: "role",
       label: "Role",
     },
-  
+
     {
       name: "profile",
       label: "Image",
       type: "image",
       customBodyRender: (item) => {
-        return (
-          <img
-            src={item.image}
-            alt="User"
-            style={{ width: 50, height: 50 }}
-          />
-        );
+        return item.image;
       },
     },
-   
   ];
 
   const options = {
@@ -141,12 +133,15 @@ function Users() {
   };
 
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`).then(
-    );
+    Http.get(`update/user/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then();
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`)
+    Http.delete(`/delete/user/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then(
         forceUpdate(),
         ToastNotification("success", "Successfully Deleted!", options)
@@ -157,15 +152,15 @@ function Users() {
   };
 
   const handleShow = (id) => {
-    Http.get(`show/users/${id}`)
-      .then();   
+    Http.get(`show/users/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then();
   };
-  
 
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
-      <AddUser  forceUpdate={() => forceUpdate()} data={userList.data}/>
+      <AddUser forceUpdate={() => forceUpdate()} data={userList.data} />
       <DataTable
         withPagination
         forceUpdate={() => forceUpdate()}
@@ -181,7 +176,6 @@ function Users() {
         onRowsChangePage={handleRowChange}
         onRowClick={handleShow}
       />
-      
     </Paper>
   );
 }

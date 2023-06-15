@@ -9,28 +9,52 @@ import {
 import FormFieldData from "../../../../components/FormFieldData";
 import Http from "../../../../services/Http";
 
-const EditOrders = ({ order, onClose, onUpdate }) => {
-  const [editedOrder, setEditedOrder] = useState(order);
+const EditOrders = (props) => {
+  const { open, order, onClose} = props;
+  const [editedOrder, setEditedOrder] = useState({
+    email: "",
+    first_name: "",
+    last_name: "",
+    purok: "",
+    brgy: "",
+    municipality: "",
+    contact_number: "",
+  });
+
+  React.useEffect(() => {
+    if (order) {
+      console.log(order);
+      setEditedOrder({
+        email: order.user?.email,
+        first_name: order.user?.profile.first_name,
+        last_name: order.user?.profile.last_name,
+        purok: order.user?.profile.purok,
+        brgy: order.user?.profile.brgy,
+        municipality: order.user?.profile.municipality,
+        contact_number: order.user?.profile.contact_number,
+      });
+    }
+  }, [order]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedOrder((prevOrder) => ({
-      ...prevOrder,
-      user: {
-        profile: {
-          ...prevOrder.user.profile,
-          [name]: value,
-        },
-      },
+    const name = e.target.name;
+    const value = e.target.value;
+
+    setEditedOrder((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    Http.put(`/orders/${editedOrder.id}`, editedOrder)
-      .then(() => {
-        onUpdate();
-        onClose();
+    Http.put(`update/orders/${order.id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, editedOrder)
+      .then((res) => {
+        if (res.data) {
+          onClose();
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -38,68 +62,66 @@ const EditOrders = ({ order, onClose, onUpdate }) => {
   };
 
   return (
-    <Dialog open={true} onClose={onClose}>
+    <Dialog open={open} onClose={onClose}>
       <DialogTitle>Edit Order</DialogTitle>
-      <DialogContent  sx={{ overflowY: "auto", maxHeight: "800px" }}>
+      <DialogContent sx={{ overflowY: "auto", maxHeight: "800px" }}>
         <form onSubmit={handleFormSubmit}>
-        
           <FormFieldData
             name="first_name"
             label="First Name"
-            value={editedOrder.user.profile?.first_name }
+            value={order && editedOrder && editedOrder.first_name}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-           <FormFieldData
+          <FormFieldData
             name="last_name"
             label="Last Name"
-            value={editedOrder.user.profile?.last_name }
+            value={order && editedOrder && editedOrder.last_name}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-           <FormFieldData
+          <FormFieldData
             name="purok"
             label="Purok"
-            value={editedOrder.user.profile?.purok}
+            value={order && editedOrder && editedOrder.purok}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-           <FormFieldData
+          <FormFieldData
             name="brgy"
             label="Barangay"
-            value={editedOrder.user.profile?.brgy}
+            value={order && editedOrder && editedOrder.brgy}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-           <FormFieldData
+          <FormFieldData
             name="municipality"
             label="Municipality"
-            value={editedOrder.user.profile?.municipality}
+            value={order && editedOrder && editedOrder.municipality}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-           <FormFieldData
+          <FormFieldData
             name="contact_number"
             label="Contact Number"
-            value={editedOrder.user.profile?.contact_number }
+            value={order && editedOrder && editedOrder.contact_number}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-           <FormFieldData
+          <FormFieldData
             name="email"
             label="Email"
-            value={editedOrder.user.email }
+            value={order && editedOrder && editedOrder.email}
             onChange={handleInputChange}
             fullWidth
             margin="normal"
           />
-  
         </form>
       </DialogContent>
       <DialogActions>

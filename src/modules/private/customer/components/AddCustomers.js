@@ -95,7 +95,9 @@ export default function AddCustomers(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        Http.post("/add/customer", formValues).then((res) => {
+        Http.post("/add/customer",{headers:{
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`
+          }}, formValues).then((res) => {
             if (res.data.status === 200) {
                 forceUpdate();
                 handleClose();

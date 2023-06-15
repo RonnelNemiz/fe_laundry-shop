@@ -72,7 +72,9 @@ export default function EditUsers(props) {
     errors: validator.errors,
   });
   const handleRole = () => {
-    Http.get("/roles").then((res) => {
+    Http.get("/roles",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then((res) => {
       setRoles(res.data.roles);
     });
   };
@@ -116,7 +118,9 @@ export default function EditUsers(props) {
   const handleUpdate = () => {
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(`update/user/${selectedItem.id}`, data.values)
+        Http.put(`update/user/${selectedItem.id}`,{headers:{
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+        }}, data.values)
           .then((res) => {
             forceUpdate();
             onClose();

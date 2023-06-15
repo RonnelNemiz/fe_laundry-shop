@@ -49,7 +49,8 @@ export default function HorizontalLinearStepper(props) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box sx={{display:"flex", justifyContent:"center",}}>
+    <Box sx={{ width: "80%", mt:4 }}>
       <Stepper activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {};
@@ -97,8 +98,8 @@ export default function HorizontalLinearStepper(props) {
               handleBack={handleBack}
               handleNext={handleNext}
               activeStep={activeStep}
-              personalDetailsContainer={personalDetails}
               paymentMethodContainer={paymentMethod}
+              personal={personalDetails}
               setPersonalDetailsContainer={setPersonalDetails}
               setPaymentMethodContainer={setPaymentMethod}
             />
@@ -119,6 +120,7 @@ export default function HorizontalLinearStepper(props) {
 
         </React.Fragment>
       )}
+    </Box>
     </Box>
   );
 }

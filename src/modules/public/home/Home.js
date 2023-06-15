@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./home.css";
 import image4 from "../../../assets/images/laundry.gif";
@@ -8,17 +8,57 @@ import img3 from "../../../assets/images/img3.jpg";
 import delivery from "../../../assets/images/delivery.gif";
 import Footer from "../../../layouts/public/Footer";
 import Navbar from "../../../layouts/public/Navbar";
+import aiza from "../../../assets/images/aiza.jpg";
+import karen from "../../../assets/images/karen.jpg";
+import flores from "../../../assets/images/flores.jpg";
+import nemiz from "../../../assets/images/nemiz.jpg";
+import { Carousel } from 'react-bootstrap';
+
+
+const nameStyle = {
+  fontWeight:700,
+};
+const column1Sec4 ={
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  textAlign:"center"
+}
 
 function Home() {
+  const description3 =
+  'After we have washed and dried your clothes, the last part is folding and getting them ready to deliver to your lovely home. We assure that they are safe and clean.';
+
+  const description2 = ' When you’re short on time, washing, drying, and folding a few loads of laundry can be a great hassle. Come with us.';
+
+  const description1 = ' Wash and dry laundry service saves you more time than washing clothes at the laundromat yourself and is less expensive.';
+  
+  const [showMore1, setShowMore1] = useState(description1.length <= 100);
+  const [showMore2, setShowMore2] = useState(description2.length <= 100);
+  const [showMore3, setShowMore3] = useState(description3.length <= 100);
+
+  const toggleShowMore1 = () => {
+    setShowMore1(!showMore1);
+  };
+
+  const toggleShowMore2 = () => {
+    setShowMore2(!showMore2);
+  };
+
+  const toggleShowMore3 = () => {
+    setShowMore3(!showMore3);
+  };
+
   return (
     <div>
       <Navbar />
-      <div>
+      <div className="mainContainer-container1">
         {/* First Section */}
         <div className="mainSection container">
-          <div className="contentBox">
-            <h1>You Leave It We Clean It! </h1>
-            <p>
+          <div className="contentBox contentBox-v">
+            <h1 id="first-title">You Leave It We Clean It! </h1>
+            <p id="firstParah">
               Nobody will do a better job of your belongings than a professional
               laundry service. Your clothing is carefully washed, and stains are
               eliminated, using the best methods and washing procedures.
@@ -30,84 +70,93 @@ function Home() {
             </div>
           </div>
           <div className="imgContainer">
-            <img src={image4} alt="images" width="600px" />
+            <img src={image4} alt="images" width="600px"  className="firstImage"  />
           </div>
         </div>
-        <section className="section border-top">
+        <section className="section1 border-top" id="lami">
           <div className="container-home">
-            <div className="row">
+            <div className="row firstRow-sec1">
               <div className="col-md-12-text-center">
                 <h1 className="main-heading">What We Offer</h1>
                 <div className="underline mx-auto"></div>
                 <p className="service">Pick-Up & Delivery Service Available</p>
               </div>
               <div className="delivery">
-                <img src={delivery} alt="images" width="450px" />
+                <img src={delivery} alt="images" style={{width:"35%"}}  />
               </div>
             </div>
           </div>
         </section>
 
         {/* Second Section */}
-        <section className="section border-top">
+        <section className="section2 border-top">
           <div className="container-home1">
             <div className="row">
-              <div className="col-md-12-text-center">
+              <div className="heading col-md-12-text-center secondTitle-box">
                 <h1 className="main-heading">Our Services</h1>
                 <div className="underline mx-auto"></div>
               </div>
-              <div className="card-container-ni-karen">
-                <div className="img col-md-3 center">
-                  <div className="card shadow">
-                    <img
-                      src={img1}
-                      className="w-100 border-bottom"
-                      alt="img1"
-                    />
-                    <div className="card-body">
-                      <h4>Wash</h4>
-
-                      <p>
-                        Wash and dry laundry service saves you more time than
-                        washing clothes at the laundromat yourself and is less
-                        expensive.
+              <div className="cardBox-ni-karen" >
+                <div className="card-container-ni-karen">
+                  <div className="img col-md-3 center forPaddingBot">
+                    <div className="card shadow">
+                      <img
+                        src={img1}
+                        className="w-100 border-bottom"
+                        alt="img1"
+                      />
+                      <div className="card-body">
+                        <h4>Wash</h4>
+                        <p>
+                          {showMore1 ? description1 : description1.slice(0, 100)}
+                          
+                        </p>
+                          {description1.length > 100 && (
+                            <button className="toggleButtonSeeMore" onClick={toggleShowMore1}>
+                              {showMore1 ? 'See less' : 'See more...'}
+                            </button>
+                          )}
+                      </div>
+                    </div>  
+                  </div>
+                  <div className="img col-md-3 center forPaddingBot">
+                    <div className="card shadow">
+                      <img
+                        src={img2}
+                        className="w-100 border-bottom"
+                        alt="img2"
+                      />
+                      <div className="card-body">
+                        <h4>Dry</h4>
+                        <p>
+                        {showMore2 ? description2 : description2.slice(0, 100)}          
                       </p>
+                        {description2.length > 100 && (
+                          <button className="toggleButtonSeeMore" onClick={toggleShowMore2}>
+                            {showMore2 ? 'See less' : 'See more...'}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="img col-md-3 center">
-                  <div className="card shadow">
-                    <img
-                      src={img2}
-                      className="w-100 border-bottom"
-                      alt="img2"
-                    />
-                    <div className="card-body">
-                      <h4>Dry</h4>
-
-                      <p>
-                        When you’re short on time, washing, drying, and folding
-                        a few loads of laundry can be a great hassle. Come with
-                        us.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="img col-md-3 center">
-                  <div className="card shadow">
-                    <img
-                      src={img3}
-                      className="w-100 border-bottom"
-                      alt="img3"
-                    />
-                    <div className="card-body">
-                      <h4>Fold</h4>
-
-                      <p>
-                        After we have washed and dry your clothes the last part
-                        is folding and is ready to deliver to your lovely home.
-                        We assure that it is safe and clean.
-                      </p>
+                  <div className="img col-md-3 center forPaddingBot">
+                    <div className="card shadow">
+                      <img
+                        src={img3}
+                        className="w-100 border-bottom"
+                        alt="img3"
+                      />
+                      <div className="card-body">
+                        <h4>Fold</h4>
+                        <p>
+                          {showMore3 ? description3 : description3.slice(0, 100)}
+                        </p>
+                          {description3.length > 100 && (
+                            <button className="toggleButtonSeeMore" onClick={toggleShowMore3}>
+                              {showMore3 ? 'See less' : 'See more...'}
+                            </button>
+                          )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -118,9 +167,9 @@ function Home() {
 
         {/* Third Section */}
 
-        <section className="section border-top">
-          <div className="container">
-            <div className="row" id="service">
+        <section className="section3 border-top">
+          <div className="container container-sec3">
+            <div className="row our-serviceSec3" id="service">
               <h1 className="title-underline text-center ">Why Choose Us</h1>
 
               <div className="col-sm-6 col-md-4">
@@ -184,14 +233,14 @@ function Home() {
         </section>
 
         {/* Fourth Section */}
-        <section className="section1 border-top">
-          <div className="container-home2 container ps-5">
-            <div className="row">
-              <div className="col-md-12" padding-left="10%">
+        <section className="section4 border-top">
+          <div className="container-home2 container " id="container-nemiz">
+            <div className="row row-section4">
+              <div className="col-md-12 col1-section4" style={column1Sec4}>
                 <h1 className="main-heading1">Come & Try Our Services</h1>
                 <div className="underline"></div>
               </div>
-              <div className="sec-p col-md-4">
+              <div className="sec-p col-md-4 secondBox-sec4" style={{textAlign:"center"}}>
                 <h5>We Offer the Best Quality of Clothes.</h5>
                 <p>
                   With us we'll make sure that you will be satisfied with our
@@ -206,6 +255,105 @@ function Home() {
             </div>
           </div>
         </section>
+
+           {/* stat */}
+
+         <div className="testimonials border-top">
+          <div className="inner" id="ehsulod">
+            <h1>Customer Reviews</h1>
+            <div className="border"></div>
+            {/* <div id="testimonial-carousel" className="rowls row"> */}
+            <Carousel>
+            <Carousel.Item interval={1500}>
+            <div className="col carousel-colCol">
+                <div className="testimonial">
+                    <img src={aiza} alt="images" />
+                    <div className="name" style={nameStyle}>Maria Aiza Butar</div>
+                    <div className="stars">
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                    </div>
+
+                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
+                      is dummy text used in laying out print, 
+                      graphic or web designs. </p>
+
+                </div>
+              </div>
+            </Carousel.Item>
+            
+            <Carousel.Item interval={1500}>
+              <div className="col carousel-colCol">
+                <div className="testimonial">
+                    <img src={karen} alt="images" />
+                    <div className="name" style={nameStyle}>Karen Lina</div>
+                    <div className="stars">
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                    </div>
+
+                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
+                      is dummy text used in laying out print, 
+                      graphic or web designs. </p>
+
+                </div>
+              </div>
+              </Carousel.Item>
+              <Carousel.Item interval={1500}>
+              <div className="col carousel-colCol">
+                <div className="testimonial">
+                      <img src={flores} alt="images" />
+                    <div className="name" style={nameStyle}>Anabella Flores</div>
+                    <div className="stars">
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                    </div>
+
+                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
+                      is dummy text used in laying out print, 
+                      graphic or web designs. </p>
+
+                </div>
+              </div>
+              </Carousel.Item>
+              <Carousel.Item interval={1500}>
+              <div className="col carousel-colCol">
+                <div className="testimonial">
+                      <img src={nemiz} alt="images" />
+                    <div className="name" style={nameStyle}>Ronnel Nemiz</div>
+                    <div className="stars">
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                        <i className="fas fa-star"></i>
+                    </div>
+
+                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
+                      is dummy text used in laying out print, 
+                      graphic or web designs. </p>
+
+                </div>
+              </div>
+              </Carousel.Item>
+            </Carousel>
+
+          </div>
+
+        </div>
+
+        {/* end */}
+
+
       </div>
       <Footer />
     </div>

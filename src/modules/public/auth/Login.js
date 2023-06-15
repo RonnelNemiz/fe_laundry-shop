@@ -6,7 +6,7 @@ import machine from "./../../../assets/images/machine.gif";
 import { isAuth } from "../../../utils/helpers";
 import * as service from './service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import logo1 from './../../../assets/images/laundrylogo.png'
+import logo1 from './../../../assets/images/labanderas.png'
 
 
 function Login() {
@@ -56,7 +56,9 @@ function Login() {
                         <div className="social-login">
                             <div className="form-value">
                                 <form onSubmit={loginSubmit}>
+                                     <Link to="/">
                                     <div className="logo-login"><img src={logo1} alt="logo" className="logo-laundry" /></div>
+                                    </Link>
                                     <h2 className="login-text">Login</h2>
                                     <div className="inputbox">
                                         <input

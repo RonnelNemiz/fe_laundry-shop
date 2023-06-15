@@ -2,7 +2,7 @@ import React from "react";
 // import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../../public/orderfe/order.css";
-import Stepper from "../../../public/orderfe/components/Stepper";
+import StepperP from "./addComponents/StepperP";
 import Http from "../../../../services/Http";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Box, Modal, Tooltip } from "@mui/material";
@@ -31,7 +31,9 @@ function AddOrders() {
   const handleClose = () => setOpen(false);
 
   React.useEffect(() => {
-    Http.get('/categories').then(res => {
+    Http.get('/categories',{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then(res => {
       if (res.data.data) {
         setCategories(res.data.data);
       } else {
@@ -67,7 +69,7 @@ function AddOrders() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Stepper categories={categories} />
+          <StepperP categories={categories} />
         </Box>
         </Modal>
     </div>

@@ -1,5 +1,6 @@
 /* Homepage */
 /* First Section */
+
 .mainSection {
   display: flex;
   background-color: transparent;
@@ -7,15 +8,31 @@
   align-items: center;
   min-height: 80vh;
 }
-.section {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  height: 100vh;
-}
+/* .toggleButtonSeeMore{
+  border-style: none;
+  color: #0d6efd;
+  background: none;
+} */
 .section1 {
   padding-top: 40px;
   padding-bottom: 40px;
-  height: 60vh;
+  /* height: 100vh; */
+}
+.section2 {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  height: 100vh;
+  /* margin-top: 180px; */
+  /* margin-bottom: 12%; */
+}
+
+.container-sec3{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: unset;
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
 .section h1 {
   font-size: 2rem;
@@ -55,7 +72,6 @@
   margin-bottom: 10px;
 }
 .service {
-  margin: 1rem;
   text-align: center;
   color: rgb(11, 157, 214);
   font-size: 25px;
@@ -70,7 +86,7 @@
   padding-bottom: 2%;
 }
 /* CSS */
-.button-29 {
+.toggleButtonSeeMore, .button-29 {
   align-items: center;
   appearance: none;
   background-image: radial-gradient(
@@ -152,13 +168,188 @@
   transform: scale(0.9);
   transition: 0.3s ease;
 }
-/* .description {
-  padding-top: 20%;
-  padding-bottom: 5%;
-} */
+
 .title {
   color: rgb(11, 157, 214);
 }
 #service h1 {
   padding-bottom: 5%;
+}
+.row-section4{
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* start testimonials */
+.testimonials{
+  padding: 40px 0;
+  background: #fff;
+  color: #434343;
+  text-align: center;
+}
+.inner{
+  max-width: 1200px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0 20px;
+}
+.border{
+  width: 100px;
+  height: 8px;
+  background: rgb(11, 157, 214);
+  margin: 26px auto;
+}
+.rowls{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.col{
+  flex: 33.33%;
+  max-width: 33.33%;
+  box-sizing: border-box;
+  padding: 15px;
+}
+.testimonial {
+  background: #fff;
+  padding: 30px;
+}
+.testimonial img{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+.name{
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 20px 0;
+}
+.stars{
+  color: #faaf00;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+.stars .fa-star{
+  width: 30px !important;
+
+}
+#container-nemiz{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: unset;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.carousel-colCol{
+  max-width: unset;
+}
+.carousel-parah{
+  padding-left: 30%;
+  padding-right: 30%;
+}
+.carousel-indicators{
+  margin-left: unset;
+}
+.carousel-indicators [data-bs-target]{
+  background-color: #343a40;
+}
+.carousel-control-prev-icon{
+  background-color: black;
+}
+.carousel-control-next-icon{
+  background-color: black;
+}
+
+/* laptop's */
+
+ @media screen and (max-width: 1200px){
+  /* *, ::after, ::before {
+    width: 100%;
+    box-sizing: border-box;
+  } */
+ }
+
+ /* tablet's */
+ @media screen and (max-width: 991px){
+
+  #first-title{
+    font-size: 2.5em;
+  }
+  .mainSection{
+    justify-content: space-evenly;
+  }
+  .firstImage{
+    width:140% !important;
+  }
+  .section2{
+    margin-top: 0px;
+  }
+
+}
+
+
+/* mobile */
+@media only screen and (max-width: 768px) {
+  .mainSection{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    max-width: fit-content;
+    height: unset;
+  }
+  #first-title{
+    padding-top: 13%;
+  }
+  .contentBox-v{
+    width: 55%;
+  }
+  #firstParah{
+    padding-top: 5%;
+    margin-bottom: 0;
+  }
+  .firstImage {
+    width:100% !important;
+  }
+  .imgContainer{
+    width: 50%;
+    padding-top: 5%;
+    padding-bottom: 4%;
+  }
+  .section1{
+    height: unset;
+    padding-bottom: 30px;
+  }
+  .service{
+    padding-top: 3%;
+  }
+  .card-container-ni-karen{
+    flex-direction: column;
+    padding: 40px 180px 0px;
+  }
+  .section2{
+    height: unset; 
+    margin-bottom: unset;
+  }
+  .forPaddingBot{
+    padding-bottom: 10%;
+  }
+  .our-serviceSec3{
+    margin-top: 10%;
+    margin-bottom: 10%;
+  }
+  .container-sec3 {
+    height: unset;
+  }
+  .secondBox-sec4{
+    width: 90%;
+  }
+  #container-nemiz{
+    height: unset;
+    padding-top: 5%;
+    padding-bottom: 7%;
+  }
 }

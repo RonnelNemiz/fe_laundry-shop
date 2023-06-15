@@ -34,7 +34,7 @@ function About() {
 				  </div>
 			</section>
   
-			<section className="Mainsection px-5 mx-5">
+			<section className="sectionA px-5 mx-5">
 				  <div className="maincontainer">
 					<div className="row">
 					  <div className="col-md-12-text-center">
@@ -52,10 +52,10 @@ function About() {
 				  </div>
 			</section>
   
-			<section className="section text-black">
+			<section className="sectionB text-black">
 			  <div className="maincontainer">
-				  <div className="row">
-					  <div className="col-md text-center">
+				  <div className="row" id="nemz">
+					  <div className="col-md text-center" id="tiger">
 						  <h6>STRATEGY</h6>
 						  <div className="underline mx-auto"></div>
 						  <p>
@@ -91,7 +91,7 @@ function About() {
 				  </div>
 		  </section>
   
-		  <section className="section bg-light text-dark">
+		  <section className="sectionC bg-light text-dark" id="dragon">
 			  <div className="maincontainer">
 				  <div className="row">
 					  <div className="col-md text-center">
@@ -102,7 +102,7 @@ function About() {
 						   our platform is designed to provide a fun and easy laundry experience.
 						  </p>
 					  </div>
-					  <div className="col-md text-center">
+					  <div className="col-md text-center" id="madam">
 						  <img src={imageA} alt="images"/>
 					  </div>
 					  </div>

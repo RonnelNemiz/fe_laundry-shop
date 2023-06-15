@@ -20,6 +20,10 @@ const routes = [
     path: "/order",
     component: "modules/public/orderfe/Order",
   },
+  {
+    path: "/myaccount",
+    component: "modules/public/myAccount/page/MyAccount",
+  },
 
   {
     path: "/dashboard",
@@ -77,7 +81,7 @@ const routes = [
   },
   {
     path: "/reports",
-    component: "modules/private/reports/page/Reports",
+    component: "modules/private/reports/Reports",
     auth: true,
     role: "Admin",
   },

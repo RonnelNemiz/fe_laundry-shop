@@ -4,9 +4,13 @@ table td, table th {
     padding: 8px;
   }
   
-  table tr:nth-child(even){background-color: #f2f2f2;}
+  table tr:nth-child(even){
+    background-color: #f2f2f2;
+  }
   
-  table tr:hover {background-color: #ddd;}
+  table tr:hover {
+    background-color: #ddd;
+  }
   
   table th {
     padding-top: 12px;
@@ -14,4 +18,16 @@ table td, table th {
     text-align: center;
     background-color: #04AA6D;
     color: black;
+  }
+
+  /* orderPage */
+.css-6hp17o-MuiList-root-MuiMenu-list{
+    height: 35vh;
+  
+    overflow-y: auto;
+    background-color: #FFEEEE;
+  }
+
+  .logo-laundry{
+    width: 120px;
   }

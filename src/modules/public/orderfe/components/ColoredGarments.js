@@ -7,6 +7,7 @@ import Underwear from "../../../../assets/images/underwear.png";
 import Blouse from "../../../../assets/images/blouse.png";
 import Socks from "../../../../assets/images/socks.png";
 import Handkerchief from "../../../../assets/images/handkerchief.png";
+import { Form } from "react-bootstrap";
 
 function ColoredGarments(props) {
   const { garments, handleChange } = props;
@@ -17,7 +18,8 @@ function ColoredGarments(props) {
         <div className="garment-count-wrapper">
           <article className="garment-count-container">
             <img src={Shirt} alt="Shirt" />
-            <input
+            <label htmlFor="shirtInput">Shirt</label>
+            <Form.Control
               type="number"
               name="colorgart_tshirt"
               required
@@ -28,7 +30,8 @@ function ColoredGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Short} alt="Short" />
-            <input
+            <label htmlFor="shirtInput">Short</label>
+            <Form.Control
               type="number"
               name="colorgart_shorts"
               id="shZortInput"
@@ -39,7 +42,8 @@ function ColoredGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Trousers} alt="Trousers" />
-            <input
+            <label htmlFor="shirtInput">Trouser</label>
+            <Form.Control
               type="number"
               name="colorgart_trousers"
               id="trouserInput"
@@ -51,7 +55,8 @@ function ColoredGarments(props) {
 
           <article className="garment-count-container">
             <img src={Jacket} alt="Jacket" />
-            <input
+            <label htmlFor="shirtInput">Jacket</label>
+            <Form.Control
               type="number"
               name="colorgart_jacket"
               id="hoodieInput"
@@ -62,7 +67,8 @@ function ColoredGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Underwear} alt="Underwear" />
-            <input
+            <label htmlFor="shirtInput">Underwear</label>
+            <Form.Control
               type="number"
               name="colorgart_underwear"
               id="underwearInput"
@@ -73,7 +79,8 @@ function ColoredGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Blouse} alt="Blouse" />
-            <input
+            <label htmlFor="shirtInput">Blouse</label>
+            <Form.Control
               type="number"
               name="colorgart_blouse"
               id="blouseInput"
@@ -84,7 +91,8 @@ function ColoredGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Socks} alt="Socks" />
-            <input
+            <label htmlFor="shirtInput">Socks</label>
+            <Form.Control
               type="number"
               name="colorgart_socks"
               id="socksInput"
@@ -95,7 +103,8 @@ function ColoredGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Handkerchief} alt="Handkerchief" />
-            <input
+            <label htmlFor="shirtInput">Handkerchief</label>
+            <Form.Control
               type="number"
               name="colorgart_handkerchief"
               id="handkerchiefInput"

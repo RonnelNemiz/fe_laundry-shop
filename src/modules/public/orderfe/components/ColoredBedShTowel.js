@@ -4,6 +4,7 @@ import Towel from "../../../../assets/images/towel.png";
 import Curtain from "../../../../assets/images/curtains.png";
 import Blanket from "../../../../assets/images/blanket.png";
 import Pillowcase from "../../../../assets/images/pillows.png";
+import { Form } from "react-bootstrap";
 
 function ColoredBedShTowel(props) {
   const { garments, handleChange } = props;
@@ -14,7 +15,8 @@ function ColoredBedShTowel(props) {
         <div className="garment-count-wrapper">
           <article className="garment-count-container">
             <img src={BedSheet} alt="Bed Sheet" />
-            <input
+            <label htmlFor="shirtInput">Bed Sheet</label>
+            <Form.Control
               type="number"
               name="colorbdst_bedsheet"
               onChange={handleChange}
@@ -25,7 +27,8 @@ function ColoredBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Towel} alt="Towel" />
-            <input
+            <label htmlFor="shirtInput">Towel</label>
+            <Form.Control
               type="number"
               name="colorbdst_towel"
               onChange={handleChange}
@@ -36,7 +39,8 @@ function ColoredBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Curtain} alt="Curtain" />
-            <input
+            <label htmlFor="shirtInput">Curtain</label>
+            <Form.Control
               type="number"
               name="colorbdst_curtain"
               onChange={handleChange}
@@ -47,7 +51,8 @@ function ColoredBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Blanket} alt="Blanket" />
-            <input
+            <label htmlFor="shirtInput">Blanket</label>
+            <Form.Control
               type="number"
               name="colorbdst_blanket"
               onChange={handleChange}
@@ -58,7 +63,8 @@ function ColoredBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Pillowcase} alt="Pillowcase" />
-            <input
+            <label htmlFor="shirtInput">Pillowcase</label>
+            <Form.Control
               type="number"
               name="colorbdst_pillowcase"
               onChange={handleChange}

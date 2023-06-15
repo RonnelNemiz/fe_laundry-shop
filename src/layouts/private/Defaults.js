@@ -1,3 +1,4 @@
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,15 +18,15 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Tooltip from "@mui/material/Tooltip";
-import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import MailIcon from "@mui/icons-material/Mail";
-import logo1 from '../../assets/images/laundrylogo.png'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import logo1 from "../../assets/images/labanderas.png";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Fetchinfo from "../../utils/fetchinfo";
 
 const drawerWidth = 240;
 const style = {
@@ -47,9 +48,9 @@ function Defaults({ children }) {
 
   const drawer = (
     <div>
-      <div style={{position:"absolute", top:"-10px", left:"20%"}}>
-       <img src={logo1} alt="logo" width="120px" className="logo-laundry" /> 
-       </div>
+      <div style={{ position: "absolute", top: "-10px", left: "20%" }}>
+        <img src={logo1} alt="logo" width="120px" className="logo-laundry" />
+      </div>
       <Toolbar />
       <Divider />
       <Sidebar />
@@ -64,6 +65,8 @@ function Defaults({ children }) {
     setAnchorEl(null);
   };
 
+  const info = Fetchinfo();
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -73,8 +76,7 @@ function Defaults({ children }) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}>
-        <Toolbar >
-     
+        <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -129,7 +131,8 @@ function Defaults({ children }) {
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}>
-                  <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                  {/* <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> */}
+                  <AccountCircleIcon sx={{ width: 32, height: 32 }} />
                 </IconButton>
               </Tooltip>
             </Box>
@@ -168,18 +171,18 @@ function Defaults({ children }) {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
               <MenuItem onClick={handleExit}>
-                <Avatar /> Profile
+                <Avatar /> {info?.roles?.name ? info?.roles?.name : "Admin"}
               </MenuItem>
-              <MenuItem onClick={handleExit}>
+              {/* <MenuItem onClick={handleExit}>
                 <Avatar /> My account
-              </MenuItem>
+              </MenuItem> */}
               <Divider />
-              <MenuItem onClick={handleExit}>
+              {/* <MenuItem onClick={handleExit}>
                 <ListItemIcon>
                   <PersonAdd fontSize="small" />
                 </ListItemIcon>
                 Add another account
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem onClick={handleExit}>
                 <ListItemIcon>
                   <Settings fontSize="small" />

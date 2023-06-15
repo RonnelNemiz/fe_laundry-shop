@@ -37,7 +37,9 @@ function Review2() {
   }, []);
   
   const fetchUserComment = (userId) => {
-    Http.get(`user/comments/${userId}`)
+    Http.get(`user/comments/${userId}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         console.log(res.data.data);
         setUserComment(res.data.data.comments);
@@ -50,7 +52,9 @@ function Review2() {
   };
   
   const fetchAdminReply = () => {
-    Http.get("admin/replies")
+    Http.get("admin/replies",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         // const adminReply = res.data.data.reply; 
         setAdminReply(res.data.data.replies);
@@ -67,7 +71,9 @@ function Review2() {
       rating,
       comment
     };
-    Http.post("add/reviews", formData)
+    Http.post("add/reviews",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, formData)
     .then((res) => {
       if (res.data.status === 200) {
         // Handle success message and any other necessary actions

@@ -5,18 +5,131 @@
 .container1 {
   margin-right: 5%;
 }
-#footer {
+/* #footer {
   height: 40vh;
-}
+} */
 .footer a {
   color: white;
   text-decoration: none !important;
 }
 #footer-row {
-  padding-top: 1%;
+  padding-top: 2%;
 }
 #footer p {
   display: flex;
   justify-content: center;
   margin-top: 2%;
+}
+.copyRightStyle{
+  padding-top: 30px;
+  text-align: center;
+}
+.quicklink {
+  font-family: 'Lato', sans-serif;
+}
+.operatinghours {
+  font-family: 'Lato', sans-serif;
+}
+.contactinformation {
+  font-family: 'Lato', sans-serif;
+}
+.haco {
+  font-family: 'Lato', sans-serif;
+  font-size: small;
+}
+#haco {
+  font-family: 'Lato', sans-serif;
+  font-size: small;
+}
+
+/* laptop's */
+@media screen and (max-width: 1200px) {
+  /* #footer {
+    display: flex; */
+    /* width: 1200px; */
+    /* height: 310px; */
+    /* flex-wrap: wrap;
+  } */
+  .laundrylogo {
+    display: flex;
+    width: 110%;
+    height: 200px;
+    justify-content: center;
+    justify-content: space-between;
+    margin-left: -15%;
+  }
+  #footer-row {
+    display: flex;
+    /* width: 110%; */
+    /* line-height: 1.8; */
+    font-size: 15px;
+    /* margin-top: 2%; */
+    width: 90%;
+    /* text-align-last: center; */
+  }
+  .conConFooterthis{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .copyRightStyle{
+    text-align: center;
+  }
+  .logo-wrapperCon{
+    padding-left: 5%;
+  }
+  .img-logoContainer{
+    width: 100% !important;
+  }
+}
+
+/* tablet's */
+@media screen and (max-width: 991px) and (max-width: 1024px) {
+  #footer {
+    display: flex;
+    width: 991px;
+    height: 310px;
+    flex-wrap: wrap;
+  }
+  #footer-row {
+    display: flex;
+    font-size: 16px;
+    text-align-last: center;
+  }
+}
+
+/* mobile's */
+@media screen and (max-width: 768px){
+  #footer {
+    display: flex;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+  }
+
+  .laundrylogo {
+    display: flex;
+    width: 25%;
+    margin: auto;
+  }
+  .container1 {
+    margin-bottom: 20px;
+  }
+  .quicklink {
+    font-family: 'Lato', sans-serif;
+  }
+  .operatinghours {
+    font-family: 'Lato', sans-serif;
+  }
+  .contactinformation {
+    font-family: 'Lato', sans-serif;
+  }
+  .haco {
+    font-family: 'Lato', sans-serif;
+    font-size: small;
+  }
+  #haco {
+    font-family: 'Lato', sans-serif;
+    font-size: small;
+  }
 }

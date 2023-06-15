@@ -37,12 +37,14 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
+  bgcolor: "background.paper",  
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   borderColor: "none",
   borderRadius: "10px 10px",
+  height:"90% !important",
+  overflowX:"auto !important",
 };
 const inputStyle = {
   mb: 1,
@@ -90,7 +92,9 @@ const handleMouseDownPassword = (event) => {
   }, []);
 
   const fetchRoles = () => {
-    Http.get("roles")
+    Http.get("roles",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setRoles(res.data.roles);
       })
@@ -155,7 +159,9 @@ const handleSubmit = (e) => {
   formData.append("role", formValues.role);
   formData.append("password", formValues.password);
   formData.append("image", formValues.image); // Append image to the form data
-  Http.post("/add/users", formData)
+  Http.post("/add/users",{headers:{
+    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+  }}, formData)
   .then((res) => {
     if (res.data.status === 200) {
       forceUpdate();

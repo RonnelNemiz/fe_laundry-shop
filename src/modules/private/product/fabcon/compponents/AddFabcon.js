@@ -79,7 +79,9 @@ export default function AddFabcon(props) {
       formData.append('image', selectedImage);
 
     }
-    Http.post("/add/fabcons",  formData).then((res) => {
+    Http.post("/add/fabcons",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }},  formData).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();

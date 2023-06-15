@@ -28,7 +28,7 @@ function Contact() {
                           <center><h2 className="text-dark">Contact Us</h2></center><br /><br /><br />
                           <div className="col-5 text-center d-flex align-items-center justify-content-center">
                               <div className="">
-                              <h2>We're here to help!</h2>
+                              <h2 className="white">We're here to help!</h2>
                               <p className="lead mb-5"><b>You can chat with us<br/> by using the form on the right side of the screen.</b><br/>
                                   <b>Phone:+63 953-1093-959</b>
                               </p>

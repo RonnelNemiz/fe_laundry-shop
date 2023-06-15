@@ -64,7 +64,9 @@ export default function AddDetergent(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/detergents", formValues).then((res) => {
+    Http.post("/add/detergents",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();
