@@ -102,7 +102,9 @@ export default function EditFabcon(props) {
             if (data.values.image instanceof File) {
                 formData.append('image', data.values.image);
             }
-                Http.put(`update/fabcons/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/fabcons/${selectedItem.id}`,{headers:{
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                  }}, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);

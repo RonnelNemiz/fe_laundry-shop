@@ -1,0 +1,36 @@
+#background1 {
+    background: radial-gradient(
+      100% 100% at 100% 0px,
+      rgb(90, 218, 255) 0px,
+      rgb(84, 104, 255) 100%
+    );
+    box-shadow: rgb(224, 198, 245) 0px 10px 20px 0px;
+    border-radius: 0.7rem;
+  }
+  
+  #background2 {
+    background: -webkit-linear-gradient(
+      0deg,
+      rgb(241, 68, 55) 0%,
+      rgb(237, 91, 13) 99%
+    );
+    box-shadow: rgb(253, 192, 199) 0px 10px 20px 0px;
+    border-radius: 0.7rem;
+  }
+  
+  #background3 {
+    background: linear-gradient(
+      90deg,
+      rgb(193, 130, 10) 47%,
+      rgb(240, 154, 30) 100%
+    );
+    box-shadow: rgb(249, 213, 155) 0px 10px 20px 0px;
+    border-radius: 0.7rem;
+  }
+  .container-fluid {
+    color: white;
+  }
+  #row {
+    gap: 15px;
+  }
+  

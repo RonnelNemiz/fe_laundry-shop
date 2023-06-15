@@ -205,7 +205,7 @@ function LaundryDetails(props) {
       ),
     },
     {
-      title: "ColoredGarTowel ",
+      title: "ColoredGarments ",
       content: (
         <ColoredGarments garments={garments} handleChange={handleChange} />
       ),
@@ -217,7 +217,7 @@ function LaundryDetails(props) {
       ),
     },
     {
-      title: "WhiteGarTowel",
+      title: "WhiteGarments",
       content: (
         <WhiteGarments garments={garments} handleChange={handleChange} />
       ),
@@ -244,7 +244,7 @@ function LaundryDetails(props) {
       </Box>
       <main className="payment-main">
         <section className="customize-section">
-          <h1>ORDER DETAILS</h1>
+          <h1 className="service-h1-style">ORDER DETAILS</h1>
           <p>Select categories:</p>
 
           <select
@@ -261,7 +261,7 @@ function LaundryDetails(props) {
         </section>
       </main>
 
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <Box sx={{ display: "flex", flexDirection: "row", pt: 2, justifyContent:"space-evenly"  }} className="button-back-next-public">
         <Button
           color="inherit"
           disabled={activeStep === 0}
@@ -271,7 +271,7 @@ function LaundryDetails(props) {
           Back
         </Button>
        
-        <Button onClick={handleNextStep}>
+        <Button onClick={handleNextStep} style={{ marginLeft: "90%"}}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
       </Box>

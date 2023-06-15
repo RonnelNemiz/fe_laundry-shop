@@ -101,7 +101,9 @@ export default function EditCustomers(props) {
     const handleUpdate = () => {
         validator.validateAll(data.values).then(success => {
             if (success) {
-                Http.put(`update/user/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/user/${selectedItem.id}`,{headers:{
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                  }}, data.values).then((res) => {
                     forceUpdate();
                     onClose();
                     ToastNotification("success", "Successfully Saved Data", options);

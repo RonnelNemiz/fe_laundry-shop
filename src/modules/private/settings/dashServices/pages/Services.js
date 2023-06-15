@@ -27,7 +27,9 @@ const Services = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/services")
+    Http.get("/services",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setServiceData(res.data);
         setIsLoading(false);
@@ -39,17 +41,23 @@ const Services = () => {
   }, [ignored]);
   
   const handleUpdate = (values) => {
-    Http.get(`update/services/${values}`).then(
+    Http.get(`update/services/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then(
     );
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/services/${id}`)
+    Http.delete(`delete/services/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then(
 
       );
   };
   const handleShow = (id) => {
-    Http.get(`view/services/${id}`)
+    Http.get(`view/services/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setSelectedItem(res.data);
         setImageUrls((prevImageUrls) => ({

@@ -38,7 +38,9 @@ export default function DeleteServices(props) {
 
   const handleDelete = (id) => {
     setLoading(true);
-    Http.delete(`/delete/services/${id}`)
+    Http.delete(`/delete/services/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         onDelete();
         forceUpdate();

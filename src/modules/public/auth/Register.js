@@ -3,7 +3,7 @@ import machine from "./../../../assets/images/machine.gif";
 import Http from '../../../services/Http';
 import swal from 'sweetalert';
 import { Link, useHistory } from 'react-router-dom';
-import logo1 from './../../../assets/images/laundrylogo.png'
+import logo1 from './../../../assets/images/labanderas.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./auth.css";
 
@@ -32,7 +32,9 @@ function Register() {
 
 	const registerSubmit = (e) => {
 		e.preventDefault();
-		Http.post("/register", registerInput)
+		Http.post("/register",{headers:{
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`
+          }}, registerInput)
 			.then((res) => {
 				if (res.status === 200) {
 					swal("Success", res.data.message, "success");

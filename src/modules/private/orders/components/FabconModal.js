@@ -8,21 +8,28 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Button,
 } from "@mui/material";
-import { Button } from "react-bootstrap";
 import Http from "../../../../services/Http";
 
-const FabconModal = ({ isOpen, onClose, onSubmit,orderId }) => {
+const FabconModal = ({ isOpen, onClose, order, forceUpdate}) => {
   const [fabconValue, setFabconValue] = useState("");
   const [fabcons, setFabcons] = useState([]);
 
   const handleSubmit = () => {
-    const formData = {
-      fabcon_id: fabconValue,
-    };
-    onSubmit(formData);
-    setFabconValue("");
-  };  
+    Http.post(`/choose/fabcon/${fabconValue}/${order.id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, fabconValue)
+      .then((res) => {
+        if (res.data) {
+          onClose();
+          forceUpdate();
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
 
   const handleInputChange = (e) => {
     setFabconValue(e.target.value);
@@ -33,13 +40,14 @@ const FabconModal = ({ isOpen, onClose, onSubmit,orderId }) => {
   }, []);
 
   const fetchFabcons = () => {
-    Http.get("/show/fabcons")
+    Http.get("/fabcons",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
-        console.log(res.data);
         setFabcons(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
       });
   };
 
@@ -56,19 +64,24 @@ const FabconModal = ({ isOpen, onClose, onSubmit,orderId }) => {
             value={fabconValue}
             onChange={handleInputChange}
           >
-            {fabcons && fabcons.map((fabcon) => {
-              return (
-                <MenuItem key={fabcon.id} value={fabcon.id} id="fabcon_name">
-                  {fabcon.fabcon_name}
-                </MenuItem>
-              );
-            })}
+            {fabcons &&
+              fabcons.map((fabcon) => {
+                return (
+                  <MenuItem key={fabcon.id} value={fabcon.id} id="fabcon_name">
+                    {fabcon.fabcon_name}
+                  </MenuItem>
+                );
+              })}
           </Select>
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Save</Button>
+        <Button onClick={onClose} variant="outlined" size="small">
+          Cancel
+        </Button>
+        <Button onClick={handleSubmit} variant="contained" size="small">
+          Save
+        </Button>
       </DialogActions>
     </Dialog>
   );

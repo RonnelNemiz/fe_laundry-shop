@@ -90,7 +90,9 @@ export default function EditHandling(props) {
     const handleUpdate = () => {
         validator.validateAll(data.values).then(success => {
             if (success) {
-                Http.put(`update/handlings/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/handlings/${selectedItem.id}`,{headers:{
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                  }}, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);

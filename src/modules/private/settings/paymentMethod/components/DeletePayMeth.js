@@ -38,7 +38,9 @@ export default function DeletePayMeth(props) {
 
   const handleDelete = (id) => {
     setLoading(true);
-    Http.delete(`/delete/payments/${id}`)
+    Http.delete(`/delete/payments/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         onDelete();
         forceUpdate();

@@ -8,8 +8,139 @@
 .main-heading {
   text-align: center;
 }
+#nemz {
+  padding-bottom: 5%;
+}
+#madam{
+  width: 70%;
+}
+#dragon{
+  padding-top: 5%;
+  padding-bottom: 2%;
+}
 
-.section {
+/* .section {
   padding-top: 40px;
   padding-bottom: 100px;
+} */
+
+
+/* laptop's */
+@media screen and (max-width: 1200px) {
+  .Mainsection{
+    display: flex;
+    justify-content: center;
+  }
+  .sectionA {
+    display: flex;
+    justify-content: center;
+  }
+  .sectionB {
+    display: flex;
+    justify-content: center;
+  }
+  .sectionB .containerB .row{
+   width: auto;
+  }
+  .sectionC{
+    display: flex;
+    width: auto;
+  }
+}
+
+/* tablet's */
+@media screen and (max-width: 991px) and (max-width: 1024px){
+  .Mainsection{
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    text-align: justify;
+  }
+  .sectionA {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+    text-align: justify;
+  }
+  .sectionB {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  .sectionB .containerB .row{
+   width: auto;
+  }
+  .sectionC{
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5%;
+  }
+  .sectionC .containerC {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    margin-left: 7%;
+  }
+  .sectionC  .imageA {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* mobile */
+@media screen and (max-width: 768px){
+  .Mainsection {
+    width: auto;
+    display: flex;
+    justify-content: center;
+  }
+  .sectionA {
+    display: flex;
+    width: auto;
+    justify-content: center;
+  }
+  .sectionB {
+    width: 100%;
+    display: flex;
+    margin-bottom: -3%;
+    margin-left: 3%;
+  }
+  .sectionB .containerB .row{
+    width: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .sectionB .containerB .text-center {
+    margin-bottom: 5%;
+  }
+  .sectionB .containerB h6{
+    font-size: x-large;
+  }
+  .sectionB .containerB p{
+    line-height: 1;
+  }
+  .sectionC{
+    display: flex;
+    width: 100%;
+    margin-bottom: 50px;
+    margin-top: 70px;
+  }
+  .sectionC .containerC .row {
+    display: flex;
+    flex-direction: column;
+  }
+  .sectionC .containerC p {
+    font-size: 16px;
+    margin-bottom: 5%;
+    padding: 2rem;
+  }
+  #madam{
+    display: flex;
+    padding-left: 27%;
+  }
+  #tiger{
+    padding-bottom: 3%;
+  }
 }

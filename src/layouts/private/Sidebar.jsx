@@ -4,16 +4,14 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import DashboardCustomizeIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useHistory, useLocation } from "react-router-dom";
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ReviewsIcon from '@mui/icons-material/Reviews';
-import SmsIcon from '@mui/icons-material/Sms';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
 import "../../assets/css/admin.css";
-import logo1 from '../../assets/images/laundrylogo.png'
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 
 function Sidebar() {
@@ -24,7 +22,7 @@ function Sidebar() {
 		{
 			path: "/dashboard",
 			label: "Dashboard",
-			icon: <DashboardIcon />,
+			icon: <DashboardCustomizeIcon />,
 		},
 		{
 			path: "/admin/customers",
@@ -47,11 +45,7 @@ function Sidebar() {
 			label: "Reviews",
 			icon: <ReviewsIcon />,
 		},
-		{
-			path: "/sms",
-			label: "Sms",
-			icon: <SmsIcon />,
-		},
+		
 		{
 			path: "/settings",
 			label: "Settings",

@@ -25,13 +25,17 @@ function Customers() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/all-customers",{
+    Http.get("/all-customers",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }},{
       params: {
         ...filters,
         ...params,
       },
 
-    }).then((res) => {
+    },{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then((res) => {
       if (res.data.data) {
         console.log(res.data.data)
         setCustomerList({
@@ -135,11 +139,15 @@ function Customers() {
   };
 
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`).then();
+    Http.get(`update/user/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then();
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`).then(
+    Http.delete(`/delete/user/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then(
       forceUpdate(),
       ToastNotification("success", "Successfully Deleted!", options)
     )
@@ -149,7 +157,9 @@ function Customers() {
   };
 
   const handleShow = (id) => {
-    Http.get(`show/users/${id}`)
+    Http.get(`show/users/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then();   
   };
 

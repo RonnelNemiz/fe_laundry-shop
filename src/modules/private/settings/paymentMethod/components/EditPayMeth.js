@@ -89,7 +89,9 @@ export default function EditPayMeth(props) {
     const handleUpdate = () => {
         validator.validateAll(data.values).then(success => {
             if (success) {
-                Http.put(`update/payments/${selectedItem.id}`, data.values).then((res) => {
+                Http.put(`update/payments/${selectedItem.id}`,{headers:{
+                    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+                  }}, data.values).then((res) => {
                     forceUpdate();
                     handleClose();
                     ToastNotification("success", "Successfully Saved Data", options);

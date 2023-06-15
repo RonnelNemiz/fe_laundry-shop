@@ -3,19 +3,19 @@ import "../order.css";
 // import COD from "../../../../assets/images/codIcon.svg";
 // import Gcash from "../../../../assets/images/gcashIcon.svg";
 import { Box } from "@mui/material";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Reevalidate from "ree-validate-18";
 import PaymentMethodFe from "./PaymentMethodFe";
-import FormFieldData from "../../../../components/FormFieldData";
+import Http from "../../../../services/Http";
 
 const validator = new Reevalidate.Validator({
-  firstname: "required",
-  lastname: "required",
+  first_name: "required",
+  last_name: "required",
   purok: "required",
   brgy: "required",
   municipality: "required",
-  phone: "required|numeric|regex:^09[0-9]{9}$",
-  landmark: "required",
+  contact_number: "required|numeric|regex:^09[0-9]{9}$",
+  land_mark: "required",
   email: "required",
 });
 
@@ -26,21 +26,21 @@ function PersonalDetails(props) {
     handleNext,
     activeStep,
     paymentMethodContainer,
-    personalDetailsContainer,
     setPaymentMethodContainer,
     setPersonalDetailsContainer,
+    personal,
   } = props;
 
   const [personalDetails, setPersonnalDetails] = useState({
     values: {
-      firstname: "",
-      lastname: "",
+      first_name: "",
+      last_name: "",
       purok: "",
       brgy: "",
       municipality: "",
-      phone: "",
-      landmark: "",
-      email:"",
+      contact_number: "",
+      land_mark: "",
+      email: "",
     },
     errors: validator.errors,
   });
@@ -52,11 +52,12 @@ function PersonalDetails(props) {
   });
 
   React.useEffect(() => {
-    if (personalDetailsContainer) {
+    console.log(personal);
+    if (personal) {
       setPersonnalDetails((prev) => ({
         ...prev,
         values: {
-          ...personalDetailsContainer,
+          ...personal,
         },
       }));
     }
@@ -68,8 +69,36 @@ function PersonalDetails(props) {
         },
       }));
     }
+  }, [personal, paymentMethodContainer]);
+
+  React.useEffect(() => {
+    if (!personal) {
+      handleFetchUser();
+    }
   }, []);
 
+  const handleFetchUser = () => {
+    Http.get("customer",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
+      .then((res) => {
+        if (res.data.status === 200) {
+          const user = res.data.user;
+          setPersonnalDetails((prev) => ({
+            ...prev,
+            values: {
+              ...user.profile[0],
+              email: user.email,
+            },
+          }));
+        } else {
+          console.warn(res.data.messages);
+        }
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
+  };
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -135,40 +164,42 @@ function PersonalDetails(props) {
       <main className="main-checkout">
         <section className="checkout-section">
           <h1>CHECKOUT</h1>
-          <h5>Personal Details:</h5>
+          <h5 className="personal" style={{ marginBottom: "1.5rem", color:" #0d6efd" }}>
+            Personal Details:
+          </h5>
           <div className="row">
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>First Name</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="text"
-                  name="firstname"
+                  name="first_name"
                   className="form-control"
                   placeholder="Enter your first name"
-                  value={personalDetails.values.firstname}
+                  value={personalDetails.values.first_name}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Last Name</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="text"
-                  name="lastname"
+                  name="last_name"
                   className="form-control"
                   placeholder="Enter your last name"
-                  value={personalDetails.values.lastname}
+                  value={personalDetails.values.last_name}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Purok</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="text"
                   name="purok"
@@ -176,13 +207,13 @@ function PersonalDetails(props) {
                   placeholder="e.g, Proper"
                   value={personalDetails.values.purok}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Brgy</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="text"
                   name="brgy"
@@ -190,13 +221,13 @@ function PersonalDetails(props) {
                   placeholder="e.g, Sta. Margarita"
                   value={personalDetails.values.brgy}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Municipality</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="text"
                   name="municipality"
@@ -204,18 +235,18 @@ function PersonalDetails(props) {
                   placeholder="e.g, Hilongos"
                   value={personalDetails.values.municipality}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Phone</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
-                  name="phone"
+                  name="contact_number"
                   className="form-control"
                   placeholder="Phone"
-                  value={personalDetails.values.phone}
+                  value={personalDetails.values.contact_number}
                   onChange={handleChange}
                   inputProps={{
                     inputMode: "numeric",
@@ -223,27 +254,27 @@ function PersonalDetails(props) {
                     maxLength: 11,
                   }}
                   required
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Landmark</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="text"
                   name="landmark"
                   className="form-control"
                   placeholder="Landmark"
-                  value={personalDetails.values.landmark}
+                  value={personalDetails.values.land_mark}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
             <div className="col-md-5">
               <div className="form-group mb-3">
                 <label>Email</label>
-                <FormFieldData
+                <Form.Control
                   errors={personalDetails.errors}
                   type="email"
                   name="email"
@@ -251,24 +282,31 @@ function PersonalDetails(props) {
                   placeholder="Email"
                   value={personalDetails.values.email}
                   onChange={handleChange}
-                ></FormFieldData>
+                ></Form.Control>
               </div>
             </div>
           </div>
-
-          <Box>
-            <PaymentMethodFe
-              error={paymentMethod.errors}
-              setFormValues={setPaymentMethod}
-              formValues={paymentMethod.values}
-              handleRadioChange={handleRadioChange}
-              handleSelectPayment={handleSelectPayment}
-            />
-          </Box>
         </section>
       </main>
+      <Box>
+        <PaymentMethodFe
+          error={paymentMethod.errors}
+          setFormValues={setPaymentMethod}
+          formValues={paymentMethod.values}
+          handleRadioChange={handleRadioChange}
+          handleSelectPayment={handleSelectPayment}
+        />
+      </Box>
 
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "space-evenly",
+        }}
+        className="button-back-next-public"
+      >
         <Button
           color="inherit"
           disabled={activeStep === 0}
@@ -277,7 +315,7 @@ function PersonalDetails(props) {
         >
           Back
         </Button>
-        <Button onClick={handleNextStep}>
+        <Button onClick={handleNextStep} style={{ marginLeft: "90%" }}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
       </Box>

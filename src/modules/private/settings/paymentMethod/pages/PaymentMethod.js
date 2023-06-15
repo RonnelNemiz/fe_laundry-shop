@@ -25,7 +25,9 @@ const PaymentMethod = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/payments")
+    Http.get("/payments",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setPaymentData(res.data);
         setIsLoading(false);
@@ -37,17 +39,23 @@ const PaymentMethod = () => {
   }, [ignored]);
   
   const handleUpdate = (values) => {
-    Http.get(`update/payments/${values}`).then(
+    Http.get(`update/payments/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then(
     );
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/payments/${id}`)
+    Http.delete(`delete/payments/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then(
 
       );
   };
 const handleShow = (id) => {
-  Http.get(`view/payments/${id}`)
+  Http.get(`view/payments/${id}`,{headers:{
+    Authorization: `Bearer ${localStorage.getItem("access_token")}`
+  }})
     .then((res) => {
       setSelectedItem(res.data);
     })

@@ -6,6 +6,7 @@ import Blanket from "../../../../assets/images/blanket.png";
 import Pillowcase from "../../../../assets/images/pillows.png";
 import Curtain from "../../../../assets/images/curtains.png";
 
+
 function WhiteBedShTowel(props) {
   const { garments, handleChange } = props;
 
@@ -15,7 +16,8 @@ function WhiteBedShTowel(props) {
         <div className="garment-count-wrapper">
           <article className="garment-count-container">
             <img src={Towel} alt="Towel" />
-            <input
+            <label htmlFor="shirtInput">Towel</label>
+            <Form.Control
               type="number"
               required
               onChange={handleChange}
@@ -26,7 +28,8 @@ function WhiteBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={BedSheet} alt="BedSheet" />
-            <input
+            <label htmlFor="shirtInput">BedSheet</label>
+            <Form.Control
               type="number"
               id="bedsheetInput"
               required
@@ -37,7 +40,8 @@ function WhiteBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Blanket} alt="Blanket" />
-            <input
+            <label htmlFor="shirtInput">Blanket</label>
+            <Form.Control
               type="number"
               id="blanketInput"
               required
@@ -48,7 +52,8 @@ function WhiteBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Pillowcase} alt="Pillowcase" />
-            <input
+            <label htmlFor="shirtInput">Pillowcase</label>
+            <Form.Control
               type="number"
               id="pillowcaseInput"
               required
@@ -59,7 +64,8 @@ function WhiteBedShTowel(props) {
           </article>
           <article className="garment-count-container">
             <img src={Curtain} alt="Curtain" />
-            <input
+            <label htmlFor="shirtInput">Curtain</label>
+            <Form.Control
               type="number"
               id="curtainInput"
               required

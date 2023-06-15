@@ -61,7 +61,9 @@ export default function AddHandling(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/handlings", formValues).then((res) => {
+    Http.post("/add/handlings",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();

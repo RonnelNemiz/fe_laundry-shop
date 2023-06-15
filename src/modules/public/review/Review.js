@@ -3,11 +3,12 @@ import { Box, Button, Paper, Rating, TextField, Typography } from '@mui/material
 import Http from '../../../services/Http';
 import ToastNotification from '../../../components/ToastNotification';
 import { handleErrorResponse } from '../../../utils/helpers';
+import "./review.css";
 
 
 const reviewBox = {
   width: '50%',
-  marginRight: '15px',
+  // marginRight: '15px',
 };
 
 const reviewBox2 = {
@@ -21,7 +22,7 @@ const reviewCon = {
 };
 
 const commentBox = {
-  width: '50%',
+  width: '100%',
   marginLeft: '15px',
   maxHeight: '300px',
   overflowY: 'auto',
@@ -44,7 +45,9 @@ function Review() {
   }, [loading]);
 
   const fetchUserComment = (userId) => {
-    Http.get(`user/comments/${userId}`)
+    Http.get(`user/comments/${userId}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         console.log(res.data.data);
         setUserComment(res.data.data.comments);
@@ -55,7 +58,9 @@ function Review() {
   };
 
   const fetchAdminReply = () => {
-    Http.get('admin/replies')
+    Http.get('admin/replies',{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setAdminReply(res.data.data.replies);
       })
@@ -71,7 +76,9 @@ function Review() {
       rating,
       comment,
     };
-    Http.post('add/reviews', formData)
+    Http.post('add/reviews',{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, formData)
       .then((res) => {
         if (res.data.status === 200) {
           // Handle success message and any other necessary actions
@@ -100,13 +107,13 @@ function Review() {
 
   return (
     <div>
-      <Box sx={reviewCon}>
+      <Box sx={reviewCon} id="reviewsa">
         <Box sx={reviewBox}>
           <Box sx={reviewBox2}>
-            <Typography variant="h5" component="h1" gutterBottom>
+            <Typography variant="h5" component="h1" gutterBottom id="headshot">
               Rate and Review the Laundry Shop
             </Typography>
-            <Rating name="rating" value={rating} onChange={handleRatingChange} />
+            <Rating name="rating" id="stars-ship" value={rating} onChange={handleRatingChange} />
             <TextField
               name="comment"
               label="Comment"
@@ -121,8 +128,8 @@ function Review() {
             </Button>
           </Box>
         </Box>
-        <Box sx={commentBox}>
-          <Paper>
+        <Box sx={commentBox} id="commentkuno">
+          <Paper style={{width:"unset"}}>
             <Box p={2}>
               <Typography variant="h6">User Comment:</Typography>
               {userComment ? (

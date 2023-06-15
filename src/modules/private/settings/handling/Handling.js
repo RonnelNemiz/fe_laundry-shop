@@ -25,7 +25,9 @@ const Handling = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/handlings")
+    Http.get("/handlings",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setHandlingData(res.data);
         setIsLoading(false);
@@ -37,17 +39,23 @@ const Handling = () => {
   }, [ignored]);
 
   const handleUpdate = (values) => {
-    Http.get(`update/handlings/${values}`).then(
+    Http.get(`update/handlings/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then(
     );
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/handlings/${id}`)
+    Http.delete(`delete/handlings/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then(
 
       );
   };
   const handleShow = (id) => {
-    Http.get(`view/handlings/${id}`)
+    Http.get(`view/handlings/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setSelectedItem(res.data);
       })

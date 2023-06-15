@@ -27,7 +27,9 @@ const Detergent = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/detergents")
+    Http.get("/detergents",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setDetergentData(res.data);
         setIsLoading(false);
@@ -39,17 +41,23 @@ const Detergent = () => {
   }, [ignored]);
   
   const handleUpdate = (values) => {
-    Http.get(`update/detergents/${values}`).then(
+    Http.get(`update/detergents/${values}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}).then(
     );
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/detergents/${id}`)
+    Http.delete(`delete/detergents/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then(
 
       );
   };
   const handleShow = (id) => {
-    Http.get(`view/detergents/${id}`)
+    Http.get(`view/detergents/${id}`,{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setSelectedItem(res.data);
         setImageUrls((prevImageUrls) => ({

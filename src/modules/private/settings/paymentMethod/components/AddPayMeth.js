@@ -59,7 +59,9 @@ export default function AddPayMeth(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/payments", formValues).then((res) => {
+    Http.post("/add/payments",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();
@@ -103,7 +105,7 @@ export default function AddPayMeth(props) {
           </Typography>
           <FormFieldData
             fullWidth
-            label="Service"
+            label="Payment Method"
             id="payment_name"
             value={formValues.payment_name}
             name="payment_name"

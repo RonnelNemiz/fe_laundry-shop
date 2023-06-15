@@ -2,10 +2,99 @@
   margin-left: 10%;
   width: 230%;
 }
+.mainNavbarNav{
+  display: flex;
+  justify-content: space-between !important;
+  /* width: 109%; */
+}
 .logoContainer {
   width: 5%;
   margin-left: 2%;
 }
 .logo-container {
   width: 50%;
+}
+.linkBoxbox{
+  margin: 0%;
+  width: 40% !important;
+}
+.MuiPaper-elevation{
+  width: 14%;
+  /* left: 80% !important; */
+}
+.MuiMenuItem-root{
+  width: 0%;
+}
+.nav-item{
+  transition: all .1s ease;
+  border-bottom: 0px solid #0d6efd;
+  border-top: 0px solid #0d6efd;
+  cursor: pointer;
+  padding: 5px 0px;
+  margin-inline: 2%;
+  /* color: #0d6efd */
+}
+.nav-link:hover{
+  border-bottom: 3px solid #0d6efd;
+  border-top: 3px solid #0d6efd;
+}
+.nav-item .nav-link.active {
+  border-bottom: 3px solid #0d6efd;
+  border-top: 3px solid #0d6efd;
+}
+
+
+
+/* laptop's */
+@media screen and (max-width: 1200px) {
+  /* body{
+    width: 126%;
+  } */
+  .nav {
+    display: flex;
+    position: sticky;
+    max-width: 1200px;
+  }
+  .container-fluid {
+    display: block;
+  }
+}
+
+/* tablet's */
+@media screen and (max-width: 1024px) {
+  /* .nav {
+    display: flex;
+    max-width: 991px;
+  }
+  .container-fluid {
+    display: flex;
+    margin-left: 95%;
+    margin-top: -50px;
+  } */
+}
+
+
+@media screen and (max-width: 991px){
+
+  .logo-name1{
+    width:300%;
+  }
+  .MuiPaper-elevation {
+    width: 20%;
+    /* left: 57.3% ; */
+ }
+}
+
+@media screen and (max-width: 768px) {
+  /* .nav {
+    display: flex;
+  }
+  .container-fluid {
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: flex-end;
+    width: 40%;
+  }
+   */
 }

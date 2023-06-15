@@ -18,7 +18,8 @@ function WhiteGarments(props) {
         <div className="garment-count-wrapper">
           <article className="garment-count-container">
             <img src={Shirt} alt="Shirt" />
-            <input
+            <label htmlFor="shirtInput">Shirt</label>
+            <Form.Control
               type="number"
               required
               onChange={handleChange}
@@ -29,7 +30,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Underwear} alt="Underwear" />
-            <input
+            <label htmlFor="shirtInput">Underwear</label>
+            <Form.Control
               type="number"
               id="underwearInput"
               required
@@ -40,7 +42,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Short} alt="Short" />
-            <input
+            <label htmlFor="shirtInput">Short</label>
+            <Form.Control
               type="number"
               id="shortInput"
               required
@@ -51,7 +54,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Trousers} alt="Trousers" />
-            <input
+            <label htmlFor="shirtInput">Trouser</label>
+            <Form.Control
               type="number"
               id="trousersInput"
               required
@@ -62,7 +66,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Jacket} alt="Jacket" />
-            <input
+            <label htmlFor="shirtInput">Jacket</label>
+            <Form.Control
               type="number"
               id="hoodieInput"
               required
@@ -73,7 +78,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Blouse} alt="Blouse" />
-            <input
+            <label htmlFor="shirtInput">Blouse</label>
+            <Form.Control
               type="number"
               id="blouseInput"
               required
@@ -84,7 +90,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Socks} alt="Socks" />
-            <input
+            <label htmlFor="shirtInput">Socks</label>
+            <Form.Control
               type="number"
               id="socksInput"
               required
@@ -95,7 +102,8 @@ function WhiteGarments(props) {
           </article>
           <article className="garment-count-container">
             <img src={Handkerchief} alt="Handkerchief" />
-            <input
+            <label htmlFor="shirtInput">Handkerchief</label>
+            <Form.Control
               type="number"
               id="handkerchiefInput"
               required

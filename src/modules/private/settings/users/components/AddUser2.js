@@ -87,7 +87,9 @@ const handleMouseDownPassword = (event) => {
   }, []);
 
   const fetchRoles = () => {
-    Http.get("roles")
+    Http.get("roles",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setRoles(res.data.roles);
       })
@@ -122,7 +124,9 @@ const handleMouseDownPassword = (event) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/users", formValues).then((res) => {
+    Http.post("/add/users",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }}, formValues).then((res) => {
       if (res.data.status === 200) {
         forceUpdate();
         handleClose();    

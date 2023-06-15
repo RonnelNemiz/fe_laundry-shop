@@ -1,4 +1,4 @@
-import { Box, FormHelperText } from "@mui/material";
+import { FormHelperText } from "@mui/material";
 import React from "react";
 import Http from "../../../../services/Http";
 
@@ -22,7 +22,9 @@ function PaymentMethodFe(props) {
   }, []);
 
   const fetchpayments = () => {
-    Http.get("/show/payments")
+    Http.get("/show/payments",{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then((res) => {
         setpayment({
           values: {
@@ -36,16 +38,15 @@ function PaymentMethodFe(props) {
   };
 
   return (
-    <Box>
-      <form>
-        <main className="payment-main">
-          <section className="schedule-section mt-5">
-            <h1>Payment Method</h1>
-
-            <div className="section-flex">
+    
+        <main className="payment-main" style={{width: "90%"}}>
+          <section className="schedule-section mt-4">
+            <h1 className="service-h1-style">PAYMENT METHOD</h1>
+            <div className="section-flex service-style">
               {payment &&
                 payment.values.payment_method.map((paymentItem) => (
                   <label
+                  style={{ paddingBottom: "5%" }}
                     key={paymentItem.id}
                     htmlFor={paymentItem.payment_name}
                     onClick={() =>
@@ -79,8 +80,8 @@ function PaymentMethodFe(props) {
             )}
           </section>
         </main>
-      </form>
-    </Box>
+     
+   
   );
 }
 

@@ -10,6 +10,7 @@ import Navbar from "../../../layouts/public/Navbar";
 import Footer from "../../../layouts/public/Footer";
 
 
+
 const reviewCon = {
   padding:"5%",
   // display:"flex",
@@ -20,7 +21,7 @@ function Services() {
     <div>
       <Navbar />
       <div>
-        <div className="container">
+        <div className="container-A" id="kalma">
           <div className="row">
             <div className="col-md-12 mb-4 text-center">
               <h2 className="heading">Home Pickup & Delivery Services</h2>
@@ -58,7 +59,7 @@ function Services() {
                 priority.
               </p>
             </div>
-            <div className="col-md-4 text-center">
+            <div className="run col-md-4 text-center">
               <div className="iconbox-icon rounded-circle">
                 <button
                   id="icon-btn"
@@ -76,14 +77,15 @@ function Services() {
           </div>
         </div>
 
-        <section className="section bg-light border-top" style={{height:"100vh"}}>
-          <div className="container" id="price-container">
+        <section className="section-c bg-light border-top" id="secret" >
+          {/* <div className="container" id="price-container"> */}
+          <div  id="price-container">
             <h2 className="text-center title">Pricing</h2>
             <div className="underline mx-auto"></div>
             <p className="text-center description">
               Enjoy our very affordable price!
             </p>
-            <div className="card-container">
+            <div className="card-container" id="suwaji">
               <div className="img col-md-3 service-item">
                 <div className="card shadow">
                   <img
@@ -93,10 +95,10 @@ function Services() {
                   />
                   <div className="card-body">
                     <h5 className="card-title text-center">Rate Per Load</h5>
-                    <h6 className="text-center">PHP 190</h6>
+                    <h6 className="text-center">PHP 300</h6>
 
                     <ul className="service-prices">
-                      <li>Whites (Garments & towel): 5 kls. Max.</li>
+                      <li>Whites (Garments & towel): 7 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
                       <button className="button-29" id="orderNow">
@@ -115,10 +117,10 @@ function Services() {
                   />
                   <div className="card-body">
                     <h5 className="card-title text-center">Rate Per Load</h5>
-                    <h6 className="text-center">PHP 190</h6>
+                    <h6 className="text-center">PHP 250</h6>
 
                     <ul className="service-prices">
-                      <li>Whites (Bedsheet & Towel) : 6 kls. Max.</li>
+                      <li>Whites (Bedsheet & Towel) : 7 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
                       <button className="button-29" id="orderNow">
@@ -137,10 +139,10 @@ function Services() {
                   />
                   <div className="card-body">
                     <h5 className="card-title text-center">Rate Per Load</h5>
-                    <h6 className="text-center">PHP 190</h6>
+                    <h6 className="text-center">PHP 200</h6>
 
                     <ul className="service-prices">
-                      <li>Colored (Bedsheet & Towel): 5 kls. Max.</li>
+                      <li>Colored (Bedsheet & Towel): 7 kls. Max.</li>
                     </ul>
                     <NavLink to="/order" className="orderNow">
                       <button className="button-29" id="orderNow">
@@ -150,7 +152,7 @@ function Services() {
                   </div>
                 </div>
               </div>
-              <div className="img col-md-3 service-item">
+              <div className="img-1 col-md-3 service-item">
                 <div className="card shadow">
                   <img
                     src={img4}
@@ -159,12 +161,12 @@ function Services() {
                   />
                   <div className="card-body">
                     <h5 className="card-title text-center">Rate Per Load </h5>
-                    <h6 className="text-center">PHP 190</h6>
+                    <h6 className="text-center">PHP 150</h6>
 
                     <ul className="service-prices">
                       <li>Colored (Tshirt, Pants, Underwear): 7 kls. Max.</li>
                     </ul>
-                    <NavLink to="/order" className="orderNow">
+                    <NavLink to="/order" className="orderNow" >
                       <button className="button-29" id="orderNow">
                         Order Now
                       </button>
