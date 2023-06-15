@@ -18,10 +18,10 @@
   margin: 0%;
   width: 40% !important;
 }
-.MuiPaper-elevation{
+/* .MuiPaper-elevation{
   width: 14%;
-  /* left: 80% !important; */
-}
+  left: 80% !important;
+} */
 .MuiMenuItem-root{
   width: 0%;
 }
@@ -79,10 +79,10 @@
   .logo-name1{
     width:300%;
   }
-  .MuiPaper-elevation {
+  /* .MuiPaper-elevation {
     width: 20%;
-    /* left: 57.3% ; */
- }
+    left: 57.3% ;
+ } */
 }
 
 @media screen and (max-width: 768px) {
