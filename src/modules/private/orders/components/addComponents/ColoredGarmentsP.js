@@ -14,107 +14,154 @@ function ColoredGarmentsP(props) {
 
   return (
     <div>
-      <section className="order-details-options mt-4">
-        <div className="garment-count-wrapper">
-          <article className="garment-count-container">
-            <img src={Shirt} alt="Shirt" />
-            <label htmlFor="shirtInput">Shirt</label>
+    <section className="order-details-options mt-4">
+      <div className="d-flex flex-wrap gap-2">
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Shirt} alt="Shirt" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Shirt</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_tshirt"
-              required
-              id="shirtInput"
-              value={garments.values.colorgart_tshirt}
               onChange={handleChange}
+              value={garments.values.colorgart_tshirt}
+              id="shirtInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-          <article className="garment-count-container">
-            <img src={Short} alt="Short" />
-            <label htmlFor="shirtInput">Short</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Short} alt="Short" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Short</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_shorts"
-              id="shZortInput"
-              required
-              value={garments.values.colorgart_shorts}
               onChange={handleChange}
+              value={garments.values.colorgart_shorts}
+              id="shZortInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-          <article className="garment-count-container">
-            <img src={Trousers} alt="Trousers" />
-            <label htmlFor="shirtInput">Trouser</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Trousers} alt="Trousers" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Trousers</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_trousers"
-              id="trouserInput"
-              required
-              value={garments.values.colorgart_trousers}
               onChange={handleChange}
+              value={garments.values.colorgart_trousers}
+              id="trouserInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-
-          <article className="garment-count-container">
-            <img src={Jacket} alt="Jacket" />
-            <label htmlFor="shirtInput">Jacket</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Jacket} alt="Jacket" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Jacket</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_jacket"
-              id="hoodieInput"
-              required
-              value={garments.values.colorgart_jacket}
               onChange={handleChange}
+              value={garments.values.colorgart_jacket}
+              id="hoodieInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-          <article className="garment-count-container">
-            <img src={Underwear} alt="Underwear" />
-            <label htmlFor="shirtInput">Underwear</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Underwear} alt="Underwear" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Underwear</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_underwear"
-              id="underwearInput"
-              required
-              value={garments.values.colorgart_underwear}
               onChange={handleChange}
+              value={garments.values.colorgart_underwear}
+              id="underwearInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-          <article className="garment-count-container">
-            <img src={Blouse} alt="Blouse" />
-            <label htmlFor="shirtInput">Blouse</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Blouse} alt="Blouse" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Blouse</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_blouse"
-              id="blouseInput"
-              required
-              value={garments.values.colorgart_blouse}
               onChange={handleChange}
+              value={garments.values.colorgart_blouse}
+              id="blouseInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-          <article className="garment-count-container">
-            <img src={Socks} alt="Socks" />
-            <label htmlFor="shirtInput">Socks</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Socks} alt="Socks" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Socks</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_socks"
-              id="socksInput"
-              required
-              value={garments.values.colorgart_socks}
               onChange={handleChange}
+              value={garments.values.colorgart_socks}
+              id="socksInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-          <article className="garment-count-container">
-            <img src={Handkerchief} alt="Handkerchief" />
-            <label htmlFor="shirtInput">Handkerchief</label>
+          </div>
+        </article>
+        <article className="d-flex justify-content-between card flex-grow-1">
+          <div className="card-body">
+            <div className="d-flex mb-2 align-items-center">
+              <img src={Handkerchief} alt="Handkerchief" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+              <label htmlFor="shirtInput">Handkerchief</label>
+            </div>
             <Form.Control
               type="number"
               name="colorgart_handkerchief"
-              id="handkerchiefInput"
-              required
-              value={garments.values.colorgart_handkerchief}
               onChange={handleChange}
+              value={garments.values.colorgart_handkerchief}
+              id="handkerchiefInput"
+              style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+              placeholder="How many?"
+              required
             />
-          </article>
-        </div>
-      </section>
+          </div>
+        </article>
+      </div>
+    </section>
     </div>
   );
 }

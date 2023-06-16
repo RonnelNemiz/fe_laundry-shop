@@ -82,108 +82,112 @@ function OrderSummaryP(props) {
 
   return (
     <>
-      <Box className="payment-main">
-        <h3 style={{ textAlign: "center", marginTop: "20px" }}>
-          <b>Order Summary</b>
-        </h3>
-        <Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Name:</b>
-            </Typography>
-            <Typography>
-              {personal.firstname} {personal.lastname}
-            </Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Address:</b>
-            </Typography>
-            <Typography>
-              {personal.purok} {personal.brgy} {personal.municipality}, Leyte
-            </Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Landmark:</b>
-            </Typography>
-            <Typography>{personal.landmark}</Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Contact Number:</b>
-            </Typography>
-            <Typography>{personal.phone}</Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Email:</b>
-            </Typography>
-            <Typography>{personal.email}</Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Categories:</b>
-            </Typography>
-            <Typography dangerouslySetInnerHTML={generateOrderSummary()} />
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Service:</b>
-            </Typography>
-            <Typography>{service.service}</Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Handling:</b>
-            </Typography>
-            <Typography>{handling.handling}</Typography>
-          </Box>
-          <Box sx={boxStyle}>
-            <Typography sx={semiTitle}>
-              <b>Payment Method:</b>
-            </Typography>
-            <Typography>{paymentMethod.paymentMethod}</Typography>
-          </Box>
+      <Box className="card mt-2">
+        <div className="card-header bg-primary bg-gradient-primary text-light">
+          <h3>Order Details</h3>
+        </div>
+        <Box className="card-body">
+          <div className="row">
+            <div className="col-md-4 col-12">
+              Name:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{personal.firstname} {personal.lastname}</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+              Address:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{personal.purok} {personal.brgy} {personal.municipality}, Leyte</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+              Landmark:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{personal.landmark}</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+              Contact Number:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{personal.phone}</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+              Email:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{personal.email}</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+              Categories:
+            </div>
+            <div className="col-md-8 col-12">
+              <Typography dangerouslySetInnerHTML={generateOrderSummary()} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+             Service:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{service.service}</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+             Handling:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{handling.handling}</strong>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-4 col-12">
+             Payment Method:
+            </div>
+            <div className="col-md-8 col-12">
+              <strong>{paymentMethod.paymentMethod}</strong>
+            </div>
+          </div>
         </Box>
-        <Box style={{ paddingTop: "5%" }}>
-          <Box>
-            <Typography>
-              <h5 style={{ textAlign: "center" }}>
-                <br />
-                <br />
-                <b>Steps on how to pay:</b>
-              </h5>
-            </Typography>
-            <PersonPayP />
-          </Box> 
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            paddingTop: "40px",
-            justifyContent: "space-evenly",
-          }}
+      </Box>
+        
+      <Box className="card mt-2">
+        <div className="card-header bg-primary bg-gradient text-light">
+          <h3>Ways to Pay</h3>
+        </div>
+        <div className="card-body">
+          <PersonPayP />
+        </div>
+      </Box>
+      <Box className="d-flex justify-content-between mt-2">
+        <Button
+          color="inherit"
+          disabled={activeStep === 0}
+          onClick={handleBack}
+          style={{padding:"5px 30px"}}
         >
-          <Button
-            color="inherit"
-            disabled={activeStep === 0}
-            onClick={handleBack}
-            sx={{ mr: 1 }}
-          >
-            Back
-          </Button>
+          Back
+        </Button>
 
-          <Button
-            onClick={
-              activeStep === steps.length - 1 ? handleSubmit : handleNext
-            }
-            // style={{ marginLeft: "90%" }}
-          >
-            {activeStep === steps.length - 1 ? "Finish" : "Next"}
-          </Button>
-        </Box>
+        <Button
+          onClick={
+            activeStep === steps.length - 1 ? handleSubmit : handleNext
+          }
+          style={{padding:"5px 30px"}}
+        >
+          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+        </Button>
       </Box>
     </>
   );

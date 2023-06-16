@@ -242,36 +242,43 @@ function LaundryDetailsP(props) {
           servformValues={servformValues}
         />
       </Box>
-      <main className="payment-main">
-        <section className="customize-section">
-          <h1 className="service-h1-style">ORDER DETAILS</h1>
-          <p>Select categories:</p>
+      <main className="mt-2">
+        <section className="card">
+          <div className="card-header bg-primary bg-gradient-primary text-light">
+            <h3>ORDER DETAILS</h3>
+          </div>
+          <div className="card-body">
+            <p>Select categories:</p>
 
-          <select
-            onChange={handleSelect}
-            className="col-md-4 btn btn-secondary dropdown-toggle"
-          >
-            {pages.map((page, index) => (
-              <option key={index} value={index}>
-                {page.title}
-              </option>
-            ))}
-          </select>
-          {pages[selectedPage].content}
+            <select
+              onChange={handleSelect}
+              className="col-md-6 btn btn-secondary dropdown-toggle"
+            >
+              {pages.map((page, index) => (
+                <option key={index} value={index} style={{textAlign:"left"}}>
+                  {page.title}
+                </option>
+              ))}
+            </select>
+            {pages[selectedPage].content}
+          </div>
         </section>
       </main>
 
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2, justifyContent:"space-evenly"  }} className="button-back-next">
+      <Box className="button-back-next justify-content-between d-flex mt-2">
         <Button
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
-          sx={{ mr: 1 }}
+          style={{padding:"5px 30px"}}
         >
           Back
         </Button>
        
-        <Button onClick={handleNextStep} style={{ marginLeft: "90%"}}>
+        <Button 
+          onClick={handleNextStep}
+          style={{padding:"5px 30px"}}
+          >
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
       </Box>

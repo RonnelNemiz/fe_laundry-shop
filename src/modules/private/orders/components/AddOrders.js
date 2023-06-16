@@ -1,7 +1,6 @@
 import React from "react";
 // import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../order.css";
 import StepperP from "./addComponents/StepperP";
 import Http from "../../../../services/Http";
 import AddBoxIcon from '@mui/icons-material/AddBox';
