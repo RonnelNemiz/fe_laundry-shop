@@ -36,34 +36,33 @@ function PaymentMethodFeP(props) {
   };
 
   return (
-    
-        <main className="payment-main" style={{width: "90%"}}>
-          <section className="schedule-section mt-4">
-            <h1 className="service-h1-style">PAYMENT METHOD</h1>
-            <div className="section-flex service-style">
+        <main className="mt-2">
+          <section className="card">
+            <div className="card-header bg-primary bg-gradient-primary text-light">
+              <h3>PAYMENT METHODS</h3>
+            </div>
+            <div className="card-body d-flex flex-column">
               {payment &&
                 payment.values.payment_method.map((paymentItem) => (
                   <label
-                  style={{ paddingBottom: "5%" }}
                     key={paymentItem.id}
                     htmlFor={paymentItem.payment_name}
                     onClick={() =>
                       handleSelectPayment(paymentItem.payment_name)
                     }
                   >
-                    <article className="shipping-radio-flex">
-                      <div>
-                        <h2>{paymentItem.payment_name}</h2>
-                      </div>
-                      <div className="radio">
+                    <article className="d-flex flex-column card-header">
+                      <div className="d-flex">
                         <input
                           id={paymentItem.payment_name}
+                          style={{marginRight:"15px"}}
                           name="paymentMethod"
                           type="radio"
                           value={paymentItem.payment_name}
                           onChange={handleRadioChange}
                           required
                         />
+                        <p className="m-0">{paymentItem.payment_name}</p>
                       </div>
                     </article>
                   </label>

@@ -73,14 +73,15 @@ function BookingFormP(props) {
   return (
     <Box>
       <form>
-        <main className="payment-main">
-          <section className="schedule-section">
-            <h1 className="service-h1-style">SERVICES</h1>
-            <div className="section-flex service-style">
+        <main className="payment-main mt-3">
+          <section className="card">
+            <div className="card-header bg-primary bg-gradient-primary text-light">
+              <h3>SERVICES</h3>
+            </div>
+            <div className="card-body d-flex flex-column">
               {services &&
                 services.map((serviceItem) => (
                   <label
-                    style={{ paddingBottom: "5%" }}
                     key={serviceItem.id}
                     htmlFor={serviceItem.service_name}
                     onClick={() =>
@@ -90,20 +91,15 @@ function BookingFormP(props) {
                       )
                     }
                   >
-                    <article className="shipping-radio-flex">
-                      <div>
-                        <h2>{serviceItem.service_name}</h2>
-                      </div>
+                    <article className="d-flex justify-content-between card-header">
+                      <p className="m-0">{serviceItem.service_name}</p>
                       <div className="radio">
-                        <h6>
-                          <b>Add</b>
-                        </h6>
-                        <span>₱{serviceItem.service_price.toFixed(2)}</span>
                         <input
                           id={serviceItem.service_name}
                           name="service"
                           type="radio"
                           value={serviceItem.service_name}
+                          style={{marginRight:"15px"}}
                           checked={
                             servformValues.values.service ===
                             serviceItem.service_name
@@ -111,6 +107,7 @@ function BookingFormP(props) {
                           onChange={handleRadioChange}
                           required
                         />
+                        <span>₱{serviceItem.service_price.toFixed(2)}</span>
                       </div>
                     </article>
                   </label>
@@ -124,13 +121,14 @@ function BookingFormP(props) {
             )}
           </section>
 
-          <section className="schedule-section mt-5">
-            <h1 className="service-h1-style">HANDLING</h1>
-            <div className="section-flex service-style">
+          <section className="card mt-3">
+            <div className="card-header bg-primary bg-gradient-primary text-light">
+              <h3>HANDLING</h3>
+            </div>
+            <div className="card-body d-flex flex-column">
               {handling &&
                 handling.map((handlingItem) => (
                   <label
-                    style={{ paddingBottom: "5%" }}
                     key={handlingItem.id}
                     htmlFor={handlingItem.handling_name}
                     onClick={() =>
@@ -140,20 +138,15 @@ function BookingFormP(props) {
                       )
                     }
                   >
-                    <article className="shipping-radio-flex">
-                      <div>
-                        <h2>{handlingItem.handling_name}</h2>
-                      </div>
+                    <article className="d-flex justify-content-between card-header">
+                        <p className="m-0">{handlingItem.handling_name}</p>
                       <div className="radio">
-                        <h6>
-                          <b>Add</b>
-                        </h6>
-                        <span>₱{handlingItem.handling_price.toFixed(2)}</span>
                         <input
                           id={handlingItem.handling_name}
                           name="handling"
                           type="radio"
                           value={handlingItem.handling_name}
+                          style={{marginRight:"15px"}}
                           checked={
                             formValues.values.handling ===
                             handlingItem.handling_name
@@ -161,6 +154,7 @@ function BookingFormP(props) {
                           onChange={handleRadioChange}
                           required
                         />
+                        <span>₱{handlingItem.handling_price.toFixed(2)}</span>
                       </div>
                     </article>
                   </label>
