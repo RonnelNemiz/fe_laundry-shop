@@ -98,7 +98,7 @@ function BookingForm(props) {
                         <h6>
                           <b>Add</b>
                         </h6>
-                        <span>₱{serviceItem.service_price.toFixed(2)}</span>
+                        <span>₱{parseFloat(serviceItem.service_price).toFixed(2)}</span>
                         <input
                           id={serviceItem.service_name}
                           name="service"
@@ -148,7 +148,7 @@ function BookingForm(props) {
                         <h6>
                           <b>Add</b>
                         </h6>
-                        <span>₱{handlingItem.handling_price.toFixed(2)}</span>
+                        <span>₱{parseFloat(handlingItem.handling_price).toFixed(2)}</span>
                         <input
                           id={handlingItem.handling_name}
                           name="handling"
