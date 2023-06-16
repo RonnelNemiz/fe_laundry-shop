@@ -143,7 +143,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="/services"
+                  to="show/services"
                   className="nav-link"
                   activeClassName="active"
                   aria-current="page"
