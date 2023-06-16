@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Gcash from "../../../../../assets/images/gcashIcon.svg";
 import COD from "../../../../../assets/images/COD.png"
 import COP from "../../../../../assets/images/COP.png"
-import "../../../../public/orderfe/order.css"
+import "../../order.css";
 
 const steps = [
   {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../../../public/orderfe/order.css"
+import "../../order.css";
 // import COD from "../../../../assets/images/codIcon.svg";
 // import Gcash from "../../../../assets/images/gcashIcon.svg";
 import { Box } from "@mui/material";
