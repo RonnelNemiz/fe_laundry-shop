@@ -5,10 +5,8 @@ import ToastNotification from '../../../components/ToastNotification';
 import { handleErrorResponse } from '../../../utils/helpers';
 import "./review.css";
 
-
 const reviewBox = {
   width: '50%',
-  // marginRight: '15px',
 };
 
 const reviewBox2 = {
@@ -37,30 +35,31 @@ function Review() {
 
   useEffect(() => {
     fetchUserComment();
-  }, []);
-
-  useEffect(() => {
     fetchAdminReply();
-    fetchUserComment();
   }, [loading]);
 
-  const fetchUserComment = (userId) => {
-    Http.get(`user/comments/${userId}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+  const fetchUserComment = () => {
+    const userId = localStorage.getItem('user_id'); 
+  
+    Http.get(`user/comments/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+      },
+    })
       .then((res) => {
-        console.log(res.data.data);
         setUserComment(res.data.data.comments);
       })
       .catch((err) => {
         console.error('Error fetching user comment:', err);
       });
   };
-
+  
   const fetchAdminReply = () => {
-    Http.get('admin/replies',{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get('admin/replies', {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+      }
+    })
       .then((res) => {
         setAdminReply(res.data.data.replies);
       })
@@ -76,23 +75,22 @@ function Review() {
       rating,
       comment,
     };
-    Http.post('add/reviews',{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, formData)
+    Http.post('add/reviews', formData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`
+      }
+    })
       .then((res) => {
         if (res.data.status === 200) {
-          // Handle success message and any other necessary actions
           ToastNotification('success', 'Successfully Saved Data!');
           setRating(0);
           setComment('');
           setLoading(!loading);
         } else {
-          // Handle error message
           ToastNotification('error', res.data.message);
         }
       })
       .catch((err) => {
-        // Handle error message
         ToastNotification('error', handleErrorResponse(err));
       });
   };
@@ -115,7 +113,7 @@ function Review() {
             </Typography>
             <Rating name="rating" id="stars-ship" value={rating} onChange={handleRatingChange} />
             <TextField
-              name="comment"
+              name="comments"
               label="Comment"
               multiline
               rows={4}
@@ -129,7 +127,7 @@ function Review() {
           </Box>
         </Box>
         <Box sx={commentBox} id="commentkuno">
-          <Paper style={{width:"unset"}}>
+          <Paper style={{ width: "unset" }}>
             <Box p={2}>
               <Typography variant="h6">User Comment:</Typography>
               {userComment ? (
@@ -144,26 +142,26 @@ function Review() {
                   )}
                 </>
               ) : (
-                <Typography>No comment</Typography>
+                <Typography>No comments yet.</Typography>
               )}
             </Box>
+          </Paper>
+          <Paper style={{ width: "unset" }}>
             <Box p={2}>
               <Typography variant="h6">Admin Reply:</Typography>
-              {adminReply?.length > 0 ? (
-                adminReply.map((reply, index) => (
-                  <div key={index}>
-                    {reply?.length > 100 ? (
-                      <>
-                        <Typography>{`${reply.slice(0, 100)}...`}</Typography>
-                        <Typography color="primary">See More</Typography>
-                      </>
-                    ) : (
-                      <Typography>{reply}</Typography>
-                    )}
-                  </div>
-                ))
+              {adminReply ? (
+                <>
+                  {adminReply?.length > 100 ? (
+                    <>
+                      <Typography>{`${adminReply.slice(0, 100)}...`}</Typography>
+                      <Typography color="primary">See More</Typography>
+                    </>
+                  ) : (
+                    <Typography>{adminReply}</Typography>
+                  )}
+                </>
               ) : (
-                <Typography>No reply</Typography>
+                <Typography>No replies yet.</Typography>
               )}
             </Box>
           </Paper>

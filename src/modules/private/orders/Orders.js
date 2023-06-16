@@ -370,11 +370,11 @@ const Orders = () => {
   };
 
   const handleFabconSubmit = (order, fabconValue) => {
-    Http.put(`/orders/${order.fabcon_id}/update-fabcon`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, {
+    Http.put(`/orders/${order.fabcon_id}/update-fabcon`,{
       fabcon_id: fabconValue,
-    })
+    },{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }})
       .then(() => {
         closeFabconModal();
         forceUpdate();

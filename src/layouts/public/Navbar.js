@@ -21,9 +21,7 @@ function Navbar() {
   const handleShow = () => setShow(true);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [accountName, setAccountName] = useState(""); // New state variable for account name
-  const [accountAvatar, setAccountAvatar] = useState("");
-  const [data, setData] = useState(null);
+  // const [data, setData] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -32,25 +30,18 @@ function Navbar() {
     setAnchorEl(null);
   };
 
-  useEffect(() => {
-    if (isAuth()) {
-      fetch("/api/account")
-        .then((response) => response.json())
-        .then((responseData) => {
-          setData(responseData);
-        })
-        .catch((error) => {
-          console.error("Error fetching account data:", error);
-
-          if (data.name) {
-            setAccountName(data.name);
-          }
-          if (data.avatar) {
-            setAccountAvatar(data.avatar);
-          }
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (isAuth()) {
+  //     fetch("/api/account")
+  //       .then((response) => response.json())
+  //       .then((responseData) => {
+  //         setData(responseData);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching account data:", error);
+  //       });
+  //   }
+  // }, []);
 
   const info = Fetchinfo();
 
@@ -73,27 +64,12 @@ function Navbar() {
         </NavLink>
       </div>
       <div className="container-fluid linkBoxbox">
-        {/* <Link to="/" className="navbar-brand">Laundry Shop Management System</Link> */}
-        {/* <button
-        
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button> */}
-
         <div className="navbar-toggler ">
           <NavLink
             to="#"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar"
             aria-controls="offcanvasNavbar"
-            // aria-expanded="false"
-            // aria-label="Toggle navigation"
           >
             <i className="fa-solid fa-bars"></i>
           </NavLink>
@@ -105,7 +81,6 @@ function Navbar() {
           aria-labelledby="offcanvasNavbarLabel"
           style={{ visibility: "unset" }}
         >
-          {/* <div classNameName="nnavNavbarItems "> */}
           <div className="offcanvas-header">
             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
               Offcanvas
@@ -229,12 +204,7 @@ function Navbar() {
                     transformOrigin={{ horizontal: "right", vertical: "top" }}
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
-                    <MenuItem onClick={handleExit}>
-                      <Avatar />
-                      {info?.profile?.first_name
-                        ? info?.profile?.first_name
-                        : "Profile"}
-                    </MenuItem>
+                   
                     <MenuItem onClick={handleExit}>
                       <Avatar />
                       <NavLink
@@ -247,12 +217,6 @@ function Navbar() {
                       </NavLink>
                     </MenuItem>
                     <Divider />
-                    {/* <MenuItem onClick={handleExit}>
-                    <ListItemIcon>
-                      <Settings fontSize="small" />
-                    </ListItemIcon>
-                    Settings
-                  </MenuItem> */}
                     <MenuItem onClick={handleShow}>
                       <ListItemIcon>
                         <Logout fontSize="small" />

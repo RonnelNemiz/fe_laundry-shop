@@ -14,17 +14,11 @@
 #madam{
   width: 70%;
 }
-#dragon{
-  padding-top: 5%;
-  padding-bottom: 2%;
+
+.laundry-img{
+  margin-bottom: 30px;
+  width: 50%;
 }
-
-/* .section {
-  padding-top: 40px;
-  padding-bottom: 100px;
-} */
-
-
 /* laptop's */
 @media screen and (max-width: 1200px) {
   .Mainsection{
@@ -124,8 +118,6 @@
   .sectionC{
     display: flex;
     width: 100%;
-    margin-bottom: 50px;
-    margin-top: 70px;
   }
   .sectionC .containerC .row {
     display: flex;
@@ -138,9 +130,12 @@
   }
   #madam{
     display: flex;
-    padding-left: 27%;
   }
   #tiger{
     padding-bottom: 3%;
+  }
+  .laundry-img{
+    width: 75%;
+    margin-bottom: 30px;
   }
 }

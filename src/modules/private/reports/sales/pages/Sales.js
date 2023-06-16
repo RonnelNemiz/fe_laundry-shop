@@ -19,11 +19,29 @@ import AddSales from "../components/AddSales";
 import EditSales from "../components/EditSales";
 import DeleteSales from "../components/DeleteSales";
 
-
 function Sales() {
   const [sales, setSales] = useState([]);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [totalsales, setTotalSales] = useState([]);
+  useEffect(() => {
+    fetchingTotalSales();
+  }, []);
+
+  console.log(totalsales);
+  const fetchingTotalSales = (params = {}) => {
+    setIsLoading(true);
+    Http.get("/totalsales")
+      .then((res) => {
+        setTotalSales(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
 
   useEffect(() => {
     fetchingData();
@@ -68,7 +86,13 @@ function Sales() {
           <div className="p-3  d-flex justify-content-around align-items-center">
             <div>
               <h3 className="fs-4">Today</h3>
-              <p className="fs-6">₱5,000</p>
+            
+               {totalsales?.sales && (
+                <div key={totalsales?.sales.week}>
+                  <p className="fs-6">{totalsales?.sales.week}</p>
+                </div>
+              )}
+           
             </div>
             <FontAwesomeIcon icon="fa-solid fa-chart-line" size="2x" />
           </div>
@@ -77,7 +101,11 @@ function Sales() {
           <div className="p-3  d-flex justify-content-around align-items-center">
             <div>
               <h3 className="fs-4">This Week</h3>
-              <p className="fs-6">₱20,000</p>
+              {totalsales?.sales && (
+                <div key={totalsales?.sales.week}>
+                  <p className="fs-6">{totalsales?.sales.week}</p>
+                </div>
+              )}
             </div>
             <FontAwesomeIcon icon="fa-solid fa-chart-line" size="2x" />
           </div>
@@ -86,7 +114,12 @@ function Sales() {
           <div className="p-3  d-flex justify-content-around align-items-center">
             <div>
               <h3 className="fs-4">This Month</h3>
-              <p className="fs-6">₱50,000</p>
+
+              {totalsales?.sales && (
+                <div key={totalsales?.sales.week}>
+                  <p className="fs-6">{totalsales?.sales.month}</p>
+                </div>
+              )}
             </div>
             <FontAwesomeIcon icon="fa-solid fa-chart-line" size="2x" />
           </div>
@@ -106,7 +139,8 @@ function Sales() {
                     color: "white",
                     backgroundColor: "#0E4C91",
                   },
-                }}>
+                }}
+              >
                 <TableRow>
                   <TableCell size="small">Title</TableCell>
                   <TableCell size="small">Description</TableCell>

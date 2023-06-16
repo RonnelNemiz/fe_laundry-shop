@@ -17,7 +17,7 @@ const FabconModal = ({ isOpen, onClose, order, forceUpdate}) => {
   const [fabcons, setFabcons] = useState([]);
 
   const handleSubmit = () => {
-    Http.post(`/choose/fabcon/${fabconValue}/${order.id}`,{headers:{
+    Http.post(`/choose/fabcon/${fabconValue}/${order.id}`, {headers:{
       Authorization: `Bearer ${localStorage.getItem("access_token")}`
     }}, fabconValue)
       .then((res) => {

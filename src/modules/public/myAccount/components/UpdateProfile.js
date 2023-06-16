@@ -1,21 +1,37 @@
-import React, { useState } from 'react';
-import { Button, Modal, Box } from '@mui/material';
-import FormFieldData from '../../../../components/FormFieldData';
+import React, { useEffect, useState } from "react";
+import { Button, Modal, Box } from "@mui/material";
+import FormFieldData from "../../../../components/FormFieldData";
 
 const inputStyle = {
   mb: 2,
 };
-const editButtonStyle ={
+const editButtonStyle = {
   display: "flex",
-    justifyContent: "center",
-    paddingTop: "20px",
+  justifyContent: "center",
+  paddingTop: "20px",
 };
 
-const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, setCustomerAccount }) => {
+const UpdateProfile = ({
+  selectedItem,
+  onEdit,
+  forceUpdate,
+  customerAccount,
+  setCustomerAccount,
+}) => {
   const [editMode, setEditMode] = useState(false);
   const [profile, setProfile] = useState(selectedItem);
   // const [email, setEmail] = useState(customerAccount?.email || '');
   // const [password, setPassword] = useState(customerAccount?.password || '');
+
+  useEffect(() => {
+    if (customerAccount) {
+      setProfile({
+        ...customerAccount.profile[0],
+        email: customerAccount.email,
+        role: customerAccount.role,
+      });
+    }
+  }, [customerAccount]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,12 +63,12 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
     onEdit(profile);
     setEditMode(false);
     forceUpdate();
-    setCustomerAccount((prevAccount) => ({
-      ...prevAccount,
-      // email: email,
-      // password: password,
-      profile: [{ ...profile }],
-    }));
+    // setCustomerAccount((prevAccount) => ({
+    //   ...prevAccount,
+    //   // email: email,
+    //   // password: password,
+    //   profile: [{ ...profile }],
+    // }));
   };
 
   const handleClose = () => {
@@ -61,28 +77,28 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
 
   return (
     <div>
-      <Box sx={{editButtonStyle}}>
-      <Button variant="contained" onClick={handleEdit} >
-        Update Profile
-      </Button>
+      <Box sx={{ editButtonStyle }}>
+        <Button variant="contained" onClick={handleEdit}>
+          Update Profile
+        </Button>
       </Box>
       <Modal open={editMode} onClose={handleClose}>
         <Box
           sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
             width: 400,
-            bgcolor: 'background.paper',
+            bgcolor: "background.paper",
             boxShadow: 24,
             p: 4,
-            overflowX:'auto',
-            height:'85vh',
+            overflowX: "auto",
+            height: "85vh",
           }}
         >
           <FormFieldData
-          fullWidth
+            fullWidth
             name="first_name"
             label="First Name"
             value={profile.first_name}
@@ -90,7 +106,7 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="last_name"
             label="Last Name"
             value={profile.last_name}
@@ -98,7 +114,7 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="purok"
             label="Purok"
             value={profile.purok}
@@ -106,7 +122,7 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="brgy"
             label="Barangay"
             value={profile.brgy}
@@ -114,7 +130,7 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="municipality"
             label="Municipality"
             value={profile.municipality}
@@ -122,7 +138,7 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="contact_number"
             label="Contact Number"
             value={profile.contact_number}
@@ -130,7 +146,7 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="land_mark"
             label="Land Mark"
             value={profile.land_mark}
@@ -138,22 +154,22 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
             sx={inputStyle}
           />
           <FormFieldData
-          fullWidth
+            fullWidth
             name="email"
             label="Email"
             value={profile.email}
             onChange={handleInputChange}
             sx={inputStyle}
-            />
+          />
 
-            <FormFieldData
+          <FormFieldData
             fullWidth
             name="password"
             label="Password"
             value={profile.password}
             onChange={handleInputChange}
             sx={inputStyle}
-            />
+          />
 
           {/* Add input fields for other profile attributes */}
           <Button variant="contained" onClick={handleSave}>

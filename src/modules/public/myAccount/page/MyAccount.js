@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState } from "react";
 import {
   Box,
   Table,
@@ -9,30 +9,29 @@ import {
   TableRow,
   Tooltip,
   Typography,
-} from '@mui/material';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Http from '../../../../services/Http';
+} from "@mui/material";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import Http from "../../../../services/Http";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteHistory from '../components/DeleteHistory';
-import ShowHistory from '../components/ShowHistory';
-import { NavLink } from 'react-router-dom';
-import UpdateProfile from '../components/UpdateProfile';
-
+import DeleteHistory from "../components/DeleteHistory";
+import ShowHistory from "../components/ShowHistory";
+import { NavLink } from "react-router-dom";
+import UpdateProfile from "../components/UpdateProfile";
 
 const styleLink = {
   color: "red",
-  paddingRight:"5px"
+  paddingRight: "5px",
 };
 
 const styleBox1 = {
   display: "flex",
   justifyContent: "flex-start",
-  alignItems:"center",
+  alignItems: "center",
   paddingTop: "15px",
   paddingLeft: "20px",
 };
-const accountStyle ={
-  padding:"50px"
+const accountStyle = {
+  padding: "50px",
 };
 
 const profileBoxStyle = {
@@ -46,8 +45,8 @@ const tableContainerStyle = {
   marginTop: "10px",
   padding: "10px",
 };
-const orderStyle ={
-  padding:"50px"
+const orderStyle = {
+  padding: "50px",
 };
 
 function MyAccount() {
@@ -61,9 +60,11 @@ function MyAccount() {
   }, []);
 
   const handleFetchCustomer = () => {
-    Http.get("customer",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("customer", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((res) => {
         if (res.data.status === 200) {
           setCustomerAccount(res.data.user);
@@ -79,12 +80,13 @@ function MyAccount() {
   }, [ignored]);
 
   const handleFetchCustomerHistory = () => {
-    Http.get("history",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("history", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((res) => {
         if (res.data.status === 200) {
-          console.log(res.data.orders);
           setCustomerHistory(res.data.orders);
         }
       })
@@ -94,9 +96,11 @@ function MyAccount() {
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/orders/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then();
+    Http.delete(`/delete/orders/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
 
   const handleShow = (orders) => {
@@ -126,13 +130,19 @@ function MyAccount() {
     //   municipality: profile.municipality,
     //   contact_number: profile.contact_number,
     //   land_mark: profile.land_mark,
-    //   password:customerAccount?.password, 
+    //   password:customerAccount?.password,
     //   role: customerAccount?.role,
     // };
 
-    Http.put(`edit/profile/${customerAccount?.id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, params)
+    Http.put(
+      `edit/profile/${params.user_id}`,
+      params
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      //   },
+      // },
+    )
       .then((res) => {
         // Handle success
         console.log(res.data);
@@ -148,7 +158,9 @@ function MyAccount() {
   return (
     <Box>
       <div style={styleBox1}>
-        <NavLink to="/home" style={styleLink}>Home</NavLink>
+        <NavLink to="/home" style={styleLink}>
+          Home
+        </NavLink>
         <ArrowForwardIosIcon sx={{ fontSize: "1em" }} />
         <Typography>Your Account</Typography>
       </div>
@@ -160,18 +172,23 @@ function MyAccount() {
       <Box sx={profileBoxStyle}>
         {customerAccount?.profile.map((profile) => (
           <p key={profile.user_id}>
-            <span style={{ textAlign: "center" }}>Name: {profile.first_name}</span>
+            <span style={{ textAlign: "center" }}>
+              Name: {profile.first_name}
+            </span>
             <br />
-            <span style={{ textAlign: "center" }}>Email: {customerAccount?.email}</span>
+            <span style={{ textAlign: "center" }}>
+              Email: {customerAccount?.email}
+            </span>
             <br />
-            <span style={{ textAlign: "center" }}>Password: **************</span>
+            <span style={{ textAlign: "center" }}>
+              Password: **************
+            </span>
 
             <UpdateProfile
               selectedItem={profile}
               onEdit={handleUpdate}
-              forceUpdate={() => forceUpdate()}
+              forceUpdate={forceUpdate}
               customerAccount={customerAccount}
-              setCustomerAccount={setCustomerAccount}
             />
           </p>
         ))}
@@ -184,12 +201,14 @@ function MyAccount() {
         <Typography>Your Orders</Typography>
         <TableContainer sx={tableContainerStyle}>
           <Table>
-            <TableHead sx={{
-              "& th": {
-                color: "white",
-                backgroundColor: "#0E4C91",
-              },
-            }}>
+            <TableHead
+              sx={{
+                "& th": {
+                  color: "white",
+                  backgroundColor: "#0E4C91",
+                },
+              }}
+            >
               <TableRow>
                 <TableCell size="small">Actions</TableCell>
                 <TableCell size="small">Transaction#</TableCell>
@@ -227,7 +246,9 @@ function MyAccount() {
                   </TableCell>
                   <TableCell size="small">{order.trans_number}</TableCell>
                   <TableCell size="small">{order.created_at}</TableCell>
-                  <TableCell size="small">{order.payment.payment_name}  </TableCell>
+                  <TableCell size="small">
+                    {order.payment.payment_name}{" "}
+                  </TableCell>
                   <TableCell size="small">{order.total}</TableCell>
                   <TableCell size="small">{order.status}</TableCell>
                   <TableCell size="small">{order.payment_status}</TableCell>
