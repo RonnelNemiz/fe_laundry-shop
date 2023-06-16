@@ -31,9 +31,7 @@ function OrderSummaryP(props) {
   const history = useHistory();
   console.log(garments);
   const handleSubmit = () => {
-    Http.post("/new/admin/orders",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, {
+    Http.post("/new/admin/orders", {
       body: {
         garments: garments,
         personal_details: personal,
@@ -41,7 +39,9 @@ function OrderSummaryP(props) {
         handling: handling,
         service: service,
       },
-    })
+    },{headers:{
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    }},)
       .then((res) => {
         if (res.data.status === 200) {
           swal("success", "Successfully Added!", "success");
