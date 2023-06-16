@@ -1,7 +1,5 @@
 import React from "react";
-// import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./order.css";
 import Navbar from "../../../layouts/public/Navbar";
 import Stepper from "./components/Stepper";
 import Http from "../../../services/Http";
