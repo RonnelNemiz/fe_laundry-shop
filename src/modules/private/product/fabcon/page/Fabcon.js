@@ -25,9 +25,11 @@ const Fabcon = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/fabcons",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/fabcons"
+    // ,{headers:{
+    //   Authorization: `Bearer ${localStorage.getItem("access_token")}`
+    // }}
+    )
       .then((res) => {
         setFabconData(res.data);
         setIsLoading(false);

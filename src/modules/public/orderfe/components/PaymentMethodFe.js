@@ -39,35 +39,33 @@ function PaymentMethodFe(props) {
 
   return (
     
-        <main className="payment-main" style={{width: "90%"}}>
-          <section className="schedule-section mt-4">
-            <h1 className="service-h1-style">PAYMENT METHOD</h1>
-            <div className="section-flex service-style">
+        <main className="payment-main card mt-3">
+          <section className="schedule-section">
+            <div className="card-header bg-primary bg-gradient text-light">
+              <h3>PAYMENT METHOD</h3>
+            </div>
+            <div className="card-body d-flex flex-column">
               {payment &&
                 payment.values.payment_method.map((paymentItem) => (
                   <label
-                  style={{ paddingBottom: "5%" }}
                     key={paymentItem.id}
                     htmlFor={paymentItem.payment_name}
                     onClick={() =>
                       handleSelectPayment(paymentItem.payment_name)
                     }
                   >
-                    <article className="shipping-radio-flex">
-                      <div>
-                        <h2>{paymentItem.payment_name}</h2>
-                      </div>
-                      <div className="radio">
-                        {/* <h6><b>Add</b></h6>
-                      <span>₱{paymentItem.payment_price.toFixed(2)}</span> */}
+                    <article>
+                      <div className="radio d-flex align-items-center card-header">
                         <input
                           id={paymentItem.payment_name}
                           name="paymentMethod"
                           type="radio"
                           value={paymentItem.payment_name}
                           onChange={handleRadioChange}
+                          style={{ marginRight:"15px"}}
                           required
                         />
+                        <p className="m-0">{paymentItem.payment_name}</p>
                       </div>
                     </article>
                   </label>

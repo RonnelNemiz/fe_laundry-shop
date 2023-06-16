@@ -74,13 +74,14 @@ function BookingForm(props) {
     <Box>
       <form>
         <main className="payment-main">
-          <section className="schedule-section">
-            <h1 className="service-h1-style">SERVICES</h1>
-            <div className="section-flex service-style">
+          <section className="card mt-3">
+            <div className="card-header bg-primary bg-gradient text-light">
+              <h3 className="service-h1-style">SERVICES</h3>
+            </div>
+            <div className="card-body d-flex flex-column">
               {services &&
                 services.map((serviceItem) => (
                   <label
-                    style={{ paddingBottom: "5%" }}
                     key={serviceItem.id}
                     htmlFor={serviceItem.service_name}
                     onClick={() =>
@@ -90,19 +91,14 @@ function BookingForm(props) {
                       )
                     }
                   >
-                    <article className="shipping-radio-flex">
-                      <div>
-                        <h2>{serviceItem.service_name}</h2>
-                      </div>
+                    <div className="card-header d-flex justify-content-between align-items-center">
+                      <p className="m-0">{serviceItem.service_name}</p>
                       <div className="radio">
-                        <h6>
-                          <b>Add</b>
-                        </h6>
-                        <span>₱{parseFloat(serviceItem.service_price).toFixed(2)}</span>
                         <input
                           id={serviceItem.service_name}
                           name="service"
                           type="radio"
+                          style={{ marginRight:"15px"}}
                           value={serviceItem.service_name}
                           checked={
                             servformValues.values.service ===
@@ -111,8 +107,9 @@ function BookingForm(props) {
                           onChange={handleRadioChange}
                           required
                         />
+                        <span className="ml-2">₱{parseFloat(serviceItem.service_price).toFixed(2)}</span>
                       </div>
-                    </article>
+                    </div>
                   </label>
                 ))}
             </div>
@@ -124,13 +121,14 @@ function BookingForm(props) {
             )}
           </section>
 
-          <section className="schedule-section mt-5">
-            <h1 className="service-h1-style">HANDLING</h1>
-            <div className="section-flex service-style">
+          <section className="card mt-3">
+            <div className="card-header bg-primary bg-gradient text-light">
+              <h3 className="service-h1-style">HANDLING</h3>
+            </div>
+            <div className="card-body d-flex flex-column">
               {handling &&
                 handling.map((handlingItem) => (
                   <label
-                    style={{ paddingBottom: "5%" }}
                     key={handlingItem.id}
                     htmlFor={handlingItem.handling_name}
                     onClick={() =>
@@ -140,19 +138,14 @@ function BookingForm(props) {
                       )
                     }
                   >
-                    <article className="shipping-radio-flex">
-                      <div>
-                        <h2>{handlingItem.handling_name}</h2>
-                      </div>
+                    <article className="card-header d-flex justify-content-between">
+                        <p className="m-0">{handlingItem.handling_name}</p>
                       <div className="radio">
-                        <h6>
-                          <b>Add</b>
-                        </h6>
-                        <span>₱{parseFloat(handlingItem.handling_price).toFixed(2)}</span>
                         <input
                           id={handlingItem.handling_name}
                           name="handling"
                           type="radio"
+                          style={{ marginRight: "15px"}}
                           value={handlingItem.handling_name}
                           checked={
                             formValues.values.handling ===
@@ -161,6 +154,7 @@ function BookingForm(props) {
                           onChange={handleRadioChange}
                           required
                         />
+                        <span>₱{parseFloat(handlingItem.handling_price).toFixed(2)}</span>
                       </div>
                     </article>
                   </label>
