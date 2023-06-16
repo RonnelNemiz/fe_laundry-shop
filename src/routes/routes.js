@@ -12,7 +12,7 @@ const routes = [
     component: "modules/public/contact/Contact",
   },
   {
-    path: "/services",
+    path: "show/services",
     component: "modules/public/services/Services",
   },
 
