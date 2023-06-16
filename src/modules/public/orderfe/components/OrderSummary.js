@@ -166,6 +166,7 @@ function OrderSummary(props) {
             paddingTop: "40px",
             justifyContent: "space-evenly",
           }}
+          className="button-back-next-public"
         >
           <Button
             color="inherit"

@@ -1,7 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import {
   Box,
-  Button,
   Table,
   TableBody,
   TableCell,
@@ -22,17 +21,15 @@ import UpdateProfile from '../components/UpdateProfile';
 
 const styleLink = {
   color: "red",
-};
-const styleLinkUpdate = {
-  color: "red",
-  cursor: "pointer",
+  paddingRight:"5px"
 };
 
 const styleBox1 = {
   display: "flex",
-  width: "15%",
-  justifyContent: "space-around",
-  alignItems: "center",
+  justifyContent: "flex-start",
+  alignItems:"center",
+  paddingTop: "15px",
+  paddingLeft: "20px",
 };
 const accountStyle ={
   padding:"50px"
@@ -105,17 +102,17 @@ function MyAccount() {
   const handleShow = (orders) => {
     setShowOrder(orders);
   };
-  const [data, setData] = useState({
-    first_name: "",
-    last_name: "",
-    purok: "",
-    brgy: "",
-    municipality: "",
-    phone: "",
-    land_mark: "",
-    email:"",
-    password:"",
-  });
+  // const [data, setData] = useState({
+  //   first_name: "",
+  //   last_name: "",
+  //   purok: "",
+  //   brgy: "",
+  //   municipality: "",
+  //   phone: "",
+  //   land_mark: "",
+  //   email:"",
+  //   password:"",
+  // });
 
   const handleUpdate = (params) => {
     // const profile = customerAccount?.profile[0];

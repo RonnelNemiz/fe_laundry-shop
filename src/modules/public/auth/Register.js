@@ -32,9 +32,7 @@ function Register() {
 
 	const registerSubmit = (e) => {
 		e.preventDefault();
-		Http.post("/register",{headers:{
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`
-          }}, registerInput)
+		Http.post("/register", registerInput)
 			.then((res) => {
 				if (res.status === 200) {
 					swal("Success", res.data.message, "success");

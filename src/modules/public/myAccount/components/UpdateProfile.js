@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { TextField, Button, Modal, Box } from '@mui/material';
+import { Button, Modal, Box } from '@mui/material';
 import FormFieldData from '../../../../components/FormFieldData';
 
 const inputStyle = {
   mb: 2,
+};
+const editButtonStyle ={
+  display: "flex",
+    justifyContent: "center",
+    paddingTop: "20px",
 };
 
 const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, setCustomerAccount }) => {
@@ -56,9 +61,11 @@ const UpdateProfile = ({ selectedItem, onEdit, forceUpdate, customerAccount, set
 
   return (
     <div>
-      <Button variant="contained" onClick={handleEdit}>
-        Edit
+      <Box sx={{editButtonStyle}}>
+      <Button variant="contained" onClick={handleEdit} >
+        Update Profile
       </Button>
+      </Box>
       <Modal open={editMode} onClose={handleClose}>
         <Box
           sx={{
