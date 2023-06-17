@@ -161,6 +161,11 @@ export default function EditModal(props) {
           <TextField id="standard-basic" label="Last Name" variant="standard" />
           <TextField id="standard-basic" label="Address" variant="standard" />
           <TextField
+            id="standard-basic"
+            label="Weight (in kg)"
+            variant="standard"
+          />
+          <TextField
             id="outlined-select-currency"
             select
             label="Payment Status"
