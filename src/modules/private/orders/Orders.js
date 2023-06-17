@@ -63,26 +63,28 @@ const Orders = () => {
       name: "actions",
       label: "Actions",
       options: {
-        customBodyRender: (value) => {
+        customBodyRender: (value, tableMeta) => {
+          const order = orders[tableMeta.rowIndex];
+          console.log("Order const: ", order);
           return (
             <Stack direction="row" spacing={1}>
               <IconButton
                 aria-label="view"
-                onClick={handleShowViewModal}
+                onClick={() => handleShowViewModal(order.id)}
                 color="primary"
               >
                 <ViewIcon />
               </IconButton>
               <IconButton
                 aria-label="edit"
-                onClick={handleShowEditModal}
+                onClick={() => handleShowEditModal(order.id)}
                 color="warning"
               >
                 <EditIcon />
               </IconButton>
               <IconButton
                 aria-label="pay"
-                onClick={handleShowPayModal}
+                onClick={() => handleShowPayModal(order.id)}
                 color="success"
               >
                 <PayIcon />
@@ -222,6 +224,7 @@ const Orders = () => {
         fetchingData={fetchingData}
         open={showViewModal}
         onClose={() => setShowViewModal(false)}
+        orderId={selectedOrder}
       />
       <EditModal
         fetchingData={fetchingData}

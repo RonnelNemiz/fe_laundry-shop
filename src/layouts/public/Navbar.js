@@ -7,6 +7,7 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
+import Dashboard from "@mui/icons-material/Dashboard";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -21,7 +22,6 @@ function Navbar() {
   const handleShow = () => setShow(true);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
-  // const [data, setData] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -29,19 +29,6 @@ function Navbar() {
   const handleExit = () => {
     setAnchorEl(null);
   };
-
-  // useEffect(() => {
-  //   if (isAuth()) {
-  //     fetch("/api/account")
-  //       .then((response) => response.json())
-  //       .then((responseData) => {
-  //         setData(responseData);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching account data:", error);
-  //       });
-  //   }
-  // }, []);
 
   const info = Fetchinfo();
 
@@ -204,7 +191,6 @@ function Navbar() {
                     transformOrigin={{ horizontal: "right", vertical: "top" }}
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
-                   
                     <MenuItem onClick={handleExit}>
                       <Avatar />
                       <NavLink
@@ -214,6 +200,18 @@ function Navbar() {
                         aria-current="page"
                       >
                         My Account
+                      </NavLink>
+                    </MenuItem>
+                    <MenuItem onClick={handleExit}>
+                      <Dashboard />
+                      <NavLink
+                        to="/dashboard"
+                        className="nav-link"
+                        activeClassName="active"
+                        aria-current="page"
+                        style={{ paddingLeft: "15px" }}
+                      >
+                        Dashboard
                       </NavLink>
                     </MenuItem>
                     <Divider />
@@ -232,7 +230,7 @@ function Navbar() {
                     <NavLink
                       to="/login"
                       className="nav-link"
-                        activeClassName="active"
+                      activeClassName="active"
                       aria-current="page"
                     >
                       Login
@@ -242,7 +240,7 @@ function Navbar() {
                     <NavLink
                       to="/register"
                       className="nav-link"
-                        activeClassName="active"
+                      activeClassName="active"
                       aria-current="page"
                     >
                       Register
