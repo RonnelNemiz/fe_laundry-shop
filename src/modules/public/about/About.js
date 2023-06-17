@@ -10,7 +10,7 @@ function About() {
 	  <div>
 		 <Navbar/>
 		 <div>
-		 <section className="Mainsection px-5 mx-5">
+		 <section className="Mainsection px-0 px-md-5 mx-5">
 				  <div className="maincontainer">
 					<div className="row">
 					  <div className="col-md-12-text-center">
@@ -34,7 +34,7 @@ function About() {
 				  </div>
 			</section>
   
-			<section className="sectionA px-5 mx-5">
+			<section className="sectionA px-0 px-md-5 mx-5">
 				  <div className="maincontainer">
 					<div className="row">
 					  <div className="col-md-12-text-center">
@@ -52,7 +52,7 @@ function About() {
 				  </div>
 			</section>
   
-			<section className="sectionB text-black">
+			<section className="sectionA px-0 px-md-5 mx-5">
 			  <div className="maincontainer">
 				  <div className="row" id="nemz">
 					  <div className="col-md text-center" id="tiger">
@@ -91,7 +91,7 @@ function About() {
 				  </div>
 		  </section>
   
-		  <section className="sectionC bg-light text-dark" id="dragon">
+		  <section className="px-0 px-md-5 mx-5">
 			  <div className="maincontainer">
 				  <div className="row">
 					  <div className="col-md text-center">
@@ -102,8 +102,8 @@ function About() {
 						   our platform is designed to provide a fun and easy laundry experience.
 						  </p>
 					  </div>
-					  <div className="col-md text-center" id="madam">
-						  <img src={imageA} alt="images"/>
+					  <div className="col-md text-center img-fluid">
+						  <img src={imageA} alt="images" className='laundry-img'/>
 					  </div>
 					  </div>
 				  </div>
@@ -116,4 +116,3 @@ function About() {
   }
   
   export default About
-  

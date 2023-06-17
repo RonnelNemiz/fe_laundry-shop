@@ -6,14 +6,6 @@ import { useHistory } from "react-router-dom";
 import Http from "../../../../../services/Http"
 import PersonPayP from "./PersonPayP";
 // import PersonToPayP from "./PersonToPayP";
-
-const boxStyle = {
-  display: "flex",
-};
-const semiTitle = {
-  marginRight: 2,
-};
-
 function OrderSummaryP(props) {
   const {
     steps,
@@ -41,7 +33,7 @@ function OrderSummaryP(props) {
       },
     },{headers:{
       Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }},)
+    }})
       .then((res) => {
         if (res.data.status === 200) {
           swal("success", "Successfully Added!", "success");

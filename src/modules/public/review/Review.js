@@ -1,70 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, Paper, Rating, TextField, Typography } from '@mui/material';
-import Http from '../../../services/Http';
-import ToastNotification from '../../../components/ToastNotification';
-import { handleErrorResponse } from '../../../utils/helpers';
+import React, { useState, useEffect } from "react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Rating,
+  TextField,
+  Typography,
+} from "@mui/material";
+import Http from "../../../services/Http";
+import ToastNotification from "../../../components/ToastNotification";
+import { handleErrorResponse } from "../../../utils/helpers";
 import "./review.css";
+// import DeleteIcon from "@mui/icons-material/Delete";
+// import DeleteReviewModal from "./DeleteReviewModal";
 
 const reviewBox = {
-  width: '50%',
+  width: "50%",
+  // marginRight: '15px',
 };
 
 const reviewBox2 = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '80%',
+  display: "flex",
+  flexDirection: "column",
+  width: "80%",
 };
 
 const reviewCon = {
-  display: 'flex',
-};
-
-const commentBox = {
-  width: '100%',
-  marginLeft: '15px',
-  maxHeight: '300px',
-  overflowY: 'auto',
+  display: "flex",
 };
 
 function Review() {
   const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
-  const [userComment, setUserComment] = useState('');
-  const [adminReply, setAdminReply] = useState([]);
+  const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userReviews, setUserReviews] = useState([]);
+
+  // const [isModalOpen, setModalOpen] = useState(false);
+  // const [selectedReview, setSelectedReview] = useState(null);
+
+  // const handleOpenModal = (review) => {
+  //   setSelectedReview(review);
+  //   setModalOpen(true);
+  // };
+
+  // const handleCloseModal = () => {
+  //   setModalOpen(false);
+  // };
 
   useEffect(() => {
     fetchUserComment();
-    fetchAdminReply();
   }, [loading]);
 
-  const fetchUserComment = () => {
-    const userId = localStorage.getItem('user_id'); 
-  
-    Http.get(`user/comments/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-      },
-    })
+  const fetchUserComment = (userId) => {
+    Http.get(`user/comments/${userId}`)
       .then((res) => {
-        setUserComment(res.data.data.comments);
+        setUserReviews(res.data.data);
       })
       .catch((err) => {
-        console.error('Error fetching user comment:', err);
-      });
-  };
-  
-  const fetchAdminReply = () => {
-    Http.get('admin/replies', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`
-      }
-    })
-      .then((res) => {
-        setAdminReply(res.data.data.replies);
-      })
-      .catch((err) => {
-        console.error('Error fetching admin reply:', err);
+        console.error("Error fetching user comments:", err);
       });
   };
 
@@ -75,23 +73,19 @@ function Review() {
       rating,
       comment,
     };
-    Http.post('add/reviews', formData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`
-      }
-    })
+    Http.post("add/reviews", formData)
       .then((res) => {
         if (res.data.status === 200) {
-          ToastNotification('success', 'Successfully Saved Data!');
+          ToastNotification("success", "Successfully Saved Data!");
           setRating(0);
-          setComment('');
+          setComment("");
           setLoading(!loading);
         } else {
-          ToastNotification('error', res.data.message);
+          ToastNotification("error", res.data.message);
         }
       })
       .catch((err) => {
-        ToastNotification('error', handleErrorResponse(err));
+        ToastNotification("error", handleErrorResponse(err));
       });
   };
 
@@ -103,6 +97,27 @@ function Review() {
     setComment(e.target.value);
   };
 
+  // const handleDeleteReview = () => {
+  //   if (selectedReview) {
+  //     Http.delete(`delete/customerside/${selectedReview.id}`)
+  //       .then((res) => {
+  //         if (res.data.message) {
+  //           ToastNotification("success", res.data.message);
+  //           setLoading(!loading);
+  //         } else {
+  //           ToastNotification("error", "Failed to delete review");
+  //         }
+  //       })
+  //       .catch((err) => {
+  //         ToastNotification("error", "Failed to delete review");
+  //       })
+  //       .finally(() => {
+  //         handleCloseModal();
+  //       });
+  //   }
+  // };
+  
+
   return (
     <div>
       <Box sx={reviewCon} id="reviewsa">
@@ -111,9 +126,14 @@ function Review() {
             <Typography variant="h5" component="h1" gutterBottom id="headshot">
               Rate and Review the Laundry Shop
             </Typography>
-            <Rating name="rating" id="stars-ship" value={rating} onChange={handleRatingChange} />
+            <Rating
+              name="rating"
+              id="stars-ship"
+              value={rating}
+              onChange={handleRatingChange}
+            />
             <TextField
-              name="comments"
+              name="comment"
               label="Comment"
               multiline
               rows={4}
@@ -121,52 +141,116 @@ function Review() {
               onChange={handleCommentChange}
               margin="normal"
             />
-            <Button type="submit" variant="contained" color="primary" onClick={handleSubmitRating}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              onClick={handleSubmitRating}
+            >
               Submit
             </Button>
           </Box>
         </Box>
-        <Box sx={commentBox} id="commentkuno">
-          <Paper style={{ width: "unset" }}>
-            <Box p={2}>
-              <Typography variant="h6">User Comment:</Typography>
-              {userComment ? (
-                <>
-                  {userComment?.length > 100 ? (
-                    <>
-                      <Typography>{`${userComment.slice(0, 100)}...`}</Typography>
-                      <Typography color="primary">See More</Typography>
-                    </>
-                  ) : (
-                    <Typography>{userComment}</Typography>
-                  )}
-                </>
-              ) : (
-                <Typography>No comments yet.</Typography>
-              )}
-            </Box>
-          </Paper>
-          <Paper style={{ width: "unset" }}>
-            <Box p={2}>
-              <Typography variant="h6">Admin Reply:</Typography>
-              {adminReply ? (
-                <>
-                  {adminReply?.length > 100 ? (
-                    <>
-                      <Typography>{`${adminReply.slice(0, 100)}...`}</Typography>
-                      <Typography color="primary">See More</Typography>
-                    </>
-                  ) : (
-                    <Typography>{adminReply}</Typography>
-                  )}
-                </>
-              ) : (
-                <Typography>No replies yet.</Typography>
-              )}
-            </Box>
-          </Paper>
+        <Box style={{ height: "50vh", overflowX: "auto", width: "40%" }}>
+          {userReviews && userReviews.length > 0 ? (
+            <>
+              {userReviews.map((review, index) => (
+                <List
+                  sx={{
+                    width: "100%",
+                    maxWidth: 500,
+                    bgcolor: "background.paper",
+                  }}
+                  key={index}
+                >
+                  <ListItem alignItems="flex-start">
+                    <ListItemAvatar>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src="/static/images/avatar/1.jpg"
+                      />
+                    </ListItemAvatar>
+                    <Box style={{ display: "flex", flexDirection: "column" }}>
+                      <ListItemText
+                        primary={
+                          <React.Fragment>
+                            <Typography sx={{ fontSize: ".8em" }}>
+                              Rating: {review.rating}
+                            </Typography>
+                          </React.Fragment>
+                        }
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              sx={{ display: "inline" }}
+                              component="span"
+                              variant="body2"
+                              color="text.primary"
+                            >
+                              You
+                            </Typography>
+                            <span> — {review.comment}</span>
+                            <Typography sx={{ fontSize: "10px" }}>
+                              ({review.created_at})
+                            </Typography>
+                          </React.Fragment>
+                        }
+                      />
+                      <ListItemText
+                        style={{ textIndent: "50px" }}
+                        primary={<React.Fragment></React.Fragment>}
+                        secondary={
+                          <React.Fragment>
+                            <Typography
+                              sx={{ display: "inline" }}
+                              component="span"
+                              variant="body2"
+                              color="text.primary"
+                            >
+                              Admin
+                              <span> — {review.reply}</span>
+                            </Typography>
+                            <Typography sx={{ fontSize: "10px" }}>
+                              ({review.reply_at})
+                            </Typography>
+                          </React.Fragment>
+                        }
+                      />
+                    </Box>
+                    {/* <Box sx={{ flexGrow: 1 }} />
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleOpenModal(review)}
+                    >
+                      <DeleteIcon />
+                    </IconButton> */}
+                  </ListItem>
+
+                  <Divider
+                    variant="inset"
+                    component="li"
+                    style={{
+                      color: "black",
+                      marginLeft: "4%",
+                      marginRight: "4%",
+                    }}
+                  />
+                </List>
+              ))}
+            </>
+          ) : (
+            <Typography>No comment</Typography>
+          )}
         </Box>
       </Box>
+      {/* {selectedReview && (
+        <DeleteReviewModal
+          open={isModalOpen}
+          onClose={handleCloseModal}
+          onDelete={handleDeleteReview}
+        />
+      )} */}
     </div>
   );
 }
