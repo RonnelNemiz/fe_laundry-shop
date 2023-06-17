@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useReducer } from 'react';
-import { Paper } from '@mui/material';
-import Http from '../../../../services/Http';
-import ToastNotificationContainer from '../../../../components/ToastNotificationContainer';
-import AddCustomers from '../components/AddCustomers';
-import ToastNotification from '../../../../components/ToastNotification';
-import DataTableCustomers from '../components/DataTableCustomers';
-
+import React, { useEffect, useState, useReducer } from "react";
+import { Paper } from "@mui/material";
+import Http from "../../../../services/Http";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
+import AddCustomers from "../components/AddCustomers";
+import ToastNotification from "../../../../components/ToastNotification";
+import DataTableCustomers from "../components/DataTableCustomers";
 
 function Customers() {
   const [loading, setLoading] = useState(false);
@@ -17,7 +16,6 @@ function Customers() {
   const [filters, setFilters] = useState({
     limit: 25,
   });
-  
 
   useEffect(() => {
     fetchingData();
@@ -25,19 +23,27 @@ function Customers() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/all-customers",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }},{
-      params: {
-        ...filters,
-        ...params,
+    Http.get(
+      "/all-customers",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       },
-
-    },{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then((res) => {
+      {
+        params: {
+          ...filters,
+          ...params,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      }
+    ).then((res) => {
       if (res.data.data) {
-        console.log(res.data.data)
+        console.log(res.data.data);
         setCustomerList({
           data: res.data.data,
           meta: res.data.meta,
@@ -49,69 +55,69 @@ function Customers() {
 
   const columns = [
     {
-      name: "profile",
-      label: "Image", 
-      customBodyRender: (item) => {
-        return item[0] && item[0].image;
-      }
+      name: "profile.0.image",
+      label: "Image",
+      type: "image",
+      // customBodyRender: (item) => {
+      //   return item[0] && item[0].image;
+      // }
     },
     {
       name: "email",
-      label: "Email", 
+      label: "Email",
     },
     {
       name: "profile",
-      label: "First Name", 
+      label: "First Name",
       customBodyRender: (item) => {
         return item[0] && item[0].first_name;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Last Name", 
+      label: "Last Name",
       customBodyRender: (item) => {
         return item[0] && item[0].last_name;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Purok", 
+      label: "Purok",
       customBodyRender: (item) => {
         return item[0] && item[0].purok;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Barangay", 
+      label: "Barangay",
       customBodyRender: (item) => {
         return item[0] && item[0].brgy;
-      }
+      },
     },
     {
       name: "profile",
-      label: "Municipality", 
+      label: "Municipality",
       customBodyRender: (item) => {
         return item[0] && item[0].municipality;
-      }
+      },
     },
-   
+
     {
-        name: "profile",
-        label: "Landmark", 
-        customBodyRender: (item) => {
-          return item[0] && item[0].land_mark;
-        }
+      name: "profile",
+      label: "Landmark",
+      customBodyRender: (item) => {
+        return item[0] && item[0].land_mark;
+      },
     },
     {
       name: "profile",
-      label: "Contact Number", 
+      label: "Contact Number",
       customBodyRender: (item) => {
         return item[0] && item[0].contact_number;
-      }
+      },
     },
-   
   ];
-  
+
   const options = {
     position: "top-right",
     autoClose: 3000,
@@ -134,39 +140,48 @@ function Customers() {
   };
 
   const handleRowChange = (value) => {
-    fetchingData({ limit: value});
+    fetchingData({ limit: value });
     handleFilterChange("limit", value);
   };
 
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then();
+    Http.get(`update/user/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then(
-      forceUpdate(),
-      ToastNotification("success", "Successfully Deleted!", options)
-    )
-    .catch((err) => {
-      ToastNotification("error", err, options);
-    });
+    Http.delete(`/delete/user/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", options)
+      )
+      .catch((err) => {
+        ToastNotification("error", err, options);
+      });
   };
 
   const handleShow = (id) => {
-    Http.get(`show/users/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
-      .then();   
+    Http.get(`show/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
 
   return (
     <Paper sx={{ width: "100%" }}>
       <ToastNotificationContainer />
-      <AddCustomers forceUpdate={() => forceUpdate()} data={customerList.data}/>
+      <AddCustomers
+        forceUpdate={() => forceUpdate()}
+        data={customerList.data}
+      />
       <DataTableCustomers
         withPagination
         forceUpdate={() => forceUpdate()}
@@ -182,10 +197,8 @@ function Customers() {
         onRowsChangePage={handleRowChange}
         onRowClick={handleShow}
       />
-   
     </Paper>
   );
 }
 
 export default Customers;
-

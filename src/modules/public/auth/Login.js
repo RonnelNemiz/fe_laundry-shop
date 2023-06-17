@@ -7,6 +7,7 @@ import { isAuth } from "../../../utils/helpers";
 import * as service from './service'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import logo1 from './../../../assets/images/labanderas.png'
+import Http from "../../../services/Http";
 
 
 function Login() {
@@ -29,6 +30,7 @@ function Login() {
         service.login(loginInput).then((res) => {
             if (res.data.code === 200) {
                 localStorage.setItem("access_token", res.data.access_token);
+                Http.defaults.headers.common["Authorization"] = `Bearer ${res.data.access_token}`;
                 localStorage.setItem("role", res.data.role);
                 swal("Success", "Yeheey!!!", "success");
                 history.push('/dashboard')
