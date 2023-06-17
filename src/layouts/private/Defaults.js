@@ -1,4 +1,3 @@
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -75,14 +74,16 @@ function Defaults({ children }) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-        }}>
+        }}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: "none" } }}>
+            sx={{ mr: 2, display: { sm: "none" } }}
+          >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
@@ -95,26 +96,11 @@ function Defaults({ children }) {
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <IconButton
                 size="large"
-                aria-label="show 4 new mails"
-                color="inherit">
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit">
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                size="large"
                 edge="end"
                 aria-label="account of current user"
                 aria-haspopup="true"
-                color="inherit"></IconButton>
+                color="inherit"
+              ></IconButton>
             </Box>
             <Box
               sx={{
@@ -122,7 +108,8 @@ function Defaults({ children }) {
                 alignItems: "center",
                 textAlign: "center",
                 marginInlineStart: "auto",
-              }}>
+              }}
+            >
               <Tooltip title="Account settings">
                 <IconButton
                   onClick={handleClick}
@@ -130,7 +117,8 @@ function Defaults({ children }) {
                   sx={{ ml: 2 }}
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
-                  aria-expanded={open ? "true" : undefined}>
+                  aria-expanded={open ? "true" : undefined}
+                >
                   {/* <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> */}
                   <AccountCircleIcon sx={{ width: 32, height: 32 }} />
                 </IconButton>
@@ -169,7 +157,8 @@ function Defaults({ children }) {
                 },
               }}
               transformOrigin={{ horizontal: "right", vertical: "top" }}
-              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
               <MenuItem onClick={handleExit}>
                 <Avatar /> {info?.roles?.name ? info?.roles?.name : "Admin"}
               </MenuItem>
@@ -202,7 +191,8 @@ function Defaults({ children }) {
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders">
+        aria-label="mailbox folders"
+      >
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -216,7 +206,8 @@ function Defaults({ children }) {
               boxSizing: "border-box",
               width: drawerWidth,
             },
-          }}>
+          }}
+        >
           {drawer}
         </Drawer>
         <Drawer
@@ -228,7 +219,8 @@ function Defaults({ children }) {
               width: drawerWidth,
             },
           }}
-          open>
+          open
+        >
           {drawer}
         </Drawer>
       </Box>
@@ -238,7 +230,8 @@ function Defaults({ children }) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}>
+        }}
+      >
         <Toolbar />
         <Modal show={show} onHide={handleClose} style={style.modal}>
           <Modal.Body>Are you sure you want to logout?</Modal.Body>
