@@ -106,34 +106,7 @@ function MyAccount() {
   const handleShow = (orders) => {
     setShowOrder(orders);
   };
-  // const [data, setData] = useState({
-  //   first_name: "",
-  //   last_name: "",
-  //   purok: "",
-  //   brgy: "",
-  //   municipality: "",
-  //   phone: "",
-  //   land_mark: "",
-  //   email:"",
-  //   password:"",
-  // });
-
   const handleUpdate = (params) => {
-    // const profile = customerAccount?.profile[0];
-
-    // const data = {
-    //   email: customerAccount?.email,
-    //   first_name: profile.first_name,
-    //   last_name: profile.last_name,
-    //   purok: profile.purok,
-    //   brgy: profile.brgy,
-    //   municipality: profile.municipality,
-    //   contact_number: profile.contact_number,
-    //   land_mark: profile.land_mark,
-    //   password:customerAccount?.password,
-    //   role: customerAccount?.role,
-    // };
-
     Http.put(
       `edit/profile/${params.user_id}`,
       params
@@ -192,9 +165,7 @@ function MyAccount() {
             />
           </p>
         ))}
-        {/* <Button style={styleLinkUpdate} onClick={handleUpdate}>
-          Update your Profile
-        </Button> */}
+      
       </Box>
 
       <Box sx={orderStyle}>

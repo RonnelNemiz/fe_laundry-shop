@@ -65,7 +65,7 @@ function Home() {
             </p>
             <div className="btnBox">
               <NavLink to="/about" className="viewMore">
-                <button class="button-29">View More</button>
+                <button class="button-29" id="viewmore-btn">View More</button>
               </NavLink>
             </div>
           </div>
@@ -82,7 +82,7 @@ function Home() {
                 <p className="service">Pick-Up & Delivery Service Available</p>
               </div>
               <div className="delivery">
-                <img src={delivery} alt="images" style={{width:"35%"}}  />
+                <img src={delivery} alt="images" style={{width:"40%"}}  />
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ function Home() {
                       />
                       <div className="card-body">
                         <h4>Wash</h4>
-                        <p>
+                        <p className="description-section2">
                           {showMore1 ? description1 : description1.slice(0, 100)}
                           
                         </p>
@@ -128,7 +128,7 @@ function Home() {
                       />
                       <div className="card-body">
                         <h4>Dry</h4>
-                        <p>
+                        <p className="description-section2">
                         {showMore2 ? description2 : description2.slice(0, 100)}          
                       </p>
                         {description2.length > 100 && (
@@ -148,7 +148,7 @@ function Home() {
                       />
                       <div className="card-body">
                         <h4>Fold</h4>
-                        <p>
+                        <p className="description-section2">
                           {showMore3 ? description3 : description3.slice(0, 100)}
                         </p>
                           {description3.length > 100 && (
@@ -248,7 +248,7 @@ function Home() {
                 </p>
                 <div className="btnBox">
                   <NavLink to="/services" className="viewMore">
-                    <button class="button-29">View More</button>
+                    <button class="button-29" id="btn-viewmore">View More</button>
                   </NavLink>
                 </div>
               </div>

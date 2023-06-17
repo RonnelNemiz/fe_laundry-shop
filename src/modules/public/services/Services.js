@@ -37,7 +37,7 @@ function Services() {
                 </button>
               </div>
               <h5>We are Trusted.</h5>
-              <p>
+              <p className="service-parag">
                 You don't have to worry about anything, we are always ready to
                 give you the best quality of clothes you can wear. We will
                 ensure that your laundry is safe with us.
@@ -53,7 +53,7 @@ function Services() {
                 </button>
               </div>
               <h5>Quality is our Priority.</h5>
-              <p>
+              <p className="service-parag">
                 For a healthier life experience, we will provide you with a good
                 quality of your clothes. Because quality is our top most
                 priority.
@@ -69,7 +69,7 @@ function Services() {
                 </button>
               </div>
               <h5>You'll Surely Love it.</h5>
-              <p>
+              <p className="service-parag">
                 Tell us when to pick-up and we will be there everyday.We deliver
                 door to door for the safety of your clothes.
               </p>
@@ -85,7 +85,7 @@ function Services() {
             <p className="text-center description">
               Enjoy our very affordable price!
             </p>
-            <div className="card-container" id="suwaji">
+            <div className="card-container" id="card-header">
               <div className="img col-md-3 service-item">
                 <div className="card shadow">
                   <img
