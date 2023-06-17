@@ -23,25 +23,12 @@ function Customers() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get(
-      "/all-customers",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
+    Http.get("/all-customers", {
+      params: {
+        ...filters,
+        ...params,
       },
-      {
-        params: {
-          ...filters,
-          ...params,
-        },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      }
-    ).then((res) => {
+    }).then((res) => {
       if (res.data.data) {
         console.log(res.data.data);
         setCustomerList({
@@ -54,14 +41,6 @@ function Customers() {
   };
 
   const columns = [
-    {
-      name: "profile.0.image",
-      label: "Image",
-      type: "image",
-      // customBodyRender: (item) => {
-      //   return item[0] && item[0].image;
-      // }
-    },
     {
       name: "email",
       label: "Email",
@@ -115,6 +94,14 @@ function Customers() {
       customBodyRender: (item) => {
         return item[0] && item[0].contact_number;
       },
+    },
+    {
+      name: "profile.0.image",
+      label: "Image",
+      type: "image",
+      // customBodyRender: (item) => {
+      //   return item[0] && item[0].image;
+      // }
     },
   ];
 

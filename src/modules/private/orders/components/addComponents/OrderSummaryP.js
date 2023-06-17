@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import swal from "sweetalert";
 import { useHistory } from "react-router-dom";
-import Http from "../../../../../services/Http"
+import Http from "../../../../../services/Http";
 import PersonPayP from "./PersonPayP";
 // import PersonToPayP from "./PersonToPayP";
 function OrderSummaryP(props) {
@@ -19,7 +19,7 @@ function OrderSummaryP(props) {
     personal,
   } = props;
 
-//   console.log(personal);
+  //   console.log(personal);
   const history = useHistory();
   console.log(garments);
   const handleSubmit = () => {
@@ -31,9 +31,7 @@ function OrderSummaryP(props) {
         handling: handling,
         service: service,
       },
-    },{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    })
       .then((res) => {
         if (res.data.status === 200) {
           swal("success", "Successfully Added!", "success");
@@ -80,80 +78,66 @@ function OrderSummaryP(props) {
         </div>
         <Box className="card-body">
           <div className="row">
-            <div className="col-md-4 col-12">
-              Name:
-            </div>
+            <div className="col-md-4 col-12">Name:</div>
             <div className="col-md-8 col-12">
-              <strong>{personal.firstname} {personal.lastname}</strong>
+              <strong>
+                {personal.firstname} {personal.lastname}
+              </strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-              Address:
-            </div>
+            <div className="col-md-4 col-12">Address:</div>
             <div className="col-md-8 col-12">
-              <strong>{personal.purok} {personal.brgy} {personal.municipality}, Leyte</strong>
+              <strong>
+                {personal.purok} {personal.brgy} {personal.municipality}, Leyte
+              </strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-              Landmark:
-            </div>
+            <div className="col-md-4 col-12">Landmark:</div>
             <div className="col-md-8 col-12">
               <strong>{personal.landmark}</strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-              Contact Number:
-            </div>
+            <div className="col-md-4 col-12">Contact Number:</div>
             <div className="col-md-8 col-12">
               <strong>{personal.phone}</strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-              Email:
-            </div>
+            <div className="col-md-4 col-12">Email:</div>
             <div className="col-md-8 col-12">
               <strong>{personal.email}</strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-              Categories:
-            </div>
+            <div className="col-md-4 col-12">Categories:</div>
             <div className="col-md-8 col-12">
               <Typography dangerouslySetInnerHTML={generateOrderSummary()} />
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-             Service:
-            </div>
+            <div className="col-md-4 col-12">Service:</div>
             <div className="col-md-8 col-12">
               <strong>{service.service}</strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-             Handling:
-            </div>
+            <div className="col-md-4 col-12">Handling:</div>
             <div className="col-md-8 col-12">
               <strong>{handling.handling}</strong>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-4 col-12">
-             Payment Method:
-            </div>
+            <div className="col-md-4 col-12">Payment Method:</div>
             <div className="col-md-8 col-12">
               <strong>{paymentMethod.paymentMethod}</strong>
             </div>
           </div>
         </Box>
       </Box>
-        
+
       <Box className="card mt-2">
         <div className="card-header bg-primary bg-gradient text-light">
           <h3>Ways to Pay</h3>
@@ -167,16 +151,14 @@ function OrderSummaryP(props) {
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
-          style={{padding:"5px 30px"}}
+          style={{ padding: "5px 30px" }}
         >
           Back
         </Button>
 
         <Button
-          onClick={
-            activeStep === steps.length - 1 ? handleSubmit : handleNext
-          }
-          style={{padding:"5px 30px"}}
+          onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+          style={{ padding: "5px 30px" }}
         >
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>

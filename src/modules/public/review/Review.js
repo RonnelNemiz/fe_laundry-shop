@@ -14,8 +14,8 @@ import "./review.css";
 
 const reviewCon = {
   display: "flex",
-  marginLeft:"10%",
-  marginRight:"10%",
+  marginLeft: "10%",
+  marginRight: "10%",
 };
 
 function Review() {
@@ -37,9 +37,8 @@ function Review() {
 
   return (
     <div>
-      <Box sx={reviewCon} id="reviewsa" >
-        
-        <Box style={{ height: "50vh", overflowX: "auto", width:"100%"}}>
+      <Box sx={reviewCon} id="reviewsa">
+        <Box style={{ height: "50vh", overflowX: "auto", width: "100%" }}>
           {userReviews && userReviews.length > 0 ? (
             <>
               {userReviews.map((review, index) => (
@@ -57,7 +56,13 @@ function Review() {
                         src="/static/images/avatar/1.jpg"
                       />
                     </ListItemAvatar>
-                    <Box style={{ display: "flex", flexDirection: "column", width:"100%" }}>
+                    <Box
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        width: "100%",
+                      }}
+                    >
                       <ListItemText
                         primary={
                           <React.Fragment>
@@ -104,7 +109,6 @@ function Review() {
                         }
                       />
                     </Box>
-                    
                   </ListItem>
 
                   <Divider
