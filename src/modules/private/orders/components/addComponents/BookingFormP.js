@@ -33,9 +33,7 @@ function BookingFormP(props) {
   }, [setFormValues]);
 
   const fetchHandlings = () => {
-    Http.get("/show/handlings",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/show/handlings")
       .then((res) => {
         setHandling(res.data);
       })
@@ -59,9 +57,7 @@ function BookingFormP(props) {
   }, [setServFormValues]);
 
   const fetchServices = () => {
-    Http.get("/show/services",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/show/services")
       .then((res) => {
         setServices(res.data);
       })
@@ -99,7 +95,7 @@ function BookingFormP(props) {
                           name="service"
                           type="radio"
                           value={serviceItem.service_name}
-                          style={{marginRight:"15px"}}
+                          style={{ marginRight: "15px" }}
                           checked={
                             servformValues.values.service ===
                             serviceItem.service_name
@@ -139,14 +135,14 @@ function BookingFormP(props) {
                     }
                   >
                     <article className="d-flex justify-content-between card-header">
-                        <p className="m-0">{handlingItem.handling_name}</p>
+                      <p className="m-0">{handlingItem.handling_name}</p>
                       <div className="radio">
                         <input
                           id={handlingItem.handling_name}
                           name="handling"
                           type="radio"
                           value={handlingItem.handling_name}
-                          style={{marginRight:"15px"}}
+                          style={{ marginRight: "15px" }}
                           checked={
                             formValues.values.handling ===
                             handlingItem.handling_name

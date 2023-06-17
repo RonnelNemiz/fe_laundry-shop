@@ -40,6 +40,8 @@ const style = {
   p: 4,
   borderColor: "none",
   borderRadius: "10px 10px",
+  height: "90% !important",
+  overflowX: "auto !important",
 };
 const inputStyle = {
   mb: 1,

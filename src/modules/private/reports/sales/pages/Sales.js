@@ -29,7 +29,6 @@ function Sales() {
     fetchingTotalSales();
   }, []);
 
-  console.log(totalsales);
   const fetchingTotalSales = (params = {}) => {
     setIsLoading(true);
     Http.get("/totalsales")
@@ -86,13 +85,12 @@ function Sales() {
           <div className="p-3  d-flex justify-content-around align-items-center">
             <div>
               <h3 className="fs-4">Today</h3>
-            
-               {totalsales?.sales && (
+
+              {totalsales?.sales && (
                 <div key={totalsales?.sales.week}>
                   <p className="fs-6">{totalsales?.sales.week}</p>
                 </div>
               )}
-           
             </div>
             <FontAwesomeIcon icon="fa-solid fa-chart-line" size="2x" />
           </div>
