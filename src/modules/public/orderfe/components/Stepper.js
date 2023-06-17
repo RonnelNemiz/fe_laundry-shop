@@ -49,78 +49,82 @@ export default function HorizontalLinearStepper(props) {
   };
 
   return (
-    <Box sx={{display:"flex", justifyContent:"center",}}>
-    <Box sx={{ width: "80%", mt:4 }}>
-      <Stepper activeStep={activeStep}>
-        {steps.map((label, index) => {
-          const stepProps = {};
-          const labelProps = {};
-          if (isStepOptional(index)) {
-
-          }
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      {activeStep === steps.length ? (
-        <React.Fragment>
-          <Typography variant="h5">Thank you for your order.</Typography>
-          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>New Booking</Button>
-          </Box>
-        </React.Fragment>
-      ) : (
-        <React.Fragment>
-          {activeStep === 0 && (
-            <LaundryDetails
-              steps={steps}
-              handleBack={handleBack}
-              handleNext={handleNext}
-              activeStep={activeStep}
-              garmentsContainer={garments}
-              setGarmentsContainer={setGarments}
-              handlingContainer={handling}
-              setHandlingContainer={setHandling}
-              serviceContainer={service}
-              setServiceContainer={setService}
-            />
-          )}
-          {activeStep === 1 && (
-            <PersonalDetails
-              steps={steps}
-              handleBack={handleBack}
-              handleNext={handleNext}
-              activeStep={activeStep}
-              paymentMethodContainer={paymentMethod}
-              personal={personalDetails}
-              setPersonalDetailsContainer={setPersonalDetails}
-              setPaymentMethodContainer={setPaymentMethod}
-            />
-          )}
-          {activeStep === 2 && (
-            <OrderSummary
-              steps={steps}
-              handleBack={handleBack}
-              handleNext={handleNext}
-              activeStep={activeStep}
-              garments={garments}
-              handling={handling}
-              service={service}
-              personal={personalDetails}
-              paymentMethod={paymentMethod}
-            />
-          )}
-
-        </React.Fragment>
-      )}
-    </Box>
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Box sx={{ width: "80%", mt: 4 }}>
+        <Stepper activeStep={activeStep}>
+          {steps.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            if (isStepOptional(index)) {
+            }
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        {activeStep === steps.length ? (
+          <div className="card mt-3">
+            <React.Fragment>
+              <div className="card-body">
+                <Typography variant="h5">Thank you for your order.</Typography>
+                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                  <Box sx={{ flex: "1 1 auto" }} />
+                  <Button onClick={handleReset} variant="contained">
+                    New Booking
+                  </Button>
+                </Box>
+              </div>
+            </React.Fragment>
+          </div>
+        ) : (
+          <React.Fragment>
+            {activeStep === 0 && (
+              <LaundryDetails
+                steps={steps}
+                handleBack={handleBack}
+                handleNext={handleNext}
+                activeStep={activeStep}
+                garmentsContainer={garments}
+                setGarmentsContainer={setGarments}
+                handlingContainer={handling}
+                setHandlingContainer={setHandling}
+                serviceContainer={service}
+                setServiceContainer={setService}
+              />
+            )}
+            {activeStep === 1 && (
+              <PersonalDetails
+                steps={steps}
+                handleBack={handleBack}
+                handleNext={handleNext}
+                activeStep={activeStep}
+                paymentMethodContainer={paymentMethod}
+                personal={personalDetails}
+                setPersonalDetailsContainer={setPersonalDetails}
+                setPaymentMethodContainer={setPaymentMethod}
+              />
+            )}
+            {activeStep === 2 && (
+              <OrderSummary
+                steps={steps}
+                handleBack={handleBack}
+                handleNext={handleNext}
+                activeStep={activeStep}
+                garments={garments}
+                handling={handling}
+                service={service}
+                personal={personalDetails}
+                paymentMethod={paymentMethod}
+              />
+            )}
+          </React.Fragment>
+        )}
+      </Box>
     </Box>
   );
 }
