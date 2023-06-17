@@ -173,21 +173,29 @@ function DataTable(props) {
                   )}
                   {columns.map((col, colIndex) => (
                     <TableCell size="small" key={colIndex}>
-                      {col.customBodyRender
-                        ? col.customBodyRender(
-                            getCellValue(item, col),
-                            item,
-                            colIndex,
-                            itemIndex
-                          )
-                        : getCellValue(item, col)}
-                      {col.type === "image" && (
+                      {col.customBodyRender ? (
+                        col.customBodyRender(
+                          getCellValue(item, col),
+                          item,
+                          colIndex,
+                          itemIndex
+                        )
+                      ) : col.type === "image" ? (
                         <img
                           src={getImageValue(item, col)}
                           alt="preview"
                           style={{ width: 50, height: 50 }}
                         />
+                      ) : (
+                        getCellValue(item, col)
                       )}
+                      {/* {col.type === "image" && (
+                        <img
+                          src={getImageValue(item, col)}
+                          alt="preview"
+                          style={{ width: 50, height: 50 }}
+                        />
+                      )} */}
                     </TableCell>
                   ))}
                 </TableRow>

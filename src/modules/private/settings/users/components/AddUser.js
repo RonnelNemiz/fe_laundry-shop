@@ -19,17 +19,16 @@ import { handleErrorResponse } from "../../../../../utils/helpers";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import FormFieldData from "../../../../../components/FormFieldData";
 import styled from "@emotion/styled";
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const CssInput = styled(FormControl)({
-	'& .MuiInput-input': {
-		color: 'black',
-	},
-	'& .MuiSvgIcon-root': {
-		color: 'blue',
-	},
-
+  "& .MuiInput-input": {
+    color: "black",
+  },
+  "& .MuiSvgIcon-root": {
+    color: "blue",
+  },
 });
 const style = {
   position: "absolute",
@@ -37,14 +36,14 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",  
+  bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
   borderColor: "none",
   borderRadius: "10px 10px",
-  height:"90% !important",
-  overflowX:"auto !important",
+  height: "90% !important",
+  overflowX: "auto !important",
 };
 const inputStyle = {
   mb: 1,
@@ -59,13 +58,13 @@ const options = {
 };
 
 export default function AddUser(props) {
-  const { forceUpdate,  } = props;
+  const { forceUpdate } = props;
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-const handleMouseDownPassword = (event) => {
-  event.preventDefault();
-};
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const [formValues, setFormValues] = React.useState({
     email: "",
     first_name: "",
@@ -74,11 +73,10 @@ const handleMouseDownPassword = (event) => {
     brgy: "",
     municipality: "",
     contact_number: "",
-    land_mark:"Leyte",
+    land_mark: "Leyte",
     role: "",
     password: "",
-    image: null, // Add image property
-
+    image: null,
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -86,15 +84,12 @@ const handleMouseDownPassword = (event) => {
   const [roles, setRoles] = React.useState([]);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState("");
 
-
   React.useEffect(() => {
     fetchRoles();
   }, []);
 
   const fetchRoles = () => {
-    Http.get("roles",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("roles")
       .then((res) => {
         setRoles(res.data.roles);
       })
@@ -113,7 +108,7 @@ const handleMouseDownPassword = (event) => {
         brgy: "",
         municipality: "",
         contact_number: "",
-        land_mark:"Leyte",
+        land_mark: "Leyte",
         role: "",
         password: "",
         image: null,
@@ -127,14 +122,12 @@ const handleMouseDownPassword = (event) => {
     setFormValues(newData);
   };
 
- 
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const newData = { ...formValues };
     newData.image = file;
     setFormValues(newData);
-  
+
     // Generate image preview URL
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -145,41 +138,34 @@ const handleMouseDownPassword = (event) => {
     }
   };
 
-const handleSubmit = (e) => {
-  e.preventDefault();
-  const formData = new FormData();
-  formData.append("email", formValues.email);
-  formData.append("first_name", formValues.first_name);
-  formData.append("last_name", formValues.last_name);
-  formData.append("purok", formValues.purok);
-  formData.append("brgy", formValues.brgy);
-  formData.append("municipality", formValues.municipality);
-  formData.append("contact_number", formValues.contact_number);
-  formData.append("land_mark", formValues.land_mark);
-  formData.append("role", formValues.role);
-  formData.append("password", formValues.password);
-  formData.append("image", formValues.image); // Append image to the form data
-  Http.post("/add/users",{headers:{
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`
-  }}, formData)
-  .then((res) => {
-    if (res.data.status === 200) {
-      forceUpdate();
-      handleClose();
-      ToastNotification(
-        "success",
-        "Successfully Saved Data!",
-        options
-      );
-    } else {
-      ToastNotification("error", res.data.message, options);
-    }
-  })
-  .catch((err) => {
-    ToastNotification("error", handleErrorResponse(err), options);
-  });
-};
- 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("email", formValues.email);
+    formData.append("first_name", formValues.first_name);
+    formData.append("last_name", formValues.last_name);
+    formData.append("purok", formValues.purok);
+    formData.append("brgy", formValues.brgy);
+    formData.append("municipality", formValues.municipality);
+    formData.append("contact_number", formValues.contact_number);
+    formData.append("land_mark", formValues.land_mark);
+    formData.append("role", formValues.role);
+    formData.append("password", formValues.password);
+    formData.append("image", formValues.image); // Append image to the form data
+    Http.post("/add/users", formData)
+      .then((res) => {
+        if (res.data.status === 200) {
+          forceUpdate();
+          handleClose();
+          ToastNotification("success", "Successfully Saved Data!", options);
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+      })
+      .catch((err) => {
+        ToastNotification("error", handleErrorResponse(err), options);
+      });
+  };
 
   return (
     <div>
@@ -203,12 +189,13 @@ const handleSubmit = (e) => {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add User
           </Typography>
-         
+
           <FormFieldData
             fullWidth
             label="First Name"
@@ -263,7 +250,7 @@ const handleSubmit = (e) => {
             onChange={handleChange}
             sx={inputStyle}
           />
-           <FormFieldData
+          <FormFieldData
             fullWidth
             label="Email"
             id="email"
@@ -274,37 +261,40 @@ const handleSubmit = (e) => {
             sx={inputStyle}
           />
           <CssInput fullWidth variant="standard">
-              <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                  <Input
-                    id="standard-adornment-password"
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end">
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                      </InputAdornment>
-                        }
-                        label="Password"
-                        value={formValues.password}
-                        name="password"
-                        onChange={handleChange}
-                        fullWidth
-                        sx={inputStyle}
-
-                      />
-            </CssInput>
+            <InputLabel htmlFor="standard-adornment-password">
+              Password
+            </InputLabel>
+            <Input
+              id="standard-adornment-password"
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+              value={formValues.password}
+              name="password"
+              onChange={handleChange}
+              fullWidth
+              sx={inputStyle}
+            />
+          </CssInput>
 
           <FormControl
             fullWidth
             size="small"
             variant="outlined"
             margin="dense"
-            sx={inputStyle}>
+            sx={inputStyle}
+          >
             <InputLabel id="role-label">Role</InputLabel>
             <Select
               labelId="role-label"
@@ -312,7 +302,8 @@ const handleSubmit = (e) => {
               id="role"
               label="Role"
               value={formValues.role}
-              onChange={handleChange}>
+              onChange={handleChange}
+            >
               {roles.map((role) => {
                 return (
                   <MenuItem key={role.id} value={role.name} id="role">
@@ -323,10 +314,6 @@ const handleSubmit = (e) => {
             </Select>
           </FormControl>
           <Typography>Image</Typography>
-          {/* <input
-        type="file"
-        onChange={handleImageChange} // Handle image change event
-      /> */}
           <FormFieldData
             fullWidth
             label="Image"
@@ -340,19 +327,20 @@ const handleSubmit = (e) => {
             sx={inputStyle}
           />
 
-        {imagePreviewUrl && (
-          <img
-            src={imagePreviewUrl}
-            alt="Preview"
-            style={{ maxWidth: "50%", marginTop: 5 }}
-          />
-        )}
+          {imagePreviewUrl && (
+            <img
+              src={imagePreviewUrl}
+              alt="Preview"
+              style={{ maxWidth: "50%", marginTop: 5 }}
+            />
+          )}
 
           <Button
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </Box>

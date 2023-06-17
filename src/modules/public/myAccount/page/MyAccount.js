@@ -13,10 +13,12 @@ import {
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Http from "../../../../services/Http";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import InsertCommentIcon from "@mui/icons-material/InsertComment";
 import DeleteHistory from "../components/DeleteHistory";
 import ShowHistory from "../components/ShowHistory";
 import { NavLink } from "react-router-dom";
 import UpdateProfile from "../components/UpdateProfile";
+import CommentModal from "../components/CreateModal";
 
 const styleLink = {
   color: "red",
@@ -53,6 +55,8 @@ function MyAccount() {
   const [customerAccount, setCustomerAccount] = useState(null);
   const [customerHistory, setCustomerHistory] = useState([]);
   const [showOrder, setShowOrder] = useState(null);
+  const [showCommendModal, setShowCommendModal] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState({});
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
 
   React.useEffect(() => {
@@ -103,9 +107,6 @@ function MyAccount() {
     }).then();
   };
 
-  const handleShow = (orders) => {
-    setShowOrder(orders);
-  };
   const handleUpdate = (params) => {
     Http.put(
       `edit/profile/${params.user_id}`,
@@ -117,16 +118,23 @@ function MyAccount() {
       // },
     )
       .then((res) => {
-        // Handle success
         console.log(res.data);
-        // Optionally, you can update the customer account state with the updated data
         setCustomerAccount(res.data.user);
       })
       .catch((error) => {
-        // Handle error
         console.log(error);
       });
   };
+
+  const handleShow = (orders) => {
+    setShowOrder(orders);
+  };
+
+  const handleShowInsertComment = order => {
+    setSelectedOrder(order);
+    setShowCommendModal(true);
+  }
+
 
   return (
     <Box>
@@ -201,6 +209,12 @@ function MyAccount() {
                       height: "10vh",
                     }}
                   >
+                    <Tooltip title="Insert Comment">
+                      <InsertCommentIcon
+                        onClick={() => handleShowInsertComment(order)}
+                        style={{ cursor: "pointer", color: "gray" }}
+                      />
+                    </Tooltip>
                     <Tooltip title="View">
                       <VisibilityIcon
                         onClick={() => handleShow(order)}
@@ -236,6 +250,8 @@ function MyAccount() {
           />
         )}
       </Box>
+
+      <CommentModal order={selectedOrder} open={showCommendModal} onClose={() => setShowCommendModal(false)} />
     </Box>
   );
 }

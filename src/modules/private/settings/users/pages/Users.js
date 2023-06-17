@@ -25,14 +25,20 @@ function Users() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/users",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, {
-      params: {
-        ...filters,
-        ...params,
+    Http.get(
+      "/users",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       },
-    }).then((res) => {
+      {
+        params: {
+          ...filters,
+          ...params,
+        },
+      }
+    ).then((res) => {
       if (res.data.data) {
         setUserList({
           data: res.data.data,
@@ -97,12 +103,13 @@ function Users() {
     },
 
     {
-      name: "profile",
+      name: "profile.0.image",
       label: "Image",
       type: "image",
-      customBodyRender: (item) => {
-        return item.image;
-      },
+      // customBodyRender: (item) => {
+      //   const image = (item && item[0] && item[0].image) || "";
+      //   return image && <img alt="preview" src={image} />;
+      // },
     },
   ];
 
@@ -133,15 +140,19 @@ function Users() {
   };
 
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then();
+    Http.get(`update/user/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.delete(`/delete/user/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then(
         forceUpdate(),
         ToastNotification("success", "Successfully Deleted!", options)
@@ -152,9 +163,11 @@ function Users() {
   };
 
   const handleShow = (id) => {
-    Http.get(`show/users/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then();
+    Http.get(`show/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
 
   return (
