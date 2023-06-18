@@ -167,41 +167,49 @@ export default function EditModal(props) {
           >
             <TextField
               id=""
+              label="Transaction #"
               variant="standard"
               value={orderDetail ? orderDetail.order.trans_number : ""}
             />
             <TextField
               id=""
+              label="First Name"
               variant="standard"
               value={orderDetail ? orderDetail.order.first_name : ""}
             />
             <TextField
               id=""
+              label="Last Name"
               variant="standard"
               value={orderDetail ? orderDetail.order.last_name : ""}
             />
             <TextField
               id=""
+              label="Purok"
               variant="standard"
               value={orderDetail ? orderDetail.order.purok : ""}
             />
             <TextField
               id=""
+              label="Barangay"
               variant="standard"
               value={orderDetail ? orderDetail.order.brgy : ""}
             />
             <TextField
               id=""
+              label="Municipality"
               variant="standard"
               value={orderDetail ? orderDetail.order.municipality : ""}
             />
             <TextField
               id=""
+              label="Contact #"
               variant="standard"
               value={orderDetail ? orderDetail.order.contact_number : ""}
             />
             <TextField
               id=""
+              label="Landmark"
               variant="standard"
               value={orderDetail ? orderDetail.order.land_mark : ""}
             />
@@ -220,7 +228,7 @@ export default function EditModal(props) {
                       orderCategories.find((category) => {
                         return category.id === option.parent_id;
                       }).name
-                    }`}
+                    } ${option.name}`}
                     value={orderItems ? option.kilo : ""}
                     style={{ textAlign: "start" }}
                   />
