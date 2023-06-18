@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,6 +8,7 @@ import Slide from "@mui/material/Slide";
 import { Typography, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import Http from "../../../../services/Http";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -122,13 +123,28 @@ const handlingStyle = {
 };
 
 export default function EditModal(props) {
-  const { open, onClose, fetchingData } = props;
+  const { open, onClose, fetchingData, orderId } = props;
+  const [orderDetail, setOrderDetail] = useState(false);
+  const [orderItems, setOrderItems] = useState(false);
+  const [orderCategories, setOrderCategories] = useState(false);
 
-  const handlePay = () => {
-    // 1. validate payment if needed
-    // 2. handle http call to submit payment
-    //     1. upon success call fetch() to update orders on the list invoke onClose() to close the modal
-    //     2. if failed, show error message and don't close the modal
+  useEffect(() => {
+    if (open) {
+      fetchOrderDetail();
+    }
+  }, [open]);
+
+  const fetchOrderDetail = () => {
+    Http.get("/order-details/" + orderId)
+      .then((res) => {
+        setOrderDetail(res.data);
+        setOrderItems(res.data);
+        setOrderCategories(res.data.categoryParent);
+        console.log("Res: ", res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -140,64 +156,105 @@ export default function EditModal(props) {
     >
       <DialogTitle>Edit Order</DialogTitle>
       <DialogContent>
-        <Box
-          component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "95%" },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <TextField
-            id="standard-basic"
-            label="Transaction #"
-            variant="standard"
-          />
-          <TextField
-            id="standard-basic"
-            label="First Name"
-            variant="standard"
-          />
-          <TextField id="standard-basic" label="Last Name" variant="standard" />
-          <TextField id="standard-basic" label="Address" variant="standard" />
-          <TextField
-            id="standard-basic"
-            label="Weight (in kg)"
-            variant="standard"
-          />
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Payment Status"
+        {orderDetail && (
+          <Box
+            component="form"
+            sx={{
+              "& > :not(style)": { m: 1, width: "95%" },
+            }}
+            noValidate
+            autoComplete="off"
           >
-            {paymentStatuses.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.trans_number : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.first_name : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.last_name : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.purok : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.brgy : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.municipality : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.contact_number : ""}
+            />
+            <TextField
+              id=""
+              variant="standard"
+              value={orderDetail ? orderDetail.order.land_mark : ""}
+            />
+            {orderItems &&
+              orderItems.orderItems.map((option) => (
+                <Box
+                  key={option.id}
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "95%" },
+                  }}
+                >
+                  <TextField
+                    id=""
+                    variant="standard"
+                    label={`Weight for ${
+                      orderCategories.find((category) => {
+                        return category.id === option.parent_id;
+                      }).name
+                    }`}
+                    value={orderItems ? option.kilo : ""}
+                    style={{ textAlign: "start" }}
+                  />
+                </Box>
+              ))}
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Payment Status"
+            >
+              {paymentStatuses.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
 
-          <TextField
-            id="outlined-select-currency"
-            select
-            label="Handling Status"
-          >
-            {handlingStatuses.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Box>
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Handling Status"
+            >
+              {handlingStatuses.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Box>
+        )}
       </DialogContent>
 
       <DialogActions>
-        <Button
-          size="small"
-          color="primary"
-          variant="contained"
-          onClick={handlePay}
-        >
+        <Button size="small" color="primary" variant="contained" onClick="">
           Update
         </Button>
         <Button

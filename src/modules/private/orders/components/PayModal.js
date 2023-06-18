@@ -30,7 +30,7 @@ const paymentStatuses = [
   },
 ];
 export default function PayModal(props) {
-  const { open, onClose, fetchingData } = props;
+  const { open, onClose, fetchingData, orderId } = props;
 
   const handlePay = () => {
     // 1. validate payment if needed

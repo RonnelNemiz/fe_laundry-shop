@@ -25,11 +25,11 @@ export default function ViewModal(props) {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/orders").then((res) => {
+    Http.get("/orders/").then((res) => {
       setOrders(res.data);
     });
   });
-  console.log("Order Id:", orderId);
+  // console.log("Order Id:", orderId);
   const handlePay = () => {
     // 1. validate payment if needed
     // 2. handle http call to submit payment

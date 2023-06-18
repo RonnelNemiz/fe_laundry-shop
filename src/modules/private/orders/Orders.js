@@ -26,11 +26,7 @@ const Orders = () => {
 
   const fetchingData = () => {
     setIsLoading(true);
-    Http.get("/orders", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    Http.get("/orders")
       .then((res) => {
         if (res.data.data) {
           setOrders(res.data.data);
@@ -42,7 +38,6 @@ const Orders = () => {
         setIsLoading(false);
       });
   };
-
   const handleShowViewModal = (order) => {
     setSelectedOrder(order);
     setShowViewModal(true);
@@ -65,7 +60,6 @@ const Orders = () => {
       options: {
         customBodyRender: (value, tableMeta) => {
           const order = orders[tableMeta.rowIndex];
-          console.log("Order const: ", order);
           return (
             <Stack direction="row" spacing={1}>
               <IconButton
@@ -230,11 +224,13 @@ const Orders = () => {
         fetchingData={fetchingData}
         open={showEditModal}
         onClose={() => setShowEditModal(false)}
+        orderId={selectedOrder}
       />
       <PayModal
         fetchingData={fetchingData}
         open={showPayModal}
         onClose={() => setShowPayModal(false)}
+        orderId={selectedOrder}
       />
     </>
   );
