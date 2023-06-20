@@ -59,7 +59,7 @@ function CommentModal(props) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle sx={{ textAlign: "center" }}>Confirmation</DialogTitle>
+      <DialogTitle sx={{ textAlign: "center" }}>Rate and Reviews</DialogTitle>
       <form onSubmit={handleSubmit}>
         <Box sx={reviewBox}>
           <Box sx={reviewBox2}>
@@ -83,17 +83,26 @@ function CommentModal(props) {
             />
           </Box>
         </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          onClick={handleSubmitRating}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            paddingBottom: "25px",
+            paddingTop: "25px",
+          }}
         >
-          Submit
-        </Button>
-        <Button variant="contained" color="secondary" onClick={onClose}>
-          Close
-        </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            onClick={handleSubmitRating}
+          >
+            Submit
+          </Button>
+          <Button variant="contained" color="secondary" onClick={onClose}>
+            Close
+          </Button>
+        </Box>
       </form>
     </Dialog>
   );

@@ -32,7 +32,7 @@ function Dashboard() {
   };
   const fetchingNewOrders = (params = {}) => {
     setIsLoading(true);
-    Http.get("/neworders")
+    Http.get("/totalneworders")
       .then((res) => {
         console.log(res.data);
         setNewOrders(res.data);

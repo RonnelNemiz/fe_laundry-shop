@@ -67,7 +67,6 @@ function DataTable(props) {
           ? value[key]
           : "";
     });
-    console.log('Image value:',value[0].image);
     return value;
   };
 

@@ -13,18 +13,27 @@ export default function HorizontalLinearStepper(props) {
   const [skipped, setSkipped] = React.useState(new Set());
 
   //garments state
-  const [garments, setGarments] = React.useState();
-  const [handling, setHandling] = React.useState();
-  const [service, setService] = React.useState();
+  const [garments, setGarments] = React.useState(
+    JSON.parse(localStorage.getItem("garment"))
+  );
+  const [handling, setHandling] = React.useState(
+    JSON.parse(localStorage.getItem("handling"))
+  );
+  const [service, setService] = React.useState(
+    JSON.parse(localStorage.getItem("service"))
+  );
 
   // personal details state
   const [personalDetails, setPersonalDetails] = React.useState();
-  const [paymentMethod, setPaymentMethod] = React.useState();
+  const [paymentMethod, setPaymentMethod] = React.useState(
+    JSON.parse(localStorage.getItem("paymentMethod"))
+  );
 
   const isStepOptional = (step) => {
     return step === 1;
   };
 
+  console.log(paymentMethod);
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -68,12 +77,32 @@ export default function HorizontalLinearStepper(props) {
           })}
         </Stepper>
         {activeStep === steps.length ? (
-          <div className="card mt-3">
+          <div className="card " style={{ marginTop: "5%" }}>
             <React.Fragment>
-              <div className="card-body">
-                <Typography variant="h5">Thank you for your order.</Typography>
-                <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                  <Box sx={{ flex: "1 1 auto" }} />
+              <div
+                className="card-body"
+                style={{ paddingTop: "10%", paddingBottom: "10%" }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{
+                    textAlign: "center",
+                    paddingBottom: "5%",
+                    fontFamily: "Dancing Script, cursive",
+                  }}
+                >
+                  Thank you for your order.
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    pt: 2,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Box />
                   <Button onClick={handleReset} variant="contained">
                     New Booking
                   </Button>
