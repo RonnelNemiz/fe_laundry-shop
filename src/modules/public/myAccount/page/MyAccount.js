@@ -130,11 +130,10 @@ function MyAccount() {
     setShowOrder(orders);
   };
 
-  const handleShowInsertComment = order => {
+  const handleShowInsertComment = (order) => {
     setSelectedOrder(order);
     setShowCommendModal(true);
-  }
-
+  };
 
   return (
     <Box>
@@ -173,7 +172,6 @@ function MyAccount() {
             />
           </p>
         ))}
-      
       </Box>
 
       <Box sx={orderStyle}>
@@ -209,12 +207,15 @@ function MyAccount() {
                       height: "10vh",
                     }}
                   >
-                    <Tooltip title="Insert Comment">
-                      <InsertCommentIcon
-                        onClick={() => handleShowInsertComment(order)}
-                        style={{ cursor: "pointer", color: "gray" }}
-                      />
-                    </Tooltip>
+                    {(order.status.includes("completed") ||
+                      order.status.includes("paid")) && (
+                      <Tooltip title="Insert Comment">
+                        <InsertCommentIcon
+                          onClick={() => handleShowInsertComment(order)}
+                          style={{ cursor: "pointer", color: "gray" }}
+                        />
+                      </Tooltip>
+                    )}
                     <Tooltip title="View">
                       <VisibilityIcon
                         onClick={() => handleShow(order)}
@@ -251,7 +252,11 @@ function MyAccount() {
         )}
       </Box>
 
-      <CommentModal order={selectedOrder} open={showCommendModal} onClose={() => setShowCommendModal(false)} />
+      <CommentModal
+        order={selectedOrder}
+        open={showCommendModal}
+        onClose={() => setShowCommendModal(false)}
+      />
     </Box>
   );
 }

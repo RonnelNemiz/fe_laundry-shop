@@ -103,7 +103,7 @@ const Orders = () => {
       label: "First Name",
       options: {
         customBodyRender: (value) => {
-          return value[0].first_name;
+          return value[0] && value[0]?.first_name;
         },
         filter: true,
         sort: false,
@@ -114,7 +114,7 @@ const Orders = () => {
       label: "Last Name",
       options: {
         customBodyRender: (value) => {
-          return value[0].last_name;
+          return value[0] && value[0]?.last_name;
         },
         filter: true,
         sort: false,

@@ -8,9 +8,7 @@ function Order() {
   const [categories, setCategories] = React.useState();
 
   React.useEffect(() => {
-    Http.get("/categories",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/categories")
       .then((res) => {
         if (res.data.data) {
           setCategories(res.data.data);
@@ -24,10 +22,10 @@ function Order() {
   }, []);
 
   return (
-    <div >
-      <Navbar style={{width:"unset"}}/>
+    <div>
+      <Navbar style={{ width: "unset" }} />
       <div>
-        <div className="container" >
+        <div className="container">
           <Stepper categories={categories} />
         </div>
       </div>

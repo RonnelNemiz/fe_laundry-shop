@@ -193,6 +193,9 @@ function Navbar() {
                   >
                     <MenuItem onClick={handleExit}>
                       <Avatar />
+                      {info?.profile?.first_name
+                        ? info?.profile?.first_name
+                        : "Profile"}
                       <NavLink
                         to="/myaccount"
                         className="nav-link"

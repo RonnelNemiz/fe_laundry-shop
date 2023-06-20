@@ -6,6 +6,7 @@ import { Button, Form } from "react-bootstrap";
 import Reevalidate from "ree-validate-18";
 import PaymentMethodFe from "./PaymentMethodFe";
 import Http from "../../../../services/Http";
+import { isAuth } from "../../../../utils/helpers";
 
 const validator = new Reevalidate.Validator({
   first_name: "required",
@@ -32,14 +33,14 @@ function PersonalDetails(props) {
 
   const [personalDetails, setPersonnalDetails] = useState({
     values: {
-      first_name: "",
-      last_name: "",
-      purok: "",
-      brgy: "",
-      municipality: "",
-      contact_number: "",
-      land_mark: "",
-      email: "",
+      first_name: "......",
+      last_name: "......",
+      purok: "......",
+      brgy: "......",
+      municipality: "......",
+      contact_number: "09000000000",
+      land_mark: "......",
+      email: "......",
     },
     errors: validator.errors,
   });
@@ -77,26 +78,30 @@ function PersonalDetails(props) {
   }, []);
 
   const handleFetchUser = () => {
-    Http.get("customer",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
-      .then((res) => {
-        if (res.data.status === 200) {
-          const user = res.data.user;
-          setPersonnalDetails((prev) => ({
-            ...prev,
-            values: {
-              ...user.profile[0],
-              email: user.email,
-            },
-          }));
-        } else {
-          console.warn(res.data.messages);
-        }
+    if (isAuth()) {
+      Http.get("customer", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
       })
-      .catch((err) => {
-        console.warn(err.message);
-      });
+        .then((res) => {
+          if (res.data.status === 200) {
+            const user = res.data.user;
+            setPersonnalDetails((prev) => ({
+              ...prev,
+              values: {
+                ...user.profile[0],
+                email: user.email,
+              },
+            }));
+          } else {
+            console.warn(res.data.messages);
+          }
+        })
+        .catch((err) => {
+          console.warn(err.message);
+        });
+    }
   };
   const handleChange = (e) => {
     const name = e.target.name;
@@ -160,126 +165,128 @@ function PersonalDetails(props) {
 
   return (
     <Box>
-      <main className="main-checkout mt-4">
-        <section className="card">
-          <div className="card-header bg-primary bg-gradient text-light">
-            <h3>CHECKOUT</h3>
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="text"
-                    name="first_name"
-                    className="form-control"
-                    placeholder="Enter your First Name"
-                    value={personalDetails.values.first_name}
-                    onChange={handleChange}
-                  ></Form.Control>
+      {isAuth() && (
+        <main className="main-checkout mt-4">
+          <section className="card">
+            <div className="card-header bg-primary bg-gradient text-light">
+              <h3>CHECKOUT</h3>
+            </div>
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="text"
+                      name="first_name"
+                      className="form-control"
+                      placeholder="Enter your First Name"
+                      value={personalDetails.values.first_name}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="text"
-                    name="last_name"
-                    className="form-control"
-                    placeholder="Enter your Last Name"
-                    value={personalDetails.values.last_name}
-                    onChange={handleChange}
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="text"
+                      name="last_name"
+                      className="form-control"
+                      placeholder="Enter your Last Name"
+                      value={personalDetails.values.last_name}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="text"
-                    name="purok"
-                    className="form-control"
-                    placeholder="Purok (e.g, Proper)"
-                    value={personalDetails.values.purok}
-                    onChange={handleChange}
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="text"
+                      name="purok"
+                      className="form-control"
+                      placeholder="Purok (e.g, Proper)"
+                      value={personalDetails.values.purok}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="text"
-                    name="brgy"
-                    className="form-control"
-                    placeholder="Barangay (e.g, Sta. Margarita)"
-                    value={personalDetails.values.brgy}
-                    onChange={handleChange}
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="text"
+                      name="brgy"
+                      className="form-control"
+                      placeholder="Barangay (e.g, Sta. Margarita)"
+                      value={personalDetails.values.brgy}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="text"
-                    name="municipality"
-                    className="form-control"
-                    placeholder="Municipality (e.g, Hilongos)"
-                    value={personalDetails.values.municipality}
-                    onChange={handleChange}
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="text"
+                      name="municipality"
+                      className="form-control"
+                      placeholder="Municipality (e.g, Hilongos)"
+                      value={personalDetails.values.municipality}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    name="contact_number"
-                    className="form-control"
-                    placeholder="Phone Number"
-                    value={personalDetails.values.contact_number}
-                    onChange={handleChange}
-                    inputProps={{
-                      inputMode: "numeric",
-                      pattern: "[0-9]*",
-                      maxLength: 11,
-                    }}
-                    required
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      name="contact_number"
+                      className="form-control"
+                      placeholder="Phone Number"
+                      value={personalDetails.values.contact_number}
+                      onChange={handleChange}
+                      inputProps={{
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                        maxLength: 11,
+                      }}
+                      required
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="text"
-                    name="landmark"
-                    className="form-control"
-                    placeholder="Landmark"
-                    value={personalDetails.values.land_mark}
-                    onChange={handleChange}
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="text"
+                      name="landmark"
+                      className="form-control"
+                      placeholder="Landmark"
+                      value={personalDetails.values.land_mark}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-5">
-                <div className="form-group mb-3">
-                  <Form.Control
-                    errors={personalDetails.errors}
-                    type="email"
-                    name="email"
-                    className="form-control"
-                    placeholder="Email Address"
-                    value={personalDetails.values.email}
-                    onChange={handleChange}
-                  ></Form.Control>
+                <div className="col-md-5">
+                  <div className="form-group mb-3">
+                    <Form.Control
+                      errors={personalDetails.errors}
+                      type="email"
+                      name="email"
+                      className="form-control"
+                      placeholder="Email Address"
+                      value={personalDetails.values.email}
+                      onChange={handleChange}
+                    ></Form.Control>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </main>
+          </section>
+        </main>
+      )}
       <Box>
         <PaymentMethodFe
           error={paymentMethod.errors}
@@ -289,22 +296,26 @@ function PersonalDetails(props) {
           handleSelectPayment={handleSelectPayment}
         />
       </Box>
-      
 
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2, justifyContent:"space-evenly"  }} className="d-flex justify-content-between">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "space-evenly",
+        }}
+        className="d-flex justify-content-between"
+      >
         <Button
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
-          style={{ padding: "5px 50px"}}
+          style={{ padding: "5px 50px" }}
         >
           Back
         </Button>
-       
-        <Button 
-          onClick={handleNextStep}
-          style={{ padding: "5px 50px"}}
-        >
+
+        <Button onClick={handleNextStep} style={{ padding: "5px 50px" }}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
       </Box>

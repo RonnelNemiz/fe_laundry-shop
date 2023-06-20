@@ -4,6 +4,8 @@ import { Button } from "react-bootstrap";
 import Http from "../../../../services/Http";
 import swal from "sweetalert";
 import PersonToPay from "./PersonToPay";
+import { isAuth } from "../../../../utils/helpers";
+import { useHistory } from "react-router-dom";
 
 const boxStyle = {
   display: "flex",
@@ -13,6 +15,7 @@ const semiTitle = {
 };
 
 function OrderSummary(props) {
+  const history = useHistory();
   const {
     steps,
     handleBack,
@@ -25,35 +28,46 @@ function OrderSummary(props) {
     personal,
   } = props;
 
-  console.log(personal);
-  // const history = useHistory();
-  console.log(garments);
   const handleSubmit = () => {
-    Http.post(
-      "/new/orders",
-      {
-        body: {
-          garments: garments,
-          personal_details: personal,
-          payment_method: paymentMethod,
-          handling: handling,
-          service: service,
+    if (isAuth()) {
+      Http.post(
+        "/new/orders",
+        {
+          body: {
+            garments: garments,
+            personal_details: personal,
+            payment_method: paymentMethod,
+            handling: handling,
+            service: service,
+          },
         },
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      }
-    )
-      .then((res) => {
-        if (res.data.status === 200) {
-          swal("success", "Thank You for your order!!!", "success");
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      })
-      .catch((err) => {
-        swal("error", err.message, "error");
-      });
+      )
+        .then((res) => {
+          if (res.data.status === 200) {
+            swal("success", "Thank You for your order!!!", "success");
+            localStorage.removeItem("handling");
+            localStorage.removeItem("garment");
+            localStorage.removeItem("service");
+            localStorage.removeItem("personal_details");
+            localStorage.removeItem("payment_method");
+          }
+        })
+        .catch((err) => {
+          swal("error", err.message, "error");
+        });
+    } else {
+      localStorage.setItem("garment", JSON.stringify(garments));
+      localStorage.setItem("personal_details", JSON.stringify(personal));
+      localStorage.setItem("payment_method", JSON.stringify(paymentMethod));
+      localStorage.setItem("handling", JSON.stringify(handling));
+      localStorage.setItem("service", JSON.stringify(service));
+      history.push("/login");
+    }
   };
   // Helper function to generate the order summary
   const generateOrderSummary = () => {
