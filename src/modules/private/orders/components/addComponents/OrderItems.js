@@ -5,7 +5,7 @@ import WhiteBedShTowelP from "./WhiteBedShTowelP";
 import WhiteGarmentsP from "./WhiteGarmentsP";
 import { Box } from "@mui/material";
 import { Button } from "react-bootstrap";
-import BookingFormP from "./BookingFormP";
+// import BookingFormP from "./BookingFormP";
 import Reevalidate from "ree-validate-18";
 
 const validator = new Reevalidate.Validator({
@@ -103,17 +103,6 @@ function LaundryDetailsP(props) {
       }));
     }
   }, []);
-
-  const handleSelectHandling = (value, price) => {
-    setFormValues((prev) => ({
-      ...prev,
-      values: {
-        ...prev.values,
-        handling: value,
-        price: price,
-      },
-    }));
-  };
 
   const handleRadioChange = (event) => {
     const name = event.target.name;
@@ -228,24 +217,8 @@ function LaundryDetailsP(props) {
 
   return (
     <div>
-      <Box>
-        <BookingFormP
-          error={formValues.errors}
-          setFormValues={setFormValues}
-          formValues={formValues}
-          handleRadioChange={handleRadioChange}
-          handleSelectHandling={handleSelectHandling}
-          handleSelectService={handleSelectService}
-          errorServ={servformValues.errors}
-          setServFormValues={setServFormValues}
-          servformValues={servformValues}
-        />
-      </Box>
       <main className="mt-2">
         <section className="card">
-          <div className="card-header bg-primary bg-gradient-primary text-light">
-            <h3>ORDER DETAILS</h3>
-          </div>
           <div className="card-body">
             <p>Select categories:</p>
 
@@ -263,21 +236,6 @@ function LaundryDetailsP(props) {
           </div>
         </section>
       </main>
-
-      <Box className="button-back-next justify-content-between d-flex mt-2">
-        <Button
-          color="inherit"
-          disabled={activeStep === 0}
-          onClick={handleBack}
-          style={{ padding: "5px 30px" }}
-        >
-          Back
-        </Button>
-
-        <Button onClick={handleNextStep} style={{ padding: "5px 30px" }}>
-          {/* {activeStep === steps.length - 1 ? "Finish" : "Next"} */}
-        </Button>
-      </Box>
     </div>
   );
 }

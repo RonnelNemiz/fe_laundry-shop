@@ -19,16 +19,18 @@ const styles = {
 };
 
 export default function ViewModal(props) {
-  const { open, onClose, fetchingData, orderId } = props;
+  const { open, onClose, fetchingData, order } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [orders, setOrders] = useState();
 
+  const orderId = (order && order.id) || "";
+
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/orders/").then((res) => {
+    Http.get("/orders").then((res) => {
       setOrders(res.data);
     });
-  });
+  }, []);
   // console.log("Order Id:", orderId);
   const handlePay = () => {
     // 1. validate payment if needed

@@ -14,9 +14,17 @@ function ColoredBedShTowelP(props) {
       <section className="order-details-options mt-4">
         <div className="d-flex flex-wrap gap-2">
           <article className="d-flex justify-content-between card flex-grow-1">
-            <div className="card-body">
-              <div className="d-flex mb-2 align-items-center">
-                <img src={BedSheet} alt="Bed Sheet" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+            <div className="card-body d-flex">
+              <div
+                className="d-flex mb-2 align-items-center"
+                style={{ width: "50%" }}
+              >
+                <img
+                  src={BedSheet}
+                  alt="Bed Sheet"
+                  className="img-fluid"
+                  style={{ width: "30px", height: "30px", marginRight: "15px" }}
+                />
                 <label htmlFor="shirtInput">Bed Sheet</label>
               </div>
               <Form.Control
@@ -25,16 +33,34 @@ function ColoredBedShTowelP(props) {
                 onChange={handleChange}
                 value={garments.values.colorbdst_bedsheet}
                 id="bedSheetInput"
-                style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+                style={{
+                  lineHeight: "0",
+                  padding: "0",
+                  border: "0 solid transparent",
+                  borderBottom: "1px solid #ccc",
+                  borderRadius: "0",
+                  outline: "0",
+                  marginBottom: "5px",
+                  textAlign: "center",
+                  width: "50%",
+                }}
                 placeholder="How many?"
                 required
               />
             </div>
           </article>
           <article className="d-flex justify-content-between card flex-grow-1">
-            <div className="card-body">
-              <div className="d-flex mb-2 align-items-center">
-                <img src={Towel} alt="Towel" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+            <div className="card-body d-flex">
+              <div
+                className="d-flex mb-2 align-items-center"
+                style={{ width: "50%" }}
+              >
+                <img
+                  src={Towel}
+                  alt="Towel"
+                  className="img-fluid"
+                  style={{ width: "30px", height: "30px", marginRight: "15px" }}
+                />
                 <label htmlFor="shirtInput">Towel</label>
               </div>
               <Form.Control
@@ -43,16 +69,34 @@ function ColoredBedShTowelP(props) {
                 onChange={handleChange}
                 value={garments.values.colorbdst_towel}
                 id="towelInput"
-                style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+                style={{
+                  lineHeight: "0",
+                  padding: "0",
+                  border: "0 solid transparent",
+                  borderBottom: "1px solid #ccc",
+                  borderRadius: "0",
+                  outline: "0",
+                  marginBottom: "5px",
+                  textAlign: "center",
+                  width: "50%",
+                }}
                 placeholder="How many?"
                 required
               />
             </div>
           </article>
           <article className="d-flex justify-content-between card flex-grow-1">
-            <div className="card-body">
-              <div className="d-flex mb-2 align-items-center">
-                <img src={Curtain} alt="Curtain" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+            <div className="card-body d-flex">
+              <div
+                className="d-flex mb-2 align-items-center"
+                style={{ width: "50%" }}
+              >
+                <img
+                  src={Curtain}
+                  alt="Curtain"
+                  className="img-fluid"
+                  style={{ width: "30px", height: "30px", marginRight: "15px" }}
+                />
                 <label htmlFor="shirtInput">Curtain</label>
               </div>
               <Form.Control
@@ -61,16 +105,34 @@ function ColoredBedShTowelP(props) {
                 onChange={handleChange}
                 value={garments.values.colorbdst_curtain}
                 id="curtainInput"
-                style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+                style={{
+                  lineHeight: "0",
+                  padding: "0",
+                  border: "0 solid transparent",
+                  borderBottom: "1px solid #ccc",
+                  borderRadius: "0",
+                  outline: "0",
+                  marginBottom: "5px",
+                  textAlign: "center",
+                  width: "50%",
+                }}
                 placeholder="How many?"
                 required
               />
             </div>
           </article>
           <article className="d-flex justify-content-between card flex-grow-1">
-            <div className="card-body">
-              <div className="d-flex mb-2 align-items-center">
-                <img src={Blanket} alt="Blanket" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+            <div className="card-body d-flex">
+              <div
+                className="d-flex mb-2 align-items-center"
+                style={{ width: "50%" }}
+              >
+                <img
+                  src={Blanket}
+                  alt="Blanket"
+                  className="img-fluid"
+                  style={{ width: "30px", height: "30px", marginRight: "15px" }}
+                />
                 <label htmlFor="shirtInput">Blanket</label>
               </div>
               <Form.Control
@@ -79,16 +141,34 @@ function ColoredBedShTowelP(props) {
                 onChange={handleChange}
                 value={garments.values.colorbdst_blanket}
                 id="blanketInput"
-                style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+                style={{
+                  lineHeight: "0",
+                  padding: "0",
+                  border: "0 solid transparent",
+                  borderBottom: "1px solid #ccc",
+                  borderRadius: "0",
+                  outline: "0",
+                  marginBottom: "5px",
+                  textAlign: "center",
+                  width: "50%",
+                }}
                 placeholder="How many?"
                 required
               />
             </div>
           </article>
           <article className="d-flex justify-content-between card flex-grow-1">
-            <div className="card-body">
-              <div className="d-flex mb-2 align-items-center">
-                <img src={Pillowcase} alt="Pillowcase" className="img-fluid" style={{ width:"30px", height:"30px", marginRight:"15px"}}/>
+            <div className="card-body d-flex">
+              <div
+                className="d-flex mb-2 align-items-center"
+                style={{ width: "50%" }}
+              >
+                <img
+                  src={Pillowcase}
+                  alt="Pillowcase"
+                  className="img-fluid"
+                  style={{ width: "30px", height: "30px", marginRight: "15px" }}
+                />
                 <label htmlFor="shirtInput">Pillowcase</label>
               </div>
               <Form.Control
@@ -97,7 +177,17 @@ function ColoredBedShTowelP(props) {
                 onChange={handleChange}
                 value={garments.values.colorbdst_pillowcase}
                 id="pillowcaseInput"
-                style={{lineHeight:"0", padding:"0", border:"0 solid transparent", borderBottom:"1px solid #ccc", borderRadius:"0", outline:"0", marginBottom:"5px", textAlign:"center"}}
+                style={{
+                  lineHeight: "0",
+                  padding: "0",
+                  border: "0 solid transparent",
+                  borderBottom: "1px solid #ccc",
+                  borderRadius: "0",
+                  outline: "0",
+                  marginBottom: "5px",
+                  textAlign: "center",
+                  width: "50%",
+                }}
                 placeholder="How many?"
                 required
               />

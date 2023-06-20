@@ -64,21 +64,21 @@ const Orders = () => {
             <Stack direction="row" spacing={1}>
               <IconButton
                 aria-label="view"
-                onClick={() => handleShowViewModal(order.id)}
+                onClick={() => handleShowViewModal(order)}
                 color="primary"
               >
                 <ViewIcon />
               </IconButton>
               <IconButton
                 aria-label="edit"
-                onClick={() => handleShowEditModal(order.id)}
+                onClick={() => handleShowEditModal(order)}
                 color="warning"
               >
                 <EditIcon />
               </IconButton>
               <IconButton
                 aria-label="pay"
-                onClick={() => handleShowPayModal(order.id)}
+                onClick={() => handleShowPayModal(order)}
                 color="success"
               >
                 <PayIcon />
@@ -218,19 +218,19 @@ const Orders = () => {
         fetchingData={fetchingData}
         open={showViewModal}
         onClose={() => setShowViewModal(false)}
-        orderId={selectedOrder}
+        order={selectedOrder}
       />
       <EditModal
         fetchingData={fetchingData}
         open={showEditModal}
         onClose={() => setShowEditModal(false)}
-        orderId={selectedOrder}
+        order={selectedOrder}
       />
       <PayModal
         fetchingData={fetchingData}
         open={showPayModal}
         onClose={() => setShowPayModal(false)}
-        orderId={selectedOrder}
+        order={selectedOrder}
       />
     </>
   );
