@@ -8,28 +8,39 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  IconButton,
+  Box,
 } from "@mui/material";
-import AddServices from './../components/AddServices';
-import EditServices from './../components/EditServices';
+import AddServices from "./../components/AddServices";
+import EditServices from "./../components/EditServices";
 import DeleteServices from "../components/DeleteServices";
 import Http from "../../../../../services/Http";
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import ShowHandling from "../../handling/components/ShowHandling";
-
+import MUIDataTable from "mui-datatables";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import ViewIcon from "@mui/icons-material/Visibility";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
 const Services = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [serviceData, setServiceData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedItem, setSelectedItem] =useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [imageUrls, setImageUrls] = useState({});
-
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/services",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/services", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((res) => {
         setServiceData(res.data);
         setIsLoading(false);
@@ -39,101 +50,134 @@ const Services = () => {
         setIsLoading(false);
       });
   }, [ignored]);
-  
+
   const handleUpdate = (values) => {
-    Http.get(`update/services/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then(
-    );
+    Http.get(`update/services/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/services/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
-      .then(
-
-      );
+    Http.delete(`delete/services/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
   const handleShow = (id) => {
-    Http.get(`view/services/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get(`view/services/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((res) => {
         setSelectedItem(res.data);
         setImageUrls((prevImageUrls) => ({
           ...prevImageUrls,
-          [id]: res.data.image_url
+          [id]: res.data.image_url,
         }));
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  
+
+  const columns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton aria-label="edit" color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="edit" color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+      },
+    },
+    {
+      name: "name",
+      label: "Name",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "description",
+      label: "Description",
+    },
+    {
+      name: "image",
+      label: "Image",
+    },
+  ];
+
+  const [resizableColumns, setResizableColumns] = useState(false);
+  const options = {
+    filterType: "checkbox",
+    rowsPerPage: 10,
+    resizableColumns: resizableColumns,
+    customToolbarSelect: () => {
+      return <AddServices forceUpdate={() => forceUpdate()} />;
+    },
+    customToolbar: () => {
+      return (
+        <>
+          <AddServices forceUpdate={() => forceUpdate()} />;
+        </>
+      );
+    },
+  };
+
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
-    <AddServices  forceUpdate={() => forceUpdate()} />
-    <TableContainer component={Paper}>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <Table>
-          <TableHead sx={{
-                        "& th": {
-                            color: "white",
-                            backgroundColor: "#0E4C91",
-                        },
-                    }}>
-            <TableRow>
-            <TableCell size="small">Actions</TableCell>
-              <TableCell size="small">Service Name</TableCell>
-              <TableCell size="small">Description </TableCell>
-              <TableCell size="small">Price </TableCell>
-              <TableCell size="small">Image</TableCell>
-              
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {serviceData.map((service) => (
-              <TableRow key={service.id}>
-                 <TableCell size="small" sx={{display:"flex", alignItems:"center"}}>
-                  <VisibilityIcon 
-                    onClick={() => handleShow(service.id)}
-                    style={{cursor:"pointer", color:"gray"}}
+      <div>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab label="Services" value="1" />
+                <Tab label="Categories" value="2" />
+                <Tab label="Item Types" value="3" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <TableContainer component={Paper}>
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <MUIDataTable
+                    title={"Services List"}
+                    data={serviceData}
+                    columns={columns}
+                    options={options}
                   />
-                  <EditServices
-                      selectedItem={service}
-                      onEdit={handleUpdate}
-                      forceUpdate={() => forceUpdate()}
-                    />
-                  <DeleteServices
-                  selectedItem={service}
-                  onDelete={handleDelete} 
-                    forceUpdate={() => forceUpdate()} />
-
-                </TableCell>
-                <TableCell size="small">{service.service_name}</TableCell>
-                <TableCell size="small" sx={{width:"40%"}}>{service.description}</TableCell>
-                <TableCell size="small">{service.service_price}</TableCell>
-                {/* <TableCell size="small">{service.image}</TableCell> */}
-                <TableCell size="small">
-                  {service.image && (
-                    <img src={imageUrls[service.id]} alt="Service Image" style={{ width: '100px' }} />
-                  )}
-                </TableCell>
-
-
-               
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </TableContainer>
-           {selectedItem && (
-              <ShowHandling sx={{maxWidth:"500px"}} selectedItem={selectedItem} onClose={() => setSelectedItem(null) } />
-           )}   
+                )}
+              </TableContainer>
+            </TabPanel>
+            <TabPanel value="2">Categories</TabPanel>
+            <TabPanel value="3">Item Types</TabPanel>
+          </TabContext>
+        </Box>
+      </div>
     </>
   );
 };

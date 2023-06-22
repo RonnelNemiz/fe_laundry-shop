@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import COD from "../../../../assets/images/codIcon.svg";
 // import Gcash from "../../../../assets/images/gcashIcon.svg";
-import { Box } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import { Button, Form } from "react-bootstrap";
 import Reevalidate from "ree-validate-18";
 import PaymentMethodFe from "./PaymentMethodFe";
@@ -51,8 +51,8 @@ function PersonalDetails(props) {
     },
   });
 
+  const [isLoading, setIsLoading] = useState();
   React.useEffect(() => {
-    console.log(personal);
     if (personal) {
       setPersonnalDetails((prev) => ({
         ...prev,
@@ -78,6 +78,7 @@ function PersonalDetails(props) {
   }, []);
 
   const handleFetchUser = () => {
+    setIsLoading(true);
     if (isAuth()) {
       Http.get("customer", {
         headers: {
@@ -94,6 +95,7 @@ function PersonalDetails(props) {
                 email: user.email,
               },
             }));
+            setIsLoading(false);
           } else {
             console.warn(res.data.messages);
           }
@@ -147,7 +149,7 @@ function PersonalDetails(props) {
       },
     }));
   };
-
+  const [errorMessage, setErrorMessage] = useState("");
   const handleNextStep = () => {
     validator.validateAll(personalDetails.values).then((success) => {
       if (success) {
@@ -159,6 +161,7 @@ function PersonalDetails(props) {
           ...prev,
           errors: validator.errors,
         }));
+        setErrorMessage(validator.errors.items[0].msg);
       }
     });
   };
@@ -172,6 +175,7 @@ function PersonalDetails(props) {
               <h3>CHECKOUT</h3>
             </div>
             <div className="card-body">
+              {isLoading && <LinearProgress />}
               <div className="row">
                 <div className="col-md-5">
                   <div className="form-group mb-3">
@@ -284,9 +288,15 @@ function PersonalDetails(props) {
                 </div>
               </div>
             </div>
+            {errorMessage && (
+              <div className="px-3 alert alert-danger my-1 mx-3 py-1">
+                {errorMessage}
+              </div>
+            )}
           </section>
         </main>
       )}
+
       <Box>
         <PaymentMethodFe
           error={paymentMethod.errors}
@@ -296,7 +306,6 @@ function PersonalDetails(props) {
           handleSelectPayment={handleSelectPayment}
         />
       </Box>
-
       <Box
         sx={{
           display: "flex",

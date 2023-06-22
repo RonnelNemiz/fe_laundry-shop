@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 import React from "react";
 import { Button } from "react-bootstrap";
 import Http from "../../../../services/Http";
@@ -71,6 +71,9 @@ function OrderSummary(props) {
   };
   // Helper function to generate the order summary
   const generateOrderSummary = () => {
+    if (!garments) {
+      return { __html: "" };
+    }
     const garmentKeys = Object.keys(garments);
     const categories = {};
 
@@ -139,17 +142,18 @@ function OrderSummary(props) {
               </Typography>
               <Typography>{personal.email}</Typography>
             </Box>
+            <Divider />
+            <Box sx={boxStyle} className={"mt-3"}>
+              <Typography sx={semiTitle}>
+                <b>Service:</b>
+              </Typography>
+              <Typography>{service.service}</Typography>
+            </Box>
             <Box sx={boxStyle}>
               <Typography sx={semiTitle}>
                 <b>Categories:</b>
               </Typography>
               <Typography dangerouslySetInnerHTML={generateOrderSummary()} />
-            </Box>
-            <Box sx={boxStyle}>
-              <Typography sx={semiTitle}>
-                <b>Service:</b>
-              </Typography>
-              <Typography>{service.service}</Typography>
             </Box>
             <Box sx={boxStyle}>
               <Typography sx={semiTitle}>
@@ -179,16 +183,17 @@ function OrderSummary(props) {
         sx={{
           display: "flex",
           flexDirection: "row",
-          paddingTop: "40px",
+          pt: 2,
           justifyContent: "space-evenly",
         }}
-        className="button-back-next-public"
+        className="d-flex justify-content-between"
       >
         <Button
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
           sx={{ mr: 1 }}
+          style={{ padding: "5px 50px" }}
         >
           Back
         </Button>
@@ -200,7 +205,7 @@ function OrderSummary(props) {
               handleSubmit();
             }
           }}
-          style={{ marginLeft: "90%" }}
+          style={{ padding: "5px 50px" }}
         >
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>

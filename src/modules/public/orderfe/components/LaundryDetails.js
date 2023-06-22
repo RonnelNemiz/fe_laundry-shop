@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import ColoredGarments from "./ColoredGarments";
-import ColoredBedShTowel from "./ColoredBedShTowel";
-import WhiteBedShTowel from "./WhiteBedShTowel";
-import WhiteGarments from "./WhiteGarments";
-import { Box } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 import { Button } from "react-bootstrap";
 import BookingForm from "./BookingForm";
 import Reevalidate from "ree-validate-18";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Http from "../../../../services/Http";
+import { Form } from "react-bootstrap";
 
 const validator = new Reevalidate.Validator({
   handling: "required",
@@ -19,48 +22,9 @@ function LaundryDetails(props) {
     handleBack,
     handleNext,
     activeStep,
-    garmentsContainer,
-    setGarmentsContainer,
-    handlingContainer,
     setHandlingContainer,
-    serviceContainer,
     setServiceContainer,
   } = props;
-
-  const [selectedPage, setSelectedPage] = useState(0);
-  const [garments, setGarments] = useState({
-    values: {
-      colorbdst_bedsheet: "",
-      colorbdst_towel: "",
-      colorbdst_curtain: "",
-      colorbdst_blanket: "",
-      colorbdst_pillowcase: "",
-
-      colorgart_tshirt: "",
-      colorgart_underwear: "",
-      colorgart_shorts: "",
-      colorgart_pants: "",
-      colorgart_jacket: "",
-      colorgart_blouse: "",
-      colorgart_socks: "",
-      colorgart_handkerchief: "",
-
-      whitebdst_bedsheet: "",
-      whitebdst_towel: "",
-      whitebdst_curtain: "",
-      whitebdst_blanket: "",
-      whitebdst_pillowcase: "",
-
-      whitegart_tshirt: "",
-      whitegart_underwear: "",
-      whitegart_shorts: "",
-      whitegart_pants: "",
-      whitegart_jacket: "",
-      whitegart_blouse: "",
-      whitegart_socks: "",
-      whitegart_handkerchief: "",
-    },
-  });
 
   const [formValues, setFormValues] = React.useState({
     values: {
@@ -77,34 +41,16 @@ function LaundryDetails(props) {
     errors: validator.errors,
   });
 
- 
+  const [categoryList, setCategoryList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (garmentsContainer) {
-      setGarments((prev) => ({
-        ...prev,
-        values: {
-          ...garmentsContainer,
-        },
-      }));
-    }
-    if (handlingContainer) {
-      setFormValues((prev) => ({
-        ...prev,
-        values: {
-          ...handlingContainer,
-        },
-      }));
-    }
-    if (serviceContainer) {
-      setServFormValues((prev) => ({
-        ...prev,
-        values: {
-          ...serviceContainer,
-        },
-      }));
-    }
-   
+    Http.get("/category-list").then((res) => {
+      if (res.data) {
+        setCategoryList(res.data.item_categories);
+        setLoading(false);
+      }
+    });
   }, []);
 
   const handleSelectHandling = (value, price) => {
@@ -117,7 +63,7 @@ function LaundryDetails(props) {
       },
     }));
   };
-  
+
   const handleRadioChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -167,64 +113,33 @@ function LaundryDetails(props) {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-
-    setGarments((prev) => ({
-      ...prev,
-      values: {
-        ...prev.values,
-        [name]: value,
-      },
-    }));
   };
 
   const handleNextStep = () => {
-    validator.validateAll(formValues.values, servformValues.values).then((success) => {
-      if (success) {
-        setGarmentsContainer(garments.values);
-        setHandlingContainer(formValues.values);
-        setServiceContainer(servformValues.values);
-        handleNext();
-      } else{
-        setFormValues((prev) => ({
-          ...prev,
-          errors: validator.errors,
-        }));
-        setServFormValues((prev) => ({
-          ...prev,
-          errors: validator.errors, // or set the specific error for servformValues
-        }));
-      }
-    });
+    validator
+      .validateAll(formValues.values, servformValues.values)
+      .then((success) => {
+        if (success) {
+          setHandlingContainer(formValues.values);
+          setServiceContainer(servformValues.values);
+          handleNext();
+        } else {
+          setFormValues((prev) => ({
+            ...prev,
+            errors: validator.errors,
+          }));
+          setServFormValues((prev) => ({
+            ...prev,
+            errors: validator.errors, // or set the specific error for servformValues
+          }));
+        }
+      });
   };
 
-  const pages = [
-    {
-      title: "ColoredBedShTowel",
-      content: (
-        <ColoredBedShTowel garments={garments} handleChange={handleChange} />
-      ),
-    },
-    {
-      title: "ColoredGarments ",
-      content: (
-        <ColoredGarments garments={garments} handleChange={handleChange} />
-      ),
-    },
-    {
-      title: "WhiteBedShTowel",
-      content: (
-        <WhiteBedShTowel garments={garments} handleChange={handleChange} />
-      ),
-    },
-    {
-      title: "WhiteGarments",
-      content: (
-        <WhiteGarments garments={garments} handleChange={handleChange} />
-      ),
-    },
-  ];
-  const handleSelect = (event) => {
-    setSelectedPage(Number(event.target.value));
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleAccordionChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
   };
 
   return (
@@ -246,39 +161,105 @@ function LaundryDetails(props) {
         <section className="card">
           <div className="card-header bg-primary bg-gradient text-light">
             <h3>ORDER DETAILS</h3>
+            {loading && <LinearProgress />}
           </div>
           <div className="card-body">
-            <p>Select categories:</p>
+            {categoryList.map((category, index) => (
+              <React.Fragment key={index}>
+                <Accordion
+                  expanded={expanded === `panel${index}`}
+                  onChange={handleAccordionChange(`panel${index}`)}
+                >
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={`panel${index}-content`}
+                    className="my-0 d-flex justify-content-between"
+                  >
+                    <Typography
+                      className="py-1 my-0 fw-bold"
+                      sx={{ width: "50%" }}
+                    >
+                      {category.category_name}
+                    </Typography>
 
-            <select
-              onChange={handleSelect}
-              className="col-md-4 btn btn-secondary dropdown-toggle"
-            >
-              {pages.map((page, index) => (
-                <option key={index} value={index}>
-                  {page.title}
-                </option>
-              ))}
-            </select>
-            {pages[selectedPage].content}
+                    <Form.Control
+                      name={`itemType-${category.category_name}`}
+                      onChange={handleChange}
+                      id={`itemType${category.category_name}`}
+                      style={{
+                        lineHeight: "0",
+                        padding: "0",
+                        border: "0 solid transparent",
+                        borderBottom: "1px solid #ccc",
+                        borderRadius: "0",
+                        outline: "0",
+                        textAlign: "center",
+                        width: "25%",
+                      }}
+                      type="number"
+                      placeholder="Weight in Kilo?"
+                      required
+                    />
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {category.item_types.map((item_type) => (
+                      <div key={item_type.id}>
+                        <article className="d-flex justify-content-between card my-1">
+                          <div className="card-body d-flex justify-content-between align-items-center py-1">
+                            <div className="d-flex align-items-center m-0">
+                              <label htmlFor={`itemType${item_type.name}`}>
+                                {item_type.name}
+                              </label>
+                            </div>
+                            <Form.Control
+                              name={`itemType-${item_type.name}`}
+                              onChange={handleChange}
+                              id={`itemType${item_type.name}`}
+                              style={{
+                                lineHeight: "0",
+                                padding: "0",
+                                border: "0 solid transparent",
+                                borderBottom: "1px solid #ccc",
+                                borderRadius: "0",
+                                outline: "0",
+                                textAlign: "center",
+                                width: "25%",
+                              }}
+                              type="number"
+                              placeholder="How many?"
+                              required
+                            />
+                          </div>
+                        </article>
+                      </div>
+                    ))}
+                  </AccordionDetails>
+                </Accordion>
+              </React.Fragment>
+            ))}
           </div>
         </section>
       </main>
 
-      <Box sx={{ display: "flex", flexDirection: "row", pt: 2, justifyContent:"space-evenly"  }} className="d-flex justify-content-between">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          pt: 2,
+          justifyContent: "space-evenly",
+        }}
+        className="d-flex justify-content-between"
+      >
         <Button
           color="inherit"
           disabled={activeStep === 0}
           onClick={handleBack}
-          style={{ padding: "5px 50px"}}
+          style={{ padding: "5px 50px" }}
         >
           Back
         </Button>
-       
-        <Button 
-          onClick={handleNextStep}
-          style={{ padding: "5px 50px"}}
-        >
+
+        <Button onClick={handleNextStep} style={{ padding: "5px 50px" }}>
           {activeStep === steps.length - 1 ? "Finish" : "Next"}
         </Button>
       </Box>

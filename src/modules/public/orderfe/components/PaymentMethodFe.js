@@ -79,7 +79,12 @@ function PaymentMethodFe(props) {
             ))}
         </div>
         {error && (
-          <FormHelperText error>
+          <FormHelperText
+            error
+            className={
+              error.items[0] ? "px-3 alert alert-danger py-2 mx-3 my-1" : ""
+            }
+          >
             {error.items[0] && error.items[0].msg}
           </FormHelperText>
         )}

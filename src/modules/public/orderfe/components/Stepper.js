@@ -33,7 +33,6 @@ export default function HorizontalLinearStepper(props) {
     return step === 1;
   };
 
-  console.log(paymentMethod);
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
