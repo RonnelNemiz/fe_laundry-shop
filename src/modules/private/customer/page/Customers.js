@@ -1,21 +1,29 @@
 import React, { useEffect, useState, useReducer } from "react";
-import { Paper } from "@mui/material";
+import { IconButton, Paper, Stack } from "@mui/material";
 import Http from "../../../../services/Http";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import AddCustomers from "../components/AddCustomers";
 import ToastNotification from "../../../../components/ToastNotification";
 import DataTableCustomers from "../components/DataTableCustomers";
+import MUIDataTable from "mui-datatables";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
+import ShowCustomer from "../components/ShowCustomer";
+import DeleteCustomers from "./../components/DeleteCustomers";
+import EditCustomers from "../components/EditCustomers";
 
 function Customers() {
   const [loading, setLoading] = useState(false);
-  const [customerList, setCustomerList] = useState({
-    data: [],
-    meta: {},
-  });
+  const [customerList, setCustomerList] = useState([]);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [filters, setFilters] = useState({
-    limit: 25,
-  });
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [isViewOpen, setViewOpen] = useState(false);
+
+  // const [filters, setFilters] = useState({
+  //   limit: 25,
+  // });
 
   useEffect(() => {
     fetchingData();
@@ -23,12 +31,7 @@ function Customers() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/all-customers", {
-      params: {
-        ...filters,
-        ...params,
-      },
-    }).then((res) => {
+    Http.get("/all-customers").then((res) => {
       if (res.data.data) {
         console.log(res.data.data);
         setCustomerList({
@@ -42,57 +45,76 @@ function Customers() {
 
   const columns = [
     {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (item, tableMeta) => {
+          const customer = customerList[tableMeta.rowIndex];
+
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                aria-label="View"
+                onClick={() => {
+                  setSelectedCustomer(customer);
+                  setViewOpen(true);
+                }}
+              >
+                <VisibilityIcon />
+              </IconButton>
+
+              <EditCustomers
+                selectedItem={customerList}
+                onEdit={handleUpdate}
+                forceUpdate={() => forceUpdate()}
+              />
+              <DeleteCustomers
+                selectedItem={customerList}
+                onDelete={handleDelete}
+                forceUpdate={() => forceUpdate()}
+              />
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: true,
+      },
+    },
+    {
       name: "email",
       label: "Email",
     },
     {
       name: "profile",
       label: "First Name",
-      customBodyRender: (item) => {
-        return item[0] && item[0].first_name;
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].first_name;
+        },
+        filter: true,
+        sort: true,
       },
     },
     {
       name: "profile",
       label: "Last Name",
-      customBodyRender: (item) => {
-        return item[0] && item[0].last_name;
-      },
-    },
-    {
-      name: "profile",
-      label: "Purok",
-      customBodyRender: (item) => {
-        return item[0] && item[0].purok;
-      },
-    },
-    {
-      name: "profile",
-      label: "Barangay",
-      customBodyRender: (item) => {
-        return item[0] && item[0].brgy;
-      },
-    },
-    {
-      name: "profile",
-      label: "Municipality",
-      customBodyRender: (item) => {
-        return item[0] && item[0].municipality;
-      },
-    },
-
-    {
-      name: "profile",
-      label: "Landmark",
-      customBodyRender: (item) => {
-        return item[0] && item[0].land_mark;
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].last_name;
+        },
+        filter: true,
+        sort: true,
       },
     },
     {
       name: "profile",
       label: "Contact Number",
-      customBodyRender: (item) => {
-        return item[0] && item[0].contact_number;
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].contact_number;
+        },
+        filter: true,
+        sort: true,
       },
     },
     {
@@ -105,7 +127,7 @@ function Customers() {
     },
   ];
 
-  const options = {
+  const tableoptions = {
     position: "top-right",
     autoClose: 3000,
     hideProgressBar: false,
@@ -115,76 +137,42 @@ function Customers() {
     theme: "colored",
   };
 
-  const handleFilterChange = (name, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleChangePage = (newPage) => {
-    fetchingData({ page: newPage + 1 });
-  };
-
-  const handleRowChange = (value) => {
-    fetchingData({ limit: value });
-    handleFilterChange("limit", value);
-  };
-
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+    Http.get(`update/user/${values}`).then();
   };
 
   const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    Http.delete(`/delete/user/${values}`)
       .then(
         forceUpdate(),
-        ToastNotification("success", "Successfully Deleted!", options)
+        ToastNotification("success", "Successfully Deleted!", tableoptions)
       )
       .catch((err) => {
-        ToastNotification("error", err, options);
+        ToastNotification("error", err, tableoptions);
       });
   };
 
-  const handleShow = (id) => {
-    Http.get(`show/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+  const options = {
+    filterType: "checkbox",
   };
-
   return (
-    <Paper sx={{ width: "100%" }}>
-      <ToastNotificationContainer />
-      <AddCustomers
-        forceUpdate={() => forceUpdate()}
-        data={customerList.data}
-      />
-      <DataTableCustomers
-        withPagination
-        forceUpdate={() => forceUpdate()}
-        onEdit={handleUpdate}
-        onDelete={handleDelete}
-        loading={loading}
-        data={customerList.data}
-        columns={columns}
-        rowsPerPage={filters.limit}
-        count={customerList.meta.total || 0}
-        page={customerList.meta.curent_page - 1 || 0}
-        onChangePage={handleChangePage}
-        onRowsChangePage={handleRowChange}
-        onRowClick={handleShow}
-      />
-    </Paper>
+    <>
+      <Paper sx={{ width: "100%" }}>
+        <ToastNotificationContainer />
+        <AddCustomers
+          forceUpdate={() => forceUpdate()}
+          data={customerList.data}
+        />
+
+        <MUIDataTable
+          title={"Employee List"}
+          data={customerList.data}
+          columns={columns}
+          options={options}
+        />
+        {isViewOpen && <ShowCustomer customer={selectedCustomer} />}
+      </Paper>
+    </>
   );
 }
 
