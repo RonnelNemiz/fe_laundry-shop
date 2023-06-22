@@ -9,56 +9,67 @@ function Contact() {
       <div>
           <Navbar/>
             
-          <section className="sections text-white">
-                           <div className="maincontainer">
-                              <div className="row">
-                                  <div className="col-md text-center">
-                                      <h2>We make laundry easy, literally</h2>
-                                      <p>
-                                          From our intuitive customer journey to our unmatched technology,
-                                          our platform is designed to provide a fun and easy laundry experience.
-                                      </p>
-                                  </div>
-                           </div>
-                      </div>
-              </section>
-                          <section className="content">
-                      <div className="card">
-                          <div className="card-body row" style={{display:"flex", justifyContent:"center"}}>
-                          <center><h2 className="text-dark">Contact Us</h2></center><br /><br /><br />
-                          <div className="col-5 text-center d-flex align-items-center justify-content-center">
-                              <div className="">
-                              <h2 className="white">We're here to help!</h2>
-                              <p className="lead mb-5"><b>You can chat with us<br/> by using the form on the right side of the screen.</b><br/>
-                                  <b>Phone:+63 953-1093-959</b>
-                              </p>
-                              </div>
-                          </div>
-                          {/* <div className="col-7"> */}
-                              {/* <div className="form-group">
-                              <label for="inputName">Name</label>
-                              <input type="text" id="inputName" className="form-control" />
-                              </div> */}
-                              {/* <div className="form-group">
-                              <label for="inputEmail">E-Mail</label>
-                              <input type="email" id="inputEmail" className="form-control" />
-                              </div> */}
-                              {/* <div className="form-group">
-                              <label for="inputSubject">Subject</label>
-                              <input type="text" id="inputSubject" className="form-control" />
-                              </div>
-                              <div className="form-group">
-                              <label for="inputMessage">Message</label>
-                              <textarea id="inputMessage" className="form-control" rows="4"></textarea>
-                              </div><br /> */}
-                              {/* <div className="form-group"> */}
-                              {/* <input type="submit" className="btn btn-success" value="Send message" /><br /><br /><br /> */}
-                                {/* <button className="button-29" >Send Message</button>
-                            </div> */}
-                          {/* </div> */}
-                          </div>
-                      </div>
-                      </section>
+                <div className="custom-container">
+                    <div className="row">
+                        <div className="col-md-12">
+                        <div className="card custom-card">
+                            <div className="row">
+                            <div className="col-md-7" id="custom-card-body" >
+                                <h2>Get in Touch</h2>
+                                <div className="mb-3">
+                                <label for="nameInput" className="custom-form-label">Name</label>
+                                <input type="text" className="form-control" id="nameInput" placeholder="Enter your name" />
+                                </div>
+                                <div className="mb-3">
+                                <label for="emailInput" className="custom-form-label">Email</label>
+                                <input type="email" className="form-control" id="emailInput" placeholder="Enter your email" />
+                                </div>
+                                <div class="mb-3">
+                                <label for="numberInput" className="custom-form-label">Contact Number</label>
+                                <input type="number" className="form-control" id="numberInput" placeholder="Enter your number" />
+                                </div>
+                                <div className="mb-3">
+                                <label for="messageInput" className="custom-form-label">Message</label>
+                                <textarea className="form-control" id="messageInput" rows="3"></textarea>
+                                </div>
+                                <div className="custom-primary-btn">
+                                <button className="btn customs-btn-primary">Send</button>
+                                </div>
+                            </div>
+                            <div className="col-md-5">
+                                <h2>Contact Us</h2>
+                                <div className="mt-5">
+                                <div className="d-flex">
+                                    <span className="custom-fa-icon">
+                                    <i className="fa-solid fa-location-dot"></i>
+                                    </span>
+                                    <p>Address: ML Flores Street, Central Poblacion, Hilongos, Leyte</p>
+                                </div>
+                                <div className="d-flex">
+                                    <span className="custom-fa-icon">
+                                    <i className="fa-solid fa-phone"></i>
+                                    </span>
+                                    <p>Phone: +639531093959</p>
+                                </div>
+                                <div className="d-flex">
+                                    <span className="custom-fa-icon">
+                                    <i className="fa-solid fa-envelope"></i>
+                                    </span>
+                                    <p>Email: treslabanderas@gmail.com</p>
+                                </div>
+                                <div className="d-flex">
+                                    <span className="custom-fa-icon">
+                                    <i className="fa-brands fa-edge"></i>
+                                    </span>
+                                    <p>Website: treslabanderas.technopreneurship.store</p>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                       <Footer/>
         
       </div>
@@ -66,4 +77,3 @@ function Contact() {
   }
   
   export default Contact
-  
