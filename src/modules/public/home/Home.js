@@ -12,28 +12,29 @@ import aiza from "../../../assets/images/aiza.jpg";
 import karen from "../../../assets/images/karen.jpg";
 import flores from "../../../assets/images/flores.jpg";
 import nemiz from "../../../assets/images/nemiz.jpg";
-import { Carousel } from 'react-bootstrap';
-
+import { Carousel } from "react-bootstrap";
 
 const nameStyle = {
-  fontWeight:700,
+  fontWeight: 700,
 };
-const column1Sec4 ={
+const column1Sec4 = {
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-  textAlign:"center"
-}
+  textAlign: "center",
+};
 
 function Home() {
   const description3 =
-  'After we have washed and dried your clothes, the last part is folding and getting them ready to deliver to your lovely home. We assure that they are safe and clean.';
+    "After we have washed and dried your clothes, the last part is folding and getting them ready to deliver to your lovely home. We assure that they are safe and clean.";
 
-  const description2 = ' When you’re short on time, washing, drying, and folding a few loads of laundry can be a great hassle. Come with us.';
+  const description2 =
+    " When you’re short on time, washing, drying, and folding a few loads of laundry can be a great hassle. Come with us.";
 
-  const description1 = ' Wash and dry laundry service saves you more time than washing clothes at the laundromat yourself and is less expensive.';
-  
+  const description1 =
+    " Wash and dry laundry service saves you more time than washing clothes at the laundromat yourself and is less expensive.";
+
   const [showMore1, setShowMore1] = useState(description1.length <= 100);
   const [showMore2, setShowMore2] = useState(description2.length <= 100);
   const [showMore3, setShowMore3] = useState(description3.length <= 100);
@@ -65,12 +66,19 @@ function Home() {
             </p>
             <div className="btnBox">
               <NavLink to="/about" className="viewMore">
-                <button class="button-29" id="viewmore-btn">View More</button>
+                <button class="button-29" id="viewmore-btn">
+                  View More
+                </button>
               </NavLink>
             </div>
           </div>
           <div className="imgContainer">
-            <img src={image4} alt="images" width="600px"  className="firstImage"  />
+            <img
+              src={image4}
+              alt="images"
+              width="600px"
+              className="firstImage"
+            />
           </div>
         </div>
         <section className="section1 border-top" id="lami">
@@ -82,7 +90,7 @@ function Home() {
                 <p className="service">Pick-Up & Delivery Service Available</p>
               </div>
               <div className="delivery">
-                <img src={delivery} alt="images" style={{width:"40%"}}  />
+                <img src={delivery} alt="images" style={{ width: "40%" }} />
               </div>
             </div>
           </div>
@@ -96,7 +104,7 @@ function Home() {
                 <h1 className="main-heading">Our Services</h1>
                 <div className="underline mx-auto"></div>
               </div>
-              <div className="cardBox-ni-karen" >
+              <div className="cardBox-ni-karen">
                 <div className="card-container-ni-karen">
                   <div className="img col-md-3 center forPaddingBot">
                     <div className="card shadow">
@@ -108,16 +116,19 @@ function Home() {
                       <div className="card-body">
                         <h4>Wash</h4>
                         <p className="description-section2">
-                          {showMore1 ? description1 : description1.slice(0, 100)}
-                          
+                          {showMore1
+                            ? description1
+                            : description1.slice(0, 100)}
                         </p>
-                          {description1.length > 100 && (
-                            <button className="toggleButtonSeeMore" onClick={toggleShowMore1}>
-                              {showMore1 ? 'See less' : 'See more...'}
-                            </button>
-                          )}
+                        {description1.length > 100 && (
+                          <button
+                            className="toggleButtonSeeMore"
+                            onClick={toggleShowMore1}>
+                            {showMore1 ? "See less" : "See more..."}
+                          </button>
+                        )}
                       </div>
-                    </div>  
+                    </div>
                   </div>
                   <div className="img col-md-3 center forPaddingBot">
                     <div className="card shadow">
@@ -129,11 +140,15 @@ function Home() {
                       <div className="card-body">
                         <h4>Dry</h4>
                         <p className="description-section2">
-                        {showMore2 ? description2 : description2.slice(0, 100)}          
-                      </p>
+                          {showMore2
+                            ? description2
+                            : description2.slice(0, 100)}
+                        </p>
                         {description2.length > 100 && (
-                          <button className="toggleButtonSeeMore" onClick={toggleShowMore2}>
-                            {showMore2 ? 'See less' : 'See more...'}
+                          <button
+                            className="toggleButtonSeeMore"
+                            onClick={toggleShowMore2}>
+                            {showMore2 ? "See less" : "See more..."}
                           </button>
                         )}
                       </div>
@@ -149,13 +164,17 @@ function Home() {
                       <div className="card-body">
                         <h4>Fold</h4>
                         <p className="description-section2">
-                          {showMore3 ? description3 : description3.slice(0, 100)}
+                          {showMore3
+                            ? description3
+                            : description3.slice(0, 100)}
                         </p>
-                          {description3.length > 100 && (
-                            <button className="toggleButtonSeeMore" onClick={toggleShowMore3}>
-                              {showMore3 ? 'See less' : 'See more...'}
-                            </button>
-                          )}
+                        {description3.length > 100 && (
+                          <button
+                            className="toggleButtonSeeMore"
+                            onClick={toggleShowMore3}>
+                            {showMore3 ? "See less" : "See more..."}
+                          </button>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -240,7 +259,9 @@ function Home() {
                 <h1 className="main-heading1">Come & Try Our Services</h1>
                 <div className="underline"></div>
               </div>
-              <div className="sec-p col-md-4 secondBox-sec4" style={{textAlign:"center"}}>
+              <div
+                className="sec-p col-md-4 secondBox-sec4"
+                style={{ textAlign: "center" }}>
                 <h5>We Offer the Best Quality of Clothes.</h5>
                 <p>
                   With us we'll make sure that you will be satisfied with our
@@ -248,7 +269,9 @@ function Home() {
                 </p>
                 <div className="btnBox">
                   <NavLink to="/services" className="viewMore">
-                    <button class="button-29" id="btn-viewmore">View More</button>
+                    <button class="button-29" id="btn-viewmore">
+                      View More
+                    </button>
                   </NavLink>
                 </div>
               </div>
@@ -256,104 +279,120 @@ function Home() {
           </div>
         </section>
 
-           {/* stat */}
+        {/* stat */}
 
-         <div className="testimonials border-top">
+        <div className="testimonials border-top">
           <div className="inner" id="ehsulod">
             <h1>Customer Reviews</h1>
             <div className="border"></div>
             {/* <div id="testimonial-carousel" className="rowls row"> */}
             <Carousel>
-            <Carousel.Item interval={1500}>
-            <div className="col carousel-colCol">
-                <div className="testimonial">
+              <Carousel.Item interval={1500}>
+                <div className="col carousel-colCol">
+                  <div className="testimonial">
                     <img src={aiza} alt="images" />
-                    <div className="name" style={nameStyle}>Maria Aiza Butar</div>
+                    <div className="name" style={nameStyle}>
+                      Maria Aiza Butar
+                    </div>
                     <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
                     </div>
 
-                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
-                      is dummy text used in laying out print, 
-                      graphic or web designs. </p>
-
+                    <p className="carousel-parah">
+                      "I recently started using a laundry service, and it has
+                      been a game-changer. They pick up my laundry from my
+                      doorstep and deliver it back to me clean and neatly
+                      folded.It has saved me so much time and effort, and I
+                      highly recommend their convenient and professional
+                      service."{" "}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Carousel.Item>
-            
-            <Carousel.Item interval={1500}>
-              <div className="col carousel-colCol">
-                <div className="testimonial">
+              </Carousel.Item>
+
+              <Carousel.Item interval={1500}>
+                <div className="col carousel-colCol">
+                  <div className="testimonial">
                     <img src={karen} alt="images" />
-                    <div className="name" style={nameStyle}>Karen Lina</div>
+                    <div className="name" style={nameStyle}>
+                      Karen Mae Lina
+                    </div>
                     <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
                     </div>
 
-                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
-                      is dummy text used in laying out print, 
-                      graphic or web designs. </p>
-
+                    <p className="carousel-parah">
+                      "I had a positive experience at a full-service laundry.
+                      The staff was friendly and efficient, and they took care
+                      of my laundry from start to finish. They sorted, washed,
+                      dried, and neatly folded my clothes. The turnaround time
+                      was quick, and my clothes looked great."
+                    </p>
+                  </div>
                 </div>
-              </div>
               </Carousel.Item>
               <Carousel.Item interval={1500}>
-              <div className="col carousel-colCol">
-                <div className="testimonial">
-                      <img src={flores} alt="images" />
-                    <div className="name" style={nameStyle}>Anabella Flores</div>
+                <div className="col carousel-colCol">
+                  <div className="testimonial">
+                    <img src={flores} alt="images" />
+                    <div className="name" style={nameStyle}>
+                      Anabella Flores
+                    </div>
                     <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
                     </div>
 
-                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
-                      is dummy text used in laying out print, 
-                      graphic or web designs. </p>
-
+                    <p className="carousel-parah">
+                      The facility was clean and well-maintained, with plenty of
+                      washers and dryers available. The staff was friendly and
+                      helpful, and the machines worked efficiently. It made my
+                      laundry day a breeze, and I'll definitely be going back!"
+                    </p>
+                  </div>
                 </div>
-              </div>
               </Carousel.Item>
               <Carousel.Item interval={1500}>
-              <div className="col carousel-colCol">
-                <div className="testimonial">
-                      <img src={nemiz} alt="images" />
-                    <div className="name" style={nameStyle}>Ronnel Nemiz</div>
+                <div className="col carousel-colCol">
+                  <div className="testimonial">
+                    <img src={nemiz} alt="images" />
+                    <div className="name" style={nameStyle}>
+                      Ronnel Nemiz
+                    </div>
                     <div className="stars">
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
                     </div>
 
-                    <p className="carousel-parah">Lorem ipsum, or lipsum as it is sometimes known,
-                      is dummy text used in laying out print, 
-                      graphic or web designs. </p>
-
+                    <p className="carousel-parah">
+                      "I had a fantastic laundry experience at a nearby
+                      laundromat. The facility was clean, the machines were in
+                      great condition, and the staff was friendly. I was able to
+                      complete my laundry quickly and efficiently, and I left
+                      with fresh, clean clothes. Highly recommended!"
+                    </p>
+                  </div>
                 </div>
-              </div>
               </Carousel.Item>
             </Carousel>
-
           </div>
-
         </div>
 
         {/* end */}
-
-
       </div>
       <Footer />
     </div>

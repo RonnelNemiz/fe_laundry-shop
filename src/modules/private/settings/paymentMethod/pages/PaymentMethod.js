@@ -1,21 +1,22 @@
 import React, { useState, useEffect, useReducer } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   CircularProgress,
+  IconButton,
+  Box,
 } from "@mui/material";
-import Http from "../../../../../services/Http";
-import EditPayMeth from "../components/EditPayMeth";
-import DeletePayMeth from "../components/DeletePayMeth";
-import AddPayMeth from "../components/AddPayMeth";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ShowPayMeth from "../components/ShowPaymeth";
 
+import MUIDataTable from "mui-datatables";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
+import AddPayMeth from "./../components/AddPayMeth";
+import Http from "../../../../../services/Http";
 
 const PaymentMethod = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -25,9 +26,11 @@ const PaymentMethod = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/payments",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/payments", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((res) => {
         setPaymentData(res.data);
         setIsLoading(false);
@@ -37,83 +40,112 @@ const PaymentMethod = () => {
         setIsLoading(false);
       });
   }, [ignored]);
-  
+
   const handleUpdate = (values) => {
-    Http.get(`update/payments/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then(
-    );
+    Http.get(`update/payments/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/payments/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
-      .then(
-
-      );
+    Http.delete(`delete/payments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
-const handleShow = (id) => {
-  Http.get(`view/payments/${id}`,{headers:{
-    Authorization: `Bearer ${localStorage.getItem("access_token")}`
-  }})
-    .then((res) => {
-      setSelectedItem(res.data);
-    })
-      .catch((err) => {
-        console.log(err);
-      });
-};
+  const handleShow = (id) => {
+    Http.get(`view/payments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+  };
 
+  const columns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton aria-label="edit" color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="edit" color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+      },
+    },
+
+    {
+      name: "payment method",
+      label: "Payment Method",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+
+  const [resizableColumns, setResizableColumns] = useState(false);
+  const options = {
+    filterType: "checkbox",
+    rowsPerPage: 10,
+    resizableColumns: resizableColumns,
+    customToolbarSelect: () => {
+      return <AddPayMeth forceUpdate={() => forceUpdate()} />;
+    },
+    customToolbar: () => {
+      return (
+        <>
+          <AddPayMeth forceUpdate={() => forceUpdate()} />;
+        </>
+      );
+    },
+  };
+
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
-    <AddPayMeth forceUpdate={() => forceUpdate()} />
-    <TableContainer component={Paper}>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <Table>
-          <TableHead sx={{
-                        "& th": {
-                            color: "white",
-                            backgroundColor: "#0E4C91",
-                        },
-                    }}>
-            <TableRow>
-            <TableCell size="small">Actions</TableCell>
-              <TableCell size="small">Payment Method</TableCell>
-              
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {paymentData.map((payment) => (
-              <TableRow key={payment.id}>
-                 <TableCell size="small" sx={{display:"flex", alignItems:"center"}}>
-                 <VisibilityIcon 
-                  onClick={() => handleShow(payment.id)}
-                  style={{cursor:"pointer", color:"gray"}}
-                 />
-                  <EditPayMeth
-                      selectedItem={payment}
-                      onEdit={handleUpdate}
-                      forceUpdate={() => forceUpdate()}
-                    />
-                  <DeletePayMeth
-                  selectedItem={payment}
-                  onDelete={handleDelete} 
-                    forceUpdate={() => forceUpdate()} />
-
-                  </TableCell>
-                  <TableCell size="small">{payment.payment_name}</TableCell>               
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </TableContainer>
-    {selectedItem && (
-      <ShowPayMeth sx={{maxWidth:"500px"}} selectedItem={selectedItem} onClose={() => setSelectedItem(null)} />
-    )}
+      <div>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example">
+                <Tab label="Payment Method" value="1" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <TableContainer component={Paper}>
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <MUIDataTable
+                    title={"Payment Method List"}
+                    data={paymentData}
+                    columns={columns}
+                    options={options}
+                  />
+                )}
+              </TableContainer>
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </div>
     </>
   );
 };
