@@ -1,196 +1,200 @@
-import React, { useEffect, useState, useReducer } from "react";
-import "../../../assets/table.css";
-import { Paper } from "@mui/material";
-import ToastNotification from "../../../../../components/ToastNotification";
-import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
-import DataTable from "../components/DataTable";
+import React, { useState, useEffect, useReducer } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  CircularProgress,
+  IconButton,
+  Box,
+} from "@mui/material";
+import AddUsers from "./../components/AddUser";
 import Http from "../../../../../services/Http";
-import AddUser from "../components/AddUser";
+import MUIDataTable from "mui-datatables";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
-function Users() {
-  const [loading, setLoading] = useState(false);
-  const [userList, setUserList] = useState({
-    data: [],
-    meta: {},
-  });
-
+const Users = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [filters, setFilters] = useState({
-    limit: 10,
-  });
+  const [usersData, setUsersData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [imageUrls, setImageUrls] = useState({});
 
   useEffect(() => {
-    fetchingData();
-  }, [ignored]); //eslint-disable-line
-
-  const fetchingData = (params = {}) => {
-    setLoading(true);
-    Http.get(
-      "/users",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
+    setIsLoading(true);
+    Http.get("/users", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
-      {
-        params: {
-          ...filters,
-          ...params,
-        },
-      }
-    ).then((res) => {
-      if (res.data.data) {
-        setUserList({
-          data: res.data.data,
-          meta: res.data.meta,
-        });
-      }
-      setLoading(false);
-    });
+    })
+      .then((res) => {
+        setUsersData(res.data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  }, [ignored]);
+
+  const handleUpdate = (values) => {
+    Http.get(`update/users/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
+  };
+  const handleDelete = (id) => {
+    Http.delete(`delete/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
+  };
+  const handleShow = (id) => {
+    Http.get(`view/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
+      .then((res) => {
+        setSelectedItem(res.data);
+        setImageUrls((prevImageUrls) => ({
+          ...prevImageUrls,
+          [id]: res.data.image_url,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const columns = [
     {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton aria-label="edit" color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="edit" color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+      },
+    },
+    {
       name: "email",
       label: "Email",
-    },
-
-    {
-      name: "profile",
-      label: "First Name",
-      customBodyRender: (item) => {
-        return item[0] && item[0].first_name;
+      options: {
+        filter: true,
+        sort: false,
       },
     },
     {
-      name: "profile",
-      label: "Last Name",
-      customBodyRender: (item) => {
-        return item[0] && item[0].last_name;
-      },
+      name: "first name",
+      label: "First name",
     },
     {
-      name: "profile",
+      name: "last name",
+      label: "Last name",
+    },
+    {
+      name: "purok",
       label: "Purok",
-      customBodyRender: (item) => {
-        return item[0] && item[0].purok;
-      },
     },
     {
-      name: "profile",
+      name: "barangay",
       label: "Barangay",
-      customBodyRender: (item) => {
-        return item[0] && item[0].brgy;
-      },
     },
     {
-      name: "profile",
+      name: "municipality",
       label: "Municipality",
-      customBodyRender: (item) => {
-        return item[0] && item[0].municipality;
-      },
     },
     {
-      name: "profile",
+      name: "contact number",
       label: "Contact Number",
-      customBodyRender: (item) => {
-        return item[0] && item[0].contact_number;
-      },
     },
     {
       name: "role",
       label: "Role",
     },
-
     {
-      name: "profile.0.image",
+      name: "image",
       label: "Image",
-      type: "image",
-      // customBodyRender: (item) => {
-      //   const image = (item && item[0] && item[0].image) || "";
-      //   return image && <img alt="preview" src={image} />;
-      // },
     },
   ];
 
+  const [resizableColumns, setResizableColumns] = useState(false);
   const options = {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    draggable: true,
-    draggableDirection: "x" | "y",
-    draggablePercent: 60,
-    theme: "colored",
+    filterType: "checkbox",
+    rowsPerPage: 10,
+    resizableColumns: resizableColumns,
+    customToolbarSelect: () => {
+      return <AddUsers forceUpdate={() => forceUpdate()} />;
+    },
+    customToolbar: () => {
+      return (
+        <>
+          <AddUsers forceUpdate={() => forceUpdate()} />;
+        </>
+      );
+    },
   };
 
-  const handleFilterChange = (name, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  const [value, setValue] = React.useState("1");
 
-  const handleChangePage = (newPage) => {
-    fetchingData({ page: newPage + 1 });
-  };
-
-  const handleRowChange = (value) => {
-    fetchingData({ limit: value });
-    handleFilterChange("limit", value);
-  };
-
-  const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
-  };
-
-  const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then(
-        forceUpdate(),
-        ToastNotification("success", "Successfully Deleted!", options)
-      )
-      .catch((err) => {
-        ToastNotification("error", err, options);
-      });
-  };
-
-  const handleShow = (id) => {
-    Http.get(`show/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
-    <Paper sx={{ width: "100%" }}>
-      <ToastNotificationContainer />
-      <AddUser forceUpdate={() => forceUpdate()} data={userList.data} />
-      <DataTable
-        withPagination
-        forceUpdate={() => forceUpdate()}
-        onEdit={handleUpdate}
-        onDelete={handleDelete}
-        loading={loading}
-        data={userList.data}
-        columns={columns}
-        rowsPerPage={filters.limit}
-        count={userList.meta.total || 0}
-        page={userList.meta.curent_page - 1 || 0}
-        onChangePage={handleChangePage}
-        onRowsChangePage={handleRowChange}
-        onRowClick={handleShow}
-      />
-    </Paper>
+    <>
+      <div>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                <Tab label="Users" value="1" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <TableContainer component={Paper}>
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <MUIDataTable
+                    title={"Users List"}
+                    data={usersData}
+                    columns={columns}
+                    options={options}
+                  />
+                )}
+              </TableContainer>
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </div>
+    </>
   );
-}
+};
 
 export default Users;
