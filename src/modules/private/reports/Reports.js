@@ -23,7 +23,135 @@ export default function Reports() {
   const handleShowEditModal = () => {
     "Edit";
   };
-  const columns = [
+  const salesColumns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                aria-label="view"
+                onClick={() => handleShowViewModal("")}
+                color="primary"
+              >
+                <ViewIcon />
+              </IconButton>
+              <IconButton
+                aria-label="edit"
+                onClick={() => handleShowEditModal("")}
+                color="warning"
+              >
+                <EditIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "amount",
+      label: "Amount",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "trans_number",
+      label: "Transaction No",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "service",
+      label: "Service",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "handling",
+      label: "Handling",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+
+  const expenseColumns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                aria-label="view"
+                onClick={() => handleShowViewModal("")}
+                color="primary"
+              >
+                <ViewIcon />
+              </IconButton>
+              <IconButton
+                aria-label="edit"
+                onClick={() => handleShowEditModal("")}
+                color="warning"
+              >
+                <EditIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "amount",
+      label: "Amount",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "trans_number",
+      label: "Transaction No",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "service",
+      label: "Service",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "handling",
+      label: "Handling",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+
+  const completedOrdersColumns = [
     {
       name: "actions",
       label: "Actions",
@@ -62,16 +190,56 @@ export default function Reports() {
       },
     },
     {
-      name: "first_name",
-      label: "First Name",
+      name: "service",
+      label: "Service",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "last_name",
-      label: "Last Name",
+      name: "handling",
+      label: "Handling",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+
+  const incompleteOrdersColumns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                aria-label="view"
+                onClick={() => handleShowViewModal("")}
+                color="primary"
+              >
+                <ViewIcon />
+              </IconButton>
+              <IconButton
+                aria-label="edit"
+                onClick={() => handleShowEditModal("")}
+                color="warning"
+              >
+                <EditIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "amount",
+      label: "Amount",
       options: {
         filter: true,
         sort: false,
@@ -88,42 +256,6 @@ export default function Reports() {
     {
       name: "handling",
       label: "Handling",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "status",
-      label: "Order Status",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "payment_status",
-      label: "Payment Status",
-      options: {
-        customBodyRender: (value) => {
-          return (
-            <Stack direction="row" spacing={1}>
-              <Chip
-                label={value}
-                color={value == "Paid" ? "success" : "error"}
-                size="small"
-                variant="outlined"
-              />
-            </Stack>
-          );
-        },
-        filter: true,
-        sort: false,
-      },
-    },
-    {
-      name: "created_at",
-      label: "Order Date",
       options: {
         filter: true,
         sort: false,
@@ -186,7 +318,7 @@ export default function Reports() {
         <MUIDataTable
           title={"Sales Report"}
           data={reports}
-          columns={columns}
+          columns={salesColumns}
           options={options}
         />
       </ThemeProvider>
@@ -195,7 +327,7 @@ export default function Reports() {
         <MUIDataTable
           title={"Expense Report"}
           data={reports}
-          columns={columns}
+          columns={expenseColumns}
           options={options}
         />
       </ThemeProvider>
@@ -204,7 +336,7 @@ export default function Reports() {
         <MUIDataTable
           title={"Completed Orders Report"}
           data={reports}
-          columns={columns}
+          columns={completedOrdersColumns}
           options={options}
         />
       </ThemeProvider>
@@ -213,7 +345,7 @@ export default function Reports() {
         <MUIDataTable
           title={"Incomplete Orders Report"}
           data={reports}
-          columns={columns}
+          columns={incompleteOrdersColumns}
           options={options}
         />
       </ThemeProvider>
