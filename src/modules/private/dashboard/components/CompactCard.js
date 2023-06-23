@@ -1,7 +1,6 @@
 import React from "react";
 // import { motion } from "framer-motion";
 import { CircularProgressbar } from "react-circular-progressbar";
-import "../Dash.css";
 
 export default function CompactCard({ param }) {
   return (

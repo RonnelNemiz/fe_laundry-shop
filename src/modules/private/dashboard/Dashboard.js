@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import "./Dash.css";
 import Http from "../../../services/Http";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import MoneyIcon from "@mui/icons-material/Money";
@@ -58,133 +57,108 @@ function Dashboard() {
   return (
     <>
       <div className="container-fluid">
-        <div
-          className="row my-2 "
-          id="rw"
-          style={{ justifyContent: "space-evenly" }}
-        >
-          <div className="col-md-3" id="bg1">
-            <div>
-              <div className="p-1  d-flex justify-content-around align-items-center">
-                <div>
-                  <h3 className="fs-4 pt-2">New Orders</h3>
-                  {newOrders && (
-                    <div key={newOrders?.todays_orders_count}>
-                      <p className="fs-6">{newOrders?.todays_orders_count}</p>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <ShoppingCartIcon
-                    style={{ paddingTop: "10px", fontSize: "3em" }}
-                  />
-                  <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
-                </div>
-              </div>
-              <Divider
-                variant="inset"
-                component="li"
-                style={{
-                  color: "white",
-                  marginLeft: "4%",
-                  marginRight: "4%",
-                  listStyle: "none",
-                }}
-              />
-              <NavLink
-                to="/admin/orders"
-                className="fs-6 "
-                id="style-linkButar"
-                style={{
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
-                See More
-              </NavLink>
-            </div>
-          </div>
-
-          <div className="col-md-3" id="bg2">
-            <div>
-              <div className="p-1  d-flex justify-content-around align-items-center">
-                <div>
-                  <h3 className="fs-4 pt-2">Pending</h3>
-
-                  <div>
-                    <p className="fs-6">{pendingOrdersCount}</p>
+        <div className="row my-2">
+          <div className="col-md-4 card py-3">
+            <div className="d-flex justify-content-around align-items-center p-3">
+              <div>
+                <h3 className="fs-4 pt-2">New Orders</h3>
+                {newOrders && (
+                  <div key={newOrders?.todays_orders_count}>
+                    <h3>{newOrders?.todays_orders_count}</h3>
                   </div>
-                </div>
-                <div>
-                  <EventNoteIcon
-                    style={{ paddingTop: "10px", fontSize: "3em" }}
-                  />
-                  <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
-                </div>
+                )}
               </div>
-              <Divider
-                variant="inset"
-                component="li"
-                style={{
-                  color: "white",
-                  marginLeft: "4%",
-                  marginRight: "4%",
-                  listStyle: "none",
-                }}
-              />
-              <NavLink
-                to="/reports"
-                className="fs-6 "
-                id="style-linkButar"
-                style={{
-                  color: "white",
-                  cursor: "pointer",
-                  paddingTop: "4%",
-                  paddingBottom: "4%",
-                }}
-              >
-                See More
-              </NavLink>
+              <div>
+                <ShoppingCartIcon
+                  style={{ paddingTop: "10px", fontSize: "3em" }}
+                />
+                <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
+              </div>
             </div>
+            <Divider
+              variant="inset"
+              component="li"
+              style={{
+                margin: "15px 0",
+                listStyle: "none",
+              }}
+            />
+            <NavLink
+              to="/admin/orders"
+              className=""
+              style={{
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
+            >
+              See More
+            </NavLink>
           </div>
-          <div className="col-md-3" id="bg3">
-            <div>
-              <div className="p-1  d-flex justify-content-around align-items-center">
-                <div>
-                  <h3 className="fs-4 pt-2">Sales</h3>
-                  {totalsales?.sales && (
-                    <div key={totalsales?.sales.week}>
-                      <p className="fs-6">{totalsales?.sales.week}</p>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <MoneyIcon style={{ paddingTop: "10px", fontSize: "3em" }} />
-                  <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
-                </div>
+
+          <div className="col-md-4 card py-3">
+            <div className="d-flex justify-content-around align-items-center p-3">
+              <div>
+                <h3>Pending</h3>
+                <h3>{pendingOrdersCount}</h3>
               </div>
-              <Divider
-                variant="inset"
-                component="li"
-                style={{
-                  color: "white",
-                  marginLeft: "4%",
-                  marginRight: "4%",
-                  listStyle: "none",
-                }}
-              />
-              <NavLink
-                to="/reports"
-                className="fs-6 "
-                id="style-linkButar"
-                style={{
-                  color: "white",
-                  cursor: "pointer",
-                }}
-              >
-                See More
-              </NavLink>
+              <div>
+                <ShoppingCartIcon
+                  style={{ paddingTop: "10px", fontSize: "3em" }}
+                />
+                <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
+              </div>
             </div>
+            <Divider
+              variant="inset"
+              component="li"
+              style={{
+                margin: "15px 0",
+                listStyle: "none",
+              }}
+            />
+            <NavLink
+              to="/admin/orders"
+              className=""
+              style={{
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
+            >
+              See More
+            </NavLink>
+          </div>
+
+          <div className="col-md-4 card py-3">
+            <div className="d-flex justify-content-around align-items-center p-3">
+              <div>
+                <h3>Sales</h3>
+                <h3>{pendingOrdersCount}</h3>
+              </div>
+              <div>
+                <ShoppingCartIcon
+                  style={{ paddingTop: "10px", fontSize: "3em" }}
+                />
+                <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
+              </div>
+            </div>
+            <Divider
+              variant="inset"
+              component="li"
+              style={{
+                margin: "15px 0",
+                listStyle: "none",
+              }}
+            />
+            <NavLink
+              to="/admin/orders"
+              className=""
+              style={{
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
+            >
+              See More
+            </NavLink>
           </div>
         </div>
       </div>

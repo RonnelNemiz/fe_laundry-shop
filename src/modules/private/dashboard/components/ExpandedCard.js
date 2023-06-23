@@ -1,7 +1,6 @@
 import React from "react";
 // import CloseIcon from '@mui/icons-material/Close';
 import Chart from "react-apexcharts";
-import "../Dash.css";
 
 export default function ExpandedCard({ param }) {
   const data = {
