@@ -15,7 +15,7 @@ import {
 import React, { memo, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
 import EditUsers from "./EditUsers";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ViewUser from "./ViewUser";
@@ -122,8 +122,7 @@ function DataTable(props) {
                 color: "white",
                 backgroundColor: "#0E4C91",
               },
-            }}
-          >
+            }}>
             <TableRow>
               {(onDelete || onEdit || withNumber) && (
                 <TableCell size="small">Actions</TableCell>
@@ -146,8 +145,7 @@ function DataTable(props) {
                         <IconButton
                           size="small"
                           color="gray"
-                          onClick={() => handleView(item)}
-                        >
+                          onClick={() => handleView(item)}>
                           <VisibilityIcon />
                         </IconButton>
                       )}
@@ -155,8 +153,7 @@ function DataTable(props) {
                         <IconButton
                           size="small"
                           color="primary"
-                          onClick={() => handleEdit(item)}
-                        >
+                          onClick={() => handleEdit(item)}>
                           <EditIcon />
                         </IconButton>
                       )}
@@ -164,8 +161,7 @@ function DataTable(props) {
                         <IconButton
                           size="small"
                           color="error"
-                          onClick={() => handleDelete(item)}
-                        >
+                          onClick={() => handleDelete(item)}>
                           <DeleteIcon />
                         </IconButton>
                       )}

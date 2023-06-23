@@ -1,10 +1,11 @@
 import * as React from "react";
-import { Http } from "../../../../../services/Http";
-import ToastNotification from "../../../../../components/ToastNotification";
-import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
-import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import { Http } from "../../../../services/Http";
+import ToastNotification from "../../../../components/ToastNotification";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
+import { Box, Button, Modal, Typography } from "@mui/material";
+import { handleErrorResponse } from "../../../../utils/helpers";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import FormFieldData from "../../../../../components/FormFieldData";
+import FormFieldData from "../../../../components/FormFieldData";
 
 const style = {
   position: "absolute",
@@ -31,13 +32,11 @@ const options = {
   theme: "colored",
 };
 
-export default function ItemTypes(props) {
+export default function AddHandling(props) {
   const { forceUpdate } = props;
   const [formValues, setFormValues] = React.useState({
-    service_name: "",
-    service_price: "",
-    description: "",
-    image: "",
+    handling_name: "",
+    handling_price: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -52,10 +51,8 @@ export default function ItemTypes(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        service_name: "",
-        service_price: "",
-        description: "",
-        image: "",
+        handling_name: "",
+        handling_price: "",
       });
     }
   }, [open]);
@@ -63,7 +60,7 @@ export default function ItemTypes(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     Http.post(
-      "/add/services",
+      "/add/handlings",
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -81,7 +78,7 @@ export default function ItemTypes(props) {
         }
       })
       .catch((err) => {
-        ToastNotification("error", err.message, options);
+        ToastNotification("error", handleErrorResponse(err), options);
       });
   };
 
@@ -107,46 +104,26 @@ export default function ItemTypes(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Services
           </Typography>
           <FormFieldData
             fullWidth
-            label="Service"
-            id="service_name"
-            value={formValues.service_name}
-            name="service_name"
+            label="Handling"
+            id="handling_name"
+            value={formValues.handling_name}
+            name="handling_name"
             onChange={handleChange}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
             label="Price"
-            type="number"
-            id="service_price"
-            value={formValues.service_price}
-            name="service_price"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Description"
-            id="description"
-            value={formValues.description}
-            name="description"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Image"
-            id="image"
-            value={formValues.image}
-            name="image"
+            id="handling_price"
+            value={formValues.handling_price}
+            name="handling_price"
             onChange={handleChange}
             sx={inputStyle}
           />
@@ -155,8 +132,7 @@ export default function ItemTypes(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
-          >
+            onClick={handleSubmit}>
             Submit
           </Button>
         </Box>
