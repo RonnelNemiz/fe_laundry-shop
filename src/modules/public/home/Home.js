@@ -66,7 +66,7 @@ function Home() {
             </p>
             <div className="btnBox">
               <NavLink to="/about" className="viewMore">
-                <button class="button-29" id="viewmore-btn">
+                <button className="button-29" id="viewmore-btn">
                   View More
                 </button>
               </NavLink>
@@ -273,7 +273,7 @@ function Home() {
                 </p>
                 <div className="btnBox">
                   <NavLink to="/services" className="viewMore">
-                    <button class="button-29" id="btn-viewmore">
+                    <button className="button-29" id="btn-viewmore">
                       View More
                     </button>
                   </NavLink>
