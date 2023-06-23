@@ -180,7 +180,6 @@ function LaundryDetailsP(props) {
       .validateAll(formValues.values, servformValues.values)
       .then((success) => {
         if (success) {
-          setGarmentsContainer(garments.values);
           setHandlingContainer(formValues.values);
           setServiceContainer(servformValues.values);
           handleNext();
