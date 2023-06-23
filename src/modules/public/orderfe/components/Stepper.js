@@ -87,10 +87,9 @@ export default function HorizontalLinearStepper(props) {
                   sx={{
                     textAlign: "center",
                     paddingBottom: "5%",
-                    fontFamily: "Dancing Script, cursive",
                   }}
                 >
-                  Thank you for your order.
+                  Thank you for your order!
                 </Typography>
                 <Box
                   sx={{

@@ -6,12 +6,13 @@ import swal from "sweetalert";
 import PersonToPay from "./PersonToPay";
 import { isAuth } from "../../../../utils/helpers";
 import { useHistory } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
 const boxStyle = {
   display: "flex",
 };
 const semiTitle = {
   marginRight: 2,
+  width: "25%",
 };
 
 function OrderSummary(props) {
@@ -21,7 +22,6 @@ function OrderSummary(props) {
     handleBack,
     handleNext,
     activeStep,
-    garments,
     handling,
     service,
     paymentMethod,
@@ -34,7 +34,6 @@ function OrderSummary(props) {
         "/new/orders",
         {
           body: {
-            garments: garments,
             personal_details: personal,
             payment_method: paymentMethod,
             handling: handling,
@@ -44,24 +43,29 @@ function OrderSummary(props) {
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            ContentType: "application/json",
           },
         }
       )
         .then((res) => {
+          console.log("New Order Response: ", res);
+
           if (res.data.status === 200) {
+            const notify = () => toast("Thank You for your order!");
+            notify();
             swal("success", "Thank You for your order!!!", "success");
             localStorage.removeItem("handling");
-            localStorage.removeItem("garment");
             localStorage.removeItem("service");
             localStorage.removeItem("personal_details");
             localStorage.removeItem("payment_method");
+          } else {
+            toast("Error: There is a problem with your order! Try again.");
           }
         })
         .catch((err) => {
           swal("error", err.message, "error");
         });
     } else {
-      localStorage.setItem("garment", JSON.stringify(garments));
       localStorage.setItem("personal_details", JSON.stringify(personal));
       localStorage.setItem("payment_method", JSON.stringify(paymentMethod));
       localStorage.setItem("handling", JSON.stringify(handling));
@@ -70,41 +74,41 @@ function OrderSummary(props) {
     }
   };
   // Helper function to generate the order summary
-  const generateOrderSummary = () => {
-    if (!garments) {
-      return { __html: "" };
-    }
-    const garmentKeys = Object.keys(garments);
-    const categories = {};
+  // const generateOrderSummary = () => {
+  //   if (!garments) {
+  //     return { __html: "" };
+  //   }
+  //   const garmentKeys = Object.keys(garments);
+  //   const categories = {};
 
-    garmentKeys.forEach((key) => {
-      const [category, garment] = key.split("_"); // Extract category and garment from the key
-      if (garments[key] !== "") {
-        if (!categories.hasOwnProperty(category)) {
-          categories[category] = {};
-        }
-        categories[category][garment] = garments[key];
-      }
-    });
+  //   garmentKeys.forEach((key) => {
+  //     const [category, garment] = key.split("_"); // Extract category and garment from the key
+  //     if (garments[key] !== "") {
+  //       if (!categories.hasOwnProperty(category)) {
+  //         categories[category] = {};
+  //       }
+  //       categories[category][garment] = garments[key];
+  //     }
+  //   });
 
-    const summary = Object.entries(categories)
-      .map(([category, garments]) => {
-        const garmentSummary = Object.entries(garments)
-          .map(([garment, quantity]) => `${garment}: ${quantity}`)
-          .join(", ");
-        const categoryLine = `<span style="color: #0d6efd;"><b>${category}:</b></span>`; // Make the category name bold and blue
-        return `${categoryLine}<br/>${garmentSummary}`; // Line break after each category
-      })
-      .join("<br/>"); // Double line break between categories
+  //   const summary = Object.entries(categories)
+  //     .map(([category, garments]) => {
+  //       const garmentSummary = Object.entries(garments)
+  //         .map(([garment, quantity]) => `${garment}: ${quantity}`)
+  //         .join(", ");
+  //       const categoryLine = `<span style="color: #0d6efd;"><b>${category}:</b></span>`; // Make the category name bold and blue
+  //       return `${categoryLine}<br/>${garmentSummary}`; // Line break after each category
+  //     })
+  //     .join("<br/>"); // Double line break between categories
 
-    return { __html: summary };
-  };
+  //   return { __html: summary };
+  // };
 
   return (
     <>
       <Box className="payment-main card mt-4">
         <div className="card-header bg-primary bg-gradient text-light">
-          <h3>Order Summary</h3>
+          <h3 className="m-0">Order Summary</h3>
         </div>
         <div className="card-body">
           <Box>
@@ -151,12 +155,6 @@ function OrderSummary(props) {
             </Box>
             <Box sx={boxStyle}>
               <Typography sx={semiTitle}>
-                <b>Categories:</b>
-              </Typography>
-              <Typography dangerouslySetInnerHTML={generateOrderSummary()} />
-            </Box>
-            <Box sx={boxStyle}>
-              <Typography sx={semiTitle}>
                 <b>Handling:</b>
               </Typography>
               <Typography>{handling.handling}</Typography>
@@ -172,7 +170,7 @@ function OrderSummary(props) {
       </Box>
       <Box className="card mt-4">
         <div className="card-header bg-primary bg-gradient text-light">
-          <h3>Ways to Pay</h3>
+          <h3 className="m-0">Ways to Pay</h3>
         </div>
         <div className="card-body">
           <PersonToPay />

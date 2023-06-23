@@ -15,6 +15,7 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Logout from "@mui/icons-material/Logout";
 import Fetchinfo from "../../utils/fetchinfo";
+import Http from "../../services/Http";
 
 function Navbar() {
   const [show, setShow] = useState(false);
@@ -28,6 +29,20 @@ function Navbar() {
   };
   const handleExit = () => {
     setAnchorEl(null);
+  };
+
+  const [userInfo, setUserInfo] = useState("");
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+  const fetchUserInfo = () => {
+    Http.get("/account")
+      .then((res) => {
+        setUserInfo(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const info = Fetchinfo();
@@ -63,7 +78,7 @@ function Navbar() {
         </div>
         <div
           className="offcanvas offcanvas-end"
-          tabindex="-1"
+          tabIndex="-1"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
           style={{ visibility: "unset" }}
@@ -205,18 +220,20 @@ function Navbar() {
                         My Account
                       </NavLink>
                     </MenuItem>
-                    <MenuItem onClick={handleExit}>
-                      <Dashboard />
-                      <NavLink
-                        to="/dashboard"
-                        className="nav-link"
-                        activeClassName="active"
-                        aria-current="page"
-                        style={{ paddingLeft: "15px" }}
-                      >
-                        Dashboard
-                      </NavLink>
-                    </MenuItem>
+                    {userInfo.role != 0 && (
+                      <MenuItem onClick={handleExit}>
+                        <Dashboard />
+                        <NavLink
+                          to="/dashboard"
+                          className="nav-link"
+                          activeClassName="active"
+                          aria-current="page"
+                          style={{ paddingLeft: "15px" }}
+                        >
+                          Dashboard
+                        </NavLink>
+                      </MenuItem>
+                    )}
                     <Divider />
                     <MenuItem onClick={handleShow}>
                       <ListItemIcon>

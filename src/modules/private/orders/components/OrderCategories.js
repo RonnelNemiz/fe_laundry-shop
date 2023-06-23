@@ -96,7 +96,7 @@ function OrderCategories(props) {
             <p className="m-0">{item.name}</p>
             <div style={{ width: "25%", margin: 0 }}>
               <TextField
-                className="flex-fill text-light test-class"
+                className="flex-fill text-light"
                 variant="standard"
                 placeholder="How heavy?"
                 label="How many?"

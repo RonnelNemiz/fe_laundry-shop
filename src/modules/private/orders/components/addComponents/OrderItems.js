@@ -64,6 +64,7 @@ function LaundryDetailsP(props) {
 
   const [formValues, setFormValues] = React.useState({
     values: {
+      id: "",
       handling: "",
       // service: "",
     },
@@ -139,13 +140,13 @@ function LaundryDetailsP(props) {
     });
   };
 
-  const handleSelectService = (value, price) => {
+  const handleSelectService = (value, id) => {
     setServFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
+        id: id,
         service: value,
-        price: price,
       },
     }));
   };

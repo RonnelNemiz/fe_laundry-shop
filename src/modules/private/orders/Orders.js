@@ -11,6 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ViewModal from "./components/ViewModal";
 import EditModal from "./components/EditModal";
 import PayModal from "./components/PayModal";
+import Chip from "@mui/material/Chip";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -38,6 +39,7 @@ const Orders = () => {
         setIsLoading(false);
       });
   };
+  // console.log("Orders: ", orders);
   const handleShowViewModal = (order) => {
     setSelectedOrder(order);
     setShowViewModal(true);
@@ -99,34 +101,33 @@ const Orders = () => {
       },
     },
     {
-      name: "profile",
+      name: "first_name",
       label: "First Name",
       options: {
-        customBodyRender: (value) => {
-          return value[0] && value[0]?.first_name;
-        },
         filter: true,
         sort: false,
       },
     },
     {
-      name: "profile",
+      name: "last_name",
       label: "Last Name",
       options: {
-        customBodyRender: (value) => {
-          return value[0] && value[0]?.last_name;
-        },
         filter: true,
         sort: false,
       },
     },
     {
       name: "service",
-      label: "Service Name",
+      label: "Service",
       options: {
-        customBodyRender: (value) => {
-          return value.service_name;
-        },
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "handling",
+      label: "Handling",
+      options: {
         filter: true,
         sort: false,
       },
@@ -144,7 +145,16 @@ const Orders = () => {
       label: "Payment Status",
       options: {
         customBodyRender: (value) => {
-          return value;
+          return (
+            <Stack direction="row" spacing={1}>
+              <Chip
+                label={value}
+                color={value == "Paid" ? "success" : "error"}
+                size="small"
+                variant="outlined"
+              />
+            </Stack>
+          );
         },
         filter: true,
         sort: false,
