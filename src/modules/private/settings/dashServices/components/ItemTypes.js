@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Http } from "./../../../../../services/Http";
-import ToastNotification from "./../../../../../components/ToastNotification";
-import ToastNotificationContainer from "./../../../../../components/ToastNotificationContainer";
+import { Http } from "../../../../../services/Http";
+import ToastNotification from "../../../../../components/ToastNotification";
+import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
 import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import FormFieldData from "../../../../../components/FormFieldData";
@@ -31,7 +31,7 @@ const options = {
   theme: "colored",
 };
 
-export default function AddServices(props) {
+export default function ItemTypes(props) {
   const { forceUpdate } = props;
   const [formValues, setFormValues] = React.useState({
     service_name: "",

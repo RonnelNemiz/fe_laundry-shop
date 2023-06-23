@@ -66,7 +66,7 @@ function Home() {
             </p>
             <div className="btnBox">
               <NavLink to="/about" className="viewMore">
-                <button class="button-29" id="viewmore-btn">
+                <button className="button-29" id="viewmore-btn">
                   View More
                 </button>
               </NavLink>
@@ -123,7 +123,8 @@ function Home() {
                         {description1.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore1}>
+                            onClick={toggleShowMore1}
+                          >
                             {showMore1 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -147,7 +148,8 @@ function Home() {
                         {description2.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore2}>
+                            onClick={toggleShowMore2}
+                          >
                             {showMore2 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -171,7 +173,8 @@ function Home() {
                         {description3.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore3}>
+                            onClick={toggleShowMore3}
+                          >
                             {showMore3 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -261,7 +264,8 @@ function Home() {
               </div>
               <div
                 className="sec-p col-md-4 secondBox-sec4"
-                style={{ textAlign: "center" }}>
+                style={{ textAlign: "center" }}
+              >
                 <h5>We Offer the Best Quality of Clothes.</h5>
                 <p>
                   With us we'll make sure that you will be satisfied with our
@@ -269,7 +273,7 @@ function Home() {
                 </p>
                 <div className="btnBox">
                   <NavLink to="/services" className="viewMore">
-                    <button class="button-29" id="btn-viewmore">
+                    <button className="button-29" id="btn-viewmore">
                       View More
                     </button>
                   </NavLink>

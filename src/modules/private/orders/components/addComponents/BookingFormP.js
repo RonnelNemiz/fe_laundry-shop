@@ -126,31 +126,27 @@ function BookingFormP(props) {
                 handling.map((handlingItem) => (
                   <label
                     key={handlingItem.id}
-                    htmlFor={handlingItem.handling_name}
+                    htmlFor={handlingItem.name}
                     onClick={() =>
-                      handleSelectHandling(
-                        handlingItem.handling_name,
-                        handlingItem.handling_price
-                      )
+                      handleSelectHandling(handlingItem.name, handlingItem.id)
                     }
                   >
                     <article className="d-flex justify-content-between card-header">
-                      <p className="m-0">{handlingItem.handling_name}</p>
+                      <p className="m-0">{handlingItem.name}</p>
                       <div className="radio">
                         <input
-                          id={handlingItem.handling_name}
+                          id={handlingItem.name}
                           name="handling"
                           type="radio"
-                          value={handlingItem.handling_name}
+                          value={handlingItem.name}
                           style={{ marginRight: "15px" }}
                           checked={
-                            formValues.values.handling ===
-                            handlingItem.handling_name
+                            formValues.values.handling === handlingItem.name
                           }
                           onChange={handleRadioChange}
                           required
                         />
-                        <span>₱{handlingItem.handling_price.toFixed(2)}</span>
+                        <span>₱{handlingItem.price.toFixed(2)}</span>
                       </div>
                     </article>
                   </label>

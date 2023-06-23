@@ -47,6 +47,7 @@ function PersonalDetails(props) {
 
   const [paymentMethod, setPaymentMethod] = React.useState({
     values: {
+      id: "",
       paymentMethod: "",
     },
   });
@@ -129,9 +130,10 @@ function PersonalDetails(props) {
     });
   };
 
-  const handleSelectPayment = (value) => {
+  const handleSelectPayment = (value, id) => {
     setPaymentMethod({
       values: {
+        id: id,
         paymentMethod: value,
       },
     });

@@ -64,6 +64,7 @@ function LaundryDetailsP(props) {
 
   const [formValues, setFormValues] = React.useState({
     values: {
+      id: "",
       handling: "",
       // service: "",
     },
@@ -104,13 +105,13 @@ function LaundryDetailsP(props) {
     }
   }, []);
 
-  const handleSelectHandling = (value, price) => {
+  const handleSelectHandling = (value, id) => {
     setFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
+        id: id,
         handling: value,
-        price: price,
       },
     }));
   };
@@ -150,13 +151,13 @@ function LaundryDetailsP(props) {
     });
   };
 
-  const handleSelectService = (value, price) => {
+  const handleSelectService = (value, id) => {
     setServFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
+        id: id,
         service: value,
-        price: price,
       },
     }));
   };
@@ -179,7 +180,6 @@ function LaundryDetailsP(props) {
       .validateAll(formValues.values, servformValues.values)
       .then((success) => {
         if (success) {
-          setGarmentsContainer(garments.values);
           setHandlingContainer(formValues.values);
           setServiceContainer(servformValues.values);
           handleNext();

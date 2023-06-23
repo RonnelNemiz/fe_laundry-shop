@@ -12,10 +12,6 @@ export default function HorizontalLinearStepper(props) {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
 
-  //garments state
-  const [garments, setGarments] = React.useState(
-    JSON.parse(localStorage.getItem("garment"))
-  );
   const [handling, setHandling] = React.useState(
     JSON.parse(localStorage.getItem("handling"))
   );
@@ -87,10 +83,9 @@ export default function HorizontalLinearStepper(props) {
                   sx={{
                     textAlign: "center",
                     paddingBottom: "5%",
-                    fontFamily: "Dancing Script, cursive",
                   }}
                 >
-                  Thank you for your order.
+                  Thank you for your order!
                 </Typography>
                 <Box
                   sx={{
@@ -117,8 +112,6 @@ export default function HorizontalLinearStepper(props) {
                 handleBack={handleBack}
                 handleNext={handleNext}
                 activeStep={activeStep}
-                garmentsContainer={garments}
-                setGarmentsContainer={setGarments}
                 handlingContainer={handling}
                 setHandlingContainer={setHandling}
                 serviceContainer={service}
@@ -143,7 +136,6 @@ export default function HorizontalLinearStepper(props) {
                 handleBack={handleBack}
                 handleNext={handleNext}
                 activeStep={activeStep}
-                garments={garments}
                 handling={handling}
                 service={service}
                 personal={personalDetails}

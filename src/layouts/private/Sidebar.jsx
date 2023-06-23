@@ -13,6 +13,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PeopleIcon from '@mui/icons-material/People';
 import "../../assets/css/admin.css";
 import Inventory2Icon from '@mui/icons-material/Inventory2';
+import UsersIcon from '@mui/icons-material/Person2';
+import ServicesIcon from '@mui/icons-material/CleaningServices';
+import HandlingIcon from '@mui/icons-material/LocalShipping';
+import PaymentMethodIcon from '@mui/icons-material/Payments';
+import ConsumablesIcon from '@mui/icons-material/ShopTwo';
 
 function Sidebar() {
 	const history = useHistory();
@@ -45,16 +50,36 @@ function Sidebar() {
 			label: "Reviews",
 			icon: <ReviewsIcon />,
 		},
+		{
+			path: "/users",
+			label: "Users",
+			icon: <UsersIcon />,
+		},
+		{
+			path: "/services",
+			label: "Services",
+			icon: <ServicesIcon />,
+		},
+		{
+			path: "/handling",
+			label: "Handling",
+			icon: <HandlingIcon />,
+		},
+		{
+			path: "/payment-methods",
+			label: "Payment Methods",
+			icon: <PaymentMethodIcon />,
+		},
+		{
+			path: "/consumables",
+			label: "Consumables",
+			icon: <ConsumablesIcon />,
+		},
 		
 		{
 			path: "/settings",
 			label: "Settings",
 			icon: <SettingsIcon />,
-		},
-		{
-			path: "/products",
-			label: "Products",
-			icon: <Inventory2Icon />,
 		},
 	];
 

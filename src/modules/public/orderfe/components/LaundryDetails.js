@@ -28,15 +28,15 @@ function LaundryDetails(props) {
 
   const [formValues, setFormValues] = React.useState({
     values: {
+      id: "",
       handling: "",
-      // service: "",
     },
     errors: validator.errors,
   });
 
   const [servformValues, setServFormValues] = React.useState({
     values: {
-      service: "",
+      // service: "",
     },
     errors: validator.errors,
   });
@@ -53,20 +53,20 @@ function LaundryDetails(props) {
     });
   }, []);
 
-  const handleSelectHandling = (value, price) => {
+  const handleSelectHandling = (value, id) => {
     setFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
+        id: id,
         handling: value,
-        price: price,
       },
     }));
   };
 
   const handleRadioChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const name = event.target.name; //service-1
+    const value = event.target.value; // 1
 
     setFormValues((prev) => ({
       ...prev,
@@ -75,6 +75,7 @@ function LaundryDetails(props) {
         [name]: value,
       },
     }));
+
     setServFormValues((prev) => ({
       ...prev,
       values: {
@@ -99,13 +100,13 @@ function LaundryDetails(props) {
     });
   };
 
-  const handleSelectService = (value, price) => {
+  const handleSelectService = (value, id) => {
     setServFormValues((prev) => ({
       ...prev,
       values: {
         ...prev.values,
+        id: id,
         service: value,
-        price: price,
       },
     }));
   };
@@ -157,10 +158,10 @@ function LaundryDetails(props) {
           servformValues={servformValues}
         />
       </Box>
-      <main className="payment-main mt-3">
+      {/* <main className="payment-main mt-3">
         <section className="card">
           <div className="card-header bg-primary bg-gradient text-light">
-            <h3>ORDER DETAILS</h3>
+            <h3 className="m-0">ORDER DETAILS</h3>
             {loading && <LinearProgress />}
           </div>
           <div className="card-body">
@@ -239,7 +240,7 @@ function LaundryDetails(props) {
             ))}
           </div>
         </section>
-      </main>
+      </main> */}
 
       <Box
         sx={{
