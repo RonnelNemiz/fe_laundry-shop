@@ -15,7 +15,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import AddHandling from "./components/AddHandling";
+import AddHandling from "../components/AddHandling";
 import Http from "../../../../services/Http";
 
 const Handlings = () => {

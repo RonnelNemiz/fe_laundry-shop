@@ -1,12 +1,10 @@
 import * as React from "react";
-import { Http } from './../../../../../services/Http';
-import ToastNotification from './../../../../../components/ToastNotification';
-import ToastNotificationContainer from './../../../../../components/ToastNotificationContainer';
-import { Box, Button, Modal, Typography } from "@mui/material";
-import { handleErrorResponse } from "../../../../../utils/helpers";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import FormFieldData from "../../../../../components/FormFieldData";
-
+import { Http } from "../../../../services/Http";
+import ToastNotification from "../../../../components/ToastNotification";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
+import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import FormFieldData from "../../../../components/FormFieldData";
 
 const style = {
   position: "absolute",
@@ -33,11 +31,13 @@ const options = {
   theme: "colored",
 };
 
-export default function AddHandling(props) {
-  const { forceUpdate,  } = props;
+export default function AddCategory(props) {
+  const { forceUpdate } = props;
   const [formValues, setFormValues] = React.useState({
-    handling_name: "",
-    handling_price: "",
+    service_name: "",
+    service_price: "",
+    description: "",
+    image: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -52,31 +52,38 @@ export default function AddHandling(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        handling_name: "",
-        handling_price: "",
+        service_name: "",
+        service_price: "",
+        description: "",
+        image: "",
       });
-     
     }
   }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/handlings",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, formValues).then((res) => {
-      if (res.data.status === 200) {
-        forceUpdate();
-        handleClose();
-        ToastNotification("success", "Successfully Saved Data!", options);
-      }else{
-        ToastNotification('error', res.data.message, options);
-      }
-    })
+    Http.post(
+      "/add/services",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      },
+      formValues
+    )
+      .then((res) => {
+        if (res.data.status === 200) {
+          forceUpdate();
+          handleClose();
+          ToastNotification("success", "Successfully Saved Data!", options);
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+      })
       .catch((err) => {
-        ToastNotification("error", handleErrorResponse(err), options);
+        ToastNotification("error", err.message, options);
       });
   };
-
 
   return (
     <div>
@@ -96,40 +103,58 @@ export default function AddHandling(props) {
           },
         }}
       />
-      <Modal open={open}
+      <Modal
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Services
           </Typography>
           <FormFieldData
             fullWidth
-            label="Handling"
-            id="handling_name"
-            value={formValues.handling_name}
-            name="handling_name"
+            label="Service"
+            id="service_name"
+            value={formValues.service_name}
+            name="service_name"
             onChange={handleChange}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
             label="Price"
-            id="handling_price"
-            value={formValues.handling_price}
-            name="handling_price"
+            type="number"
+            id="service_price"
+            value={formValues.service_price}
+            name="service_price"
             onChange={handleChange}
             sx={inputStyle}
           />
-         
+          <FormFieldData
+            fullWidth
+            label="Description"
+            id="description"
+            value={formValues.description}
+            name="description"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Image"
+            id="image"
+            value={formValues.image}
+            name="image"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+
           <Button
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
-          >
+            onClick={handleSubmit}>
             Submit
           </Button>
         </Box>
@@ -137,5 +162,3 @@ export default function AddHandling(props) {
     </div>
   );
 }
-
-

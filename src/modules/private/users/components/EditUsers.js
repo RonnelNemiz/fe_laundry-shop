@@ -1,8 +1,8 @@
 import * as React from "react";
-import Http from "../../../../../services/Http";
-import ToastNotification from "../../../../../components/ToastNotification";
-import { handleErrorResponse } from "../../../../../utils/helpers";
-import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
+import Http from "../../../../services/Http";
+import ToastNotification from "../../../../components/ToastNotification";
+import { handleErrorResponse } from "../../../../utils/helpers";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import FormFieldData from "../../../../../components/FormFieldData";
+import FormFieldData from "../../../../components/FormFieldData";
 import Reevalidate from "ree-validate-18";
 
 const validator = new Reevalidate.Validator({
@@ -72,9 +72,11 @@ export default function EditUsers(props) {
     errors: validator.errors,
   });
   const handleRole = () => {
-    Http.get("/roles",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then((res) => {
+    Http.get("/roles", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then((res) => {
       setRoles(res.data.roles);
     });
   };
@@ -118,9 +120,15 @@ export default function EditUsers(props) {
   const handleUpdate = () => {
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(`update/user/${selectedItem.id}`,{headers:{
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`
-        }}, data.values)
+        Http.put(
+          `update/user/${selectedItem.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          },
+          data.values
+        )
           .then((res) => {
             forceUpdate();
             onClose();
@@ -145,8 +153,7 @@ export default function EditUsers(props) {
         open={open}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Edit User
@@ -234,8 +241,7 @@ export default function EditUsers(props) {
               label="Role"
               value={data.values.role}
               onChange={handleChange}
-              errors={data.errors}
-            >
+              errors={data.errors}>
               {roles.map((role) => {
                 return (
                   <MenuItem key={role.id} value={role.name} id="role">
@@ -260,8 +266,7 @@ export default function EditUsers(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(selectedItem.id)}
-          >
+            onClick={() => handleUpdate(selectedItem.id)}>
             Update
           </Button>
         </Box>
