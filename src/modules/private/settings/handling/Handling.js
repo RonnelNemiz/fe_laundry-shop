@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useReducer } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   CircularProgress,
+  IconButton,
+  Box,
 } from "@mui/material";
-import Http from "../../../../services/Http";
+
+import MUIDataTable from "mui-datatables";
+import Stack from "@mui/material/Stack";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Tab from "@mui/material/Tab";
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 import AddHandling from "./components/AddHandling";
-import EditHandling from "./components/EditHandling";
-import DeleteHandling from "./components/DeleteHandling";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ShowHandling from "./components/ShowHandling";
+import Http from "../../../../services/Http";
 
-
-const Handling = () => {
+const Handlings = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [handlingData, setHandlingData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +26,11 @@ const Handling = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/handlings",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
+    Http.get("/handling", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    })
       .then((res) => {
         setHandlingData(res.data);
         setIsLoading(false);
@@ -39,86 +42,116 @@ const Handling = () => {
   }, [ignored]);
 
   const handleUpdate = (values) => {
-    Http.get(`update/handlings/${values}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}).then(
-    );
+    Http.get(`update/handling/${values}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/handlings/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
-      .then(
-
-      );
+    Http.delete(`delete/handling/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    }).then();
   };
   const handleShow = (id) => {
-    Http.get(`view/handlings/${id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }})
-      .then((res) => {
-        setSelectedItem(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    Http.get(`view/handling/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
   };
- 
+
+  const columns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (value, tableMeta) => {
+          // const order = orders[tableMeta.rowIndex];
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton aria-label="edit" color="primary">
+                <EditIcon />
+              </IconButton>
+              <IconButton aria-label="edit" color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+      },
+    },
+
+    {
+      name: "handling price",
+      label: "Handling Price",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "handling name",
+      label: "Handling Name",
+    },
+  ];
+
+  const [resizableColumns, setResizableColumns] = useState(false);
+  const options = {
+    filterType: "checkbox",
+    rowsPerPage: 10,
+    resizableColumns: resizableColumns,
+    customToolbarSelect: () => {
+      return <AddHandling forceUpdate={() => forceUpdate()} />;
+    },
+    customToolbar: () => {
+      return (
+        <>
+          <AddHandling forceUpdate={() => forceUpdate()} />;
+        </>
+      );
+    },
+  };
+
+  const [value, setValue] = React.useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
-    <AddHandling  forceUpdate={() => forceUpdate()} />
-    <TableContainer component={Paper}>
-      {isLoading ? (
-        <CircularProgress />
-      ) : (
-        <Table>
-          <TableHead sx={{
-                        "& th": {
-                            color: "white",
-                            backgroundColor: "#0E4C91",
-                        },
-                    }}>
-            <TableRow>
-              <TableCell size="small">Actions</TableCell>
-              <TableCell size="small">Handling Price</TableCell>
-              <TableCell size="small">Handling Name</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {handlingData.map((handling) => (
-              <TableRow key={handling.id}>
-                 <TableCell size="small" sx={{display:"flex", alignItems:"center"}}>
-                
-                <VisibilityIcon 
-                   onClick={() => handleShow(handling.id)}
-                   style={{ cursor: "pointer", color:"gray" }}
-                />
-                <EditHandling
-                    selectedItem={handling}
-                    onEdit={handleUpdate}
-                    forceUpdate={() => forceUpdate()}
+      <div>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example">
+                <Tab label="Handling" value="1" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <TableContainer component={Paper}>
+                {isLoading ? (
+                  <CircularProgress />
+                ) : (
+                  <MUIDataTable
+                    title={"Handling List"}
+                    data={handlingData}
+                    columns={columns}
+                    options={options}
                   />
-                <DeleteHandling 
-                selectedItem={handling}
-                onDelete={handleDelete} 
-                  forceUpdate={() => forceUpdate()} />
-
-              </TableCell>
-                <TableCell size="small">{handling.handling_name}</TableCell>
-                <TableCell size="small">{handling.handling_price}</TableCell>
-               
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
-    </TableContainer>
-    {selectedItem && (
-        <ShowHandling sx={{maxWidth:"500px"}} selectedItem={selectedItem} onClose={() => setSelectedItem(null)} />
-      )}
+                )}
+              </TableContainer>
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </div>
     </>
   );
 };
 
-export default Handling;
+export default Handlings;

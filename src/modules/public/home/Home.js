@@ -66,7 +66,7 @@ function Home() {
             </p>
             <div className="btnBox">
               <NavLink to="/about" className="viewMore">
-                <button className="button-29" id="viewmore-btn">
+                <button class="button-29" id="viewmore-btn">
                   View More
                 </button>
               </NavLink>
@@ -273,7 +273,7 @@ function Home() {
                 </p>
                 <div className="btnBox">
                   <NavLink to="/services" className="viewMore">
-                    <button className="button-29" id="btn-viewmore">
+                    <button class="button-29" id="btn-viewmore">
                       View More
                     </button>
                   </NavLink>
@@ -307,8 +307,12 @@ function Home() {
                     </div>
 
                     <p className="carousel-parah">
-                      Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                      text used in laying out print, graphic or web designs.{" "}
+                      "I recently started using a laundry service, and it has
+                      been a game-changer. They pick up my laundry from my
+                      doorstep and deliver it back to me clean and neatly
+                      folded.It has saved me so much time and effort, and I
+                      highly recommend their convenient and professional
+                      service."{" "}
                     </p>
                   </div>
                 </div>
@@ -319,7 +323,7 @@ function Home() {
                   <div className="testimonial">
                     <img src={karen} alt="images" />
                     <div className="name" style={nameStyle}>
-                      Karen Lina
+                      Karen Mae Lina
                     </div>
                     <div className="stars">
                       <i className="fas fa-star"></i>
@@ -330,8 +334,11 @@ function Home() {
                     </div>
 
                     <p className="carousel-parah">
-                      Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                      text used in laying out print, graphic or web designs.{" "}
+                      "I had a positive experience at a full-service laundry.
+                      The staff was friendly and efficient, and they took care
+                      of my laundry from start to finish. They sorted, washed,
+                      dried, and neatly folded my clothes. The turnaround time
+                      was quick, and my clothes looked great."
                     </p>
                   </div>
                 </div>
@@ -352,8 +359,10 @@ function Home() {
                     </div>
 
                     <p className="carousel-parah">
-                      Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                      text used in laying out print, graphic or web designs.{" "}
+                      The facility was clean and well-maintained, with plenty of
+                      washers and dryers available. The staff was friendly and
+                      helpful, and the machines worked efficiently. It made my
+                      laundry day a breeze, and I'll definitely be going back!"
                     </p>
                   </div>
                 </div>
@@ -374,8 +383,11 @@ function Home() {
                     </div>
 
                     <p className="carousel-parah">
-                      Lorem ipsum, or lipsum as it is sometimes known, is dummy
-                      text used in laying out print, graphic or web designs.{" "}
+                      "I had a fantastic laundry experience at a nearby
+                      laundromat. The facility was clean, the machines were in
+                      great condition, and the staff was friendly. I was able to
+                      complete my laundry quickly and efficiently, and I left
+                      with fresh, clean clothes. Highly recommended!"
                     </p>
                   </div>
                 </div>

@@ -140,3 +140,30 @@
 .formValue-reg{
     padding-bottom: 15px !important;
 }
+
+
+
+/* responsive */
+
+@media screen and (max-width: 768px) {
+    .form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 10px;
+    }
+    .sec-boxLogin{
+        background-size: cover;
+        height: unset;
+        display: flex;
+        align-items: center;
+        background-color: whitesmoke;
+    }
+    .form-left{
+        width: unset;
+    }
+    .form-right{
+        width: unset;
+    }
+}
