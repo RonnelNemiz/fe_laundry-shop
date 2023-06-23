@@ -4,11 +4,8 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import Services from "./dashServices/pages/Services";
-import Users from "./users/pages/Users";
+import Services from "../dashServices/pages/Services";
 import CMS from "./cms/CMS";
-import Handling from "./handling/Handling";
-import PaymentMethod from "./paymentMethod/pages/PaymentMethod";
 
 export default function LabTabs() {
   const [value, setValue] = React.useState("1");

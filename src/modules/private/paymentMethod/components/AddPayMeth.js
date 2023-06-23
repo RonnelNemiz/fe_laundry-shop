@@ -1,11 +1,10 @@
 import * as React from "react";
-import { Http } from './../../../../../services/Http';
-import ToastNotification from './../../../../../components/ToastNotification';
-import ToastNotificationContainer from './../../../../../components/ToastNotificationContainer';
+import { Http } from "../../../../services/Http";
+import ToastNotification from "../../../../components/ToastNotification";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import { Box, Button, Modal, Typography } from "@mui/material";
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import FormFieldData from "../../../../../components/FormFieldData";
-
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import FormFieldData from "../../../../components/FormFieldData";
 
 const style = {
   position: "absolute",
@@ -33,7 +32,7 @@ const options = {
 };
 
 export default function AddPayMeth(props) {
-  const { forceUpdate,  } = props;
+  const { forceUpdate } = props;
   const [formValues, setFormValues] = React.useState({
     payment_name: "",
   });
@@ -51,35 +50,39 @@ export default function AddPayMeth(props) {
     if (open) {
       setFormValues({
         payment_name: "",
-    
       });
-     
     }
   }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post("/add/payments",{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, formValues).then((res) => {
-      if (res.data.status === 200) {
-        forceUpdate();
-        handleClose();
-        ToastNotification("success", "Successfully Saved Data!", options);
-      }else{
-        ToastNotification('error', res.data.message, options);
-      }
-    })
+    Http.post(
+      "/add/payments",
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      },
+      formValues
+    )
+      .then((res) => {
+        if (res.data.status === 200) {
+          forceUpdate();
+          handleClose();
+          ToastNotification("success", "Successfully Saved Data!", options);
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+      })
       .catch((err) => {
         ToastNotification("error", err.message, options);
       });
   };
 
-
   return (
     <div>
       <ToastNotificationContainer />
-      <AddBoxIcon         
+      <AddBoxIcon
         onClick={handleOpen}
         sx={{
           m: 1,
@@ -94,11 +97,11 @@ export default function AddPayMeth(props) {
           },
         }}
       />
-      <Modal open={open}
+      <Modal
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Payment Method
@@ -112,13 +115,12 @@ export default function AddPayMeth(props) {
             onChange={handleChange}
             sx={inputStyle}
           />
-         
+
           <Button
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
-          >
+            onClick={handleSubmit}>
             Submit
           </Button>
         </Box>
@@ -126,5 +128,3 @@ export default function AddPayMeth(props) {
     </div>
   );
 }
-
-

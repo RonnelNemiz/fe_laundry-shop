@@ -59,9 +59,9 @@ function Dashboard() {
       <div className="container-fluid">
         <div className="row my-2">
           <div className="col-md-4 card py-3">
-            <div className="d-flex justify-content-around align-items-center p-3">
+            <div className="d-flex justify-content-around align-items-center p-3 ">
               <div>
-                <h3 className="fs-4 pt-2">New Orders</h3>
+                <h3 className="fs-4 pt-2">New Orders </h3>
                 {newOrders && (
                   <div key={newOrders?.todays_orders_count}>
                     <h3>{newOrders?.todays_orders_count}</h3>
@@ -89,9 +89,8 @@ function Dashboard() {
               style={{
                 cursor: "pointer",
                 textDecoration: "none",
-              }}
-            >
-              See More
+              }}>
+              See More <i class="fas fa-arrow-circle-right"></i>
             </NavLink>
           </div>
 
@@ -122,9 +121,8 @@ function Dashboard() {
               style={{
                 cursor: "pointer",
                 textDecoration: "none",
-              }}
-            >
-              See More
+              }}>
+              See More <i class="fas fa-arrow-circle-right"></i>
             </NavLink>
           </div>
 
@@ -155,9 +153,8 @@ function Dashboard() {
               style={{
                 cursor: "pointer",
                 textDecoration: "none",
-              }}
-            >
-              See More
+              }}>
+              See More <i class="fas fa-arrow-circle-right"></i>
             </NavLink>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Http } from "./../../../../../services/Http";
-import ToastNotification from "./../../../../../components/ToastNotification";
-import ToastNotificationContainer from "./../../../../../components/ToastNotificationContainer";
+import { Http } from "../../../../services/Http";
+import ToastNotification from "../../../../components/ToastNotification";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
-import FormFieldData from "../../../../../components/FormFieldData";
+import FormFieldData from "../../../../components/FormFieldData";
 
 const style = {
   position: "absolute",
@@ -107,8 +107,7 @@ export default function AddServices(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Services
@@ -155,8 +154,7 @@ export default function AddServices(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
-          >
+            onClick={handleSubmit}>
             Submit
           </Button>
         </Box>

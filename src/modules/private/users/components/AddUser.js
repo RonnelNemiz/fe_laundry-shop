@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Http } from "../../../../../services/Http";
-import ToastNotification from "../../../../../components/ToastNotification";
-import ToastNotificationContainer from "../../../../../components/ToastNotificationContainer";
+import { Http } from "../../../../services/Http";
+import ToastNotification from "../../../../components/ToastNotification";
+import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import {
   Box,
   Button,
@@ -15,9 +15,9 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import { handleErrorResponse } from "../../../../../utils/helpers";
+import { handleErrorResponse } from "../../../../utils/helpers";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import FormFieldData from "../../../../../components/FormFieldData";
+import FormFieldData from "../../../../components/FormFieldData";
 import styled from "@emotion/styled";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -189,8 +189,7 @@ export default function AddUser(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+        aria-describedby="modal-modal-description">
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add User
@@ -273,8 +272,7 @@ export default function AddUser(props) {
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
+                    edge="end">
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -293,8 +291,7 @@ export default function AddUser(props) {
             size="small"
             variant="outlined"
             margin="dense"
-            sx={inputStyle}
-          >
+            sx={inputStyle}>
             <InputLabel id="role-label">Role</InputLabel>
             <Select
               labelId="role-label"
@@ -302,8 +299,7 @@ export default function AddUser(props) {
               id="role"
               label="Role"
               value={formValues.role}
-              onChange={handleChange}
-            >
+              onChange={handleChange}>
               {roles.map((role) => {
                 return (
                   <MenuItem key={role.id} value={role.name} id="role">
@@ -339,8 +335,7 @@ export default function AddUser(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}
-          >
+            onClick={handleSubmit}>
             Submit
           </Button>
         </Box>
