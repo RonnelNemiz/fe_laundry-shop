@@ -9,13 +9,11 @@ import Review from "../review/Review";
 import Navbar from "../../../layouts/public/Navbar";
 import Footer from "../../../layouts/public/Footer";
 
-
-
 const reviewCon = {
-  padding:"5%",
+  padding: "5%",
   // display:"flex",
   // justifyContent:"center",
-}
+};
 function Services() {
   return (
     <div>
@@ -77,9 +75,9 @@ function Services() {
           </div>
         </div>
 
-        <section className="section-c bg-light border-top" id="secret" >
+        <section className="section-c bg-light border-top" id="secret">
           {/* <div className="container" id="price-container"> */}
-          <div  id="price-container">
+          <div id="price-container">
             <h2 className="text-center title">Pricing</h2>
             <div className="underline mx-auto"></div>
             <p className="text-center description">
@@ -152,7 +150,7 @@ function Services() {
                   </div>
                 </div>
               </div>
-              <div className="img-1 col-md-3 service-item">
+              <div className="img col-md-3 service-item">
                 <div className="card shadow">
                   <img
                     src={img4}
@@ -166,7 +164,7 @@ function Services() {
                     <ul className="service-prices">
                       <li>Colored (Tshirt, Pants, Underwear): 7 kls. Max.</li>
                     </ul>
-                    <NavLink to="/order" className="orderNow" >
+                    <NavLink to="/order" className="orderNow">
                       <button className="button-29" id="orderNow">
                         Order Now
                       </button>
@@ -177,7 +175,7 @@ function Services() {
             </div>
           </div>
         </section>
-        <div className=" bg-light border-top " style={reviewCon} >
+        <div className=" bg-light border-top " style={reviewCon}>
           <Review />
         </div>
       </div>

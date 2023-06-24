@@ -5,6 +5,7 @@ import MoneyIcon from "@mui/icons-material/Money";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import { NavLink } from "react-router-dom";
 import { Divider } from "@mui/material";
+import "./dashboard.css";
 
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
@@ -56,106 +57,117 @@ function Dashboard() {
   };
   return (
     <>
-      <div className="container-fluid">
-        <div className="row my-2">
-          <div className="col-md-4 card py-3">
-            <div className="d-flex justify-content-around align-items-center p-3 ">
-              <div>
-                <h3 className="fs-4 pt-2">New Orders </h3>
-                {newOrders && (
-                  <div key={newOrders?.todays_orders_count}>
-                    <h3>{newOrders?.todays_orders_count}</h3>
-                  </div>
-                )}
-              </div>
-              <div>
-                <ShoppingCartIcon
-                  style={{ paddingTop: "10px", fontSize: "3em" }}
-                />
-                <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
-              </div>
-            </div>
-            <Divider
-              variant="inset"
-              component="li"
-              style={{
-                margin: "15px 0",
-                listStyle: "none",
-              }}
-            />
-            <NavLink
-              to="/admin/orders"
-              className=""
-              style={{
-                cursor: "pointer",
-                textDecoration: "none",
-              }}>
-              See More <i class="fas fa-arrow-circle-right"></i>
-            </NavLink>
-          </div>
+      <div className="content-header">
+        <div className="container-fluid">
+          <div className="row my-2">
+            <h2 className="m-0">Dashboard</h2>
+            <div className="col-md-3 py-3 " style={{ margin: "5px" }}>
+              <div className="d-flex justify-content-around align-items-center p-3 bg-info ">
+                <div>
+                  <h3 className="fs-4 pt-2">New Orders </h3>
 
-          <div className="col-md-4 card py-3">
-            <div className="d-flex justify-content-around align-items-center p-3">
-              <div>
-                <h3>Pending</h3>
-                <h3>{pendingOrdersCount}</h3>
+                  {newOrders && (
+                    <div key={newOrders?.todays_orders_count}>
+                      <h3>{newOrders?.todays_orders_count}</h3>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <ShoppingCartIcon
+                    style={{ paddingTop: "10px", fontSize: "3em" }}
+                  />
+                  <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
+                </div>
               </div>
-              <div>
-                <ShoppingCartIcon
-                  style={{ paddingTop: "10px", fontSize: "3em" }}
-                />
-                <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
-              </div>
+              {/* <Divider
+                variant="inset"
+                component="li"
+                style={{
+                  margin: "15px 0",
+                  listStyle: "none",
+                }}
+              /> */}
+              <NavLink
+                to="/admin/orders"
+                className=""
+                style={{
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}>
+                {/* See More <i className="fas fa-arrow-circle-right"></i> */}
+                <a href="#" class="small-box-footer">
+                  See More <i class="fas fa-arrow-circle-right"></i>
+                </a>
+              </NavLink>
             </div>
-            <Divider
-              variant="inset"
-              component="li"
-              style={{
-                margin: "15px 0",
-                listStyle: "none",
-              }}
-            />
-            <NavLink
-              to="/admin/orders"
-              className=""
-              style={{
-                cursor: "pointer",
-                textDecoration: "none",
-              }}>
-              See More <i class="fas fa-arrow-circle-right"></i>
-            </NavLink>
-          </div>
 
-          <div className="col-md-4 card py-3">
-            <div className="d-flex justify-content-around align-items-center p-3">
-              <div>
-                <h3>Sales</h3>
-                <h3>{pendingOrdersCount}</h3>
+            <div className="col-md-3 py-3 " style={{ margin: "5px" }}>
+              <div className="d-flex justify-content-around align-items-center p-3 bg-success">
+                <div>
+                  <h3>Pending</h3>
+                  <h3>{pendingOrdersCount}</h3>
+                </div>
+                <div>
+                  <ShoppingCartIcon
+                    style={{ paddingTop: "10px", fontSize: "3em" }}
+                  />
+                  <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
+                </div>
               </div>
-              <div>
-                <ShoppingCartIcon
-                  style={{ paddingTop: "10px", fontSize: "3em" }}
-                />
-                <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
-              </div>
+              {/* <Divider
+                variant="inset"
+                component="li"
+                style={{
+                  margin: "15px 0",
+                  listStyle: "none",
+                }}
+              /> */}
+              <NavLink
+                to="/admin/orders"
+                className=""
+                style={{
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}>
+                <a href="#" class="small-box-footer">
+                  See More <i class="fas fa-arrow-circle-right"></i>
+                </a>
+              </NavLink>
             </div>
-            <Divider
-              variant="inset"
-              component="li"
-              style={{
-                margin: "15px 0",
-                listStyle: "none",
-              }}
-            />
-            <NavLink
-              to="/admin/orders"
-              className=""
-              style={{
-                cursor: "pointer",
-                textDecoration: "none",
-              }}>
-              See More <i class="fas fa-arrow-circle-right"></i>
-            </NavLink>
+
+            <div className="col-md-3 py-3" style={{ margin: "5px" }}>
+              <div className="d-flex justify-content-around align-items-center p-3 bg-warning">
+                <div>
+                  <h3>Sales</h3>
+                  <h3>{pendingOrdersCount}</h3>
+                </div>
+                <div>
+                  <ShoppingCartIcon
+                    style={{ paddingTop: "10px", fontSize: "3em" }}
+                  />
+                  <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
+                </div>
+              </div>
+              {/* <Divider
+                variant="inset"
+                component="li"
+                style={{
+                  margin: "15px 0",
+                  listStyle: "none",
+                }}
+              /> */}
+              <NavLink
+                to="/admin/orders"
+                className=""
+                style={{
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}>
+                <a href="#" class="small-box-footer">
+                  See More <i class="fas fa-arrow-circle-right"></i>
+                </a>
+              </NavLink>
+            </div>
           </div>
         </div>
       </div>
