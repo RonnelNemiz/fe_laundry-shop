@@ -1,63 +1,83 @@
 import React, { useState, useEffect, useReducer } from "react";
-import {
-  TableContainer,
-  Paper,
-  CircularProgress,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { CircularProgress, IconButton, Box } from "@mui/material";
 
 import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import AddHandling from "../components/AddHandling";
-import Http from "../../../../services/Http";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ShowHandling from "./../components/ShowHandling";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditHandling from "./../components/EditHandling";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
+import ToastNotification from "../../../../components/ToastNotification";
+import AddHandling from "./../components/AddHandling";
+import Http from "../../../../services/Http";
 
 const Handlings = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [handlingData, setHandlingData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isViewOpen, setViewOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    Http.get("/handling", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then((res) => {
-        setHandlingData(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-      });
+    fetchingData();
   }, [ignored]);
 
-  const handleUpdate = (values) => {
-    Http.get(`update/handling/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
-  };
-  const handleDelete = (id) => {
-    Http.delete(`delete/handling/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
-  };
-  const handleShow = (id) => {
-    Http.get(`view/handling/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
+  const fetchingData = (params = {}) => {
+    setIsLoading(true);
+    Http.get("/handlings").then((res) => {
+      if (res.data) {
+        // console.log(res.data.data);
+        setHandlingData(res.data);
+      }
+      setIsLoading(false);
     });
+  };
+
+  const tableoptions = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    draggable: true,
+    draggableDirection: "x" | "y",
+    draggablePercent: 60,
+    theme: "colored",
+  };
+
+  const handleUpdate = (values) => {
+    Http.get(`update/handling/${values}`).then();
+  };
+  const handleDelete = () => {
+    setIsLoading(true);
+    Http.delete(`delete/handlings/${selectedItem.id}`)
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", tableoptions),
+        setIsLoading(false),
+        setOpenDelete(false)
+      )
+      .catch((err) => {
+        setIsLoading(false);
+        ToastNotification("error", err, tableoptions);
+      });
+  };
+
+  const handleOpenView = (data) => {
+    setSelectedItem(data);
+    setViewOpen(true);
+  };
+
+  const onEdit = (data) => {
+    setSelectedItem(data);
+    setOpenEdit(true);
+  };
+  const onDelete = (data) => {
+    setSelectedItem(data);
+    setOpenDelete(true);
   };
 
   const columns = [
@@ -66,14 +86,32 @@ const Handlings = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta) => {
-          // const order = orders[tableMeta.rowIndex];
+          const handling = handlingData[tableMeta.rowIndex];
           return (
             <Stack direction="row" spacing={1}>
-              <IconButton aria-label="edit" color="primary">
-                <EditIcon />
+              <IconButton
+                aria-label="View"
+                onClick={() => {
+                  handleOpenView(handling);
+                }}
+              >
+                <VisibilityIcon color="primary" />
               </IconButton>
-              <IconButton aria-label="edit" color="error">
-                <DeleteIcon />
+              <IconButton
+                aria-label="edit"
+                onClick={() => {
+                  onEdit(handling);
+                }}
+              >
+                <EditIcon color="warning" />
+              </IconButton>
+              <IconButton
+                aria-label="delete"
+                onClick={() => {
+                  onDelete(handling);
+                }}
+              >
+                <DeleteIcon color="error" />
               </IconButton>
             </Stack>
           );
@@ -82,16 +120,20 @@ const Handlings = () => {
     },
 
     {
-      name: "handling price",
-      label: "Handling Price",
+      name: "name",
+      label: "HANDLING NAME",
       options: {
         filter: true,
         sort: false,
       },
     },
     {
-      name: "handling name",
-      label: "Handling Name",
+      name: "price",
+      label: "HANDLING PRICE",
+      options: {
+        filter: true,
+        sort: false,
+      },
     },
   ];
 
@@ -106,17 +148,15 @@ const Handlings = () => {
     customToolbar: () => {
       return (
         <>
-          <AddHandling forceUpdate={() => forceUpdate()} />;
+          <AddHandling forceUpdate={() => forceUpdate()} />
         </>
       );
     },
   };
-
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const [value, setValue] = React.useState("1");
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
   const getMuiTheme = () =>
     createTheme({
@@ -188,6 +228,25 @@ const Handlings = () => {
               />
             </ThemeProvider>
           )}
+          <ShowHandling
+            open={isViewOpen}
+            onClose={() => setViewOpen(false)}
+            handling={selectedItem}
+          />
+          <EditHandling
+            open={openEdit}
+            handling={selectedItem}
+            onEdit={handleUpdate}
+            onClose={() => setOpenEdit(false)}
+            forceUpdate={forceUpdate}
+          />
+          <ConfirmationDialog
+            open={openDelete}
+            onClose={() => setOpenDelete(false)}
+            onConfirm={handleDelete}
+            loading={isLoading}
+            message=" Are you sure? If deleted you will not able to recover the data."
+          />
         </Box>
       </div>
     </>

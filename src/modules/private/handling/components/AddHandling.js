@@ -35,8 +35,8 @@ const options = {
 export default function AddHandling(props) {
   const { forceUpdate } = props;
   const [formValues, setFormValues] = React.useState({
-    handling_name: "",
-    handling_price: "",
+    name: "",
+    price: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -51,23 +51,15 @@ export default function AddHandling(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        handling_name: "",
-        handling_price: "",
+        name: "",
+        price: "",
       });
     }
   }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post(
-      "/add/handlings",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      },
-      formValues
-    )
+    Http.post("/add/handlings", formValues)
       .then((res) => {
         if (res.data.status === 200) {
           forceUpdate();
@@ -104,7 +96,8 @@ export default function AddHandling(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Services
@@ -112,18 +105,18 @@ export default function AddHandling(props) {
           <FormFieldData
             fullWidth
             label="Handling"
-            id="handling_name"
-            value={formValues.handling_name}
-            name="handling_name"
+            id="name"
+            value={formValues.name}
+            name="name"
             onChange={handleChange}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
             label="Price"
-            id="handling_price"
-            value={formValues.handling_price}
-            name="handling_price"
+            id="price"
+            value={formValues.price}
+            name="price"
             onChange={handleChange}
             sx={inputStyle}
           />
@@ -132,7 +125,8 @@ export default function AddHandling(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </Box>

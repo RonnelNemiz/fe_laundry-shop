@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./home.css";
 import image4 from "../../../assets/images/laundry.gif";
-import img1 from "../../../assets/images/img1.jpg";
-import img2 from "../../../assets/images/img2.jpg";
-import img3 from "../../../assets/images/img3.jpg";
-import delivery from "../../../assets/images/delivery.gif";
+import img1 from "../../../assets/images/laundry-services.jpg";
+import img22 from "../../../assets/images/img22.jpeg";
+import img3 from "../../../assets/images/drycleaning.jpeg";
+import delivery from "../../../assets/images/delivery.png";
 import Footer from "../../../layouts/public/Footer";
 import Navbar from "../../../layouts/public/Navbar";
 import aiza from "../../../assets/images/aiza.jpg";
@@ -13,6 +13,7 @@ import karen from "../../../assets/images/karen.jpg";
 import flores from "../../../assets/images/flores.jpg";
 import nemiz from "../../../assets/images/nemiz.jpg";
 import { Carousel } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const nameStyle = {
   fontWeight: 700,
@@ -81,20 +82,6 @@ function Home() {
             />
           </div>
         </div>
-        <section className="section1 border-top" id="lami">
-          <div className="container-home">
-            <div className="row firstRow-sec1">
-              <div className="col-md-12-text-center">
-                <h1 className="main-heading">What We Offer</h1>
-                <div className="underline mx-auto"></div>
-                <p className="service">Pick-Up & Delivery Service Available</p>
-              </div>
-              <div className="delivery">
-                <img src={delivery} alt="images" style={{ width: "40%" }} />
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* Second Section */}
         <section className="section2 border-top">
@@ -114,7 +101,7 @@ function Home() {
                         alt="img1"
                       />
                       <div className="card-body">
-                        <h4>Wash</h4>
+                        <h4>Wash Dry & Fold</h4>
                         <p className="description-section2">
                           {showMore1
                             ? description1
@@ -123,8 +110,7 @@ function Home() {
                         {description1.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore1}
-                          >
+                            onClick={toggleShowMore1}>
                             {showMore1 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -134,12 +120,12 @@ function Home() {
                   <div className="img col-md-3 center forPaddingBot">
                     <div className="card shadow">
                       <img
-                        src={img2}
+                        src={img22}
                         className="w-100 border-bottom"
                         alt="img2"
                       />
                       <div className="card-body">
-                        <h4>Dry</h4>
+                        <h4>Ironing</h4>
                         <p className="description-section2">
                           {showMore2
                             ? description2
@@ -148,8 +134,7 @@ function Home() {
                         {description2.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore2}
-                          >
+                            onClick={toggleShowMore2}>
                             {showMore2 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -164,7 +149,7 @@ function Home() {
                         alt="img3"
                       />
                       <div className="card-body">
-                        <h4>Fold</h4>
+                        <h4>Dry Cleaning</h4>
                         <p className="description-section2">
                           {showMore3
                             ? description3
@@ -173,8 +158,7 @@ function Home() {
                         {description3.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore3}
-                          >
+                            onClick={toggleShowMore3}>
                             {showMore3 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -182,6 +166,26 @@ function Home() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 3rd */}
+        <section className="section1 border-top" id="lami">
+          <div className="container-home">
+            <div className="row firstRow-sec1">
+              <div className="col-md-12-text-center">
+                <h1 className="main-heading">Our Handling</h1>
+                <div className="underline mx-auto"></div>
+                <p className="service">Pick-Up & Delivery Service Available</p>
+              </div>
+              <div className="delivery">
+                <img
+                  src={delivery}
+                  alt="images"
+                  style={{ width: "60%", paddingTop: "20px" }}
+                />
               </div>
             </div>
           </div>
@@ -196,6 +200,14 @@ function Home() {
 
               <div className="col-sm-6 col-md-4">
                 <div className="description">
+                  <div className="iconbox-icon rounded-circle">
+                    <button
+                      id="icon-btn"
+                      type="button"
+                      className="btn btn-primary rounded-circle">
+                      <FontAwesomeIcon icon="fa-brands fa-edge" />
+                    </button>
+                  </div>
                   <h4 className="title">Personalized Experience </h4>
                   <p>
                     You can always reach us for your laundry concerns. Call us
@@ -205,7 +217,16 @@ function Home() {
               </div>
               <div className="col-sm-6 col-md-4">
                 <div className="description">
-                  <h4 className="title">Pricing </h4>
+                  <div className="iconbox-icon rounded-circle">
+                    <button
+                      id="icon-btn"
+                      type="button"
+                      className="btn btn-primary rounded-circle">
+                      <FontAwesomeIcon icon="fa-solid fa-hand-holding-dollar" />
+                    </button>
+                  </div>
+                  <h4 className="title">Pricing</h4>
+
                   <p>
                     The quality and cost of our service determine the price.
                     Trust our pricing is reasonable and affordable.
@@ -214,6 +235,14 @@ function Home() {
               </div>
               <div className="col-sm-6 col-md-4">
                 <div className="description">
+                  <div className="iconbox-icon rounded-circle">
+                    <button
+                      id="icon-btn"
+                      type="button"
+                      className="btn btn-primary rounded-circle">
+                      <FontAwesomeIcon icon="fa-solid fa-mobile" />
+                    </button>
+                  </div>
                   <h4 className="title">Convenience </h4>
                   <p>
                     Simply book through our mobile app for pick up request. Our
@@ -223,6 +252,14 @@ function Home() {
               </div>
               <div className="col-sm-6 col-md-4">
                 <div className="description">
+                  <div className="iconbox-icon rounded-circle">
+                    <button
+                      id="icon-btn"
+                      type="button"
+                      className="btn btn-primary rounded-circle">
+                      <FontAwesomeIcon icon="fa-solid fa-check" />
+                    </button>
+                  </div>
                   <h4 className="title">Quality</h4>
                   <p>
                     We take utmost care of your clothes, segregating the whites
@@ -233,6 +270,14 @@ function Home() {
               </div>
               <div className="col-sm-6 col-md-4">
                 <div className="description">
+                  <div className="iconbox-icon rounded-circle">
+                    <button
+                      id="icon-btn"
+                      type="button"
+                      className="btn btn-primary rounded-circle">
+                      <FontAwesomeIcon icon="fa-solid fa-truck" />
+                    </button>
+                  </div>
                   <h4 className="title">Express Delivery</h4>
                   <p>
                     We offer a rush laundry service if required. We can deliver
@@ -242,6 +287,14 @@ function Home() {
               </div>
               <div className="col-sm-6 col-md-4">
                 <div className="description">
+                  <div className="iconbox-icon rounded-circle">
+                    <button
+                      id="icon-btn"
+                      type="button"
+                      className="btn btn-primary rounded-circle">
+                      <FontAwesomeIcon icon="fa-solid fa-comment-sms" />
+                    </button>
+                  </div>
                   <h4 className="title">Order Update</h4>
                   <p>
                     We immediately notify you once the laundry is done and ready
@@ -264,8 +317,7 @@ function Home() {
               </div>
               <div
                 className="sec-p col-md-4 secondBox-sec4"
-                style={{ textAlign: "center" }}
-              >
+                style={{ textAlign: "center" }}>
                 <h5>We Offer the Best Quality of Clothes.</h5>
                 <p>
                   With us we'll make sure that you will be satisfied with our

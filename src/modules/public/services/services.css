@@ -10,16 +10,17 @@
 .col-md-4 h5 {
   color: rgb(11, 157, 214);
 }
-/* .heading {
+.heading {
   padding-top: 5%;
-} */
+}
+
 /* .section {
   height: 130vh;
 } */
 
-#secret{
-  padding-top:3%;
-  padding-bottom:6%;
+#secret {
+  padding-top: 3%;
+  padding-bottom: 6%;
 }
 .section p {
   padding-bottom: 2%;
@@ -123,7 +124,6 @@ margin-left: 7%;
 margin-right: 7%; 
 } */
 
-
 /* laptop's */
 @media only screen and (max-width: 1200px) {
   .container-A {
@@ -152,7 +152,7 @@ margin-right: 7%;
   .container-A .row {
     flex-wrap: wrap;
   }
-  .container-A .col-md-4{
+  .container-A .col-md-4 {
     width: 50%;
     padding: 1.5rem;
   }
@@ -165,21 +165,21 @@ margin-right: 7%;
     justify-content: center;
     margin-bottom: 40%;
   }
-  .section-1 .card-container{
+  .section-1 .card-container {
     display: flex;
-    flex-wrap: wrap;  
+    flex-wrap: wrap;
   }
   .section-1 .col-md-3 {
-   width: 40%;
+    width: 40%;
   }
 }
 
 /* mobile's */
 @media only screen and (max-width: 768px) {
-body{
+  body {
     overflow: unset !important;
-}
-  .container-A{
+  }
+  .container-A {
     padding-top: 20px;
   }
   .container-A .row {
@@ -188,15 +188,14 @@ body{
     align-items: center;
   }
   .container-A .run {
-      margin-left: -2%;
+    margin-left: -2%;
   }
   .section-c {
     width: 100%;
     display: flex;
     justify-content: center;
-   
   }
-  .section-c .card-container{
+  .section-c .card-container {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -207,33 +206,33 @@ body{
     display: flex;
     justify-content: center;
     margin-bottom: 2%;
-   }
-   .section-c .card-container .img-1 {
+  }
+  .section-c .card-container .img-1 {
     display: block;
-   }
-   .section-1 .card-container #orderNow {
+  }
+  .section-1 .card-container #orderNow {
     display: flex;
     width: 20%;
     margin-left: 40%;
-   }
-   #orderNow {
+  }
+  #orderNow {
     width: 40%;
     font-size: 14px;
-   }
-   #langga{
+  }
+  #langga {
     font-size: 10px;
-   }
-   /* #secret{
+  }
+  /* #secret{
     padding-bottom: 150%;
    } */
-   .container-A .col-md-4{
+  .container-A .col-md-4 {
     width: unset;
     padding: 10px 40px 0px;
-   }
-   .service-parag {
+  }
+  .service-parag {
     text-align: justify;
-   }
-   #icon-btn {
+  }
+  #icon-btn {
     width: unset;
   }
 }
