@@ -74,7 +74,7 @@ export default function AddUser(props) {
     municipality: "",
     contact_number: "",
     land_mark: "Leyte",
-    role: "",
+    role_id: "",
     password: "",
     image: null,
   });
@@ -109,7 +109,7 @@ export default function AddUser(props) {
         municipality: "",
         contact_number: "",
         land_mark: "Leyte",
-        role: "",
+        role_id: "",
         password: "",
         image: null,
       });
@@ -149,7 +149,7 @@ export default function AddUser(props) {
     formData.append("municipality", formValues.municipality);
     formData.append("contact_number", formValues.contact_number);
     formData.append("land_mark", formValues.land_mark);
-    formData.append("role", formValues.role);
+    formData.append("role_id", formValues.role_id);
     formData.append("password", formValues.password);
     formData.append("image", formValues.image); // Append image to the form data
     Http.post("/add/users", formData)
@@ -189,7 +189,8 @@ export default function AddUser(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add User
@@ -272,7 +273,8 @@ export default function AddUser(props) {
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                     onMouseDown={handleMouseDownPassword}
-                    edge="end">
+                    edge="end"
+                  >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -291,19 +293,23 @@ export default function AddUser(props) {
             size="small"
             variant="outlined"
             margin="dense"
-            sx={inputStyle}>
+            sx={inputStyle}
+          >
             <InputLabel id="role-label">Role</InputLabel>
             <Select
               labelId="role-label"
-              name="role"
-              id="role"
+              name="role_id"
+              id="role_id"
               label="Role"
-              value={formValues.role}
-              onChange={handleChange}>
+              value={formValues.role_id}
+              onChange={handleChange}
+            >
               {roles.map((role) => {
                 return (
-                  <MenuItem key={role.id} value={role.name} id="role">
-                    {role.name}
+                  <MenuItem key={role.id} value={role.id} id="role">
+                    {(role.id === 1 && "Admin") ||
+                      (role.id === 2 && "Staff") ||
+                      (role.id === 3 && "Delivery Boy")}
                   </MenuItem>
                 );
               })}
@@ -335,7 +341,8 @@ export default function AddUser(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </Box>

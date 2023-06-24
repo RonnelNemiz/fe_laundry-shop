@@ -1,5 +1,11 @@
 import * as React from "react";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Modal,
+  Typography,
+} from "@mui/material";
 import Reevalidate from "ree-validate-18";
 import Http from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
@@ -31,6 +37,8 @@ const style = {
   p: 4,
   borderColor: "none",
   borderRadius: "10px 10px",
+  overflowX: "auto",
+  height: "80%",
 };
 const options = {
   position: "top-right",
@@ -41,11 +49,13 @@ const options = {
   theme: "colored",
 };
 const inputStyle = {
-  mb: 1,
+  mb: 2,
 };
 
 export default function EditCustomers(props) {
-  const { open, onClose, selectedItem, loading, forceUpdate } = props;
+  const { open, onClose, selectedItem, forceUpdate } = props;
+
+  const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({
     values: {
       email: "",
@@ -62,18 +72,18 @@ export default function EditCustomers(props) {
   });
 
   React.useEffect(() => {
-    if (selectedItem.profile) {
+    if (selectedItem?.profile) {
       setData({
         values: {
-          email: selectedItem.email,
-          first_name: selectedItem.profile[0].first_name,
-          last_name: selectedItem.profile[0].last_name,
-          purok: selectedItem.profile[0].purok,
-          brgy: selectedItem.profile[0].brgy,
-          municipality: selectedItem.profile[0].municipality,
-          contact_number: selectedItem.profile[0].contact_number,
-          land_mark: selectedItem.profile[0].land_mark,
-          role: selectedItem.role,
+          email: selectedItem?.email,
+          first_name: selectedItem?.profile[0].first_name,
+          last_name: selectedItem?.profile[0].last_name,
+          purok: selectedItem?.profile[0].purok,
+          brgy: selectedItem?.profile[0].brgy,
+          municipality: selectedItem?.profile[0].municipality,
+          contact_number: selectedItem?.profile[0].contact_number,
+          land_mark: selectedItem?.profile[0].land_mark,
+          role: selectedItem?.role,
         },
       });
     }
@@ -97,15 +107,18 @@ export default function EditCustomers(props) {
     });
   };
   const handleUpdate = () => {
+    setLoading(true);
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(`update/user/${selectedItem.id}`, data.values)
+        Http.put(`update/customer/${selectedItem?.id}`, data.values)
           .then((res) => {
             forceUpdate();
             onClose();
             ToastNotification("success", "Successfully Saved Data", options);
+            setLoading(false);
           })
           .catch((err) => {
+            setLoading(false);
             ToastNotification("error", handleErrorResponse(err), options);
           });
       }
@@ -120,15 +133,21 @@ export default function EditCustomers(props) {
     <>
       <ToastNotificationContainer />
       <Modal
-        key={selectedItem.id}
+        key={selectedItem?.id}
         open={open}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        // style={{ overflowX: "auto", height: "70%" }}
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit User
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ paddingBottom: "5%" }}
+          >
+            Edit Customer
           </Typography>
           <FormFieldData
             fullWidth
@@ -218,9 +237,11 @@ export default function EditCustomers(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(selectedItem.id)}
+            onClick={() => handleUpdate(selectedItem?.id)}
+            disabled={loading}
+            sx={{ marginTop: "5%" }}
           >
-            Update
+            {loading ? <CircularProgress size={24} /> : "Update"}
           </Button>
         </Box>
       </Modal>
