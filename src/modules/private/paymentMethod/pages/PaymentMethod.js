@@ -17,6 +17,7 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AddPayMeth from "./../components/AddPayMeth";
 import Http from "../../../../services/Http";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const PaymentMethod = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -117,33 +118,77 @@ const PaymentMethod = () => {
     setValue(newValue);
   };
 
+  const getMuiTheme = () =>
+    createTheme({
+      components: {
+        MuiTableCell: {
+          styleOverrides: {
+            root: {
+              padding: 5,
+            },
+            head: {
+              fontWeight: "bold",
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MuiTableHead: {
+          styleOverrides: {
+            root: {
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MUIDataTableHeadCell: {
+          styleOverrides: {
+            data: {
+              fontWeight: "bold",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              padding: 0,
+            },
+          },
+        },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
+            },
+          },
+        },
+      },
+    });
+
   return (
     <>
       <div>
         <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example">
-                <Tab label="Payment Method" value="1" />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              <TableContainer component={Paper}>
-                {isLoading ? (
-                  <CircularProgress />
-                ) : (
-                  <MUIDataTable
-                    title={"Payment Method List"}
-                    data={paymentData}
-                    columns={columns}
-                    options={options}
-                  />
-                )}
-              </TableContainer>
-            </TabPanel>
-          </TabContext>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <ThemeProvider theme={getMuiTheme()}>
+              <MUIDataTable
+                title={"Payment Methods"}
+                data={paymentData}
+                columns={columns}
+                options={options}
+              />
+            </ThemeProvider>
+          )}
         </Box>
       </div>
     </>

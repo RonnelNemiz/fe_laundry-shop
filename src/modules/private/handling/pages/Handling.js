@@ -11,12 +11,9 @@ import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import AddHandling from "../components/AddHandling";
 import Http from "../../../../services/Http";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const Handlings = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -121,33 +118,76 @@ const Handlings = () => {
     setValue(newValue);
   };
 
+  const getMuiTheme = () =>
+    createTheme({
+      components: {
+        MuiTableCell: {
+          styleOverrides: {
+            root: {
+              padding: 5,
+            },
+            head: {
+              fontWeight: "bold",
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MuiTableHead: {
+          styleOverrides: {
+            root: {
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MUIDataTableHeadCell: {
+          styleOverrides: {
+            data: {
+              fontWeight: "bold",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              padding: 0,
+            },
+          },
+        },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
+            },
+          },
+        },
+      },
+    });
   return (
     <>
       <div>
         <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example">
-                <Tab label="Handling" value="1" />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              <TableContainer component={Paper}>
-                {isLoading ? (
-                  <CircularProgress />
-                ) : (
-                  <MUIDataTable
-                    title={"Handling List"}
-                    data={handlingData}
-                    columns={columns}
-                    options={options}
-                  />
-                )}
-              </TableContainer>
-            </TabPanel>
-          </TabContext>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <ThemeProvider theme={getMuiTheme()}>
+              <MUIDataTable
+                title={"Handlings"}
+                data={handlingData}
+                columns={columns}
+                options={options}
+              />
+            </ThemeProvider>
+          )}
         </Box>
       </div>
     </>

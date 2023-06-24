@@ -18,10 +18,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmationDialog from "../../../../components/ConfirmationDialog";
 import ShowCustomer from "../components/ShowCustomer";
 import EditCustomers from "../components/EditCustomers";
-import TabContext from "@mui/lab/TabContext/TabContext";
-import TabList from "@mui/lab/TabList/TabList";
-import Tab from "@mui/material/Tab";
-import TabPanel from "@mui/lab/TabPanel/TabPanel";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 function Customers() {
   const [loading, setLoading] = useState(false);
@@ -108,10 +105,6 @@ function Customers() {
       },
     },
     {
-      name: "email",
-      label: "Email",
-    },
-    {
       name: "profile",
       label: "First Name",
       options: {
@@ -145,12 +138,15 @@ function Customers() {
       },
     },
     {
-      name: "profile.0.image",
-      label: "Image",
-      type: "image",
-      // customBodyRender: (item) => {
-      //   return item[0] && item[0].image;
-      // }
+      name: "profile",
+      label: "Address",
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].address;
+        },
+        filter: true,
+        sort: true,
+      },
     },
   ];
 
@@ -203,32 +199,78 @@ function Customers() {
       );
     },
   };
+
+  const getMuiTheme = () =>
+    createTheme({
+      components: {
+        MuiTableCell: {
+          styleOverrides: {
+            root: {
+              padding: 5,
+            },
+            head: {
+              fontWeight: "bold",
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MuiTableHead: {
+          styleOverrides: {
+            root: {
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MUIDataTableHeadCell: {
+          styleOverrides: {
+            data: {
+              fontWeight: "bold",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              padding: 0,
+            },
+          },
+        },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
+            },
+          },
+        },
+      },
+    });
   return (
     <>
       <Box sx={{ width: "100%", typography: "body1" }}>
         <ToastNotificationContainer />
         {/* <AddCustomers forceUpdate={() => forceUpdate()} data={customerList} /> */}
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Customer" value="1" />
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            <TableContainer component={Paper}>
-              {loading ? (
-                <CircularProgress />
-              ) : (
-                <MUIDataTable
-                  title={"Customer List"}
-                  data={customerList}
-                  columns={columns}
-                  options={options}
-                />
-              )}
-            </TableContainer>
-          </TabPanel>
-        </TabContext>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <ThemeProvider theme={getMuiTheme()}>
+            <MUIDataTable
+              title={"Customers"}
+              data={customerList}
+              columns={columns}
+              options={options}
+            />
+          </ThemeProvider>
+        )}
 
         <ShowCustomer
           open={isViewOpen}

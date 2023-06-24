@@ -278,19 +278,52 @@ const Services = () => {
   const getMuiTheme = () =>
     createTheme({
       components: {
-        MUIDataTableBodyCell: {
+        MuiTableCell: {
           styleOverrides: {
             root: {
-              backgroundColor: "#fff",
+              padding: 5,
+            },
+            head: {
+              fontWeight: "bold",
+              backgroundColor: "#0d6efd",
             },
           },
         },
-        MuiPaper: {
-          elevation: {
-            styleOverrides: {
-              root: {
-                boxShadow: "none",
-              },
+        MuiTableHead: {
+          styleOverrides: {
+            root: {
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MUIDataTableHeadCell: {
+          styleOverrides: {
+            data: {
+              fontWeight: "bold",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              padding: 0,
+            },
+          },
+        },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
             },
           },
         },
@@ -302,7 +335,7 @@ const Services = () => {
         <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList onChange={handleChange} aria-label="Tabs">
+              <TabList onChange={handleChange} aria-label="Services">
                 <Tab label="Services" value="1" />
                 <Tab label="Categories" value="2" />
                 <Tab label="Item Types" value="3" />
@@ -315,7 +348,7 @@ const Services = () => {
                 ) : (
                   <ThemeProvider theme={getMuiTheme()}>
                     <MUIDataTable
-                      title={"Services List"}
+                      title={"Services"}
                       data={servicesData}
                       columns={servicesColumns}
                       options={servicesOptions}
@@ -330,7 +363,7 @@ const Services = () => {
               ) : (
                 <ThemeProvider theme={getMuiTheme()}>
                   <MUIDataTable
-                    title={"Categories List"}
+                    title={"Categories"}
                     data={categoriesData}
                     columns={categoriesColumns}
                     options={categoriesOptions}
@@ -344,7 +377,7 @@ const Services = () => {
               ) : (
                 <ThemeProvider theme={getMuiTheme()}>
                   <MUIDataTable
-                    title={"Categories List"}
+                    title={"Categories"}
                     data={itemTypesData}
                     columns={itemTypesColumns}
                     options={itemTypesOptions}

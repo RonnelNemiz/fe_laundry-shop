@@ -142,10 +142,20 @@ export default function Reviews() {
             },
           },
         },
-        MuiPaper: {
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
           styleOverrides: {
             root: {
-              margin: "15px 0",
+              margin: "0 5px",
             },
           },
         },

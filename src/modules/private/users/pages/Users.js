@@ -12,15 +12,12 @@ import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ViewUser from "../components/ViewUser";
 import EditUsers from "../components/EditUsers";
 import ToastNotification from "../../../../components/ToastNotification";
 import ConfirmationDialog from "../../../../components/ConfirmationDialog";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 const Users = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -131,14 +128,6 @@ const Users = () => {
       },
     },
     {
-      name: "email",
-      label: "Email",
-      options: {
-        filter: true,
-        sort: false,
-      },
-    },
-    {
       name: "profile",
       label: "First Name",
       options: {
@@ -173,7 +162,7 @@ const Users = () => {
       },
     },
     {
-      name: "role_id",
+      name: "role",
       label: "Role",
     },
     {
@@ -209,34 +198,77 @@ const Users = () => {
     setValue(newValue);
   };
 
+  const getMuiTheme = () =>
+    createTheme({
+      components: {
+        MuiTableCell: {
+          styleOverrides: {
+            root: {
+              padding: 5,
+            },
+            head: {
+              fontWeight: "bold",
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MuiTableHead: {
+          styleOverrides: {
+            root: {
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MUIDataTableHeadCell: {
+          styleOverrides: {
+            data: {
+              fontWeight: "bold",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              padding: 0,
+            },
+          },
+        },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
+            },
+          },
+        },
+      },
+    });
+
   return (
     <>
       <div>
         <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={value}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                <Tab label="Users" value="1" />
-              </TabList>
-            </Box>
-            <TabPanel value="1">
-              <TableContainer component={Paper}>
-                {isLoading ? (
-                  <CircularProgress />
-                ) : (
-                  <MUIDataTable
-                    title={"Users List"}
-                    data={usersData}
-                    columns={columns}
-                    options={options}
-                  />
-                )}
-              </TableContainer>
-            </TabPanel>
-          </TabContext>
+          {isLoading ? (
+            <CircularProgress />
+          ) : (
+            <ThemeProvider theme={getMuiTheme()}>
+              <MUIDataTable
+                title={"Users"}
+                data={usersData}
+                columns={columns}
+                options={options}
+              />
+            </ThemeProvider>
+          )}
           <ViewUser
             open={isViewOpen}
             onClose={() => setViewOpen(false)}

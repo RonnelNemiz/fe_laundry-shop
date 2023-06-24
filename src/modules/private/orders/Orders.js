@@ -210,6 +210,23 @@ const Orders = () => {
             },
           },
         },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
+            },
+          },
+        },
       },
     });
 
@@ -217,7 +234,7 @@ const Orders = () => {
     <>
       <ThemeProvider theme={getMuiTheme()}>
         <MUIDataTable
-          title={"Orders List"}
+          title={"Orders"}
           data={orders}
           columns={columns}
           options={options}
