@@ -21,61 +21,72 @@ function OrderPayments() {
       }
     });
   }, []);
+
+  const tableStyle = {
+    textAlign: "right",
+  };
   return (
     <div className="card">
       <div className="card-body">
-        <div className="d-flex justify-content-between">
-          <p className="m-0 flex-fill">Parent Category Three</p>
-          <p className="m-0 flex-fill">Category Name</p>
-          <p className="m-0 flex-fill">P50/kilo</p>
-          <p className="m-0 flex-fill">2 kilos</p>
-          <p className="m-0 flex-fill" style={{ textAlign: "right" }}>
-            P100.00
-          </p>
-        </div>
-        <div className="d-flex justify-content-between">
-          <p className="m-0 flex-fill">Parent Category Four</p>
-          <p className="m-0 flex-fill">Category Name</p>
-          <p className="m-0 flex-fill">P50/kilo</p>
-          <p className="m-0 flex-fill">2 kilos</p>
-          <p className="m-0 flex-fill" style={{ textAlign: "right" }}>
-            P100.00
-          </p>
-        </div>
-        <div className="d-flex justify-content-between">
-          <p className="m-0 flex-fill">Parent Category One</p>
-          <p className="m-0 flex-fill">Category Name</p>
-          <p className="m-0 flex-fill">P50/kilo</p>
-          <p className="m-0 flex-fill">2 kilos</p>
-          <p className="m-0 flex-fill" style={{ textAlign: "right" }}>
-            P100.00
-          </p>
-        </div>
-      </div>
-      <Divider />
-      <div className="card-body d-flex justify-content-end flex-column align-items-end">
-        <div className="d-flex fw-bold"> (Paid) P 300.00</div>
-        <div className="d-flex fw-bold">(Total) P 300.00</div>
-        <div className="d-flex fw-bold">(Change) P 0.00</div>
-        <TextField
-          variant="standard"
-          name="name"
-          placeholder="Amount"
-          className="mt-3 text-right"
-          sx={{ textAlign: "right" }}
-          type="number"
-        />
-      </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Amount</th>
+              <th scope="col">Weight</th>
+              <th scope="col">Item</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" style={tableStyle}>
+                ₱100.00
+              </th>
+              <td>2 kilos</td>
+              <td>White Beddings & Bath Accessories</td>
+            </tr>
+            <tr>
+              <th scope="row" style={tableStyle}>
+                ₱250.00
+              </th>
+              <td>5 kilos</td>
+              <td>Colored Beddings & Bath Accessories</td>
+            </tr>
+            <tr>
+              <th scope="row" style={tableStyle}>
+                ₱300.00
+              </th>
+              <td>6 kilos</td>
+              <td scope="row">White Garments</td>
+            </tr>
+          </tbody>
+        </table>
 
-      <Button
-        size="small"
-        color="primary"
-        variant="contained"
-        onClick=""
-        style={{ padding: "5px 50px" }}
-      >
-        Pay
-      </Button>
+        <Divider />
+        <div className="card-body d-flex justify-content-end flex-column align-items-end">
+          <div className="d-flex fw-bold"> (Paid) P 700.00</div>
+          <div className="d-flex fw-bold">(Total) P 650.00</div>
+          <div className="d-flex fw-bold">(Change) P 50.00</div>
+          <TextField
+            variant="standard"
+            name="name"
+            placeholder="Amount"
+            className="mt-3 text-right"
+            sx={{ textAlign: "right" }}
+            type="number"
+          />
+        </div>
+      </div>
+      <div className="card-footer">
+        <Button
+          size="small"
+          color="primary"
+          variant="contained"
+          onClick=""
+          style={{ padding: "5px 50px" }}
+        >
+          Pay
+        </Button>
+      </div>
     </div>
   );
 }

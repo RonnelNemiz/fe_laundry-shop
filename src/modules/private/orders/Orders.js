@@ -79,13 +79,6 @@ const Orders = () => {
               >
                 <EditIcon />
               </IconButton>
-              <IconButton
-                aria-label="pay"
-                onClick={() => handleShowPayModal(order)}
-                color="success"
-              >
-                <PayIcon />
-              </IconButton>
             </Stack>
           );
         },
@@ -137,6 +130,18 @@ const Orders = () => {
       name: "status",
       label: "Order Status",
       options: {
+        customBodyRender: (value) => {
+          return (
+            <Stack direction="row" spacing={1}>
+              <Chip
+                label={value}
+                color={value == "Paid" ? "success" : "error"}
+                size="small"
+                variant="outlined"
+              />
+            </Stack>
+          );
+        },
         filter: true,
         sort: false,
       },
@@ -151,6 +156,50 @@ const Orders = () => {
               <Chip
                 label={value}
                 color={value == "Paid" ? "success" : "error"}
+                size="small"
+                variant="outlined"
+              />
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "handling_status",
+      label: "Handling Status",
+      options: {
+        customBodyRender: (value) => {
+          const status = () => {
+            let statusName = "";
+
+            switch (value) {
+              case "1":
+                statusName = "Ready for Pickup";
+                break;
+              case "2":
+                statusName = "Ready for Delivery";
+                break;
+              case "3":
+                statusName = "Rider on Pickup";
+                break;
+              case "4":
+                statusName = "Rider on Delivery";
+                break;
+              default:
+                statusName = "Not yet ready";
+                break;
+            }
+
+            return statusName;
+          };
+
+          return (
+            <Stack direction="row" spacing={1}>
+              <Chip
+                label={status()}
+                color={value == 0 ? "error" : "success"}
                 size="small"
                 variant="outlined"
               />

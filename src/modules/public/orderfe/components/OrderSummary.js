@@ -47,7 +47,6 @@ function OrderSummary(props) {
       )
         .then((res) => {
           if (res.data.status === 200) {
-            swal("success", "Thank You for your order!!!", "success");
             localStorage.removeItem("handling");
             localStorage.removeItem("service");
             localStorage.removeItem("personal_details");

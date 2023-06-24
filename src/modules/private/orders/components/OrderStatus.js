@@ -67,7 +67,7 @@ function OrderStatus() {
           sx={{ m: 1, minWidth: 120 }}
           className="flex-fill"
         >
-          <InputLabel>Payment Status</InputLabel>
+          <InputLabel>Handling Status</InputLabel>
           <Select value={paymentStatus} onChange={handleChange} label="Status">
             {handlingStatus.map((item, index) => (
               <MenuItem value={item} key={index}>
@@ -81,7 +81,7 @@ function OrderStatus() {
           sx={{ m: 1, minWidth: 120 }}
           className="flex-fill"
         >
-          <InputLabel>Payment Status</InputLabel>
+          <InputLabel>Order Status</InputLabel>
           <Select value={paymentStatus} onChange={handleChange} label="Status">
             {orderStatus.map((item, index) => (
               <MenuItem value={item} key={index}>
