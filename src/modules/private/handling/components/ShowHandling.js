@@ -5,19 +5,60 @@ import {
   DialogContent,
   DialogActions,
   Button,
+  Slide,
+  Box,
+  Typography,
 } from "@mui/material";
 
-const ShowHandling = ({ selectedItem, onClose }) => {
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const styles = {
+  close: {
+    textTransform: "unset",
+  },
+};
+
+const ShowHandling = ({ open, handling, onClose }) => {
   return (
-    <Dialog open={true} onClose={onClose} >
-      <DialogTitle sx={{color:"#1976d2", fontWeight:"500", textAlign:"center"}}>Handling Details</DialogTitle>
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>View Handling</DialogTitle>
       <DialogContent>
-        <p> <b>Handling Name:</b> {selectedItem.handling_name}</p>
-        <p> <b>Handling Price:</b> {selectedItem.handling_price}</p>
-     
+        <Box>
+          <Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Handling Name</Typography>
+              <Typography variant="subtitle1">{handling?.name}</Typography>
+            </Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Handling Price</Typography>
+              <Typography variant="subtitle1">{handling?.price}</Typography>
+            </Box>
+          </Box>
+        </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button
+          sx={styles.close}
+          size="small"
+          color="error"
+          variant="contained"
+          onClick={onClose}
+        >
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
   );
