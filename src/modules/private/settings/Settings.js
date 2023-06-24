@@ -75,25 +75,12 @@ export default function LabTabs() {
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
       <ToastContainer />
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="Settings Tabs">
-            <Tab label="CMS" value="1" />
-            <Tab label="SMS" value="2" />
-          </TabList>
-        </Box>
-        <TabPanel value="1">
-          <CMS />
-        </TabPanel>
-        <TabPanel value="2">
-          <p className="m-0">Send SMS Notifications?</p>
-          <Switch
-            checked={checked}
-            onChange={handleSwitchChange}
-            label="SMS Notification"
-          />
-        </TabPanel>
-      </TabContext>
+      <p className="m-0">Send SMS Notifications?</p>
+      <Switch
+        checked={checked}
+        onChange={handleSwitchChange}
+        label="SMS Notification"
+      />
     </Box>
   );
 }
