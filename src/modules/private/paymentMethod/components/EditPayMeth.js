@@ -6,11 +6,11 @@ import ToastNotificationContainer from "../../../../components/ToastNotification
 import { Box, Button, Modal, Tooltip, Typography } from "@mui/material";
 import FormFieldData from "../../../../components/FormFieldData";
 import Reevalidate from "ree-validate-18";
-import EditIcon from "@mui/icons-material/Edit";
 
 const validator = new Reevalidate.Validator({
-  service_name: "required",
-  description: "required",
+  name: "required|max:50",
+  number: "required|max:11|numeric",
+  special_instructions: "required",
 });
 
 const style = {
@@ -39,28 +39,33 @@ const inputStyle = {
 };
 
 export default function EditPayMeth(props) {
-  const { selectedItem, loading, forceUpdate } = props;
+  const { open, onClose, paymentMethod, forceUpdate } = props;
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({
     values: {
-      payment_name: "",
+      name: "",
+      logo: "",
+      recipient: "",
+      number: "",
+      special_instructions: "",
     },
     errors: validator.errors,
   });
 
   React.useEffect(() => {
-    if (selectedItem) {
+    if (paymentMethod) {
       setData({
         values: {
-          payment_name: selectedItem.payment_name,
+          name: paymentMethod.name,
+          logo: paymentMethod.logo,
+          recipient: paymentMethod.recipient,
+          number: paymentMethod.number,
+          special_instructions: paymentMethod.special_instructions,
         },
       });
     }
-  }, [selectedItem]);
+  }, [paymentMethod]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -82,21 +87,15 @@ export default function EditPayMeth(props) {
   const handleUpdate = () => {
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(
-          `update/payments/${selectedItem.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          },
-          data.values
-        )
+        Http.put(`update/payment-methods/${paymentMethod.id}`, data.values)
           .then((res) => {
             forceUpdate();
-            handleClose();
+            onClose();
             ToastNotification("success", "Successfully Saved Data", options);
+            setLoading(false);
           })
           .catch((err) => {
+            setLoading(false);
             ToastNotification("error", handleErrorResponse(err), options);
           });
       }
@@ -110,37 +109,61 @@ export default function EditPayMeth(props) {
   return (
     <>
       <ToastNotificationContainer />
-      <Tooltip title="Edit">
-        <EditIcon
-          onClick={handleOpen}
-          sx={{
-            m: 1,
-            fontsize: "30px",
-            cursor: "pointer",
-            color: "#0d6efd",
-            position: "relative",
-            left: "10px",
-            transition: ".5s",
-            "&:hover": {
-              color: "black",
-            },
-          }}
-        />
-      </Tooltip>
       <Modal
+        key={paymentMethod?.id}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit User
+            Edit Payment Method
           </Typography>
           <FormFieldData
             fullWidth
             label="Payment Method"
-            value={data.values.payment_name}
-            name="payment_name"
+            value={data.values.name}
+            name="name"
+            onChange={handleChange}
+            errors={data.errors}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Logo"
+            value={data.values.logo}
+            name="logo"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Recipient"
+            value={data.values.recipient}
+            name="recipient"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Number"
+            value={data.values.number}
+            name="number"
+            onChange={handleChange}
+            errors={data.errors}
+            inputProps={{
+              maxLength: 11,
+            }}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            multiline
+            row={4}
+            label="Instructions"
+            value={data.values.special_instructions}
+            name="special_instructions"
             onChange={handleChange}
             errors={data.errors}
             sx={inputStyle}
@@ -151,7 +174,8 @@ export default function EditPayMeth(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(selectedItem.id)}>
+            onClick={() => handleUpdate(paymentMethod.id)}
+          >
             Update
           </Button>
         </Box>

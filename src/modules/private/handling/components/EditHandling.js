@@ -6,11 +6,10 @@ import ToastNotificationContainer from "../../../../components/ToastNotification
 import { Box, Button, Modal, Tooltip, Typography } from "@mui/material";
 import FormFieldData from "../../../../components/FormFieldData";
 import Reevalidate from "ree-validate-18";
-import EditIcon from "@mui/icons-material/Edit";
 
 const validator = new Reevalidate.Validator({
-  handling_name: "required",
-  handling_price: "required|numeric",
+  name: "required",
+  price: "required|numeric",
 });
 
 const style = {
@@ -39,30 +38,27 @@ const inputStyle = {
 };
 
 export default function EditHandling(props) {
-  const { selectedItem, loading, forceUpdate } = props;
+  const { open, onClose, handling, forceUpdate } = props;
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({
     values: {
-      handling_name: "",
-      handling_price: "",
+      name: "",
+      price: "",
     },
     errors: validator.errors,
   });
 
   React.useEffect(() => {
-    if (selectedItem) {
+    if (handling) {
       setData({
         values: {
-          handling_name: selectedItem.handling_name,
-          handling_price: selectedItem.handling_price,
+          name: handling.name,
+          price: handling.price,
         },
       });
     }
-  }, [selectedItem]);
+  }, [handling]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -84,21 +80,15 @@ export default function EditHandling(props) {
   const handleUpdate = () => {
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(
-          `update/handlings/${selectedItem.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          },
-          data.values
-        )
+        Http.put(`update/handlings/${handling.id}`, data.values)
           .then((res) => {
             forceUpdate();
-            handleClose();
+            onClose();
             ToastNotification("success", "Successfully Saved Data", options);
+            setLoading(false);
           })
           .catch((err) => {
+            setLoading(false);
             ToastNotification("error", handleErrorResponse(err), options);
           });
       }
@@ -112,28 +102,13 @@ export default function EditHandling(props) {
   return (
     <>
       <ToastNotificationContainer />
-      <Tooltip title="Edit">
-        <EditIcon
-          onClick={handleOpen}
-          sx={{
-            m: 1,
-            fontsize: "30px",
-            cursor: "pointer",
-            color: "#0d6efd",
-            position: "relative",
-            left: "10px",
-            transition: ".5s",
-            "&:hover": {
-              color: "black",
-            },
-          }}
-        />
-      </Tooltip>
       <Modal
+        key={handling?.id}
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Edit User
@@ -141,9 +116,8 @@ export default function EditHandling(props) {
           <FormFieldData
             fullWidth
             label="Handling"
-            // id="handling_name"
-            value={data.values.handling_name}
-            name="handling_name"
+            value={data.values.name}
+            name="name"
             onChange={handleChange}
             errors={data.errors}
             sx={inputStyle}
@@ -151,9 +125,9 @@ export default function EditHandling(props) {
           <FormFieldData
             fullWidth
             label="Price"
-            // id="handling_price"
-            value={data.values.handling_price}
-            name="handling_price"
+            // id="price"
+            value={data.values.price}
+            name="price"
             onChange={handleChange}
             inputProps={{
               maxLength: 11,
@@ -167,7 +141,8 @@ export default function EditHandling(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(selectedItem.id)}>
+            onClick={() => handleUpdate(handling.id)}
+          >
             Update
           </Button>
         </Box>
