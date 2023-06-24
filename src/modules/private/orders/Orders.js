@@ -29,6 +29,7 @@ const Orders = () => {
     setIsLoading(true);
     Http.get("/orders")
       .then((res) => {
+        console.log("Orders: ", res.data.data);
         if (res.data.data) {
           setOrders(res.data.data);
         }

@@ -33,12 +33,10 @@ function OrderSummary(props) {
       Http.post(
         "/new/orders",
         {
-          body: {
-            personal_details: personal,
-            payment_method: paymentMethod,
-            handling: handling,
-            service: service,
-          },
+          personal_details: personal,
+          payment_method: paymentMethod,
+          handling: handling,
+          service: service,
         },
         {
           headers: {
@@ -48,11 +46,7 @@ function OrderSummary(props) {
         }
       )
         .then((res) => {
-          console.log("New Order Response: ", res);
-
           if (res.data.status === 200) {
-            const notify = () => toast("Thank You for your order!");
-            notify();
             swal("success", "Thank You for your order!!!", "success");
             localStorage.removeItem("handling");
             localStorage.removeItem("service");
