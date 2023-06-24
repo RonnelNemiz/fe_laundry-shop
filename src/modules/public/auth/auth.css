@@ -146,6 +146,7 @@
 /* responsive */
 
 @media screen and (max-width: 768px) {
+    
     .form-container{
     display: flex;
     justify-content: center;

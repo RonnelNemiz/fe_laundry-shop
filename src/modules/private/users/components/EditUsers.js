@@ -24,7 +24,7 @@ const validator = new Reevalidate.Validator({
   brgy: "required",
   municipality: "required",
   contact_number: "required|numeric",
-  role: "required",
+  role_id: "required",
   password: "required|max:8",
 });
 
@@ -66,35 +66,31 @@ export default function EditUsers(props) {
       municipality: "",
       contact_number: "",
       land_mark: "Leyte",
-      role: "",
+      role_id: "",
       image: "",
     },
     errors: validator.errors,
   });
   const handleRole = () => {
-    Http.get("/roles", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then((res) => {
+    Http.get("/roles").then((res) => {
       setRoles(res.data.roles);
     });
   };
 
   React.useEffect(() => {
     handleRole();
-    if (selectedItem.profile) {
+    if (selectedItem?.profile) {
       setData({
         values: {
-          email: selectedItem.email,
-          first_name: selectedItem.profile[0].first_name,
-          last_name: selectedItem.profile[0].last_name,
-          purok: selectedItem.profile[0].purok,
-          brgy: selectedItem.profile[0].brgy,
-          municipality: selectedItem.profile[0].municipality,
-          contact_number: selectedItem.profile[0].contact_number,
-          role: selectedItem.role,
-          image: selectedItem.profile[0].image,
+          email: selectedItem?.email,
+          first_name: selectedItem?.profile[0].first_name,
+          last_name: selectedItem?.profile[0].last_name,
+          purok: selectedItem?.profile[0].purok,
+          brgy: selectedItem?.profile[0].brgy,
+          municipality: selectedItem?.profile[0].municipality,
+          contact_number: selectedItem?.profile[0].contact_number,
+          role_id: selectedItem?.role_id,
+          image: selectedItem?.profile[0].image,
         },
       });
     }
@@ -120,15 +116,7 @@ export default function EditUsers(props) {
   const handleUpdate = () => {
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(
-          `update/user/${selectedItem.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          },
-          data.values
-        )
+        Http.put(`update/user/${selectedItem.id}`, data.values)
           .then((res) => {
             forceUpdate();
             onClose();
@@ -149,11 +137,12 @@ export default function EditUsers(props) {
     <>
       <ToastNotificationContainer />
       <Modal
-        key={selectedItem.id}
+        key={selectedItem?.id}
         open={open}
         onClose={onClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Edit User
@@ -236,16 +225,19 @@ export default function EditUsers(props) {
             <InputLabel id="role-label">Role</InputLabel>
             <Select
               labelId="role-label"
-              name="role"
-              id="role"
+              name="role_id"
+              id="role_id"
               label="Role"
-              value={data.values.role}
+              value={data.values.role_id}
               onChange={handleChange}
-              errors={data.errors}>
+              errors={data.errors}
+            >
               {roles.map((role) => {
                 return (
-                  <MenuItem key={role.id} value={role.name} id="role">
-                    {role.name}
+                  <MenuItem key={role.id} value={role.id} id="role">
+                    {(role.id === 1 && "Admin") ||
+                      (role.id === 2 && "Staff") ||
+                      (role.id === 3 && "Delivery Boy")}
                   </MenuItem>
                 );
               })}
@@ -266,7 +258,8 @@ export default function EditUsers(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(selectedItem.id)}>
+            onClick={() => handleUpdate(selectedItem.id)}
+          >
             Update
           </Button>
         </Box>
