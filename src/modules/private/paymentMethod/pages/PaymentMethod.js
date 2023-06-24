@@ -1,18 +1,12 @@
 import React, { useState, useEffect, useReducer } from "react";
 import {
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Paper,
   CircularProgress,
   IconButton,
   Box,
 } from "@mui/material";
-import AddUsers from "./../components/AddUser";
-import Http from "../../../../../services/Http";
+
 import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
@@ -21,23 +15,24 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
+import AddPayMeth from "./../components/AddPayMeth";
+import Http from "../../../../services/Http";
 
-const Users = () => {
+const PaymentMethod = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [usersData, setUsersData] = useState([]);
+  const [paymentData, setPaymentData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [imageUrls, setImageUrls] = useState({});
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/users", {
+    Http.get("/payments", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     })
       .then((res) => {
-        setUsersData(res.data);
+        setPaymentData(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -47,35 +42,25 @@ const Users = () => {
   }, [ignored]);
 
   const handleUpdate = (values) => {
-    Http.get(`update/users/${values}`, {
+    Http.get(`update/payments/${values}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     }).then();
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/users/${id}`, {
+    Http.delete(`delete/payments/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     }).then();
   };
   const handleShow = (id) => {
-    Http.get(`view/users/${id}`, {
+    Http.get(`view/payments/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
-    })
-      .then((res) => {
-        setSelectedItem(res.data);
-        setImageUrls((prevImageUrls) => ({
-          ...prevImageUrls,
-          [id]: res.data.image_url,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    });
   };
 
   const columns = [
@@ -98,45 +83,14 @@ const Users = () => {
         },
       },
     },
+
     {
-      name: "email",
-      label: "Email",
+      name: "payment method",
+      label: "Payment Method",
       options: {
         filter: true,
         sort: false,
       },
-    },
-    {
-      name: "first name",
-      label: "First name",
-    },
-    {
-      name: "last name",
-      label: "Last name",
-    },
-    {
-      name: "purok",
-      label: "Purok",
-    },
-    {
-      name: "barangay",
-      label: "Barangay",
-    },
-    {
-      name: "municipality",
-      label: "Municipality",
-    },
-    {
-      name: "contact number",
-      label: "Contact Number",
-    },
-    {
-      name: "role",
-      label: "Role",
-    },
-    {
-      name: "image",
-      label: "Image",
     },
   ];
 
@@ -146,12 +100,12 @@ const Users = () => {
     rowsPerPage: 10,
     resizableColumns: resizableColumns,
     customToolbarSelect: () => {
-      return <AddUsers forceUpdate={() => forceUpdate()} />;
+      return <AddPayMeth forceUpdate={() => forceUpdate()} />;
     },
     customToolbar: () => {
       return (
         <>
-          <AddUsers forceUpdate={() => forceUpdate()} />;
+          <AddPayMeth forceUpdate={() => forceUpdate()} />;
         </>
       );
     },
@@ -171,9 +125,8 @@ const Users = () => {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList
                 onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                <Tab label="Users" value="1" />
+                aria-label="lab API tabs example">
+                <Tab label="Payment Method" value="1" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -182,8 +135,8 @@ const Users = () => {
                   <CircularProgress />
                 ) : (
                   <MUIDataTable
-                    title={"Users List"}
-                    data={usersData}
+                    title={"Payment Method List"}
+                    data={paymentData}
                     columns={columns}
                     options={options}
                   />
@@ -197,4 +150,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default PaymentMethod;

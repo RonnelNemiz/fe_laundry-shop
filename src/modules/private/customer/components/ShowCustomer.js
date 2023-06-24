@@ -1,32 +1,99 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import React from 'react';
-import "../../../../assets/css/admin.css";
+import React, { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography,
+  Box,
+  Slide,
+  DialogActions,
+  Button,
+} from "@mui/material";
+import Http from "../../../../services/Http";
 
-const ShowCustomer = ({ showCustomer, onClose }) => {
-  if (!showCustomer) {
-    return <div>...</div>;
-  }
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
+const styles = {
+  close: {
+    textTransform: "unset",
+  },
+};
+
+function ShowCustomer({ open, onClose, customer }) {
   return (
-    <>
-      <Dialog open={true} onClose={onClose}  >
-      <DialogTitle sx={{color:"#1976d2", fontWeight:"500", textAlign:"center"}}>Customer Details</DialogTitle>
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      keepMounted
+      aria-describedby="alert-dialog-slide-description"
+    >
+      <DialogTitle>View Order</DialogTitle>
       <DialogContent>
-      <p><b>Email:</b> {showCustomer.email}</p>
-      <p><b>First Name:</b> {showCustomer.profile && showCustomer.profile[0].first_name}</p>
-      <p><b>Last Name:</b> {showCustomer.profile && showCustomer.profile[0].last_name}</p>
-      <p><b>Purok:</b> {showCustomer.profile && showCustomer.profile[0].purok}</p>
-      <p><b>Barangay:</b> {showCustomer.profile && showCustomer.profile[0].brgy}</p>
-      <p><b>Municipality:</b> {showCustomer.profile && showCustomer.profile[0].municipality}</p>
-      <p><b>Landmark:</b> {showCustomer.profile && showCustomer.profile[0].land_mark}</p>
-      <p><b>Contact Number:</b> {showCustomer.profile && showCustomer.profile[0].contact_number}</p>
+        <Box>
+          <Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Email</Typography>
+              <Typography variant="subtitle1">{customer?.email}</Typography>
+            </Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Customer Name</Typography>
+              <Typography variant="subtitle1">
+                {customer?.profile[0].first_name}{" "}
+                {customer?.profile[0].last_name}
+              </Typography>
+            </Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Address</Typography>
+              <Typography variant="subtitle1">
+                {customer?.profile[0].purok} {customer?.profile[0].brgy}{" "}
+                {customer?.profile[0].municipality}, Leyte
+              </Typography>
+            </Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Landmark</Typography>
+              <Typography variant="subtitle1">
+                {customer?.profile[0].land_mark}
+              </Typography>
+            </Box>
+            <Box
+              sx={{ width: "100%" }}
+              className="d-flex justify-content-between align-items-center"
+            >
+              <Typography variant="subtitle1">Contact No.</Typography>
+              <Typography variant="subtitle1">
+                {customer?.profile[0].contact_number}
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        <Button
+          sx={styles.close}
+          size="small"
+          color="error"
+          variant="contained"
+          onClick={onClose}
+        >
+          Close
+        </Button>
       </DialogActions>
     </Dialog>
-    </>
   );
-};
+}
 
 export default ShowCustomer;

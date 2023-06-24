@@ -1,21 +1,41 @@
 import React, { useEffect, useState, useReducer } from "react";
-import { Paper } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Stack,
+  TableContainer,
+} from "@mui/material";
 import Http from "../../../../services/Http";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import AddCustomers from "../components/AddCustomers";
 import ToastNotification from "../../../../components/ToastNotification";
-import DataTableCustomers from "../components/DataTableCustomers";
+import MUIDataTable from "mui-datatables";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
+import ShowCustomer from "../components/ShowCustomer";
+import EditCustomers from "../components/EditCustomers";
+import TabContext from "@mui/lab/TabContext/TabContext";
+import TabList from "@mui/lab/TabList/TabList";
+import Tab from "@mui/material/Tab";
+import TabPanel from "@mui/lab/TabPanel/TabPanel";
 
 function Customers() {
   const [loading, setLoading] = useState(false);
-  const [customerList, setCustomerList] = useState({
-    data: [],
-    meta: {},
-  });
+  const [loadingOnSubmit, setLoadingOnSubmit] = useState(false);
+  const [customerList, setCustomerList] = useState([]);
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [filters, setFilters] = useState({
-    limit: 25,
-  });
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [isViewOpen, setViewOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
+  // const [filters, setFilters] = useState({
+  //   limit: 25,
+  // });
 
   useEffect(() => {
     fetchingData();
@@ -23,24 +43,70 @@ function Customers() {
 
   const fetchingData = (params = {}) => {
     setLoading(true);
-    Http.get("/all-customers", {
-      params: {
-        ...filters,
-        ...params,
-      },
-    }).then((res) => {
+    Http.get("/all-customers").then((res) => {
       if (res.data.data) {
-        console.log(res.data.data);
-        setCustomerList({
-          data: res.data.data,
-          meta: res.data.meta,
-        });
+        setCustomerList(res.data.data);
       }
       setLoading(false);
     });
   };
 
+  const handleOpenView = (data) => {
+    setSelectedCustomer(data);
+    setViewOpen(true);
+  };
+
+  const onDelete = (data) => {
+    setSelectedCustomer(data);
+    setOpenDelete(true);
+  };
+
+  const onEdit = (data) => {
+    setSelectedCustomer(data);
+    setOpenEdit(true);
+  };
+
   const columns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: (item, tableMeta) => {
+          const customer = customerList[tableMeta.rowIndex];
+
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton
+                aria-label="View"
+                onClick={() => {
+                  handleOpenView(customer);
+                }}
+              >
+                <VisibilityIcon color="primary" />
+              </IconButton>
+              <IconButton
+                aria-label="edit"
+                onClick={() => {
+                  onEdit(customer);
+                }}
+              >
+                <EditIcon color="warning" />
+              </IconButton>
+              <IconButton
+                aria-label="delete"
+                onClick={() => {
+                  onDelete(customer);
+                }}
+              >
+                <DeleteIcon color="error" />
+              </IconButton>
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: true,
+      },
+    },
     {
       name: "email",
       label: "Email",
@@ -48,51 +114,34 @@ function Customers() {
     {
       name: "profile",
       label: "First Name",
-      customBodyRender: (item) => {
-        return item[0] && item[0].first_name;
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].first_name;
+        },
+        filter: true,
+        sort: true,
       },
     },
     {
       name: "profile",
       label: "Last Name",
-      customBodyRender: (item) => {
-        return item[0] && item[0].last_name;
-      },
-    },
-    {
-      name: "profile",
-      label: "Purok",
-      customBodyRender: (item) => {
-        return item[0] && item[0].purok;
-      },
-    },
-    {
-      name: "profile",
-      label: "Barangay",
-      customBodyRender: (item) => {
-        return item[0] && item[0].brgy;
-      },
-    },
-    {
-      name: "profile",
-      label: "Municipality",
-      customBodyRender: (item) => {
-        return item[0] && item[0].municipality;
-      },
-    },
-
-    {
-      name: "profile",
-      label: "Landmark",
-      customBodyRender: (item) => {
-        return item[0] && item[0].land_mark;
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].last_name;
+        },
+        filter: true,
+        sort: true,
       },
     },
     {
       name: "profile",
       label: "Contact Number",
-      customBodyRender: (item) => {
-        return item[0] && item[0].contact_number;
+      options: {
+        customBodyRender: (item) => {
+          return item[0] && item[0].contact_number;
+        },
+        filter: true,
+        sort: true,
       },
     },
     {
@@ -105,7 +154,7 @@ function Customers() {
     },
   ];
 
-  const options = {
+  const tableoptions = {
     position: "top-right",
     autoClose: 3000,
     hideProgressBar: false,
@@ -115,76 +164,93 @@ function Customers() {
     theme: "colored",
   };
 
-  const handleFilterChange = (name, value) => {
-    setFilters((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleChangePage = (newPage) => {
-    fetchingData({ page: newPage + 1 });
-  };
-
-  const handleRowChange = (value) => {
-    fetchingData({ limit: value });
-    handleFilterChange("limit", value);
-  };
-
   const handleUpdate = (values) => {
-    Http.get(`update/user/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+    Http.get(`update/customer/${values}`).then();
   };
 
-  const handleDelete = (values) => {
-    Http.delete(`/delete/user/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+  const handleDelete = () => {
+    setLoadingOnSubmit(true);
+    Http.delete(`/delete/user/${selectedCustomer.id}`)
       .then(
         forceUpdate(),
-        ToastNotification("success", "Successfully Deleted!", options)
+        ToastNotification("success", "Successfully Deleted!", tableoptions),
+        setLoadingOnSubmit(false),
+        setOpenDelete(false)
       )
       .catch((err) => {
-        ToastNotification("error", err, options);
+        setLoadingOnSubmit(false);
+        ToastNotification("error", err, tableoptions);
       });
   };
-
-  const handleShow = (id) => {
-    Http.get(`show/users/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+  const [value, setValue] = React.useState("1");
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
+  const [resizableColumns, setResizableColumns] = useState(false);
+  const options = {
+    filterType: "checkbox",
+    rowsPerPage: 10,
+    resizableColumns: resizableColumns,
+    customToolbarSelect: () => {
+      return <AddCustomers forceUpdate={() => forceUpdate()} />;
+    },
+    customToolbar: () => {
+      return (
+        <>
+          <AddCustomers forceUpdate={() => forceUpdate()} />;
+        </>
+      );
+    },
+  };
   return (
-    <Paper sx={{ width: "100%" }}>
-      <ToastNotificationContainer />
-      <AddCustomers
-        forceUpdate={() => forceUpdate()}
-        data={customerList.data}
-      />
-      <DataTableCustomers
-        withPagination
-        forceUpdate={() => forceUpdate()}
-        onEdit={handleUpdate}
-        onDelete={handleDelete}
-        loading={loading}
-        data={customerList.data}
-        columns={columns}
-        rowsPerPage={filters.limit}
-        count={customerList.meta.total || 0}
-        page={customerList.meta.curent_page - 1 || 0}
-        onChangePage={handleChangePage}
-        onRowsChangePage={handleRowChange}
-        onRowClick={handleShow}
-      />
-    </Paper>
+    <>
+      <Box sx={{ width: "100%", typography: "body1" }}>
+        <ToastNotificationContainer />
+        {/* <AddCustomers forceUpdate={() => forceUpdate()} data={customerList} /> */}
+        <TabContext value={value}>
+          <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+            <TabList onChange={handleChange} aria-label="lab API tabs example">
+              <Tab label="Customer" value="1" />
+            </TabList>
+          </Box>
+          <TabPanel value="1">
+            <TableContainer component={Paper}>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <MUIDataTable
+                  title={"Customer List"}
+                  data={customerList}
+                  columns={columns}
+                  options={options}
+                />
+              )}
+            </TableContainer>
+          </TabPanel>
+        </TabContext>
+
+        <ShowCustomer
+          open={isViewOpen}
+          onClose={() => setViewOpen(false)}
+          customer={selectedCustomer}
+        />
+        <EditCustomers
+          open={openEdit}
+          selectedItem={selectedCustomer}
+          onEdit={handleUpdate}
+          onClose={() => setOpenEdit(false)}
+          forceUpdate={forceUpdate}
+        />
+        <ConfirmationDialog
+          open={openDelete}
+          onClose={() => setOpenDelete(false)}
+          onConfirm={handleDelete}
+          loading={loadingOnSubmit}
+          message=" Are you sure? If deleted you will not able to recover the data."
+        />
+      </Box>
+    </>
   );
 }
 

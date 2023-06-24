@@ -6,11 +6,18 @@ import { Link, useHistory } from "react-router-dom";
 import logo1 from "./../../../assets/images/labanderas.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./auth.css";
+import { FormHelperText } from "@mui/material";
+
+const checkNumber = (value) => {
+  const regex = /^09\d{9}$/;
+  return regex.test(value);
+};
 
 function Register() {
   const history = useHistory();
   const [visible, setVisible] = useState(true);
 
+  const [numError, setNumError] = useState(null);
   const [registerInput, setRegister] = useState({
     first_name: "",
     last_name: "",
@@ -26,7 +33,18 @@ function Register() {
   });
   const handleInput = (e) => {
     const { name, value } = e.target;
-    setRegister((prev) => ({ ...prev, [name]: value }));
+    setRegister((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (name === "contact_number") {
+      if (checkNumber(value)) {
+        setNumError(null);
+      } else {
+        setNumError("Number is not valid!");
+      }
+    }
   };
 
   const registerSubmit = (e) => {
@@ -177,6 +195,9 @@ function Register() {
                         required
                       />
                       <label className="labelLabel sizeLabel">Contact</label>
+                      {numError && (
+                        <FormHelperText error>{numError}</FormHelperText>
+                      )}
                       {/* <span>{loginInput.error_list.email}</span> */}
                     </div>
                   </div>
@@ -222,6 +243,8 @@ function Register() {
                       className="inputInput sizeLabel"
                       onChange={handleInput}
                       value={registerInput.password}
+                      minLength={8}
+                      maxLength={20}
                       required
                     />
 

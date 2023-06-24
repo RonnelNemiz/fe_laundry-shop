@@ -15,24 +15,24 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import AddPayMeth from "./../components/AddPayMeth";
-import Http from "../../../../../services/Http";
+import AddHandling from "../components/AddHandling";
+import Http from "../../../../services/Http";
 
-const PaymentMethod = () => {
+const Handlings = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
-  const [paymentData, setPaymentData] = useState([]);
+  const [handlingData, setHandlingData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     setIsLoading(true);
-    Http.get("/payments", {
+    Http.get("/handling", {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     })
       .then((res) => {
-        setPaymentData(res.data);
+        setHandlingData(res.data);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -42,21 +42,21 @@ const PaymentMethod = () => {
   }, [ignored]);
 
   const handleUpdate = (values) => {
-    Http.get(`update/payments/${values}`, {
+    Http.get(`update/handling/${values}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     }).then();
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/payments/${id}`, {
+    Http.delete(`delete/handling/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     }).then();
   };
   const handleShow = (id) => {
-    Http.get(`view/payments/${id}`, {
+    Http.get(`view/handling/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
@@ -85,12 +85,16 @@ const PaymentMethod = () => {
     },
 
     {
-      name: "payment method",
-      label: "Payment Method",
+      name: "handling price",
+      label: "Handling Price",
       options: {
         filter: true,
         sort: false,
       },
+    },
+    {
+      name: "handling name",
+      label: "Handling Name",
     },
   ];
 
@@ -100,12 +104,12 @@ const PaymentMethod = () => {
     rowsPerPage: 10,
     resizableColumns: resizableColumns,
     customToolbarSelect: () => {
-      return <AddPayMeth forceUpdate={() => forceUpdate()} />;
+      return <AddHandling forceUpdate={() => forceUpdate()} />;
     },
     customToolbar: () => {
       return (
         <>
-          <AddPayMeth forceUpdate={() => forceUpdate()} />;
+          <AddHandling forceUpdate={() => forceUpdate()} />;
         </>
       );
     },
@@ -126,7 +130,7 @@ const PaymentMethod = () => {
               <TabList
                 onChange={handleChange}
                 aria-label="lab API tabs example">
-                <Tab label="Payment Method" value="1" />
+                <Tab label="Handling" value="1" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -135,8 +139,8 @@ const PaymentMethod = () => {
                   <CircularProgress />
                 ) : (
                   <MUIDataTable
-                    title={"Payment Method List"}
-                    data={paymentData}
+                    title={"Handling List"}
+                    data={handlingData}
                     columns={columns}
                     options={options}
                   />
@@ -150,4 +154,4 @@ const PaymentMethod = () => {
   );
 };
 
-export default PaymentMethod;
+export default Handlings;

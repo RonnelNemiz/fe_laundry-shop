@@ -37,12 +37,7 @@ const routes = [
     auth: true,
     role: "Admin, Staff, Delivery Boy",
   },
-  {
-    path: "/sms",
-    component: "modules/private/sms/SMS",
-    auth: true,
-    role: "Admin, Staff",
-  },
+
   {
     path: "/reviews",
     component: "modules/private/reviews/page/Reviews",
@@ -98,27 +93,32 @@ const routes = [
     role: "Admin",
   },
   {
-    path: "/admin/services",
-    component: "modules/private/settings/services/Services",
+    path: "/admin/users",
+    component: "modules/private/users/pages/Users",
     auth: true,
     role: "Admin",
   },
   {
-    path: "/admin/users",
-    component: "modules/private/settings/users/pages/Users",
+    path: "/admin/services",
+    component: "modules/private/dashServices/pages/Services",
     auth: true,
     role: "Admin",
-
   },
   {
     path: "/admin/handling",
-    component: "modules/private/settings/handling/Handling",
+    component: "modules/private/handling/pages/Handling",
     auth: true,
     role: "Admin",
   },
   {
     path: "/admin/paymentMethod",
-    component: "modules/private/settings/paymentMethod/PaymentMethod",
+    component: "modules/private/paymentMethod/pages/PaymentMethod",
+    auth: true,
+    role: "Admin",
+  },
+  {
+    path: "/admin/consumables",
+    component: "modules/private/consumables/pages/Consumables",
     auth: true,
     role: "Admin",
   },

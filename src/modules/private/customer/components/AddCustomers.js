@@ -67,7 +67,7 @@ export default function AddCustomers(props) {
     municipality: "",
     contact_number: "",
     land_mark: "",
-    role: "Customer",
+    role_id: 4,
     password: "",
   });
   const [open, setOpen] = React.useState(false);
@@ -99,7 +99,7 @@ export default function AddCustomers(props) {
         municipality: "",
         contact_number: "",
         land_mark: "",
-        role: "Customer",
+        role_id: 4,
         password: "",
       });
     }
