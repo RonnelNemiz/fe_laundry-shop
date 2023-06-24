@@ -22,6 +22,7 @@ function OrderStatus() {
 
   const paymentStatus = ["Unpaid", "Paid"];
   const handlingStatus = [
+    "Not Yet Ready",
     "For Pickup",
     "Rider on Pickup",
     "Ready for Pickup",

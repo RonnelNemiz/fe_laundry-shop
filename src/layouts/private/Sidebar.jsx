@@ -77,7 +77,7 @@ function Sidebar() {
     },
 
     {
-      path: "/settings",
+      path: "/admin/settings",
       label: "Settings",
       icon: <SettingsIcon />,
     },

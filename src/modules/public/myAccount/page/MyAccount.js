@@ -10,15 +10,16 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Http from "../../../../services/Http";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import InsertCommentIcon from "@mui/icons-material/InsertComment";
-import DeleteHistory from "../components/DeleteHistory";
 import ShowHistory from "../components/ShowHistory";
-import { NavLink } from "react-router-dom";
 import UpdateProfile from "../components/UpdateProfile";
 import CommentModal from "../components/CreateModal";
+import Navbar from "./../../../../layouts/public/Navbar";
+import MUIDataTable from "mui-datatables";
+import Stack from "@mui/material/Stack";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { IconButton, LinearProgress } from "@mui/material";
+import ViewIcon from "@mui/icons-material/Visibility";
 
 const styleLink = {
   color: "red",
@@ -33,14 +34,15 @@ const styleBox1 = {
   paddingLeft: "20px",
 };
 const accountStyle = {
-  padding: "50px",
+  padding: "10px 50px",
 };
 
 const profileBoxStyle = {
   display: "flex",
   flexDirection: "column",
-  alignItems: "center",
+  alignItems: "start",
   fontSize: "20px",
+  padding: "0 50px",
 };
 
 const tableContainerStyle = {
@@ -58,6 +60,7 @@ function MyAccount() {
   const [showCommendModal, setShowCommendModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
+  const [isLoading, setIsLoading] = useState();
 
   React.useEffect(() => {
     handleFetchCustomer();
@@ -84,14 +87,12 @@ function MyAccount() {
   }, [ignored]);
 
   const handleFetchCustomerHistory = () => {
-    Http.get("history", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    setIsLoading(true);
+    Http.get("history")
       .then((res) => {
         if (res.data.status === 200) {
           setCustomerHistory(res.data.orders);
+          setIsLoading(false);
         }
       })
       .catch((error) => {
@@ -135,27 +136,141 @@ function MyAccount() {
     setShowCommendModal(true);
   };
 
+  const columns = [
+    {
+      name: "actions",
+      label: "Actions",
+      options: {
+        customBodyRender: () => {
+          return (
+            <Stack direction="row" spacing={1}>
+              <IconButton aria-label="view" onClick={""} color="primary">
+                <ViewIcon />
+              </IconButton>
+            </Stack>
+          );
+        },
+        filter: true,
+        sort: true,
+      },
+    },
+    {
+      name: "trans_number",
+      label: "Transaction No",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "service.name",
+      label: "Service",
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          const orderIndex = tableMeta.rowIndex;
+          const order = customerHistory[orderIndex];
+          return order.service.name;
+        },
+      },
+    },
+    {
+      name: "handling.name",
+      label: "Handling",
+      options: {
+        filter: true,
+        sort: false,
+        customBodyRender: (value, tableMeta) => {
+          const orderIndex = tableMeta.rowIndex;
+          const order = customerHistory[orderIndex];
+          return order.handling.name;
+        },
+      },
+    },
+    {
+      name: "created_at",
+      label: "Order Date",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+  ];
+
+  const options = {
+    filterType: "checkbox",
+    selectableRows: "none",
+  };
+
+  const getMuiTheme = () =>
+    createTheme({
+      components: {
+        MuiTableCell: {
+          styleOverrides: {
+            root: {
+              padding: 5,
+            },
+            head: {
+              fontWeight: "bold",
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MuiTableHead: {
+          styleOverrides: {
+            root: {
+              backgroundColor: "#0d6efd",
+            },
+          },
+        },
+        MUIDataTableHeadCell: {
+          styleOverrides: {
+            data: {
+              fontWeight: "bold",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              padding: 0,
+            },
+          },
+        },
+        MUIDataTableToolbar: {
+          styleOverrides: {
+            actions: {
+              marginTop: "15px",
+              display: "flex",
+              justifyContent: "end",
+              alignItems: "center",
+            },
+          },
+        },
+        MuiIconButton: {
+          styleOverrides: {
+            root: {
+              margin: "0 5px",
+            },
+          },
+        },
+      },
+    });
   return (
     <Box>
-      <div style={styleBox1}>
-        <NavLink to="/home" style={styleLink}>
-          Home
-        </NavLink>
-        <ArrowForwardIosIcon sx={{ fontSize: "1em" }} />
-        <Typography>Your Account</Typography>
-      </div>
+      <Navbar />
       <Box sx={accountStyle}>
-        <h2>Your Account</h2>
-        <Typography>Your Profile</Typography>
+        <h2>Hi {customerAccount?.profile[0].first_name}!</h2>
+        <Typography>
+          {customerAccount?.profile[0].first_name}{" "}
+          {customerAccount?.profile[0].last_name}
+        </Typography>
       </Box>
 
       <Box sx={profileBoxStyle}>
         {customerAccount?.profile.map((profile) => (
           <p key={profile.user_id}>
-            <span style={{ textAlign: "center" }}>
-              Name: {profile.first_name}
-            </span>
-            <br />
             <span style={{ textAlign: "center" }}>
               Email: {customerAccount?.email}
             </span>
@@ -175,74 +290,16 @@ function MyAccount() {
       </Box>
 
       <Box sx={orderStyle}>
-        <Typography>Your Orders</Typography>
-        <TableContainer sx={tableContainerStyle}>
-          <Table>
-            <TableHead
-              sx={{
-                "& th": {
-                  color: "white",
-                  backgroundColor: "#0E4C91",
-                },
-              }}
-            >
-              <TableRow>
-                <TableCell size="small">Actions</TableCell>
-                <TableCell size="small">Transaction#</TableCell>
-                <TableCell size="small">Date</TableCell>
-                <TableCell size="small">Payment Method</TableCell>
-                <TableCell size="small">Total</TableCell>
-                <TableCell size="small">Status</TableCell>
-                <TableCell size="small">Payment Status</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customerHistory?.map((order) => (
-                <TableRow key={order.id}>
-                  <TableCell
-                    size="small"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      height: "10vh",
-                    }}
-                  >
-                    {(order.status.includes("completed") ||
-                      order.status.includes("paid")) && (
-                      <Tooltip title="Insert Comment">
-                        <InsertCommentIcon
-                          onClick={() => handleShowInsertComment(order)}
-                          style={{ cursor: "pointer", color: "gray" }}
-                        />
-                      </Tooltip>
-                    )}
-                    <Tooltip title="View">
-                      <VisibilityIcon
-                        onClick={() => handleShow(order)}
-                        style={{ cursor: "pointer", color: "gray" }}
-                      />
-                    </Tooltip>
-                    <Tooltip title="Delete">
-                      <DeleteHistory
-                        selectedItem={order}
-                        onDelete={handleDelete}
-                        forceUpdate={() => forceUpdate()}
-                      />
-                    </Tooltip>
-                  </TableCell>
-                  <TableCell size="small">{order.trans_number}</TableCell>
-                  <TableCell size="small">{order.created_at}</TableCell>
-                  <TableCell size="small">
-                    {order.payment.payment_name}{" "}
-                  </TableCell>
-                  <TableCell size="small">{order.total}</TableCell>
-                  <TableCell size="small">{order.status}</TableCell>
-                  <TableCell size="small">{order.payment_status}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <ThemeProvider theme={getMuiTheme()}>
+          <MUIDataTable
+            title={"Your Order History"}
+            data={customerHistory}
+            columns={columns}
+            options={options}
+          />
+          {isLoading && <LinearProgress />}
+        </ThemeProvider>
+        {isLoading && <LinearProgress />}
         {showOrder && (
           <ShowHistory
             sx={{ maxWidth: "500px" }}
