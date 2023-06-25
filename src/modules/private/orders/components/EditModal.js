@@ -169,7 +169,7 @@ export default function EditModal(props) {
   useEffect(() => {
     if (open) {
       fetchOrderDetail();
-      fetchConsumables();
+      // fetchConsumables();
     }
   }, [open]);
 
@@ -445,17 +445,17 @@ export default function EditModal(props) {
       });
   };
 
-  const fetchConsumables = () => {
-    Http.get("/consumables")
-      .then((res) => {
-        if (res.data) {
-          setComsumables(res.data);
-        }
-      })
-      .then((err) => {
-        console.log(err.message);
-      });
-  };
+  // const fetchConsumables = () => {
+  //   Http.get("/consumables")
+  //     .then((res) => {
+  //       if (res.data) {
+  //         setComsumables(res.data);
+  //       }
+  //     })
+  //     .then((err) => {
+  //       console.log(err.message);
+  //     });
+  // };
 
   const handleUpdateDetails = () => {
     setLoading(true);
@@ -739,38 +739,34 @@ export default function EditModal(props) {
 
                 <Divider className="mt-3" />
                 <main className="mt-3">
-                  {orderDetails.consumables?.length <= 0 && (
+                  {/* {orderDetails.consumables?.length <= 0 && (
                     <Box>
                       <Typography>No Item</Typography>
                     </Box>
-                  )}
+                  )} */}
                   <section className="card">
                     <div className="card-header bg-primary bg-gradient text-light">
                       <h3 className="m-0">CONSUMABLES</h3>
                       {/* {loading && <LinearProgress />} */}
                     </div>
-                    {orderDetails.consumables?.length > 0 && (
-                      <div className="card-body">
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Amount</th>
-                              <th scope="col">Item</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {consumables?.map((consumable, i) => (
-                              <tr key={i}>
-                                <th scope="row" style={tableStyle}>
-                                  {consumable.price}
-                                </th>
-                                <td>{consumable.name}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
+                    <div className="card-body">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Item</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row" style={tableStyle}>
+                              500
+                            </th>
+                            <td>Consumables: Downy</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </section>
 
                   <div className="card-footer">
@@ -824,7 +820,7 @@ export default function EditModal(props) {
           <AddConsumables
             open={openConsumables}
             onClose={() => setOpenConsumables(false)}
-            consumables={consumables}
+            // consumables={consumables}
             order={order}
           />
         </DialogContent>
