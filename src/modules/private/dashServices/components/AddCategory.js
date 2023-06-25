@@ -1,10 +1,24 @@
 import * as React from "react";
-import { Http } from "../../../../services/Http";
+import Http from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
-import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Modal,
+  Typography,
+} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import FormFieldData from "../../../../components/FormFieldData";
+import SelectDropdown from "../../../../components/SelectDropdown";
+import ReeValidate from "ree-validate-18";
+
+const validator = new ReeValidate.Validator({
+  category: "required",
+  service: "required",
+});
 
 const style = {
   position: "absolute",
@@ -32,57 +46,77 @@ const options = {
 };
 
 export default function AddCategory(props) {
-  const { forceUpdate } = props;
+  const { forceUpdate, services } = props;
+
+  const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
-    service_name: "",
-    service_price: "",
-    description: "",
-    image: "",
+    values: {
+      category: "",
+      service: "",
+    },
+    errors: validator.errors,
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const handleChange = (e) => {
-    const newData = { ...formValues };
-    newData[e.target.name] = e.target.value;
-    setFormValues(newData);
+    const { name, value } = e.target;
+
+    setFormValues((prev) => ({
+      ...prev,
+      values: {
+        ...prev.values,
+        [name]: value,
+      },
+    }));
+
+    const { errors } = props;
+
+    validator.validate(name, value).then((success) => {
+      if (!success) {
+        setFormValues((prev) => ({
+          ...prev,
+          errors: errors,
+        }));
+      }
+    });
   };
 
-  React.useEffect(() => {
-    if (open) {
-      setFormValues({
-        service_name: "",
-        service_price: "",
-        description: "",
-        image: "",
-      });
-    }
-  }, [open]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    Http.post(
-      "/add/services",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
+  const handleSubmit = () => {
+    setLoading(true);
+    Http.post("/add/categories", formValues.values, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
-      formValues
-    )
+    })
       .then((res) => {
         if (res.data.status === 200) {
+          ToastNotification("success", "Successfully Saved Data!", options);
           forceUpdate();
           handleClose();
-          ToastNotification("success", "Successfully Saved Data!", options);
         } else {
           ToastNotification("error", res.data.message, options);
         }
+        setLoading(false);
       })
       .catch((err) => {
+        setLoading(false);
         ToastNotification("error", err.message, options);
       });
+  };
+
+  const handleValidate = () => {
+    validator.validateAll(formValues.values).then((success) => {
+      if (success) {
+        handleSubmit();
+      } else {
+        setFormValues((prev) => ({
+          ...prev,
+          errors: validator.errors,
+        }));
+      }
+    });
   };
 
   return (
@@ -107,55 +141,49 @@ export default function AddCategory(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Services
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ mb: 1 }}
+          >
+            Add Category
           </Typography>
-          <FormFieldData
-            fullWidth
-            label="Service"
-            id="service_name"
-            value={formValues.service_name}
-            name="service_name"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Price"
-            type="number"
-            id="service_price"
-            value={formValues.service_price}
-            name="service_price"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Description"
-            id="description"
-            value={formValues.description}
-            name="description"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Image"
-            id="image"
-            value={formValues.image}
-            name="image"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-
+          <Box component="form">
+            <FormFieldData
+              required
+              fullWidth
+              label="Category"
+              id="category"
+              value={formValues.values.category}
+              name="category"
+              onChange={handleChange}
+              errors={formValues.errors}
+              sx={inputStyle}
+            />
+            <SelectDropdown
+              sx={{ mb: 1 }}
+              fullWidth
+              label="Service"
+              name="service"
+              categories={services && services}
+              value={formValues.values.service}
+              onChange={handleChange}
+              errors={formValues.errors}
+              required
+            />
+          </Box>
           <Button
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}>
-            Submit
+            onClick={handleValidate}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : "Submit"}
           </Button>
         </Box>
       </Modal>

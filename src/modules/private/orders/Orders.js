@@ -29,14 +29,13 @@ const Orders = () => {
     setIsLoading(true);
     Http.get("/orders")
       .then((res) => {
-        console.log("Orders: ", res.data.data);
         if (res.data.data) {
           setOrders(res.data.data);
         }
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
         setIsLoading(false);
       });
   };
@@ -131,11 +130,31 @@ const Orders = () => {
       label: "Order Status",
       options: {
         customBodyRender: (value) => {
+          let color = "";
+
+          switch (value) {
+            case "1":
+              color = "error";
+              break;
+            case "2":
+              color = "primary";
+              break;
+            case "3":
+              color = "secondary";
+              break;
+            case "4":
+              color = "warning";
+              break;
+            default:
+              color = "primary";
+              break;
+          }
+
           return (
             <Stack direction="row" spacing={1}>
               <Chip
                 label={value}
-                color={value == "Paid" ? "success" : "error"}
+                color={color}
                 size="small"
                 variant="outlined"
               />
@@ -151,11 +170,22 @@ const Orders = () => {
       label: "Payment Status",
       options: {
         customBodyRender: (value) => {
+          let color = "";
+
+          switch (value) {
+            case "1":
+              color = "error";
+              break;
+            default:
+              color = "primary";
+              break;
+          }
+
           return (
             <Stack direction="row" spacing={1}>
               <Chip
                 label={value}
-                color={value == "Paid" ? "success" : "error"}
+                color={color}
                 size="small"
                 variant="outlined"
               />
@@ -171,35 +201,37 @@ const Orders = () => {
       label: "Handling Status",
       options: {
         customBodyRender: (value) => {
-          const status = () => {
-            let statusName = "";
+          let statusName = "";
+          let color = "";
 
-            switch (value) {
-              case "1":
-                statusName = "Ready for Pickup";
-                break;
-              case "2":
-                statusName = "Ready for Delivery";
-                break;
-              case "3":
-                statusName = "Rider on Pickup";
-                break;
-              case "4":
-                statusName = "Rider on Delivery";
-                break;
-              default:
-                statusName = "Not yet ready";
-                break;
-            }
-
-            return statusName;
-          };
+          switch (value) {
+            case "1":
+              statusName = "Ready for Pickup";
+              color = "primary";
+              break;
+            case "2":
+              statusName = "Ready for Delivery";
+              color = "primary";
+              break;
+            case "3":
+              statusName = "Rider on Pickup";
+              color = "primary";
+              break;
+            case "4":
+              statusName = "Rider on Delivery";
+              color = "primary";
+              break;
+            default:
+              statusName = "Not yet ready";
+              color = "error";
+              break;
+          }
 
           return (
             <Stack direction="row" spacing={1}>
               <Chip
-                label={status()}
-                color={value == 0 ? "error" : "success"}
+                label={statusName}
+                color={color}
                 size="small"
                 variant="outlined"
               />

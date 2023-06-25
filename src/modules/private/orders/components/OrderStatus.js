@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Http from "../../../../services/Http";
 import {
+  CircularProgress,
   Divider,
   FormControl,
   MenuItem,
@@ -10,41 +11,76 @@ import {
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { InputLabel } from "@mui/material";
+import ToastNotification from "../../../../components/ToastNotification";
 
-const styles = {
-  //   input: {
-  //     width: "5px",
-  //   },
+const options = {
+  position: "top-right",
+  autoClose: 3000,
+  hideProgressBar: false,
+  draggable: true,
+  draggableDirection: 60,
+  theme: "colored",
 };
 
-function OrderStatus() {
-  const [categoryList, setCategoryList] = useState([]);
+const paymentStatus = ["Unpaid", "Paid"];
+const handlingStatus = [
+  "For Pickup",
+  "Rider on Pickup",
+  "Ready for Pickup",
+  "Rider on Delivery",
+  "Ready for Delivery",
+];
+const orderStatus = [
+  "Pending",
+  "In Progress",
+  "Waiting for Payment",
+  "Completed",
+  "Cancelled",
+];
 
-  const paymentStatus = ["Unpaid", "Paid"];
-  const handlingStatus = [
-    "Not Yet Ready",
-    "For Pickup",
-    "Rider on Pickup",
-    "Ready for Pickup",
-    "Rider on Delivery",
-    "Ready for Delivery",
-  ];
-  const orderStatus = [
-    "Pending",
-    "In Progress",
-    "Waiting for Payment",
-    "Completed",
-    "Cancelled",
-  ];
-  const handleChange = (event) => {};
+function OrderStatus({ order, onClose }) {
+  const [loadingOnSubmit, setLoadingOnSubmit] = React.useState(false);
+  const [categoryList, setCategoryList] = useState([]);
+  const [status, setStatus] = React.useState({
+    name: "",
+    value: "",
+  });
+
   useEffect(() => {
     Http.get("/category-list").then((res) => {
       if (res.data) {
         setCategoryList(res.data);
-        console.log(res.data);
       }
     });
   }, []);
+
+  const handleChange = (value, name) => {
+    setStatus((prev) => ({
+      ...prev,
+      name: name,
+      value: value,
+    }));
+  };
+
+  const handleSubmit = () => {
+    setLoadingOnSubmit(true);
+    Http.post(`/update/status/${order.id}`, status)
+      .then((res) => {
+        if (res.data.status === 200) {
+          ToastNotification("success", res.data.message, options);
+          onClose();
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+        setLoadingOnSubmit(false);
+      })
+      .catch((err) => {
+        setLoadingOnSubmit(false);
+        ToastNotification("error", err.message, options);
+      });
+  };
+
+  console.log(status);
 
   return (
     <div className="card">
@@ -55,8 +91,12 @@ function OrderStatus() {
           className="flex-fill"
         >
           <InputLabel>Payment Status</InputLabel>
-          <Select value={paymentStatus} onChange={handleChange} label="Status">
-            {paymentStatus.map((item, index) => (
+          <Select
+            value={status.value}
+            onChange={(e) => handleChange(e.target.value, "payment")}
+            label="Status"
+          >
+            {paymentStatus?.map((item, index) => (
               <MenuItem value={item} key={index}>
                 {item}
               </MenuItem>
@@ -69,8 +109,12 @@ function OrderStatus() {
           className="flex-fill"
         >
           <InputLabel>Handling Status</InputLabel>
-          <Select value={paymentStatus} onChange={handleChange} label="Status">
-            {handlingStatus.map((item, index) => (
+          <Select
+            value={status.value}
+            onChange={(e) => handleChange(e.target.value, "handling")}
+            label="Status"
+          >
+            {handlingStatus?.map((item, index) => (
               <MenuItem value={item} key={index}>
                 {item}
               </MenuItem>
@@ -83,8 +127,12 @@ function OrderStatus() {
           className="flex-fill"
         >
           <InputLabel>Order Status</InputLabel>
-          <Select value={paymentStatus} onChange={handleChange} label="Status">
-            {orderStatus.map((item, index) => (
+          <Select
+            value={status.value}
+            onChange={(e) => handleChange(e.target.value, "order")}
+            label="Status"
+          >
+            {orderStatus?.map((item, index) => (
               <MenuItem value={item} key={index}>
                 {item}
               </MenuItem>
@@ -97,10 +145,11 @@ function OrderStatus() {
         size="small"
         color="primary"
         variant="contained"
-        onClick=""
         style={{ padding: "5px 50px" }}
+        onClick={handleSubmit}
+        disabled={loadingOnSubmit}
       >
-        Pay
+        {loadingOnSubmit ? <CircularProgress size={24} /> : "Submit"}
       </Button>
     </div>
   );
