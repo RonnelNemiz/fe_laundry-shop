@@ -110,7 +110,8 @@ function Home() {
                         {description1.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore1}>
+                            onClick={toggleShowMore1}
+                          >
                             {showMore1 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -134,7 +135,8 @@ function Home() {
                         {description2.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore2}>
+                            onClick={toggleShowMore2}
+                          >
                             {showMore2 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -158,7 +160,8 @@ function Home() {
                         {description3.length > 100 && (
                           <button
                             className="toggleButtonSeeMore"
-                            onClick={toggleShowMore3}>
+                            onClick={toggleShowMore3}
+                          >
                             {showMore3 ? "See less" : "See more..."}
                           </button>
                         )}
@@ -204,7 +207,8 @@ function Home() {
                     <button
                       id="icon-btn"
                       type="button"
-                      className="btn btn-primary rounded-circle">
+                      className="btn btn-primary rounded-circle"
+                    >
                       <FontAwesomeIcon icon="fa-brands fa-edge" />
                     </button>
                   </div>
@@ -221,7 +225,8 @@ function Home() {
                     <button
                       id="icon-btn"
                       type="button"
-                      className="btn btn-primary rounded-circle">
+                      className="btn btn-primary rounded-circle"
+                    >
                       <FontAwesomeIcon icon="fa-solid fa-hand-holding-dollar" />
                     </button>
                   </div>
@@ -239,7 +244,8 @@ function Home() {
                     <button
                       id="icon-btn"
                       type="button"
-                      className="btn btn-primary rounded-circle">
+                      className="btn btn-primary rounded-circle"
+                    >
                       <FontAwesomeIcon icon="fa-solid fa-mobile" />
                     </button>
                   </div>
@@ -256,7 +262,8 @@ function Home() {
                     <button
                       id="icon-btn"
                       type="button"
-                      className="btn btn-primary rounded-circle">
+                      className="btn btn-primary rounded-circle"
+                    >
                       <FontAwesomeIcon icon="fa-solid fa-check" />
                     </button>
                   </div>
@@ -274,7 +281,8 @@ function Home() {
                     <button
                       id="icon-btn"
                       type="button"
-                      className="btn btn-primary rounded-circle">
+                      className="btn btn-primary rounded-circle"
+                    >
                       <FontAwesomeIcon icon="fa-solid fa-truck" />
                     </button>
                   </div>
@@ -291,7 +299,8 @@ function Home() {
                     <button
                       id="icon-btn"
                       type="button"
-                      className="btn btn-primary rounded-circle">
+                      className="btn btn-primary rounded-circle"
+                    >
                       <FontAwesomeIcon icon="fa-solid fa-comment-sms" />
                     </button>
                   </div>
@@ -317,7 +326,8 @@ function Home() {
               </div>
               <div
                 className="sec-p col-md-4 secondBox-sec4"
-                style={{ textAlign: "center" }}>
+                style={{ textAlign: "center" }}
+              >
                 <h5>We Offer the Best Quality of Clothes.</h5>
                 <p>
                   With us we'll make sure that you will be satisfied with our
@@ -334,121 +344,6 @@ function Home() {
             </div>
           </div>
         </section>
-
-        {/* stat */}
-
-        <div className="testimonials border-top">
-          <div className="inner" id="ehsulod">
-            <h1>Customer Reviews</h1>
-            <div className="border"></div>
-            {/* <div id="testimonial-carousel" className="rowls row"> */}
-            <Carousel>
-              <Carousel.Item interval={1500}>
-                <div className="col carousel-colCol">
-                  <div className="testimonial">
-                    <img src={aiza} alt="images" />
-                    <div className="name" style={nameStyle}>
-                      Maria Aiza Butar
-                    </div>
-                    <div className="stars">
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                    </div>
-
-                    <p className="carousel-parah">
-                      "I recently started using a laundry service, and it has
-                      been a game-changer. They pick up my laundry from my
-                      doorstep and deliver it back to me clean and neatly
-                      folded.It has saved me so much time and effort, and I
-                      highly recommend their convenient and professional
-                      service."{" "}
-                    </p>
-                  </div>
-                </div>
-              </Carousel.Item>
-
-              <Carousel.Item interval={1500}>
-                <div className="col carousel-colCol">
-                  <div className="testimonial">
-                    <img src={karen} alt="images" />
-                    <div className="name" style={nameStyle}>
-                      Karen Mae Lina
-                    </div>
-                    <div className="stars">
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                    </div>
-
-                    <p className="carousel-parah">
-                      "I had a positive experience at a full-service laundry.
-                      The staff was friendly and efficient, and they took care
-                      of my laundry from start to finish. They sorted, washed,
-                      dried, and neatly folded my clothes. The turnaround time
-                      was quick, and my clothes looked great."
-                    </p>
-                  </div>
-                </div>
-              </Carousel.Item>
-              <Carousel.Item interval={1500}>
-                <div className="col carousel-colCol">
-                  <div className="testimonial">
-                    <img src={flores} alt="images" />
-                    <div className="name" style={nameStyle}>
-                      Anabella Flores
-                    </div>
-                    <div className="stars">
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                    </div>
-
-                    <p className="carousel-parah">
-                      The facility was clean and well-maintained, with plenty of
-                      washers and dryers available. The staff was friendly and
-                      helpful, and the machines worked efficiently. It made my
-                      laundry day a breeze, and I'll definitely be going back!"
-                    </p>
-                  </div>
-                </div>
-              </Carousel.Item>
-              <Carousel.Item interval={1500}>
-                <div className="col carousel-colCol">
-                  <div className="testimonial">
-                    <img src={nemiz} alt="images" />
-                    <div className="name" style={nameStyle}>
-                      Ronnel Nemiz
-                    </div>
-                    <div className="stars">
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                      <i className="fas fa-star"></i>
-                    </div>
-
-                    <p className="carousel-parah">
-                      "I had a fantastic laundry experience at a nearby
-                      laundromat. The facility was clean, the machines were in
-                      great condition, and the staff was friendly. I was able to
-                      complete my laundry quickly and efficiently, and I left
-                      with fresh, clean clothes. Highly recommended!"
-                    </p>
-                  </div>
-                </div>
-              </Carousel.Item>
-            </Carousel>
-          </div>
-        </div>
-
-        {/* end */}
       </div>
       <Footer />
     </div>

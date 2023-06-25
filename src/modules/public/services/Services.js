@@ -178,9 +178,6 @@ function Services() {
             </div>
           </div>
         </section>
-        <div className=" bg-light border-top " style={reviewCon}>
-          <Review />
-        </div>
       </div>
       <Footer />
     </div>
