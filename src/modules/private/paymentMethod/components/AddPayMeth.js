@@ -1,89 +1,62 @@
-import * as React from "react";
-import { Http } from "../../../../services/Http";
+import React, { useState } from "react";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Box,
+} from "@mui/material";
+import Http from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
-import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
-import { Box, Button, Modal, Typography } from "@mui/material";
-import AddBoxIcon from "@mui/icons-material/AddBox";
-import FormFieldData from "../../../../components/FormFieldData";
+import PaymentIcon from "@mui/icons-material/AddBox";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-  borderColor: "none",
-  borderRadius: "10px 10px",
-};
-const inputStyle = {
-  mb: 1,
-};
-const options = {
-  position: "top-right",
-  autoClose: 3000,
-  hideProgressBar: false,
-  draggable: true,
-  draggableDirection: 60,
-  theme: "colored",
-};
+const AddPayMeth = ({ forceUpdate }) => {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [logo, setLogo] = useState("");
+  const [recipient, setRecipient] = useState("");
+  const [number, setNumber] = useState("");
+  const [instructions, setInstructions] = useState("");
 
-export default function AddPayMeth(props) {
-  const { forceUpdate } = props;
-  const [formValues, setFormValues] = React.useState({
-    name: "",
-    logo: "",
-    recipient: "",
-    number: "",
-    special_instructions: "",
-  });
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  const handleChange = (e) => {
-    const newData = { ...formValues };
-    newData[e.target.name] = e.target.value;
-    setFormValues(newData);
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  React.useEffect(() => {
-    if (open) {
-      setFormValues({
-        name: "",
-        logo: "",
-        recipient: "",
-        number: "",
-        special_instructions: "",
-      });
-    }
-  }, [open]);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    Http.post("/add/payment-method", formValues)
-      .then((res) => {
-        if (res.data.status === 200) {
-          forceUpdate();
-          handleClose();
-          ToastNotification("success", "Successfully Saved Data!", options);
-        } else {
-          ToastNotification("error", res.data.message, options);
-        }
+  const handleSave = () => {
+    const paymentMethodData = new FormData();
+    paymentMethodData.append("name", name);
+    paymentMethodData.append("logo", selectedFile);
+    paymentMethodData.append("recipient", recipient);
+    paymentMethodData.append("number", number);
+    paymentMethodData.append("special_instructions", instructions);
+
+    Http.post("add/payment-method", paymentMethodData)
+      .then(() => {
+        handleClose();
+        ToastNotification("success", "Payment method added successfully!");
+        forceUpdate();
       })
-      .catch((err) => {
-        ToastNotification("error", err.message, options);
+      .catch((error) => {
+        ToastNotification("error", error.message);
       });
+  };
+
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
   return (
-    <div>
-      <ToastNotificationContainer />
-      <AddBoxIcon
-        onClick={handleOpen}
+    <>
+      <PaymentIcon
+        onClick={handleClickOpen}
         sx={{
           m: 1,
           fontsize: "30px",
@@ -97,74 +70,67 @@ export default function AddPayMeth(props) {
           },
         }}
       />
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Payment Method
-          </Typography>
-          <FormFieldData
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add Payment Method</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Name"
+            type="text"
             fullWidth
-            label="Payment Method"
-            id="name"
-            value={formValues.name}
-            name="name"
-            onChange={handleChange}
-            sx={inputStyle}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-          <FormFieldData
-            fullWidth
-            label="Logo"
-            id="logo"
-            value={formValues.logo}
-            name="logo"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
+          <TextField
+            margin="dense"
             label="Recipient"
-            id="recipient"
-            value={formValues.recipient}
-            name="recipient"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
+            type="text"
             fullWidth
+            value={recipient}
+            onChange={(e) => setRecipient(e.target.value)}
+          />
+          <TextField
+            margin="dense"
             label="Number"
-            type="number"
-            value={formValues.number}
-            name="number"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-          <FormFieldData
+            type="text"
             fullWidth
-            multiline
-            row={4}
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+          />
+          <TextField
+            margin="dense"
             label="Instructions"
-            id="special_instructions"
-            value={formValues.special_instructions}
-            name="special_instructions"
-            onChange={handleChange}
-            sx={inputStyle}
-          />
-
-          <Button
+            type="text"
             fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-          >
-            Submit
+            value={instructions}
+            onChange={(e) => setInstructions(e.target.value)}
+          />
+          <div className="d-flex flex-column mt-3">
+            <label htmlFor="file-upload">Choose a file:</label>
+            <TextField
+              id="file-upload"
+              type="file"
+              onChange={(e) => setLogo(e.target.value)}
+              inputProps={{
+                accept: ".jpg, .png, .pdf",
+                onChange: handleFileChange,
+              }}
+            />
+            <p>Selected file: {selectedFile ? selectedFile.name : "None"}</p>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} variant="contained" color="secondary">
+            Cancel
           </Button>
-        </Box>
-      </Modal>
-    </div>
+          <Button onClick={handleSave} color="primary" variant="contained">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
-}
+};
+
+export default AddPayMeth;

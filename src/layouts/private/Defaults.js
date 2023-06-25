@@ -170,12 +170,12 @@ function Defaults({ children }) {
                 </ListItemIcon>
                 Add another account
               </MenuItem> */}
-              <MenuItem onClick={handleExit}>
+              {/* <MenuItem onClick={handleExit}>
                 <ListItemIcon>
                   <Settings fontSize="small" />
                 </ListItemIcon>
                 Settings
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem onClick={handleShow}>
                 <ListItemIcon>
                   <Logout fontSize="small" />

@@ -30,7 +30,8 @@ function Services() {
                 <button
                   id="icon-btn"
                   type="button"
-                  className="btn btn-primary rounded-circle">
+                  className="btn btn-primary rounded-circle"
+                >
                   <i className="fa-solid fa-thumbs-up boxicon"></i>
                 </button>
               </div>
@@ -46,7 +47,8 @@ function Services() {
                 <button
                   id="icon-btn"
                   type="button"
-                  className="btn btn-primary rounded-circle">
+                  className="btn btn-primary rounded-circle"
+                >
                   <i className="fa-solid fa-shirt boxicon"></i>
                 </button>
               </div>
@@ -62,7 +64,8 @@ function Services() {
                 <button
                   id="icon-btn"
                   type="button"
-                  className="btn btn-primary rounded-circle">
+                  className="btn btn-primary rounded-circle"
+                >
                   <i className="fa-solid fa-truck boxicon"></i>
                 </button>
               </div>
@@ -175,9 +178,6 @@ function Services() {
             </div>
           </div>
         </section>
-        <div className=" bg-light border-top " style={reviewCon}>
-          <Review />
-        </div>
       </div>
       <Footer />
     </div>

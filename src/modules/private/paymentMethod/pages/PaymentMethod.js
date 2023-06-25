@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
 import { CircularProgress, IconButton, Box } from "@mui/material";
-
 import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
@@ -40,14 +39,15 @@ const PaymentMethod = () => {
   const handleUpdate = (values) => {
     Http.get(`update/payment-methods/${values}`).then();
   };
+
   const handleDelete = (id) => {
     Http.delete(`delete/payment-methods/${selectedItem.id}`)
-      .then(
-        forceUpdate(),
-        ToastNotification("success", "Successfully Deleted!", tableoptions),
-        setIsLoading(false),
-        setOpenDelete(false)
-      )
+      .then(() => {
+        forceUpdate();
+        ToastNotification("success", "Successfully Deleted!", tableoptions);
+        setIsLoading(false);
+        setOpenDelete(false);
+      })
       .catch((err) => {
         setIsLoading(false);
         ToastNotification("error", err, tableoptions);
@@ -63,6 +63,7 @@ const PaymentMethod = () => {
     draggablePercent: 60,
     theme: "colored",
   };
+
   const handleOpenView = (data) => {
     setSelectedItem(data);
     setViewOpen(true);
@@ -72,6 +73,7 @@ const PaymentMethod = () => {
     setSelectedItem(data);
     setOpenEdit(true);
   };
+
   const onDelete = (data) => {
     setSelectedItem(data);
     setOpenDelete(true);
@@ -115,7 +117,6 @@ const PaymentMethod = () => {
         },
       },
     },
-
     {
       name: "name",
       label: "PAYMENT METHOD",
@@ -256,7 +257,7 @@ const PaymentMethod = () => {
             onClose={() => setOpenDelete(false)}
             onConfirm={handleDelete}
             loading={isLoading}
-            message=" Are you sure? If deleted you will not able to recover the data."
+            message="Are you sure? If deleted you will not able to recover the data."
           />
         </Box>
       </div>

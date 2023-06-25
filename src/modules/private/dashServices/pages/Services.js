@@ -12,15 +12,10 @@ import {
   Box,
 } from "@mui/material";
 import AddServices from "../components/AddServices";
-// import EditServices from "./../components/EditServices";
-// import DeleteServices from "../components/DeleteServices";
 import Http from "../../../../services/Http";
-// import VisibilityIcon from "@mui/icons-material/Visibility";
-// import ShowHandling from "../../settings/handling/components/ShowHandling";
 import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
-// import ViewIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
