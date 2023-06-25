@@ -71,8 +71,7 @@ function Navbar() {
             to="#"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar"
-          >
+            aria-controls="offcanvasNavbar">
             <i className="fa-solid fa-bars"></i>
           </NavLink>
         </div>
@@ -81,8 +80,7 @@ function Navbar() {
           tabIndex="-1"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
-          style={{ visibility: "unset" }}
-        >
+          style={{ visibility: "unset" }}>
           <div className="offcanvas-header">
             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">
               Offcanvas
@@ -91,8 +89,7 @@ function Navbar() {
               type="button"
               className="btn-close"
               data-bs-dismiss="offcanvas"
-              aria-label="Close"
-            ></button>
+              aria-label="Close"></button>
           </div>
           <div className="offcanvas-body">
             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
@@ -102,8 +99,7 @@ function Navbar() {
                   className="nav-link"
                   activeClassName="active"
                   aria-current="page"
-                  style={{ color: "#0d6efd" }}
-                >
+                  style={{ color: "#0d6efd" }}>
                   Home
                 </NavLink>
               </li>
@@ -113,19 +109,17 @@ function Navbar() {
                   className="nav-link"
                   activeClassName="active"
                   aria-current="page"
-                  style={{ color: "#0d6efd" }}
-                >
+                  style={{ color: "#0d6efd" }}>
                   About
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="show/services"
+                  to="/services"
                   className="nav-link"
                   activeClassName="active"
                   aria-current="page"
-                  style={{ color: "#0d6efd" }}
-                >
+                  style={{ color: "#0d6efd" }}>
                   Services
                 </NavLink>
               </li>
@@ -135,8 +129,7 @@ function Navbar() {
                   className="nav-link"
                   activeClassName="active"
                   aria-current="page"
-                  style={{ color: "#0d6efd" }}
-                >
+                  style={{ color: "#0d6efd" }}>
                   Contact
                 </NavLink>
               </li>
@@ -146,8 +139,7 @@ function Navbar() {
                   className="nav-link"
                   activeClassName="active"
                   aria-current="page"
-                  style={{ color: "#0d6efd" }}
-                >
+                  style={{ color: "#0d6efd" }}>
                   Order
                 </NavLink>
               </li>
@@ -158,16 +150,15 @@ function Navbar() {
                       display: "flex",
                       alignItems: "center",
                       textAlign: "center",
-                    }}
-                  >
+                      justifyContent: "center",
+                    }}>
                     <IconButton
                       onClick={handleClick}
                       size="small"
                       sx={{ ml: 2 }}
                       aria-controls={open ? "account-menu" : undefined}
                       aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                    >
+                      aria-expanded={open ? "true" : undefined}>
                       <Avatar sx={{ width: 32, height: 32 }}></Avatar>
                     </IconButton>
                   </Box>
@@ -204,8 +195,7 @@ function Navbar() {
                       },
                     }}
                     transformOrigin={{ horizontal: "right", vertical: "top" }}
-                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-                  >
+                    anchorOrigin={{ horizontal: "right", vertical: "bottom" }}>
                     <MenuItem onClick={handleExit}>
                       <Avatar />
                       {/* {info?.profile?.first_name
@@ -215,8 +205,7 @@ function Navbar() {
                         to="/myaccount"
                         className="nav-link"
                         activeClassName="active"
-                        aria-current="page"
-                      >
+                        aria-current="page">
                         My Account
                       </NavLink>
                     </MenuItem>
@@ -228,8 +217,7 @@ function Navbar() {
                           className="nav-link"
                           activeClassName="active"
                           aria-current="page"
-                          style={{ paddingLeft: "15px" }}
-                        >
+                          style={{ paddingLeft: "15px" }}>
                           Dashboard
                         </NavLink>
                       </MenuItem>
@@ -251,8 +239,7 @@ function Navbar() {
                       to="/login"
                       className="nav-link"
                       activeClassName="active"
-                      aria-current="page"
-                    >
+                      aria-current="page">
                       Login
                     </NavLink>
                   </li>
@@ -261,8 +248,7 @@ function Navbar() {
                       to="/register"
                       className="nav-link"
                       activeClassName="active"
-                      aria-current="page"
-                    >
+                      aria-current="page">
                       Register
                     </NavLink>
                   </li>

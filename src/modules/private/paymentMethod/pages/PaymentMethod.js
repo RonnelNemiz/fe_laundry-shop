@@ -1,67 +1,80 @@
 import React, { useState, useEffect, useReducer } from "react";
-import {
-  TableContainer,
-  Paper,
-  CircularProgress,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { CircularProgress, IconButton, Box } from "@mui/material";
 
 import MUIDataTable from "mui-datatables";
 import Stack from "@mui/material/Stack";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import AddPayMeth from "./../components/AddPayMeth";
 import Http from "../../../../services/Http";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ShowPayMeth from "./../components/ShowPaymeth";
+import EditPayMeth from "./../components/EditPayMeth";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
+import ToastNotification from "../../../../components/ToastNotification";
 
 const PaymentMethod = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [paymentData, setPaymentData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isViewOpen, setViewOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    Http.get("/payments", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then((res) => {
-        setPaymentData(res.data);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setIsLoading(false);
-      });
+    fetchingData();
   }, [ignored]);
 
+  const fetchingData = (params = {}) => {
+    setIsLoading(true);
+    Http.get("/payment-methods").then((res) => {
+      if (res.data) {
+        setPaymentData(res.data);
+      }
+      setIsLoading(false);
+    });
+  };
+
   const handleUpdate = (values) => {
-    Http.get(`update/payments/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+    Http.get(`update/payment-methods/${values}`).then();
   };
   const handleDelete = (id) => {
-    Http.delete(`delete/payments/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+    Http.delete(`delete/payment-methods/${selectedItem.id}`)
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", tableoptions),
+        setIsLoading(false),
+        setOpenDelete(false)
+      )
+      .catch((err) => {
+        setIsLoading(false);
+        ToastNotification("error", err, tableoptions);
+      });
   };
-  const handleShow = (id) => {
-    Http.get(`view/payments/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    });
+
+  const tableoptions = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    draggable: true,
+    draggableDirection: "x" | "y",
+    draggablePercent: 60,
+    theme: "colored",
+  };
+  const handleOpenView = (data) => {
+    setSelectedItem(data);
+    setViewOpen(true);
+  };
+
+  const onEdit = (data) => {
+    setSelectedItem(data);
+    setOpenEdit(true);
+  };
+  const onDelete = (data) => {
+    setSelectedItem(data);
+    setOpenDelete(true);
   };
 
   const columns = [
@@ -70,14 +83,32 @@ const PaymentMethod = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta) => {
-          // const order = orders[tableMeta.rowIndex];
+          const paymentmethod = paymentData[tableMeta.rowIndex];
           return (
             <Stack direction="row" spacing={1}>
-              <IconButton aria-label="edit" color="primary">
-                <EditIcon />
+              <IconButton
+                aria-label="View"
+                onClick={() => {
+                  handleOpenView(paymentmethod);
+                }}
+              >
+                <VisibilityIcon color="primary" />
               </IconButton>
-              <IconButton aria-label="edit" color="error">
-                <DeleteIcon />
+              <IconButton
+                aria-label="edit"
+                onClick={() => {
+                  onEdit(paymentmethod);
+                }}
+              >
+                <EditIcon color="warning" />
+              </IconButton>
+              <IconButton
+                aria-label="delete"
+                onClick={() => {
+                  onDelete(paymentmethod);
+                }}
+              >
+                <DeleteIcon color="error" />
               </IconButton>
             </Stack>
           );
@@ -86,12 +117,36 @@ const PaymentMethod = () => {
     },
 
     {
-      name: "payment method",
-      label: "Payment Method",
+      name: "name",
+      label: "PAYMENT METHOD",
       options: {
         filter: true,
         sort: false,
       },
+    },
+    {
+      name: "logo",
+      label: "LOGO",
+    },
+    {
+      name: "recipient",
+      label: "RECIPIENT",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "number",
+      label: "NUMBER",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
+    {
+      name: "special_instructions",
+      label: "INSTRUCTIONS",
     },
   ];
 
@@ -106,16 +161,10 @@ const PaymentMethod = () => {
     customToolbar: () => {
       return (
         <>
-          <AddPayMeth forceUpdate={() => forceUpdate()} />;
+          <AddPayMeth forceUpdate={() => forceUpdate()} />
         </>
       );
     },
-  };
-
-  const [value, setValue] = React.useState("1");
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
   };
 
   const getMuiTheme = () =>
@@ -189,6 +238,26 @@ const PaymentMethod = () => {
               />
             </ThemeProvider>
           )}
+
+          <ShowPayMeth
+            open={isViewOpen}
+            onClose={() => setViewOpen(false)}
+            paymentmethod={selectedItem}
+          />
+          <EditPayMeth
+            open={openEdit}
+            paymentMethod={selectedItem}
+            onEdit={handleUpdate}
+            onClose={() => setOpenEdit(false)}
+            forceUpdate={forceUpdate}
+          />
+          <ConfirmationDialog
+            open={openDelete}
+            onClose={() => setOpenDelete(false)}
+            onConfirm={handleDelete}
+            loading={isLoading}
+            message=" Are you sure? If deleted you will not able to recover the data."
+          />
         </Box>
       </div>
     </>

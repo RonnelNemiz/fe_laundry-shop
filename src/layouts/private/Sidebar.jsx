@@ -45,11 +45,11 @@ function Sidebar() {
       label: "Reports",
       icon: <AssessmentIcon />,
     },
-    {
-      path: "/reviews",
-      label: "Reviews",
-      icon: <ReviewsIcon />,
-    },
+    // {
+    //   path: "/reviews",
+    //   label: "Reviews",
+    //   icon: <ReviewsIcon />,
+    // },
     {
       path: "/admin/users",
       label: "Users",
@@ -77,7 +77,7 @@ function Sidebar() {
     },
 
     {
-      path: "/settings",
+      path: "/admin/settings",
       label: "Settings",
       icon: <SettingsIcon />,
     },

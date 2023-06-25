@@ -153,7 +153,7 @@ function Services() {
                   </div>
                 </div>
               </div>
-              <div className="img-1 col-md-3 service-item">
+              <div className="img col-md-3 service-item">
                 <div className="card shadow">
                   <img
                     src={img4}

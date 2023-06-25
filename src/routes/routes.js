@@ -12,7 +12,7 @@ const routes = [
     component: "modules/public/contact/Contact",
   },
   {
-    path: "/show/services",
+    path: "/services",
     component: "modules/public/services/Services",
   },
 
@@ -57,7 +57,7 @@ const routes = [
     component: "modules/public/home/Home",
   },
   {
-    path: "/settings",
+    path: "/admin/settings",
     component: "modules/private/settings/Settings",
     auth: true,
     role: "Admin",

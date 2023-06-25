@@ -34,7 +34,11 @@ const options = {
 export default function AddPayMeth(props) {
   const { forceUpdate } = props;
   const [formValues, setFormValues] = React.useState({
-    payment_name: "",
+    name: "",
+    logo: "",
+    recipient: "",
+    number: "",
+    special_instructions: "",
   });
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -49,22 +53,18 @@ export default function AddPayMeth(props) {
   React.useEffect(() => {
     if (open) {
       setFormValues({
-        payment_name: "",
+        name: "",
+        logo: "",
+        recipient: "",
+        number: "",
+        special_instructions: "",
       });
     }
   }, [open]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Http.post(
-      "/add/payments",
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      },
-      formValues
-    )
+    Http.post("/add/payment-method", formValues)
       .then((res) => {
         if (res.data.status === 200) {
           forceUpdate();
@@ -101,7 +101,8 @@ export default function AddPayMeth(props) {
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description">
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
             Add Payment Method
@@ -109,9 +110,47 @@ export default function AddPayMeth(props) {
           <FormFieldData
             fullWidth
             label="Payment Method"
-            id="payment_name"
-            value={formValues.payment_name}
-            name="payment_name"
+            id="name"
+            value={formValues.name}
+            name="name"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Logo"
+            id="logo"
+            value={formValues.logo}
+            name="logo"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Recipient"
+            id="recipient"
+            value={formValues.recipient}
+            name="recipient"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            label="Number"
+            type="number"
+            value={formValues.number}
+            name="number"
+            onChange={handleChange}
+            sx={inputStyle}
+          />
+          <FormFieldData
+            fullWidth
+            multiline
+            row={4}
+            label="Instructions"
+            id="special_instructions"
+            value={formValues.special_instructions}
+            name="special_instructions"
             onChange={handleChange}
             sx={inputStyle}
           />
@@ -120,7 +159,8 @@ export default function AddPayMeth(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         </Box>

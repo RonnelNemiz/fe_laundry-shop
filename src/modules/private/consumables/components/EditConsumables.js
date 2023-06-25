@@ -1,32 +1,9 @@
 import * as React from "react";
-import Http from "../../../../services/Http";
+import { Http } from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
-import { handleErrorResponse } from "../../../../utils/helpers";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
-import {
-  Box,
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import FormFieldData from "../../../../components/FormFieldData";
-import Reevalidate from "ree-validate-18";
-
-const validator = new Reevalidate.Validator({
-  email: "required|email",
-  first_name: "required",
-  last_name: "required",
-  purok: "required",
-  brgy: "required",
-  municipality: "required",
-  contact_number: "required|numeric",
-  role_id: "required",
-  password: "required|max:8",
-});
 
 const style = {
   position: "absolute",
@@ -41,6 +18,11 @@ const style = {
   borderColor: "none",
   borderRadius: "10px 10px",
 };
+
+const inputStyle = {
+  mb: 1,
+};
+
 const options = {
   position: "top-right",
   autoClose: 3000,
@@ -49,221 +31,119 @@ const options = {
   draggableDirection: 60,
   theme: "colored",
 };
-const inputStyle = {
-  mb: 1,
-};
 
 export default function EditConsumables(props) {
-  const { open, onClose, selectedItem, loading, forceUpdate } = props;
-  const [roles, setRoles] = React.useState([]);
-  const [data, setData] = React.useState({
-    values: {
-      email: "",
-      first_name: "",
-      last_name: "",
-      purok: "",
-      brgy: "",
-      municipality: "",
-      contact_number: "",
-      land_mark: "Leyte",
-      role_id: "",
-      image: "",
-    },
-    errors: validator.errors,
+  const { forceUpdate, selectedConsumable, onClose } = props;
+  const [formValues, setFormValues] = React.useState({
+    name: "",
+    price: "",
+    cost: "",
   });
-  const handleRole = () => {
-    Http.get("/roles").then((res) => {
-      setRoles(res.data.roles);
-    });
+  const [open, setOpen] = React.useState(false);
+
+  const handleChange = (e) => {
+    const newData = { ...formValues };
+    newData[e.target.name] = e.target.value;
+    setFormValues(newData);
   };
 
   React.useEffect(() => {
-    handleRole();
-    if (selectedItem?.profile) {
-      setData({
-        values: {
-          email: selectedItem?.email,
-          first_name: selectedItem?.profile[0].first_name,
-          last_name: selectedItem?.profile[0].last_name,
-          purok: selectedItem?.profile[0].purok,
-          brgy: selectedItem?.profile[0].brgy,
-          municipality: selectedItem?.profile[0].municipality,
-          contact_number: selectedItem?.profile[0].contact_number,
-          role_id: selectedItem?.role_id,
-          image: selectedItem?.profile[0].image,
-        },
-      });
+    if (selectedConsumable) {
+      setOpen(true);
+      console.log(selectedConsumable);
+      // Fetch data when selectedConsumable changes
+      Http.get(`/consumable/${selectedConsumable}`)
+        .then((res) => {
+          setFormValues(res.data.data);
+        })
+        .catch((err) => {
+          ToastNotification("error", err.message, options);
+        });
     }
-  }, [selectedItem]);
+  }, [selectedConsumable]);
 
-  const handleChange = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-
-    setData((prev) => ({ ...prev, values: { ...prev.values, [name]: value } }));
-
-    const { errors } = validator;
-
-    validator.validate(name, value).then((success) => {
-      if (!success) {
-        setData((prev) => ({
-          ...prev,
-          errors: errors,
-        }));
-      }
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Http.post(`/consumable/${selectedConsumable}`, formValues)
+      .then((res) => {
+        if (res.data.status === 200) {
+          forceUpdate();
+          onClose();
+          setOpen(false);
+          ToastNotification("success", res.data.message, options);
+        } else {
+          ToastNotification("error", res.data.message, options);
+        }
+      })
+      .catch((err) => {
+        ToastNotification("error", err.message, options);
+      });
   };
-  const handleUpdate = () => {
-    validator.validateAll(data.values).then((success) => {
-      if (success) {
-        Http.put(`update/user/${selectedItem.id}`, data.values)
-          .then((res) => {
-            forceUpdate();
-            onClose();
-            ToastNotification("success", "Successfully Saved Data", options);
-          })
-          .catch((err) => {
-            ToastNotification("error", handleErrorResponse(err), options);
-          });
-      }
-      setData((prev) => ({
-        ...prev,
-        errors: validator.errors,
-      }));
-    });
+
+  const handleClose = () => {
+    onClose();
+    setOpen(false);
   };
 
   return (
-    <>
+    <div>
       <ToastNotificationContainer />
       <Modal
-        key={selectedItem?.id}
         open={open}
-        onClose={onClose}
+        maxWidth="md"
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit User
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            className="mb-3"
+          >
+            Edit Consumables
           </Typography>
           <FormFieldData
             fullWidth
-            label="Email"
-            id="email"
-            value={data.values.email}
-            type="email"
-            name="email"
+            label="Name"
+            id="name"
+            value={formValues.name}
+            name="name"
             onChange={handleChange}
-            errors={data.errors}
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
-            label="First Name"
-            id="first_name"
-            value={data.values.first_name}
-            name="first_name"
+            label="Price"
+            id="price"
+            value={formValues.price}
+            name="price"
             onChange={handleChange}
-            errors={data.errors}
+            type="float"
             sx={inputStyle}
           />
           <FormFieldData
             fullWidth
-            label="Last Name"
-            id="last_name"
-            value={data.values.last_name}
-            name="last_name"
+            label="Cost"
+            id="cost"
+            value={formValues.cost}
+            name="cost"
             onChange={handleChange}
-            errors={data.errors}
+            type="float"
             sx={inputStyle}
           />
-          <FormFieldData
-            fullWidth
-            label="Purok"
-            id="purok"
-            value={data.values.purok}
-            name="purok"
-            onChange={handleChange}
-            errors={data.errors}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Barangay"
-            id="brgy"
-            value={data.values.brgy}
-            name="brgy"
-            onChange={handleChange}
-            errors={data.errors}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Municipality"
-            id="municipality"
-            value={data.values.municipality}
-            name="municipality"
-            onChange={handleChange}
-            errors={data.errors}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Contact Number"
-            id="contact_number"
-            value={data.values.contact_number}
-            name="contact_number"
-            onChange={handleChange}
-            errors={data.errors}
-            inputProps={{
-              maxLength: 11,
-            }}
-            sx={inputStyle}
-          />
-          <FormControl fullWidth size="small" variant="outlined" margin="dense">
-            <InputLabel id="role-label">Role</InputLabel>
-            <Select
-              labelId="role-label"
-              name="role_id"
-              id="role_id"
-              label="Role"
-              value={data.values.role_id}
-              onChange={handleChange}
-              errors={data.errors}
-            >
-              {roles.map((role) => {
-                return (
-                  <MenuItem key={role.id} value={role.id} id="role">
-                    {(role.id === 1 && "Admin") ||
-                      (role.id === 2 && "Staff") ||
-                      (role.id === 3 && "Delivery Boy")}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-          <FormFieldData
-            fullWidth
-            label="Image"
-            id="image"
-            value={data.values.image}
-            name="image"
-            onChange={handleChange}
-            errors={data.errors}
-            sx={inputStyle}
-          />
+
           <Button
-            loading={loading}
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(selectedItem.id)}
+            onClick={handleSubmit}
           >
             Update
           </Button>
         </Box>
       </Modal>
-    </>
+    </div>
   );
 }

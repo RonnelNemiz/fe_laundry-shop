@@ -34,10 +34,9 @@ function Login() {
           Http.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${res.data.access_token}`;
-          localStorage.setItem("role", res.data.role);
+          localStorage.setItem("role", res.data.user.role_id);
           swal("Success", "Yeheey!!!", "success");
           if (
-            localStorage.getItem("garments") ||
             localStorage.getItem("personal_details") ||
             localStorage.getItem("payment_method") ||
             localStorage.getItem("handling") ||
@@ -45,7 +44,12 @@ function Login() {
           ) {
             history.push("/order");
           } else {
-            history.push("/dashboard");
+            let role = localStorage.getItem("role");
+            if (role == 4) {
+              history.push("/myaccount");
+            } else {
+              history.push("/dashboard");
+            }
           }
         } else {
           swal("Error", "Error!!!", "danger");
