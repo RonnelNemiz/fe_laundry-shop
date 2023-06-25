@@ -1,22 +1,19 @@
-
 export const isAuth = () => {
   return !!localStorage.getItem("access_token");
 };
 
 export const isCustomer = () => {
-  const role = localStorage.getItem('role');
-  if (role === 'Customer') {
+  const role = localStorage.getItem("role");
+  if (role === "Customer") {
     return true;
   }
   return false;
-}
+};
 
 export const logout = () => {
   localStorage.removeItem("access_token");
   window.location.href = "/";
 };
-
-
 
 export const handleErrorResponse = (err) => {
   if (
@@ -33,6 +30,7 @@ export const handleErrorResponse = (err) => {
     return message.join(" ");
   }
   return (
-    (err && err.response && err.response.data && err.response.data.message) || err.message
+    (err && err.response && err.response.data && err.response.data.message) ||
+    err.message
   );
 };

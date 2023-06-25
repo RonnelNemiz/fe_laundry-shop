@@ -6,18 +6,17 @@ import {
   Box,
   Button,
   CircularProgress,
-  IconButton,
   Modal,
   Typography,
 } from "@mui/material";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import FormFieldData from "../../../../components/FormFieldData";
 import ReeValidate from "ree-validate-18";
-import SelectDropdown from "../../../../components/SelectDropdown";
 
 const validator = new ReeValidate.Validator({
-  type: "required",
-  category: "required",
+  name: "required",
+  description: "required",
+  price: "required",
+  image: "required",
 });
 
 const style = {
@@ -45,21 +44,30 @@ const options = {
   theme: "colored",
 };
 
-export default function ItemTypes(props) {
-  const { forceUpdate, categories } = props;
+export default function EditService(props) {
+  const { forceUpdate, item, open, onClose } = props;
 
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
-      type: "",
-      category: "",
+      name: "",
+      description: "",
+      price: "",
+      image: "",
     },
     errors: validator.errors,
   });
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  React.useEffect(() => {
+    if (item) {
+      setFormValues((prev) => ({
+        ...prev,
+        values: {
+          ...item,
+        },
+      }));
+    }
+  }, [item]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,7 +80,7 @@ export default function ItemTypes(props) {
       },
     }));
 
-    const { errors } = validator;
+    const { errors } = props;
 
     validator.validate(name, value).then((success) => {
       if (!success) {
@@ -84,18 +92,18 @@ export default function ItemTypes(props) {
     });
   };
 
-  const handleSubmit = () => {
+  const handleUpdate = () => {
     setLoading(true);
-    Http.post("/add/itemTypes", formValues.values, {
+    Http.post(`/update/categories,${item.id}`, formValues.values, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     })
       .then((res) => {
         if (res.data.status === 200) {
-          forceUpdate();
-          handleClose();
           ToastNotification("success", "Successfully Saved Data!", options);
+          forceUpdate();
+          onClose();
         } else {
           ToastNotification("error", res.data.message, options);
         }
@@ -110,7 +118,7 @@ export default function ItemTypes(props) {
   const handleValidate = () => {
     validator.validateAll(formValues.values).then((success) => {
       if (success) {
-        handleSubmit();
+        handleUpdate();
       } else {
         setFormValues((prev) => ({
           ...prev,
@@ -119,27 +127,13 @@ export default function ItemTypes(props) {
       }
     });
   };
+
   return (
     <div>
       <ToastNotificationContainer />
-      <AddBoxIcon
-        onClick={handleOpen}
-        sx={{
-          m: 1,
-          fontsize: "30px",
-          cursor: "pointer",
-          color: "gray",
-          position: "relative",
-          left: "10px",
-          transition: ".5s",
-          "&:hover": {
-            color: "black",
-          },
-        }}
-      />
       <Modal
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -150,29 +144,43 @@ export default function ItemTypes(props) {
             component="h2"
             sx={{ mb: 1 }}
           >
-            Add Category Type
+            Update Service
           </Typography>
           <Box component="form">
             <FormFieldData
               required
               fullWidth
-              label="Category Type"
-              value={formValues.values.type}
-              name="type"
+              label="Service Name"
+              id="name"
+              value={formValues.values.name}
+              name="name"
               onChange={handleChange}
               errors={formValues.errors}
               sx={inputStyle}
             />
-            <SelectDropdown
-              sx={{ mb: 1 }}
+            <FormFieldData
+              required
               fullWidth
-              label="Category"
-              name="category"
-              categories={categories && categories}
-              value={formValues.values.category}
+              label="Service Description"
+              id="name"
+              value={formValues.values.description}
+              name="description"
               onChange={handleChange}
               errors={formValues.errors}
+              sx={inputStyle}
+              multiline
+              rows={6}
+            />
+            <FormFieldData
               required
+              fullWidth
+              label="Image"
+              id="name"
+              value={formValues.values.image}
+              name="image"
+              onChange={handleChange}
+              errors={formValues.errors}
+              sx={inputStyle}
             />
           </Box>
           <Button
@@ -182,7 +190,7 @@ export default function ItemTypes(props) {
             onClick={handleValidate}
             disabled={loading}
           >
-            {loading ? <CircularProgress size={24} /> : " Submit"}
+            {loading ? <CircularProgress size={24} /> : "Update"}
           </Button>
         </Box>
       </Modal>

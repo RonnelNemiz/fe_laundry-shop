@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Http from "../../../services/Http";
 import "./review.css";
+import { isAuth } from "../../../utils/helpers";
 
 const reviewCon = {
   display: "flex",
@@ -22,7 +23,9 @@ function Review() {
   const [userReviews, setUserReviews] = useState([]);
 
   useEffect(() => {
-    fetchUserComment();
+    if (isAuth()) {
+      fetchUserComment();
+    }
   }, []);
 
   const fetchUserComment = (userId) => {

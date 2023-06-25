@@ -10,6 +10,7 @@ import {
   IconButton,
   Divider,
   DialogTitle,
+  CircularProgress,
 } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Http from "../../../../services/Http";
@@ -28,6 +29,9 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Form } from "react-bootstrap";
+import AddMoreCategories from "./AddMoreCategories";
+import ReactTextEditor from "../../../../components/ReactTextEditor";
+import AddConsumables from "./AddConsumables";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -138,10 +142,17 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditModal(props) {
   const { open, onClose, order } = props;
   // const [categoryList, setCategoryList] = useState([]);
-  const [expanded, setExpanded] = React.useState(false);
   const orderId = (order && order.id) || "";
 
+  const [openConsumables, setOpenConsumables] = React.useState(false);
+  const [consumables, setComsumables] = React.useState([]);
+  const [openTextEditor, setOpenTextEditor] = React.useState(false);
+  const [selectedDetails, setSelectedDetails] = React.useState(null);
+  const [expanded, setExpanded] = React.useState(false);
+  const [openAddMoreCategories, setOpenAddMoreCategories] = useState(false);
+  const [orderDetails, setOrderDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadingOnSubmit, setLoadingOnSubmit] = React.useState(false);
   const [formValues, setFormValues] = useState({
     trans_number: "",
     first_name: "",
@@ -154,6 +165,23 @@ export default function EditModal(props) {
   });
 
   const [value, setValue] = React.useState("1");
+
+  useEffect(() => {
+    if (open) {
+      fetchOrderDetail();
+      fetchConsumables();
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (orderDetails) {
+      setFormValues((prev) => ({
+        ...prev,
+        trans_number: orderDetails?.order?.trans_number,
+        ...orderDetails?.profile,
+      }));
+    }
+  }, [orderDetails]);
 
   const handleChangeTab = (event, newValue) => {
     setValue(newValue);
@@ -170,226 +198,228 @@ export default function EditModal(props) {
     theme: "light",
   };
 
-  const categoryList = {
-    item_categories: [
-      {
-        category_name: "Colored Beddings & Bathroom Accessories",
-        item_types: [
-          {
-            id: 1,
-            name: "bedsheet",
-            category_id: 1,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 2,
-            name: "towel",
-            category_id: 1,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 3,
-            name: "curtain",
-            category_id: 1,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 4,
-            name: "pillowcase",
-            category_id: 1,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 5,
-            name: "blanket",
-            category_id: 1,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-        ],
-      },
-      {
-        category_name: "White Beddings & Bathroom Accessories",
-        item_types: [
-          {
-            id: 6,
-            name: "tshirt",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 7,
-            name: "shorts",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 8,
-            name: "trousers",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 9,
-            name: "jacket",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 10,
-            name: "underwear",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 11,
-            name: "blouse",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 12,
-            name: "socks",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 13,
-            name: "handkerchief",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 14,
-            name: "pants",
-            category_id: 2,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-        ],
-      },
-      {
-        category_name: "Colored Garments",
-        item_types: [
-          {
-            id: 15,
-            name: "bedsheet",
-            category_id: 3,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 16,
-            name: "towel",
-            category_id: 3,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 17,
-            name: "curtain",
-            category_id: 3,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 18,
-            name: "pillowcase",
-            category_id: 3,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 19,
-            name: "blanket",
-            category_id: 3,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-        ],
-      },
-      {
-        category_name: "White Garments",
-        item_types: [
-          {
-            id: 20,
-            name: "tshirt",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 21,
-            name: "shorts",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 22,
-            name: "trousers",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 23,
-            name: "jacket",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 24,
-            name: "underwear",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 25,
-            name: "blouse",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 26,
-            name: "socks",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 27,
-            name: "handkerchief",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-          {
-            id: 28,
-            name: "pants",
-            category_id: 4,
-            created_at: "2023-06-24T06:37:42.000000Z",
-            updated_at: "2023-06-24T06:37:42.000000Z",
-          },
-        ],
-      },
-    ],
-  };
+  const categoryList = [
+    {
+      id: 1,
+      category_name: "Colored Beddings & Bathroom Accessories",
+      children: [
+        {
+          id: 1,
+          name: "bedsheet",
+          category_id: 1,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 2,
+          name: "towel",
+          category_id: 1,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 3,
+          name: "curtain",
+          category_id: 1,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 4,
+          name: "pillowcase",
+          category_id: 1,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 5,
+          name: "blanket",
+          category_id: 1,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+      ],
+    },
+    {
+      id: 2,
+      category_name: "White Beddings & Bathroom Accessories",
+      children: [
+        {
+          id: 6,
+          name: "tshirt",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 7,
+          name: "shorts",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 8,
+          name: "trousers",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 9,
+          name: "jacket",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 10,
+          name: "underwear",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 11,
+          name: "blouse",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 12,
+          name: "socks",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 13,
+          name: "handkerchief",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 14,
+          name: "pants",
+          category_id: 2,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+      ],
+    },
+    {
+      id: 3,
+      category_name: "Colored Garments",
+      children: [
+        {
+          id: 15,
+          name: "bedsheet",
+          category_id: 3,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 16,
+          name: "towel",
+          category_id: 3,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 17,
+          name: "curtain",
+          category_id: 3,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 18,
+          name: "pillowcase",
+          category_id: 3,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 19,
+          name: "blanket",
+          category_id: 3,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+      ],
+    },
+    {
+      id: 4,
+      category_name: "White Garments",
+      children: [
+        {
+          id: 20,
+          name: "tshirt",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 21,
+          name: "shorts",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 22,
+          name: "trousers",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 23,
+          name: "jacket",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 24,
+          name: "underwear",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 25,
+          name: "blouse",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 26,
+          name: "socks",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 27,
+          name: "handkerchief",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+        {
+          id: 28,
+          name: "pants",
+          category_id: 4,
+          created_at: "2023-06-24T06:37:42.000000Z",
+          updated_at: "2023-06-24T06:37:42.000000Z",
+        },
+      ],
+    },
+  ];
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -401,36 +431,29 @@ export default function EditModal(props) {
     }));
   };
 
-  useEffect(() => {
-    if (open) {
-      fetchOrderDetail();
-    }
-  }, [open]);
-
   const fetchOrderDetail = () => {
     setLoading(true);
-    Http.get("/order-details/" + orderId)
+    Http.get(`/order-details/${orderId}`)
       .then((res) => {
         if (res.data) {
-          const ordersData = res.data.order;
-
-          const newValues = {};
-
-          for (const key in formValues) {
-            if (ordersData[key]) {
-              newValues[key] = ordersData[key];
-            }
-          }
-
-          setFormValues((prev) => ({
-            ...prev,
-            ...newValues,
-          }));
+          setOrderDetails(res.data);
         }
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
+      });
+  };
+
+  const fetchConsumables = () => {
+    Http.get("/consumables")
+      .then((res) => {
+        if (res.data) {
+          setComsumables(res.data);
+        }
+      })
+      .then((err) => {
+        console.log(err.message);
       });
   };
 
@@ -442,12 +465,63 @@ export default function EditModal(props) {
     });
   };
 
+  const handleUpdateOrderDetails = (data) => {
+    setLoadingOnSubmit(true);
+    const formData = new FormData();
+    formData.append("category", data);
+    Http.post(
+      `/update/order-details/${selectedDetails.category_id}/${selectedDetails.id}`,
+      formData
+    )
+      .then((res) => {
+        if (res.data.status === 200) {
+          setOpenTextEditor(false);
+          onClose();
+          ToastNotification("success", res.data.message, toastOptions);
+        } else {
+          ToastNotification("error", res.data.message, toastOptions);
+        }
+        setLoadingOnSubmit(false);
+      })
+      .catch((err) => {
+        setLoadingOnSubmit(false);
+
+        ToastNotification("error", err.message, toastOptions);
+      });
+  };
+
+  const handleUpdateProfile = () => {
+    setLoadingOnSubmit(true);
+    Http.post(`/update/profile/${orderDetails.order.profile_id}`, formValues)
+      .then((res) => {
+        if (res.data.status === 200) {
+          onClose();
+          ToastNotification("success", res.data.message, toastOptions);
+        } else {
+          ToastNotification("error", res.data.message, toastOptions);
+        }
+        setLoadingOnSubmit(false);
+      })
+      .catch((err) => {
+        setLoadingOnSubmit(false);
+        ToastNotification("error", err.message, toastOptions);
+      });
+  };
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   const tableStyle = {
     textAlign: "right",
+  };
+
+  const handleAddMoreCategories = () => {
+    setOpenAddMoreCategories(true);
+  };
+
+  const handleSelectDetails = (data) => {
+    setSelectedDetails(data);
+    setOpenTextEditor(true);
   };
 
   return (
@@ -582,11 +656,16 @@ export default function EditModal(props) {
                         size="small"
                         color="secondary"
                         variant="contained"
-                        onClick={handleUpdateDetails}
+                        onClick={handleUpdateProfile}
                         className="py-1 px-5"
                         // fullWidth
+                        disabled={loadingOnSubmit}
                       >
-                        Update Profile
+                        {loadingOnSubmit ? (
+                          <CircularProgress size={24} />
+                        ) : (
+                          " Update Profile"
+                        )}
                       </Button>
                     </div>
                   </section>
@@ -599,385 +678,52 @@ export default function EditModal(props) {
                       {/* {loading && <LinearProgress />} */}
                     </div>
                     <div className="card-body">
-                      <React.Fragment>
-                        <Accordion
-                          expanded={expanded === 1}
-                          onChange={handleAccordionChange(1)}
-                        >
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls={"panel-content"}
-                            className="my-0 d-flex justify-content-between"
-                          >
-                            <Typography
-                              className="py-1 my-0 fw-bold"
-                              sx={{ width: "50%" }}
-                            >
-                              Category Name Here
-                            </Typography>
+                      {orderDetails?.orderItems?.length <= 0 && (
+                        <Typography>No Items</Typography>
+                      )}
 
-                            <Form.Control
-                              name={"itemType"}
-                              onChange={handleChange}
-                              id={"itemType"}
-                              style={{
-                                lineHeight: "0",
-                                padding: "0",
-                                border: "0 solid transparent",
-                                borderBottom: "1px solid #ccc",
-                                borderRadius: "0",
-                                outline: "0",
-                                textAlign: "center",
-                                width: "25%",
-                              }}
-                              type="number"
-                              placeholder="Weight in Kilo?"
-                              required
-                            />
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <div>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                            </div>
-                          </AccordionDetails>
-                        </Accordion>
-                        <Accordion
-                          expanded={expanded === 2}
-                          onChange={handleAccordionChange(2)}
-                        >
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls={"panel-content"}
-                            className="my-0 d-flex justify-content-between"
+                      {orderDetails?.orderItems?.length > 0 &&
+                        orderDetails?.orderItems.map((item, i) => (
+                          <Box
+                            key={i}
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
                           >
-                            <Typography
-                              className="py-1 my-0 fw-bold"
-                              sx={{ width: "50%" }}
+                            <Box>
+                              <Typography>{item.name}</Typography>
+                              <div
+                                dangerouslySetInnerHTML={{
+                                  __html: item.items_breakdown,
+                                }}
+                              />
+                            </Box>
+                            <Button
+                              variant="contained"
+                              color="primary"
+                              size="small"
+                              sx={{ height: 30 }}
+                              onClick={() => handleSelectDetails(item)}
                             >
-                              Category Name Here
-                            </Typography>
-
-                            <Form.Control
-                              name={"itemType"}
-                              onChange={handleChange}
-                              id={"itemType"}
-                              style={{
-                                lineHeight: "0",
-                                padding: "0",
-                                border: "0 solid transparent",
-                                borderBottom: "1px solid #ccc",
-                                borderRadius: "0",
-                                outline: "0",
-                                textAlign: "center",
-                                width: "25%",
-                              }}
-                              type="number"
-                              placeholder="Weight in Kilo?"
-                              required
-                            />
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <div>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                            </div>
-                          </AccordionDetails>
-                        </Accordion>
-                        <Accordion
-                          expanded={expanded === 3}
-                          onChange={handleAccordionChange(3)}
-                        >
-                          <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls={"panel-content"}
-                            className="my-0 d-flex justify-content-between"
-                          >
-                            <Typography
-                              className="py-1 my-0 fw-bold"
-                              sx={{ width: "50%" }}
-                            >
-                              Category Name Here
-                            </Typography>
-
-                            <Form.Control
-                              name={"itemType"}
-                              onChange={handleChange}
-                              id={"itemType"}
-                              style={{
-                                lineHeight: "0",
-                                padding: "0",
-                                border: "0 solid transparent",
-                                borderBottom: "1px solid #ccc",
-                                borderRadius: "0",
-                                outline: "0",
-                                textAlign: "center",
-                                width: "25%",
-                              }}
-                              type="number"
-                              placeholder="Weight in Kilo?"
-                              required
-                            />
-                          </AccordionSummary>
-                          <AccordionDetails>
-                            <div>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                              <article className="d-flex justify-content-between card my-1">
-                                <div className="card-body d-flex justify-content-between align-items-center py-1">
-                                  <div className="d-flex align-items-center m-0">
-                                    <label htmlFor={"itemType"}>
-                                      Item Type Name here...
-                                    </label>
-                                  </div>
-                                  <Form.Control
-                                    name={"itemType"}
-                                    onChange={handleChange}
-                                    id={"itemType"}
-                                    style={{
-                                      lineHeight: "0",
-                                      padding: "0",
-                                      border: "0 solid transparent",
-                                      borderBottom: "1px solid #ccc",
-                                      borderRadius: "0",
-                                      outline: "0",
-                                      textAlign: "center",
-                                      width: "25%",
-                                    }}
-                                    type="number"
-                                    placeholder="How many?"
-                                    required
-                                  />
-                                </div>
-                              </article>
-                            </div>
-                          </AccordionDetails>
-                        </Accordion>
-                      </React.Fragment>
+                              Edit
+                            </Button>
+                          </Box>
+                        ))}
                     </div>
                     <div className="card-footer">
                       <Button
                         size="small"
                         color="success"
                         variant="contained"
-                        onClick={handleUpdateDetails}
+                        onClick={handleAddMoreCategories}
                         className="py-1 px-5 mr-3"
                         style={{ marginRight: "15px" }}
                         // fullWidth
                       >
                         Add More Items
                       </Button>
-                      <Button
+                      {/* <Button
                         size="small"
                         color="secondary"
                         variant="contained"
@@ -986,82 +732,101 @@ export default function EditModal(props) {
                         // fullWidth
                       >
                         Update Order Details
-                      </Button>
+                      </Button> */}
                     </div>
                   </section>
                 </main>
 
                 <Divider className="mt-3" />
                 <main className="mt-3">
+                  {orderDetails.consumables?.length <= 0 && (
+                    <Box>
+                      <Typography>No Item</Typography>
+                    </Box>
+                  )}
                   <section className="card">
                     <div className="card-header bg-primary bg-gradient text-light">
                       <h3 className="m-0">CONSUMABLES</h3>
                       {/* {loading && <LinearProgress />} */}
                     </div>
-                    <div className="card-body">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Item</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row" style={tableStyle}>
-                              ₱50.00
-                            </th>
-                            <td>Extra: Fabric Conditioner</td>
-                          </tr>
-                          <tr>
-                            <th scope="row" style={tableStyle}>
-                              ₱20.00
-                            </th>
-                            <td>Extra: Detergent</td>
-                          </tr>
-                          <tr>
-                            <th scope="row" style={tableStyle}>
-                              ₱0.00
-                            </th>
-                            <td scope="row">Consumable: Detergent</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div className="card-footer">
-                      <Button
-                        size="small"
-                        color="success"
-                        variant="contained"
-                        onClick={handleUpdateDetails}
-                        className="py-1 px-5 mr-3"
-                        style={{ marginRight: "15px" }}
-                        // fullWidth
-                      >
-                        Add More Items
-                      </Button>
-                      <Button
-                        size="small"
-                        color="secondary"
-                        variant="contained"
-                        onClick={handleUpdateDetails}
-                        className="py-1 px-5"
-                        // fullWidth
-                      >
-                        Update Consumables
-                      </Button>
-                    </div>
+                    {orderDetails.consumables?.length > 0 && (
+                      <div className="card-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Amount</th>
+                              <th scope="col">Item</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {consumables?.map((consumable, i) => (
+                              <tr key={i}>
+                                <th scope="row" style={tableStyle}>
+                                  {consumable.price}
+                                </th>
+                                <td>{consumable.name}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </section>
+
+                  <div className="card-footer">
+                    <Button
+                      size="small"
+                      color="success"
+                      variant="contained"
+                      onClick={() => setOpenConsumables(true)}
+                      className="py-1 px-5 mr-3"
+                      style={{ marginRight: "15px" }}
+                      // fullWidth
+                    >
+                      Add More Items
+                    </Button>
+                    <Button
+                      size="small"
+                      color="secondary"
+                      variant="contained"
+                      onClick={handleUpdateDetails}
+                      className="py-1 px-5"
+                      // fullWidth
+                    >
+                      Update Consumables
+                    </Button>
+                  </div>
                 </main>
               </TabPanel>
               <TabPanel value="3" sx={{ padding: "15px 5px" }}>
-                <OrderPayments order={order} />
+                <OrderPayments order={order} orderDetails={orderDetails} />
               </TabPanel>
               <TabPanel value="4" sx={{ padding: "15px 5px" }}>
-                <OrderStatus order={order} />
+                <OrderStatus order={order} onClose={onClose} />
               </TabPanel>
             </TabContext>
           </Box>
+          <AddMoreCategories
+            open={openAddMoreCategories}
+            onClose={() => setOpenAddMoreCategories(false)}
+            orderItems={orderDetails?.orderItems}
+            categories={orderDetails?.categories}
+            order={order}
+          />
+          <ReactTextEditor
+            open={openTextEditor}
+            onClose={() => setOpenTextEditor(false)}
+            data={selectedDetails}
+            placeholder={selectedDetails?.name}
+            onConfirm={(data) => handleUpdateOrderDetails(data)}
+            loading={loadingOnSubmit}
+          />
+          <AddConsumables
+            open={openConsumables}
+            onClose={() => setOpenConsumables(false)}
+            consumables={consumables}
+            order={order}
+          />
         </DialogContent>
       </Dialog>
     </div>

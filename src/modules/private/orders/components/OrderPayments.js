@@ -10,7 +10,7 @@ const styles = {
   //   },
 };
 
-function OrderPayments() {
+function OrderPayments({ order, orderDetails }) {
   const [categoryList, setCategoryList] = useState([]);
 
   useEffect(() => {

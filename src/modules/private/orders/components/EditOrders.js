@@ -10,7 +10,7 @@ import FormFieldData from "../../../../components/FormFieldData";
 import Http from "../../../../services/Http";
 
 const EditOrders = (props) => {
-  const { open, order, onClose} = props;
+  const { open, order, onClose } = props;
   const [editedOrder, setEditedOrder] = useState({
     email: "",
     first_name: "",
@@ -48,9 +48,15 @@ const EditOrders = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    Http.put(`update/orders/${order.id}`,{headers:{
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`
-    }}, editedOrder)
+    Http.post(
+      `update/orders/${order.id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      },
+      editedOrder
+    )
       .then((res) => {
         if (res.data) {
           onClose();

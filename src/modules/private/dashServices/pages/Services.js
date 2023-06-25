@@ -29,6 +29,8 @@ import TabPanel from "@mui/lab/TabPanel";
 import AddCategory from "../components/AddCategory";
 import ItemTypes from "../components/ItemTypes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
+import EditService from "../components/EditService";
 
 const Services = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -38,6 +40,10 @@ const Services = () => {
   const [servicesData, setServicesData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
   const [itemTypesData, setItemTypesData] = useState([]);
+  const [value, setValue] = React.useState("1");
+  const [loadingOnSubmit, setLoadingOnSubmit] = React.useState(false);
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [openConfirm, setOpenConfirm] = React.useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -65,6 +71,7 @@ const Services = () => {
   const fetchItemCategories = () => {
     Http.get("/item-categories")
       .then((res) => {
+        console.log(res.data);
         setCategoriesData(res.data);
       })
       .catch((err) => {
@@ -82,20 +89,30 @@ const Services = () => {
       });
   };
 
-  const handleUpdate = (values) => {
-    Http.get(`update/services/${values}`, {
+  const handleUpdate = (id) => {
+    Http.get(`update/services/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
     }).then();
   };
   const handleDelete = (id) => {
+    setLoadingOnSubmit(true);
     Http.delete(`delete/services/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },
-    }).then();
+    })
+      .then((res) => {
+        forceUpdate();
+        setLoadingOnSubmit(false);
+        setOpenConfirm(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
+
   const handleShow = (id) => {
     Http.get(`view/services/${id}`, {
       headers: {
@@ -114,7 +131,15 @@ const Services = () => {
       });
   };
 
-  const [value, setValue] = React.useState("1");
+  const handleSelectItem = (name, item) => {
+    setSelectedItem(item);
+
+    if (name === "edit") {
+      setOpenEdit(true);
+    } else if (name === "delete") {
+      setOpenConfirm(true);
+    }
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -139,13 +164,21 @@ const Services = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta) => {
-          // const order = orders[tableMeta.rowIndex];
+          const service = servicesData[tableMeta.rowIndex];
           return (
             <Stack direction="row" spacing={1}>
-              <IconButton aria-label="edit" color="primary">
+              <IconButton
+                aria-label="edit"
+                color="primary"
+                onClick={() => handleSelectItem("edit", service)}
+              >
                 <EditIcon />
               </IconButton>
-              <IconButton aria-label="edit" color="error">
+              <IconButton
+                aria-label="edit"
+                color="error"
+                onClick={() => handleSelectItem("delete", service)}
+              >
                 <DeleteIcon />
               </IconButton>
             </Stack>
@@ -175,7 +208,7 @@ const Services = () => {
     customToolbar: () => {
       return (
         <>
-          <AddServices forceUpdate={() => forceUpdate()} />;
+          <AddServices forceUpdate={() => forceUpdate()} />
         </>
       );
     },
@@ -217,12 +250,20 @@ const Services = () => {
     filterType: "checkbox",
     rowsPerPage: 10,
     customToolbarSelect: () => {
-      return <AddCategory forceUpdate={() => forceUpdate()} />;
+      return (
+        <AddCategory
+          forceUpdate={() => forceUpdate()}
+          services={servicesData}
+        />
+      );
     },
     customToolbar: () => {
       return (
         <>
-          <AddCategory forceUpdate={() => forceUpdate()} />;
+          <AddCategory
+            forceUpdate={() => forceUpdate()}
+            services={servicesData}
+          />
         </>
       );
     },
@@ -264,12 +305,20 @@ const Services = () => {
     filterType: "checkbox",
     rowsPerPage: 10,
     customToolbarSelect: () => {
-      return <ItemTypes forceUpdate={() => forceUpdate()} />;
+      return (
+        <ItemTypes
+          forceUpdate={() => forceUpdate()}
+          categories={categoriesData}
+        />
+      );
     },
     customToolbar: () => {
       return (
         <>
-          <ItemTypes forceUpdate={() => forceUpdate()} />;
+          <ItemTypes
+            forceUpdate={() => forceUpdate()}
+            categories={categoriesData}
+          />
         </>
       );
     },
@@ -329,10 +378,18 @@ const Services = () => {
         },
       },
     });
+
   return (
     <>
       <div>
         <Box sx={{ width: "100%", typography: "body1" }}>
+          <ConfirmationDialog
+            open={openConfirm}
+            onClose={() => setOpenConfirm(false)}
+            message="You are about to delete this sevice, proceed?"
+            onConfirm={() => handleDelete(selectedItem.id)}
+            loading={loadingOnSubmit}
+          />
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange} aria-label="Services">
@@ -387,6 +444,12 @@ const Services = () => {
             </TabPanel>
           </TabContext>
         </Box>
+        <EditService
+          open={openEdit}
+          forceUpdate={forceUpdate}
+          item={selectedItem && selectedItem}
+          onCLose={() => setOpenEdit(false)}
+        />
       </div>
     </>
   );

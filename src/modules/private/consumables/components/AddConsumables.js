@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Http } from "../../../../services/Http";
+import Http from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
 import {

@@ -27,6 +27,7 @@
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
     "react-fontawesome": "^1.7.1",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
     "react-to-print": "^2.14.12",
