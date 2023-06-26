@@ -3,13 +3,23 @@ import Http from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
 import { handleErrorResponse } from "../../../../utils/helpers";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
-import { Box, Button, Modal, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  Typography,
+} from "@mui/material";
 import FormFieldData from "../../../../components/FormFieldData";
 import Reevalidate from "ree-validate-18";
+import ItemTypes from "./ItemTypes";
 
 const validator = new Reevalidate.Validator({
   name: "required",
-  description: "required",
+  price: "required|numeric",
 });
 
 const style = {
@@ -37,28 +47,36 @@ const inputStyle = {
   mb: 1,
 };
 
-export default function EditHandling(props) {
-  const { open, onCloseService, itemService, forceUpdate } = props;
+export default function EditItemType(props) {
+  const { open, onClosed, itemType, forceUpdate } = props;
+  const [categories, setCategories] = React.useState([]);
 
   const [loading, setLoading] = React.useState(false);
   const [data, setData] = React.useState({
     values: {
       name: "",
-      description: "",
+      category_id: "",
     },
     errors: validator.errors,
   });
 
+  const handleCategorytoselect = () => {
+    Http.get("/show/categorytoselect").then((res) => {
+      setCategories(res.data.category);
+    });
+  };
+
   React.useEffect(() => {
-    if (itemService) {
+    handleCategorytoselect();
+    if (itemType) {
       setData({
         values: {
-          name: itemService.name,
-          description: itemService.description,
+          name: itemType.name,
+          category_id: itemType.category_id,
         },
       });
     }
-  }, [itemService]);
+  }, [itemType]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -80,10 +98,10 @@ export default function EditHandling(props) {
   const handleUpdate = () => {
     validator.validateAll(data.values).then((success) => {
       if (success) {
-        Http.put(`update/services/${itemService.id}`, data.values)
+        Http.put(`update/item-type/${itemType.id}`, data.values)
           .then((res) => {
             forceUpdate();
-            onCloseService();
+            onClosed();
             ToastNotification("success", "Successfully Saved Data", options);
             setLoading(false);
           })
@@ -103,44 +121,56 @@ export default function EditHandling(props) {
     <>
       <ToastNotificationContainer />
       <Modal
-        key={itemService?.id}
+        key={itemType?.id}
         open={open}
-        onClose={onCloseService}
+        onClose={onClosed}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit User
+            Edit ItemTypes
           </Typography>
           <FormFieldData
             fullWidth
-            label="Service"
+            label="Name"
             value={data.values.name}
             name="name"
             onChange={handleChange}
             errors={data.errors}
             sx={inputStyle}
           />
-          <FormFieldData
-            fullWidth
-            label="Description"
-            value={data.values.description}
-            name="description"
-            onChange={handleChange}
-            inputProps={{
-              maxLength: 11,
-            }}
-            errors={data.errors}
-            sx={inputStyle}
-          />
+          <FormControl fullWidth size="small" variant="outlined" margin="dense">
+            <InputLabel id="category-label">Categories</InputLabel>
+            <Select
+              labelId="category-label"
+              name="category_id"
+              id="category_id"
+              label="Category"
+              value={data.values.category_id}
+              onChange={handleChange}
+              errors={data.errors}
+            >
+              {categories?.map((categoryItem) => {
+                return (
+                  <MenuItem
+                    key={categoryItem.id}
+                    value={categoryItem.id}
+                    id="categoryItem"
+                  >
+                    {categoryItem.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
 
           <Button
             loading={loading}
             fullWidth
             variant="contained"
             color="primary"
-            onClick={() => handleUpdate(itemService.id)}
+            onClick={() => handleUpdate(itemType.id)}
           >
             Update
           </Button>

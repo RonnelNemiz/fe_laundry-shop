@@ -6,8 +6,12 @@ import {
   Box,
   Button,
   CircularProgress,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
   Modal,
+  Select,
   Typography,
 } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
@@ -16,8 +20,9 @@ import SelectDropdown from "../../../../components/SelectDropdown";
 import ReeValidate from "ree-validate-18";
 
 const validator = new ReeValidate.Validator({
-  category: "required",
-  service: "required",
+  name: "required",
+  service_id: "required",
+  price: "required",
 });
 
 const style = {
@@ -46,13 +51,15 @@ const options = {
 };
 
 export default function AddCategory(props) {
-  const { forceUpdate, services } = props;
+  const { forceUpdate } = props;
 
+  const [services, setServices] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
     values: {
-      category: "",
-      service: "",
+      name: "",
+      service_id: "",
+      price: "",
     },
     errors: validator.errors,
   });
@@ -85,11 +92,7 @@ export default function AddCategory(props) {
 
   const handleSubmit = () => {
     setLoading(true);
-    Http.post("/add/categories", formValues.values, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    Http.post("/add/item-categories", formValues.values)
       .then((res) => {
         if (res.data.status === 200) {
           ToastNotification("success", "Successfully Saved Data!", options);
@@ -117,6 +120,21 @@ export default function AddCategory(props) {
         }));
       }
     });
+  };
+
+  React.useEffect(() => {
+    handleServicestoselect();
+  }, []);
+
+  const handleServicestoselect = () => {
+    Http.get("/show/servicestoselect")
+      .then((res) => {
+        //   console.log(res.data.services);
+        setServices(res.data.services);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -157,24 +175,49 @@ export default function AddCategory(props) {
               required
               fullWidth
               label="Category"
-              id="category"
-              value={formValues.values.category}
-              name="category"
+              id="name"
+              value={formValues.values.name}
+              name="name"
               onChange={handleChange}
               errors={formValues.errors}
               sx={inputStyle}
             />
-            <SelectDropdown
-              sx={{ mb: 1 }}
+            <FormFieldData
+              required
               fullWidth
-              label="Service"
-              name="service"
-              categories={services && services}
-              value={formValues.values.service}
+              label="Price"
+              id="price"
+              value={formValues.values.price}
+              name="price"
               onChange={handleChange}
               errors={formValues.errors}
-              required
+              sx={inputStyle}
             />
+            <FormControl
+              fullWidth
+              size="small"
+              variant="outlined"
+              margin="dense"
+            >
+              <InputLabel id="service-label">Service</InputLabel>
+              <Select
+                labelId="service-label"
+                name="service_id"
+                id="service_id"
+                label="Service"
+                value={formValues.values.service_id}
+                onChange={handleChange}
+                errors={formValues.errors}
+              >
+                {services?.map((service) => {
+                  return (
+                    <MenuItem key={service.id} value={service.id} id="service">
+                      {service.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
           </Box>
           <Button
             fullWidth

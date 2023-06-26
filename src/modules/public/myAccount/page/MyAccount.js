@@ -1,15 +1,5 @@
 import React, { useReducer, useState } from "react";
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Tooltip,
-  Typography,
-} from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import Http from "../../../../services/Http";
 import ShowHistory from "../components/ShowHistory";
 import UpdateProfile from "../components/UpdateProfile";
@@ -45,13 +35,13 @@ const profileBoxStyle = {
   padding: "0 50px",
 };
 
-const tableContainerStyle = {
-  marginTop: "10px",
-  padding: "10px",
-};
-const orderStyle = {
-  padding: "50px",
-};
+// const tableContainerStyle = {
+//   marginTop: "10px",
+//   padding: "10px",
+// };
+// const orderStyle = {
+//   padding: "50px",
+// };
 
 function MyAccount() {
   const [customerAccount, setCustomerAccount] = useState(null);
@@ -61,17 +51,15 @@ function MyAccount() {
   const [selectedOrder, setSelectedOrder] = useState({});
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
   const [isLoading, setIsLoading] = useState();
+  const [viewOpen, setViewOpen] = useState(null);
 
   React.useEffect(() => {
     handleFetchCustomer();
-  }, []);
+  }, [ignored]);
 
   const handleFetchCustomer = () => {
-    Http.get("customer", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    setIsLoading(true);
+    Http.get("customer")
       .then((res) => {
         if (res.data.status === 200) {
           setCustomerAccount(res.data.user);
@@ -79,6 +67,7 @@ function MyAccount() {
       })
       .catch((error) => {
         console.log(error);
+        setIsLoading(false);
       });
   };
 
@@ -91,6 +80,7 @@ function MyAccount() {
     Http.get("history")
       .then((res) => {
         if (res.data.status === 200) {
+          console.log(res.data.orders);
           setCustomerHistory(res.data.orders);
           setIsLoading(false);
         }
@@ -100,24 +90,8 @@ function MyAccount() {
       });
   };
 
-  const handleDelete = (values) => {
-    Http.delete(`/delete/orders/${values}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
-  };
-
   const handleUpdate = (params) => {
-    Http.put(
-      `edit/profile/${params.user_id}`,
-      params
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      //   },
-      // },
-    )
+    Http.put(`edit/profile/${params.user_id}`, params)
       .then((res) => {
         console.log(res.data);
         setCustomerAccount(res.data.user);
@@ -127,8 +101,9 @@ function MyAccount() {
       });
   };
 
-  const handleShow = (orders) => {
+  const handleOpenView = (orders) => {
     setShowOrder(orders);
+    setViewOpen(true);
   };
 
   const handleShowInsertComment = (order) => {
@@ -141,10 +116,17 @@ function MyAccount() {
       name: "actions",
       label: "Actions",
       options: {
-        customBodyRender: () => {
+        customBodyRender: (value, tableMeta) => {
+          const orderhistory = customerHistory[tableMeta.rowIndex];
           return (
             <Stack direction="row" spacing={1}>
-              <IconButton aria-label="view" onClick={""} color="primary">
+              <IconButton
+                aria-label="view"
+                onClick={() => {
+                  handleOpenView(orderhistory);
+                }}
+                color="primary"
+              >
                 <ViewIcon />
               </IconButton>
             </Stack>
@@ -275,9 +257,9 @@ function MyAccount() {
               Email: {customerAccount?.email}
             </span>
             <br />
-            <span style={{ textAlign: "center" }}>
+            {/* <span style={{ textAlign: "center" }}>
               Password: **************
-            </span>
+            </span> */}
 
             <UpdateProfile
               selectedItem={profile}
@@ -289,7 +271,9 @@ function MyAccount() {
         ))}
       </Box>
 
-      <Box sx={orderStyle}>
+      <Box
+      // sx={orderStyle}
+      >
         <ThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
             title={"Your Order History"}
@@ -300,13 +284,24 @@ function MyAccount() {
           {isLoading && <LinearProgress />}
         </ThemeProvider>
         {isLoading && <LinearProgress />}
-        {showOrder && (
+        <ShowHistory
+          open={viewOpen}
+          onClose={() => setViewOpen(false)}
+          orderHistory={showOrder}
+        />
+
+        {/* {showOrder && (
           <ShowHistory
             sx={{ maxWidth: "500px" }}
             showOrder={showOrder}
             onClose={() => setShowOrder(null)}
           />
-        )}
+        )} */}
+        {/* <ShowHistory
+          open={isViewOpen}
+          onClose={() => setViewOpen(false)}
+          showOrderHistory={showOrder}
+        /> */}
       </Box>
 
       <CommentModal

@@ -100,7 +100,7 @@ export default function AddHandling(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Add Services
+            Add Handling
           </Typography>
           <FormFieldData
             fullWidth

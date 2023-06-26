@@ -11,7 +11,7 @@ import Http from "../../../services/Http";
 
 function Login() {
   const history = useHistory();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const [loginInput, setLogin] = useState({
     email: "",
@@ -35,7 +35,7 @@ function Login() {
             "Authorization"
           ] = `Bearer ${res.data.access_token}`;
           localStorage.setItem("role", res.data.user.role_id);
-          swal("Success", "Yeheey!!!", "success");
+          // swal("Success", "Yeheey!!!", "success");
           if (
             localStorage.getItem("personal_details") ||
             localStorage.getItem("payment_method") ||
@@ -65,6 +65,7 @@ function Login() {
       console.log("effect rendered");
     }
   }, [history]);
+
   return (
     <div className="sec-boxLogin">
       <div className="form-wrapper">

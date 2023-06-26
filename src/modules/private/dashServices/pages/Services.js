@@ -26,6 +26,9 @@ import ItemTypes from "../components/ItemTypes";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ConfirmationDialog from "../../../../components/ConfirmationDialog";
 import EditService from "../components/EditService";
+import EditCategories from "../components/EditCategories";
+import ToastNotification from "../../../../components/ToastNotification";
+import EditItemType from "../components/EditItemType";
 
 const Services = () => {
   const [ignored, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -37,8 +40,13 @@ const Services = () => {
   const [itemTypesData, setItemTypesData] = useState([]);
   const [value, setValue] = React.useState("1");
   const [loadingOnSubmit, setLoadingOnSubmit] = React.useState(false);
+  const [openEditService, setOpenEditService] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
   const [openConfirm, setOpenConfirm] = React.useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openEditItemType, setOpenEditItemType] = useState(false);
+  const [openDeleteItem, setOpenDeleteItem] = useState(false);
+  const [openDeleteService, setOpenDeleteService] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -48,11 +56,7 @@ const Services = () => {
   }, [ignored]);
 
   const fetchServices = () => {
-    Http.get("/services", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    Http.get("/services")
       .then((res) => {
         setServicesData(res.data);
         setIsLoading(false);
@@ -74,6 +78,15 @@ const Services = () => {
       });
   };
 
+  const onEdit = (data) => {
+    setSelectedItem(data);
+    setOpenEdit(true);
+  };
+  const onEditItemType = (data) => {
+    setSelectedItem(data);
+    setOpenEditItemType(true);
+  };
+
   const fetchItemTypes = () => {
     Http.get("/item-types")
       .then((res) => {
@@ -84,36 +97,31 @@ const Services = () => {
       });
   };
 
-  const handleUpdate = (id) => {
-    Http.get(`update/services/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    }).then();
+  const onEditService = (data) => {
+    setSelectedItem(data);
+    setOpenEditService(true);
   };
-  const handleDelete = (id) => {
-    setLoadingOnSubmit(true);
-    Http.delete(`delete/services/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
-      .then((res) => {
-        forceUpdate();
-        setLoadingOnSubmit(false);
-        setOpenConfirm(false);
-      })
+
+  const handleUpdateService = (values) => {
+    Http.get(`update/services/${values}`).then();
+  };
+  const handleDeleteService = () => {
+    setIsLoading(true);
+    Http.delete(`delete/services/${selectedItem.id}`)
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", tableoptions),
+        setIsLoading(false),
+        setOpenDeleteService(false)
+      )
       .catch((err) => {
-        console.log(err.message);
+        setIsLoading(false);
+        ToastNotification("error", err, tableoptions);
       });
   };
 
   const handleShow = (id) => {
-    Http.get(`view/services/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+    Http.get(`view/services/${id}`)
       .then((res) => {
         setSelectedItem(res.data);
         setImageUrls((prevImageUrls) => ({
@@ -124,6 +132,65 @@ const Services = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+  const handleUpdateCategories = (values) => {
+    Http.get(`update/item-categories/${values}`).then();
+  };
+
+  const onDelete = (data) => {
+    setSelectedItem(data);
+    setOpenDelete(true);
+  };
+
+  const onDeleteItem = (data) => {
+    setSelectedItem(data);
+    setOpenDeleteItem(true);
+  };
+
+  const handleUpdateItemType = (values) => {
+    Http.get(`update/item-type/${values}`).then();
+  };
+  const handleDeleteCategories = () => {
+    setIsLoading(true);
+    Http.delete(`delete/item-categories/${selectedItem.id}`)
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", tableoptions),
+        setIsLoading(false),
+        setOpenDelete(false)
+      )
+      .catch((err) => {
+        setIsLoading(false);
+        ToastNotification("error", err, tableoptions);
+      });
+  };
+  const handleDeleteItemType = () => {
+    setIsLoading(true);
+    Http.delete(`delete/item-type/${selectedItem.id}`)
+      .then(
+        forceUpdate(),
+        ToastNotification("success", "Successfully Deleted!", tableoptions),
+        setIsLoading(false),
+        setOpenDeleteItem(false)
+      )
+      .catch((err) => {
+        setIsLoading(false);
+        ToastNotification("error", err, tableoptions);
+      });
+  };
+  const onDeleteService = (data) => {
+    setSelectedItem(data);
+    setOpenDeleteService(true);
+  };
+
+  const tableoptions = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    draggable: true,
+    draggableDirection: "x" | "y",
+    draggablePercent: 60,
+    theme: "colored",
   };
 
   const handleSelectItem = (name, item) => {
@@ -164,17 +231,19 @@ const Services = () => {
             <Stack direction="row" spacing={1}>
               <IconButton
                 aria-label="edit"
-                color="primary"
-                onClick={() => handleSelectItem("edit", service)}
+                onClick={() => {
+                  onEditService(service);
+                }}
               >
-                <EditIcon />
+                <EditIcon color="warning" />
               </IconButton>
               <IconButton
-                aria-label="edit"
-                color="error"
-                onClick={() => handleSelectItem("delete", service)}
+                aria-label="delete"
+                onClick={() => {
+                  onDeleteService(service);
+                }}
               >
-                <DeleteIcon />
+                <DeleteIcon color="error" />
               </IconButton>
             </Stack>
           );
@@ -214,13 +283,24 @@ const Services = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta) => {
-          // const order = orders[tableMeta.rowIndex];
+          const categories = categoriesData[tableMeta.rowIndex];
           return (
             <Stack direction="row" spacing={1}>
-              <IconButton aria-label="edit" color="primary">
-                <EditIcon />
+              <IconButton
+                aria-label="edit"
+                onClick={() => {
+                  onEdit(categories);
+                }}
+              >
+                <EditIcon color="warning" />
               </IconButton>
-              <IconButton aria-label="edit" color="error">
+              <IconButton
+                aria-label="edit"
+                onClick={() => {
+                  onDelete(categories);
+                }}
+                color="error"
+              >
                 <DeleteIcon />
               </IconButton>
             </Stack>
@@ -240,6 +320,14 @@ const Services = () => {
       name: "service_name",
       label: "Service",
     },
+    {
+      name: "price",
+      label: "Price",
+      options: {
+        filter: true,
+        sort: false,
+      },
+    },
   ];
   const categoriesOptions = {
     filterType: "checkbox",
@@ -255,10 +343,7 @@ const Services = () => {
     customToolbar: () => {
       return (
         <>
-          <AddCategory
-            forceUpdate={() => forceUpdate()}
-            services={servicesData}
-          />
+          <AddCategory forceUpdate={() => forceUpdate()} />
         </>
       );
     },
@@ -269,14 +354,24 @@ const Services = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta) => {
-          // const order = orders[tableMeta.rowIndex];
+          const itemItem = itemTypesData[tableMeta.rowIndex];
           return (
             <Stack direction="row" spacing={1}>
-              <IconButton aria-label="edit" color="primary">
-                <EditIcon />
+              <IconButton
+                aria-label="edit"
+                onClick={() => {
+                  onEditItemType(itemItem);
+                }}
+              >
+                <EditIcon color="warning" />
               </IconButton>
-              <IconButton aria-label="edit" color="error">
-                <DeleteIcon />
+              <IconButton
+                aria-label="delete"
+                onClick={() => {
+                  onDeleteItem(itemItem);
+                }}
+              >
+                <DeleteIcon color="error" />
               </IconButton>
             </Stack>
           );
@@ -378,13 +473,13 @@ const Services = () => {
     <>
       <div>
         <Box sx={{ width: "100%", typography: "body1" }}>
-          <ConfirmationDialog
+          {/* <ConfirmationDialog
             open={openConfirm}
             onClose={() => setOpenConfirm(false)}
             message="You are about to delete this sevice, proceed?"
             onConfirm={() => handleDelete(selectedItem.id)}
             loading={loadingOnSubmit}
-          />
+          /> */}
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange} aria-label="Services">
@@ -409,6 +504,35 @@ const Services = () => {
                 )}
               </TableContainer>
             </TabPanel>
+            <EditService
+              open={openEditService}
+              forceUpdate={forceUpdate}
+              onEditService={handleUpdateService}
+              itemService={selectedItem}
+              onCloseService={() => setOpenEditService(false)}
+            />
+            <ConfirmationDialog
+              open={openDeleteService}
+              onClose={() => setOpenDeleteService(false)}
+              onConfirm={handleDeleteService}
+              loading={isLoading}
+              message=" Are you sure? If deleted you will not able to recover the data."
+            />
+
+            <EditItemType
+              open={openEditItemType}
+              itemType={selectedItem}
+              onEditItemType={handleUpdateItemType}
+              onClosed={() => setOpenEditItemType(false)}
+              forceUpdate={forceUpdate}
+            />
+            <ConfirmationDialog
+              open={openDeleteItem}
+              onClose={() => setOpenDeleteItem(false)}
+              onConfirm={handleDeleteItemType}
+              loading={isLoading}
+              message=" Are you sure? If deleted you will not able to recover the data."
+            />
             <TabPanel value="2">
               {isLoading ? (
                 <CircularProgress />
@@ -423,6 +547,20 @@ const Services = () => {
                 </ThemeProvider>
               )}
             </TabPanel>
+            <EditCategories
+              open={openEdit}
+              category={selectedItem}
+              onEdit={handleUpdateCategories}
+              onClose={() => setOpenEdit(false)}
+              forceUpdate={forceUpdate}
+            />
+            <ConfirmationDialog
+              open={openDelete}
+              onClose={() => setOpenDelete(false)}
+              onConfirm={handleDeleteCategories}
+              loading={isLoading}
+              message=" Are you sure? If deleted you will not able to recover the data."
+            />
             <TabPanel value="3">
               {isLoading ? (
                 <CircularProgress />
@@ -439,12 +577,6 @@ const Services = () => {
             </TabPanel>
           </TabContext>
         </Box>
-        <EditService
-          open={openEdit}
-          forceUpdate={forceUpdate}
-          item={selectedItem && selectedItem}
-          onClose={() => setOpenEdit(false)}
-        />
       </div>
     </>
   );

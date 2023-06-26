@@ -106,11 +106,12 @@ const AddPayMeth = ({ forceUpdate }) => {
             value={instructions}
             onChange={(e) => setInstructions(e.target.value)}
           />
-          <div className="d-flex flex-column mt-3">
+          {/* <div className="d-flex flex-column mt-3">
             <label htmlFor="file-upload">Choose a file:</label>
             <TextField
               id="file-upload"
               type="file"
+              value={selectedFile}
               onChange={(e) => setLogo(e.target.value)}
               inputProps={{
                 accept: ".jpg, .png, .pdf",
@@ -118,7 +119,7 @@ const AddPayMeth = ({ forceUpdate }) => {
               }}
             />
             <p>Selected file: {selectedFile ? selectedFile.name : "None"}</p>
-          </div>
+          </div> */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="contained" color="secondary">
