@@ -131,29 +131,45 @@ const Orders = () => {
       options: {
         customBodyRender: (value) => {
           let color = "";
-
+          let valName = "";
           switch (value) {
-            case "1":
+            case 0:
               color = "error";
+              valName = "Pending";
               break;
-            case "2":
+            case 1:
               color = "primary";
+              valName = "Confirmed";
               break;
-            case "3":
+            case 2:
+              color = "primary";
+              valName = "On Queue";
+              break;
+            case 3:
+              color = "primary";
+              valName = "Washing";
+              break;
+            case 4:
+              color = "primary";
+              valName = "Ready for Payment";
+              break;
+            case 5:
               color = "secondary";
+              valName = "Completed";
               break;
-            case "4":
-              color = "warning";
+            case 6:
+              color = "error";
+              valName = "Canceled";
               break;
             default:
-              color = "primary";
+              color = "error";
               break;
           }
 
           return (
             <Stack direction="row" spacing={1}>
               <Chip
-                label={value}
+                label={valName}
                 color={color}
                 size="small"
                 variant="outlined"
@@ -171,20 +187,26 @@ const Orders = () => {
       options: {
         customBodyRender: (value) => {
           let color = "";
+          let valName = "";
 
           switch (value) {
-            case "1":
+            case 0:
               color = "error";
+              valName = "Unpaid";
+              break;
+            case 1:
+              color = "primary";
+              valName = "Paid";
               break;
             default:
-              color = "primary";
+              color = "error";
               break;
           }
 
           return (
             <Stack direction="row" spacing={1}>
               <Chip
-                label={value}
+                label={valName}
                 color={color}
                 size="small"
                 variant="outlined"
@@ -205,24 +227,27 @@ const Orders = () => {
           let color = "";
 
           switch (value) {
-            case "1":
-              statusName = "Ready for Pickup";
-              color = "primary";
-              break;
-            case "2":
-              statusName = "Ready for Delivery";
-              color = "primary";
-              break;
-            case "3":
+            case 0:
               statusName = "Rider on Pickup";
               color = "primary";
               break;
-            case "4":
+            case 1:
               statusName = "Rider on Delivery";
               color = "primary";
               break;
+            case 2:
+              statusName = "Ready for Store Pickup";
+              color = "primary";
+              break;
+            case 3:
+              statusName = "Delivered";
+              color = "secondary";
+              break;
+            case 4:
+              statusName = "Picked Up";
+              color = "warning";
+              break;
             default:
-              statusName = "Not yet ready";
               color = "error";
               break;
           }

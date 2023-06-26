@@ -183,15 +183,24 @@ export default function EditService(props) {
               sx={inputStyle}
             />
           </Box>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={handleValidate}
-            disabled={loading}
-          >
-            {loading ? <CircularProgress size={24} /> : "Update"}
-          </Button>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={onClose}
+              sx={{ mr: 2 }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleValidate}
+              disabled={loading}
+            >
+              {loading ? <CircularProgress size={24} /> : "Update"}
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </div>

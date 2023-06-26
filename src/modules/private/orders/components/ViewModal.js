@@ -5,7 +5,13 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import { Typography, Box, Divider, IconButton } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Divider,
+  IconButton,
+  LinearProgress,
+} from "@mui/material";
 import Http from "../../../../services/Http";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -27,21 +33,52 @@ const styles = {
 
 export default function ViewModal(props) {
   const { open, onClose, fetchingData, order } = props;
-  const [isLoading, setIsLoading] = useState(false);
-  const [orders, setOrders] = useState();
 
   const orderId = (order && order.id) || "";
 
+  const [loading, setLoading] = useState(false);
+  const [orderDetails, setOrderDetails] = React.useState([]);
   const [expanded, setExpanded] = React.useState(false);
+  const [formValues, setFormValues] = useState({
+    trans_number: "",
+    first_name: "",
+    last_name: "",
+    purok: "",
+    brgy: "",
+    municipality: "",
+    contact_number: "",
+    land_mark: "",
+  });
+
+  useEffect(() => {
+    if (open) {
+      fetchOrderDetail();
+    }
+  }, [open]);
+
+  const fetchOrderDetail = () => {
+    setLoading(true);
+    Http.get(`/order-details/${orderId}`)
+      .then((res) => {
+        if (res.data) {
+          setOrderDetails(res.data);
+          setFormValues((prev) => ({
+            ...prev,
+            trans_number: res.data?.order?.trans_number,
+            ...res.data?.profile,
+          }));
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
+
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  useEffect(() => {
-    setIsLoading(true);
-    Http.get("/orders").then((res) => {
-      setOrders(res.data);
-    });
-  }, []);
+
   // console.log("Order Id:", orderId);
   const handlePay = () => {
     // 1. validate payment if needed
@@ -53,6 +90,7 @@ export default function ViewModal(props) {
   const tableStyle = {
     textAlign: "right",
   };
+
   return (
     <Dialog
       open={open}
@@ -74,107 +112,88 @@ export default function ViewModal(props) {
           <section className="card">
             <div className="card-header bg-primary bg-gradient text-light">
               <h3 className="m-0">CUSTOMER PROFILE</h3>
-              {/* {loading && <LinearProgress />} */}
+              {loading && <LinearProgress />}
             </div>
-            <div className="card-body">
-              <Box
-                component="form"
-                sx={{
-                  "& > :not(style)": { m: 1, width: "95%" },
-                }}
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  id=""
-                  label="Transaction #"
-                  variant="standard"
-                  value="LAUNDRY-023"
-                  onChange={""}
-                  name="trans_number"
-                  disabled
-                />
-                <Box className={"d-flex"}>
+            {!loading && (
+              <div className="card-body">
+                <Box
+                  component="form"
+                  sx={{
+                    "& > :not(style)": { m: 1, width: "95%" },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >
                   <TextField
-                    id=""
-                    label="First Name"
+                    label="Transaction #"
                     variant="standard"
-                    value="Adrian"
-                    onChange={""}
-                    name="first_name"
-                    className="flex-fill"
+                    value={formValues?.trans_number}
+                    name="trans_number"
+                    disabled
                   />
+                  <Box className={"d-flex"}>
+                    <TextField
+                      label="First Name"
+                      variant="standard"
+                      value={formValues?.first_name}
+                      name="first_name"
+                      className="flex-fill"
+                      disabled
+                    />
+                    <TextField
+                      label="Last Name"
+                      variant="standard"
+                      value={formValues?.last_name}
+                      name="last_name"
+                      className="flex-fill"
+                      disabled
+                    />
+                  </Box>
+                  <Box className={"d-flex"}>
+                    <TextField
+                      className="flex-fill"
+                      disabled
+                      label="Purok"
+                      variant="standard"
+                      value={formValues?.purok}
+                      name="purok"
+                    />
+                    <TextField
+                      className="flex-fill"
+                      disabled
+                      label="Barangay"
+                      variant="standard"
+                      value={formValues?.brgy}
+                      name="brgy"
+                    />
+                    <TextField
+                      className="flex-fill"
+                      disabled
+                      label="Municipality"
+                      variant="standard"
+                      value={formValues?.municipality}
+                      name="municipality"
+                    />
+                    <TextField
+                      className="flex-fill"
+                      disabled
+                      label="Landmark"
+                      variant="standard"
+                      value={formValues?.land_mark}
+                      name="land_mark"
+                    />
+                  </Box>
                   <TextField
-                    id=""
-                    label="Last Name"
-                    variant="standard"
-                    value="Elizaga"
-                    onChange={""}
-                    name="last_name"
                     className="flex-fill"
+                    disabled
+                    label="Contact #"
+                    variant="standard"
+                    value={formValues?.contact_number}
+                    name="contact_number"
                   />
                 </Box>
-                <Box className={"d-flex"}>
-                  <TextField
-                    className="flex-fill"
-                    id=""
-                    label="Purok"
-                    variant="standard"
-                    value="Purok Uno"
-                    onChange={""}
-                    name="purok"
-                  />
-                  <TextField
-                    className="flex-fill"
-                    id=""
-                    label="Barangay"
-                    variant="standard"
-                    value="Brgy. Doos"
-                    onChange={""}
-                    name="brgy"
-                  />
-                  <TextField
-                    className="flex-fill"
-                    id=""
-                    label="Municipality"
-                    variant="standard"
-                    value="Tres Town"
-                    onChange={""}
-                    name="municipality"
-                  />
-                  <TextField
-                    className="flex-fill"
-                    id=""
-                    label="Landmark"
-                    variant="standard"
-                    value="Landbank"
-                    onChange={""}
-                    name="land_mark"
-                  />
-                </Box>
-                <TextField
-                  className="flex-fill"
-                  id=""
-                  label="Contact #"
-                  variant="standard"
-                  value="09123456789"
-                  onChange={""}
-                  name="contact_number"
-                />
-              </Box>
-            </div>
-            <div className="card-footer">
-              <Button
-                size="small"
-                color="secondary"
-                variant="contained"
-                onClick={""}
-                className="py-1 px-5"
-                // fullWidth
-              >
-                Update Profile
-              </Button>
-            </div>
+              </div>
+            )}
           </section>
         </main>
         <Divider className="mt-3" />
@@ -185,394 +204,29 @@ export default function ViewModal(props) {
               {/* {loading && <LinearProgress />} */}
             </div>
             <div className="card-body">
-              <React.Fragment>
-                <Accordion
-                  expanded={expanded === 1}
-                  onChange={handleAccordionChange(1)}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={"panel-content"}
-                    className="my-0 d-flex justify-content-between"
-                  >
-                    <Typography
-                      className="py-1 my-0 fw-bold"
-                      sx={{ width: "50%" }}
-                    >
-                      Category Name Here
-                    </Typography>
+              {orderDetails?.orderItems?.length <= 0 && (
+                <Typography>No Items</Typography>
+              )}
 
-                    <Form.Control
-                      name={"itemType"}
-                      onChange={""}
-                      id={"itemType"}
-                      style={{
-                        lineHeight: "0",
-                        padding: "0",
-                        border: "0 solid transparent",
-                        borderBottom: "1px solid #ccc",
-                        borderRadius: "0",
-                        outline: "0",
-                        textAlign: "center",
-                        width: "25%",
-                      }}
-                      type="number"
-                      placeholder="Weight in Kilo?"
-                      required
-                    />
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <div>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  expanded={expanded === 2}
-                  onChange={handleAccordionChange(2)}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={"panel-content"}
-                    className="my-0 d-flex justify-content-between"
+              {orderDetails?.orderItems?.length > 0 &&
+                orderDetails?.orderItems.map((item, i) => (
+                  <Box
+                    key={i}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    <Typography
-                      className="py-1 my-0 fw-bold"
-                      sx={{ width: "50%" }}
-                    >
-                      Category Name Here
-                    </Typography>
-
-                    <Form.Control
-                      name={"itemType"}
-                      onChange={""}
-                      id={"itemType"}
-                      style={{
-                        lineHeight: "0",
-                        padding: "0",
-                        border: "0 solid transparent",
-                        borderBottom: "1px solid #ccc",
-                        borderRadius: "0",
-                        outline: "0",
-                        textAlign: "center",
-                        width: "25%",
-                      }}
-                      type="number"
-                      placeholder="Weight in Kilo?"
-                      required
-                    />
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <div>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
-                <Accordion
-                  expanded={expanded === 3}
-                  onChange={handleAccordionChange(3)}
-                >
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls={"panel-content"}
-                    className="my-0 d-flex justify-content-between"
-                  >
-                    <Typography
-                      className="py-1 my-0 fw-bold"
-                      sx={{ width: "50%" }}
-                    >
-                      Category Name Here
-                    </Typography>
-
-                    <Form.Control
-                      name={"itemType"}
-                      onChange={""}
-                      id={"itemType"}
-                      style={{
-                        lineHeight: "0",
-                        padding: "0",
-                        border: "0 solid transparent",
-                        borderBottom: "1px solid #ccc",
-                        borderRadius: "0",
-                        outline: "0",
-                        textAlign: "center",
-                        width: "25%",
-                      }}
-                      type="number"
-                      placeholder="Weight in Kilo?"
-                      required
-                    />
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    <div>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                      <article className="d-flex justify-content-between card my-1">
-                        <div className="card-body d-flex justify-content-between align-items-center py-1">
-                          <div className="d-flex align-items-center m-0">
-                            <label htmlFor={"itemType"}>
-                              Item Type Name here...
-                            </label>
-                          </div>
-                          <Form.Control
-                            name={"itemType"}
-                            onChange={""}
-                            id={"itemType"}
-                            style={{
-                              lineHeight: "0",
-                              padding: "0",
-                              border: "0 solid transparent",
-                              borderBottom: "1px solid #ccc",
-                              borderRadius: "0",
-                              outline: "0",
-                              textAlign: "center",
-                              width: "25%",
-                            }}
-                            type="number"
-                            placeholder="How many?"
-                            required
-                          />
-                        </div>
-                      </article>
-                    </div>
-                  </AccordionDetails>
-                </Accordion>
-              </React.Fragment>
-            </div>
-            <div className="card-footer">
-              <Button
-                size="small"
-                color="success"
-                variant="contained"
-                onClick={""}
-                className="py-1 px-5 mr-3"
-                style={{ marginRight: "15px" }}
-                // fullWidth
-              >
-                Add More Items
-              </Button>
-              <Button
-                size="small"
-                color="secondary"
-                variant="contained"
-                onClick={""}
-                className="py-1 px-5"
-                // fullWidth
-              >
-                Update Order Details
-              </Button>
+                    <Box>
+                      <Typography>{item.name}</Typography>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: item.items_breakdown,
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                ))}
             </div>
           </section>
         </main>
@@ -582,10 +236,15 @@ export default function ViewModal(props) {
           <section className="card">
             <div className="card-header bg-primary bg-gradient text-light">
               <h3 className="m-0">CONSUMABLES</h3>
-              {/* {loading && <LinearProgress />} */}
+              {loading && <LinearProgress />}
             </div>
+            {!loading && orderDetails?.consumables?.length <= 0 && (
+              <Box sx={{ p: 2 }}>
+                <Typography>No items</Typography>
+              </Box>
+            )}
             <div className="card-body">
-              <table class="table">
+              <table className="table">
                 <thead>
                   <tr>
                     <th scope="col">Amount</th>
@@ -593,49 +252,16 @@ export default function ViewModal(props) {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row" style={tableStyle}>
-                      ₱50.00
-                    </th>
-                    <td>Extra: Fabric Conditioner</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style={tableStyle}>
-                      ₱20.00
-                    </th>
-                    <td>Extra: Detergent</td>
-                  </tr>
-                  <tr>
-                    <th scope="row" style={tableStyle}>
-                      ₱0.00
-                    </th>
-                    <td scope="row">Consumable: Detergent</td>
-                  </tr>
+                  {orderDetails.consumables?.map((consumable, i) => (
+                    <tr key={i}>
+                      <th scope="row" style={tableStyle}>
+                        ₱{consumable.price}
+                      </th>
+                      <td>{consumable.name}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
-            </div>
-            <div className="card-footer">
-              <Button
-                size="small"
-                color="success"
-                variant="contained"
-                onClick={""}
-                className="py-1 px-5 mr-3"
-                style={{ marginRight: "15px" }}
-                // fullWidth
-              >
-                Add More Items
-              </Button>
-              <Button
-                size="small"
-                color="secondary"
-                variant="contained"
-                onClick={""}
-                className="py-1 px-5"
-                // fullWidth
-              >
-                Update Consumables
-              </Button>
             </div>
           </section>
         </main>

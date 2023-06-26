@@ -8,14 +8,15 @@ import {
   IconButton,
   DialogTitle,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ToastNotificationContainer from "../../../../components/ToastNotificationContainer";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Form } from "react-bootstrap";
 import Http from "../../../../services/Http";
 import ToastNotification from "../../../../components/ToastNotification";
 
@@ -29,40 +30,50 @@ const options = {
 };
 
 export default function AddConsumables(props) {
-  const { open, onClose, order, orderItems, consumables } = props;
+  const { open, onClose, order, orderItems, selectedConsumables } = props;
 
   const [loading, setLoading] = React.useState(false);
-  const [expanded, setExpanded] = useState(false);
-  const [formValues, setFormValues] = useState([]);
+  const [consumables, setConsumables] = useState([]);
+  const [formValues, setFormValues] = useState({
+    consumables: [],
+  });
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    if (open) {
+      fetchConsumables();
+    }
 
-  const handleAccordionChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    if (selectedConsumables) {
+      setFormValues((prev) => ({
+        ...prev,
+        consumables: selectedConsumables,
+      }));
+    }
+  }, [open, selectedConsumables]);
+
+  const fetchConsumables = () => {
+    Http.get("/consumables")
+      .then((res) => {
+        if (res.data) {
+          setConsumables(res.data.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
   };
 
-  // Define the handleChange function
-  const handleChange = (e, parentKey, childIndex) => {
-    const { name, value } = e.target;
-
-    setFormValues((prev) => {
-      const updatedFormValues = { ...prev };
-
-      if (childIndex !== null) {
-        // Update child category quantity
-        updatedFormValues[parentKey].children[childIndex].quantity = value;
-      } else {
-        // Update parent category kilo
-        updatedFormValues[parentKey].kilo = value;
-      }
-
-      return updatedFormValues;
-    });
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setFormValues((prev) => ({
+      ...prev,
+      consumables: value,
+    }));
   };
 
   const handleSubmit = () => {
     setLoading(true);
-    Http.post(`/update/categories/${order.id}`, formValues)
+    Http.post(`/add/order/consumables/${order.id}`, formValues)
       .then((res) => {
         if (res.data.status === 200) {
           ToastNotification("success", res.data.message, options);
@@ -108,37 +119,60 @@ export default function AddConsumables(props) {
                   <h3 className="m-0">Consumables</h3>
                 </div>
 
-                <div className="card-body d-flex">
-                  {consumables &&
-                    consumables?.map((serviceItem) => (
-                      <label
-                        key={serviceItem.id}
-                        htmlFor={serviceItem.service_name}
-                        // onClick={() =>
-                        //   handleSelectService(serviceItem.name, serviceItem.id)
-                        // }
-                        style={{ width: "50%" }}
+                <div className="card-body">
+                  <Box sx={{ display: "flex", flexWrap: "wrap", mb: 2 }}>
+                    {formValues?.consumables?.map((consumable, i) => (
+                      <Box
+                        key={i}
+                        sx={{
+                          m: 1,
+                          p: 2,
+                          backgroundColor: "#EEEEEE",
+                          borderRadius: 2,
+                          boxShadow: 3,
+                        }}
                       >
-                        <div className="card-header d-flex">
-                          <div className="radio d-flex">
-                            <input
-                              id={serviceItem.id}
-                              name={`service-${serviceItem.id}`}
-                              type="radio"
-                              style={{ marginRight: "15px" }}
-                              value={serviceItem.id}
-                              // checked={
-                              //   servformValues.values.service ===
-                              //   serviceItem.name
-                              // }
-                              // onChange={handleRadioChange}
-                              required
-                            />
-                            <p className="m-0">{serviceItem.name}</p>
-                          </div>
-                        </div>
-                      </label>
+                        <Typography>Consumable: {consumable?.name}</Typography>
+                        <Typography>Price: {consumable?.price}</Typography>
+                      </Box>
                     ))}
+                  </Box>
+                  <FormControl fullWidth size="small">
+                    <InputLabel id="consumables-label">
+                      Select Consumables
+                    </InputLabel>
+                    <Select
+                      labelId="consumables-label"
+                      size="small"
+                      multiple
+                      id="consumables"
+                      value={formValues?.consumables}
+                      onChange={handleChange}
+                      renderValue={(selected) =>
+                        selected?.map((select) => select?.name).join(", ")
+                      }
+                    >
+                      <MenuItem disabled value="">
+                        <em>Select Data</em>
+                      </MenuItem>
+                      {consumables?.map((item) => (
+                        <MenuItem
+                          key={item.id}
+                          value={item}
+                          disabled={formValues?.consumables?.some(
+                            (consumable) => consumable?.name === item?.name
+                          )}
+                        >
+                          <Checkbox
+                            checked={formValues?.consumables?.some(
+                              (consumable) => consumable?.id === item?.id
+                            )}
+                          />
+                          <ListItemText primary={item?.name} />
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </div>
                 <div className="card-footer">
                   <Button
@@ -152,7 +186,7 @@ export default function AddConsumables(props) {
                     {loading ? (
                       <CircularProgress size={24} />
                     ) : (
-                      "Update Order Details"
+                      "Update Consumables"
                     )}
                   </Button>
                 </div>

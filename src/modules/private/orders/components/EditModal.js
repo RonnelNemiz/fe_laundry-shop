@@ -145,7 +145,6 @@ export default function EditModal(props) {
   const orderId = (order && order.id) || "";
 
   const [openConsumables, setOpenConsumables] = React.useState(false);
-  const [consumables, setComsumables] = React.useState([]);
   const [openTextEditor, setOpenTextEditor] = React.useState(false);
   const [selectedDetails, setSelectedDetails] = React.useState(null);
   const [expanded, setExpanded] = React.useState(false);
@@ -169,7 +168,6 @@ export default function EditModal(props) {
   useEffect(() => {
     if (open) {
       fetchOrderDetail();
-      // fetchConsumables();
     }
   }, [open]);
 
@@ -445,18 +443,6 @@ export default function EditModal(props) {
       });
   };
 
-  // const fetchConsumables = () => {
-  //   Http.get("/consumables")
-  //     .then((res) => {
-  //       if (res.data) {
-  //         setComsumables(res.data);
-  //       }
-  //     })
-  //     .then((err) => {
-  //       console.log(err.message);
-  //     });
-  // };
-
   const handleUpdateDetails = () => {
     setLoading(true);
     Http.put(`/orders/update-details/${orderId}`, formValues).then((res) => {
@@ -469,10 +455,7 @@ export default function EditModal(props) {
     setLoadingOnSubmit(true);
     const formData = new FormData();
     formData.append("category", data);
-    Http.post(
-      `/update/order-details/${selectedDetails.category_id}/${selectedDetails.id}`,
-      formData
-    )
+    Http.post(`/update/order-details/${selectedDetails.id}`, formData)
       .then((res) => {
         if (res.data.status === 200) {
           setOpenTextEditor(false);
@@ -507,6 +490,43 @@ export default function EditModal(props) {
         ToastNotification("error", err.message, toastOptions);
       });
   };
+
+  const handleDeleteOrderDetails = (id) => {
+    setLoadingOnSubmit(true);
+    Http.delete(`/delete/order-details/${id}`)
+      .then((res) => {
+        if (res.data.status === 200) {
+          onClose();
+          ToastNotification("success", res.data.message, toastOptions);
+        } else {
+          ToastNotification("error", res.data.message, toastOptions);
+        }
+        setLoadingOnSubmit(false);
+      })
+      .catch((err) => {
+        setLoadingOnSubmit(false);
+        ToastNotification("error", err.message, toastOptions);
+      });
+  };
+
+  const handleDeleteConsumable = (id) => {
+    setLoadingOnSubmit(true);
+    Http.delete(`/delete/consumable/${order.id}/${id}`)
+      .then((res) => {
+        if (res.data.status === 200) {
+          onClose();
+          ToastNotification("success", res.data.message, toastOptions);
+        } else {
+          ToastNotification("error", res.data.message, toastOptions);
+        }
+        setLoadingOnSubmit(false);
+      })
+      .catch((err) => {
+        setLoadingOnSubmit(false);
+        ToastNotification("error", err.message, toastOptions);
+      });
+  };
+
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
@@ -557,117 +577,120 @@ export default function EditModal(props) {
                 </TabList>
               </Box>
               <TabPanel value="1">
-                {/* {loading && <LinearProgress />} */}
                 <main className="mt-3">
                   <section className="card">
                     <div className="card-header bg-primary bg-gradient text-light">
                       <h3 className="m-0">CUSTOMER PROFILE</h3>
-                      {/* {loading && <LinearProgress />} */}
+                      {loading && <LinearProgress />}
                     </div>
-                    <div className="card-body">
-                      <Box
-                        component="form"
-                        sx={{
-                          "& > :not(style)": { m: 1, width: "95%" },
-                        }}
-                        noValidate
-                        autoComplete="off"
-                      >
-                        <TextField
-                          id=""
-                          label="Transaction #"
-                          variant="standard"
-                          value={formValues.trans_number || ""}
-                          onChange={handleChange}
-                          name="trans_number"
-                          disabled
-                        />
-                        <Box className={"d-flex"}>
-                          <TextField
-                            id=""
-                            label="First Name"
-                            variant="standard"
-                            value={formValues.first_name || ""}
-                            onChange={handleChange}
-                            name="first_name"
-                            className="flex-fill"
-                          />
-                          <TextField
-                            id=""
-                            label="Last Name"
-                            variant="standard"
-                            value={formValues.last_name || ""}
-                            onChange={handleChange}
-                            name="last_name"
-                            className="flex-fill"
-                          />
-                        </Box>
-                        <Box className={"d-flex"}>
-                          <TextField
-                            className="flex-fill"
-                            id=""
-                            label="Purok"
-                            variant="standard"
-                            value={formValues.purok || ""}
-                            onChange={handleChange}
-                            name="purok"
-                          />
-                          <TextField
-                            className="flex-fill"
-                            id=""
-                            label="Barangay"
-                            variant="standard"
-                            value={formValues.brgy || ""}
-                            onChange={handleChange}
-                            name="brgy"
-                          />
-                          <TextField
-                            className="flex-fill"
-                            id=""
-                            label="Municipality"
-                            variant="standard"
-                            value={formValues.municipality || ""}
-                            onChange={handleChange}
-                            name="municipality"
-                          />
-                          <TextField
-                            className="flex-fill"
-                            id=""
-                            label="Landmark"
-                            variant="standard"
-                            value={formValues.land_mark || ""}
-                            onChange={handleChange}
-                            name="land_mark"
-                          />
-                        </Box>
-                        <TextField
-                          className="flex-fill"
-                          id=""
-                          label="Contact #"
-                          variant="standard"
-                          value={formValues.contact_number || ""}
-                          onChange={handleChange}
-                          name="contact_number"
-                        />
-                      </Box>
-                    </div>
-                    <div className="card-footer">
-                      <Button
-                        size="small"
-                        color="secondary"
-                        variant="contained"
-                        onClick={handleUpdateProfile}
-                        className="py-1 px-5"
-                        // fullWidth
-                        disabled={loadingOnSubmit}
-                      >
-                        {loadingOnSubmit ? (
-                          <CircularProgress size={24} />
-                        ) : (
-                          " Update Profile"
-                        )}
-                      </Button>
-                    </div>
+                    {!loading && (
+                      <React.Fragment>
+                        <div className="card-body">
+                          <Box
+                            component="form"
+                            sx={{
+                              "& > :not(style)": { m: 1, width: "95%" },
+                            }}
+                            noValidate
+                            autoComplete="off"
+                          >
+                            <TextField
+                              id=""
+                              label="Transaction #"
+                              variant="standard"
+                              value={formValues.trans_number || ""}
+                              onChange={handleChange}
+                              name="trans_number"
+                              disabled
+                            />
+                            <Box className={"d-flex"}>
+                              <TextField
+                                id=""
+                                label="First Name"
+                                variant="standard"
+                                value={formValues.first_name || ""}
+                                onChange={handleChange}
+                                name="first_name"
+                                className="flex-fill"
+                              />
+                              <TextField
+                                id=""
+                                label="Last Name"
+                                variant="standard"
+                                value={formValues.last_name || ""}
+                                onChange={handleChange}
+                                name="last_name"
+                                className="flex-fill"
+                              />
+                            </Box>
+                            <Box className={"d-flex"}>
+                              <TextField
+                                className="flex-fill"
+                                id=""
+                                label="Purok"
+                                variant="standard"
+                                value={formValues.purok || ""}
+                                onChange={handleChange}
+                                name="purok"
+                              />
+                              <TextField
+                                className="flex-fill"
+                                id=""
+                                label="Barangay"
+                                variant="standard"
+                                value={formValues.brgy || ""}
+                                onChange={handleChange}
+                                name="brgy"
+                              />
+                              <TextField
+                                className="flex-fill"
+                                id=""
+                                label="Municipality"
+                                variant="standard"
+                                value={formValues.municipality || ""}
+                                onChange={handleChange}
+                                name="municipality"
+                              />
+                              <TextField
+                                className="flex-fill"
+                                id=""
+                                label="Landmark"
+                                variant="standard"
+                                value={formValues.land_mark || ""}
+                                onChange={handleChange}
+                                name="land_mark"
+                              />
+                            </Box>
+                            <TextField
+                              className="flex-fill"
+                              id=""
+                              label="Contact #"
+                              variant="standard"
+                              value={formValues.contact_number || ""}
+                              onChange={handleChange}
+                              name="contact_number"
+                            />
+                          </Box>
+                        </div>
+                        <div className="card-footer">
+                          <Button
+                            size="small"
+                            color="secondary"
+                            variant="contained"
+                            onClick={handleUpdateProfile}
+                            className="py-1 px-5"
+                            // fullWidth
+                            disabled={loadingOnSubmit}
+                          >
+                            {loadingOnSubmit ? (
+                              <CircularProgress size={24} />
+                            ) : (
+                              " Update Profile"
+                            )}
+                          </Button>
+                        </div>
+                      </React.Fragment>
+                    )}
                   </section>
                 </main>
                 <Divider className="mt-3" />
@@ -675,55 +698,72 @@ export default function EditModal(props) {
                   <section className="card">
                     <div className="card-header bg-primary bg-gradient text-light">
                       <h3 className="m-0">ORDER DETAILS</h3>
-                      {/* {loading && <LinearProgress />} */}
+                      {loading && <LinearProgress />}
                     </div>
-                    <div className="card-body">
-                      {orderDetails?.orderItems?.length <= 0 && (
-                        <Typography>No Items</Typography>
-                      )}
+                    {!loading && (
+                      <React.Fragment>
+                        <div className="card-body">
+                          {orderDetails?.orderItems?.length <= 0 && (
+                            <Typography>No Items</Typography>
+                          )}
 
-                      {orderDetails?.orderItems?.length > 0 &&
-                        orderDetails?.orderItems.map((item, i) => (
-                          <Box
-                            key={i}
-                            sx={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <Box>
-                              <Typography>{item.name}</Typography>
-                              <div
-                                dangerouslySetInnerHTML={{
-                                  __html: item.items_breakdown,
+                          {orderDetails?.orderItems?.length > 0 &&
+                            orderDetails?.orderItems.map((item, i) => (
+                              <Box
+                                key={i}
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
                                 }}
-                              />
-                            </Box>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              size="small"
-                              sx={{ height: 30 }}
-                              onClick={() => handleSelectDetails(item)}
-                            >
-                              Edit
-                            </Button>
-                          </Box>
-                        ))}
-                    </div>
-                    <div className="card-footer">
-                      <Button
-                        size="small"
-                        color="success"
-                        variant="contained"
-                        onClick={handleAddMoreCategories}
-                        className="py-1 px-5 mr-3"
-                        style={{ marginRight: "15px" }}
-                        // fullWidth
-                      >
-                        Add More Items
-                      </Button>
-                      {/* <Button
+                              >
+                                <Box>
+                                  <Typography>{item.name}</Typography>
+                                  <div
+                                    dangerouslySetInnerHTML={{
+                                      __html: item.items_breakdown,
+                                    }}
+                                  />
+                                </Box>
+                                <Box>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    size="small"
+                                    sx={{ height: 30, mr: 2 }}
+                                    onClick={() => handleSelectDetails(item)}
+                                    loading={loadingOnSubmit}
+                                  >
+                                    Edit
+                                  </Button>
+                                  <Button
+                                    variant="contained"
+                                    color="error"
+                                    size="small"
+                                    sx={{ height: 30 }}
+                                    onClick={() =>
+                                      handleDeleteOrderDetails(item.id)
+                                    }
+                                    disabled={loadingOnSubmit}
+                                  >
+                                    Delete
+                                  </Button>
+                                </Box>
+                              </Box>
+                            ))}
+                        </div>
+                        <div className="card-footer">
+                          <Button
+                            size="small"
+                            color="success"
+                            variant="contained"
+                            onClick={handleAddMoreCategories}
+                            className="py-1 px-5 mr-3"
+                            style={{ marginRight: "15px" }}
+                            // fullWidth
+                          >
+                            Add More Items
+                          </Button>
+                          {/* <Button
                         size="small"
                         color="secondary"
                         variant="contained"
@@ -733,40 +773,68 @@ export default function EditModal(props) {
                       >
                         Update Order Details
                       </Button> */}
-                    </div>
+                        </div>
+                      </React.Fragment>
+                    )}
                   </section>
                 </main>
 
                 <Divider className="mt-3" />
                 <main className="mt-3">
-                  {/* {orderDetails.consumables?.length <= 0 && (
-                    <Box>
-                      <Typography>No Item</Typography>
-                    </Box>
-                  )} */}
                   <section className="card">
                     <div className="card-header bg-primary bg-gradient text-light">
                       <h3 className="m-0">CONSUMABLES</h3>
-                      {/* {loading && <LinearProgress />} */}
+                      {loading && <LinearProgress />}
                     </div>
-                    <div className="card-body">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Item</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row" style={tableStyle}>
-                              500
-                            </th>
-                            <td>Consumables: Downy</td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    {!loading && orderDetails.consumables?.length <= 0 && (
+                      <Box sx={{ p: 2 }}>
+                        <Typography>No Items</Typography>
+                      </Box>
+                    )}
+                    {orderDetails.consumables?.length > 0 && (
+                      <div className="card-body">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Amount</th>
+                              <th scope="col">Item</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {orderDetails?.consumables?.map((consumable, i) => (
+                              <tr key={i}>
+                                <td style={tableStyle}>₱{consumable.price}</td>
+                                <td>
+                                  {consumable.quantity} x {consumable.name}
+                                </td>
+                                <td style={tableStyle}>
+                                  {/* <Button
+                                    variant="outlined"
+                                    size="small"
+                                    color="primary"
+                                    sx={{ mr: 1 }}
+                                  >
+                                    Add + 1
+                                  </Button> */}
+                                  <Button
+                                    variant="contained"
+                                    color="error"
+                                    size="small"
+                                    disabled={loadingOnSubmit}
+                                    onClick={() =>
+                                      handleDeleteConsumable(consumable.id)
+                                    }
+                                  >
+                                    Delete
+                                  </Button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </section>
 
                   <div className="card-footer">
@@ -781,7 +849,7 @@ export default function EditModal(props) {
                     >
                       Add More Items
                     </Button>
-                    <Button
+                    {/* <Button
                       size="small"
                       color="secondary"
                       variant="contained"
@@ -790,12 +858,16 @@ export default function EditModal(props) {
                       // fullWidth
                     >
                       Update Consumables
-                    </Button>
+                    </Button> */}
                   </div>
                 </main>
               </TabPanel>
               <TabPanel value="3" sx={{ padding: "15px 5px" }}>
-                <OrderPayments order={order} orderDetails={orderDetails} />
+                <OrderPayments
+                  order={order}
+                  orderDetails={orderDetails}
+                  onClose={onClose}
+                />
               </TabPanel>
               <TabPanel value="4" sx={{ padding: "15px 5px" }}>
                 <OrderStatus order={order} onClose={onClose} />
@@ -820,7 +892,7 @@ export default function EditModal(props) {
           <AddConsumables
             open={openConsumables}
             onClose={() => setOpenConsumables(false)}
-            // consumables={consumables}
+            selectedConsumables={orderDetails?.consumables}
             order={order}
           />
         </DialogContent>

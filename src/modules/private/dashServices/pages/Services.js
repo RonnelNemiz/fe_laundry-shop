@@ -443,7 +443,7 @@ const Services = () => {
           open={openEdit}
           forceUpdate={forceUpdate}
           item={selectedItem && selectedItem}
-          onCLose={() => setOpenEdit(false)}
+          onClose={() => setOpenEdit(false)}
         />
       </div>
     </>

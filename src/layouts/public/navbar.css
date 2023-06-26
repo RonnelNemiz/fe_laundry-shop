@@ -28,7 +28,7 @@
 .nav-item{
   transition: all .1s ease;
   border-bottom: 0px solid #0d6efd;
-  border-top: 0px solid #0d6efd;
+  /* border-top: 0px solid #0d6efd; */
   cursor: pointer;
   padding: 5px 0px;
   margin-inline: 2%;
@@ -36,11 +36,11 @@
 }
 .nav-link:hover{
   border-bottom: 3px solid #0d6efd;
-  border-top: 3px solid #0d6efd;
+  /* border-top: 3px solid #0d6efd; */
 }
 .nav-item .nav-link.active {
   border-bottom: 3px solid #0d6efd;
-  border-top: 3px solid #0d6efd;
+  /* border-top: 3px solid #0d6efd; */
 }
 
 

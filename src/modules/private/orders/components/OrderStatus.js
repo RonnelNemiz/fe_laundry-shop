@@ -24,18 +24,20 @@ const options = {
 
 const paymentStatus = ["Unpaid", "Paid"];
 const handlingStatus = [
-  "For Pickup",
   "Rider on Pickup",
-  "Ready for Pickup",
   "Rider on Delivery",
-  "Ready for Delivery",
+  "Ready for Store Pickup",
+  "Delivered",
+  "Picked Up",
 ];
 const orderStatus = [
   "Pending",
-  "In Progress",
-  "Waiting for Payment",
+  "Confirmed",
+  "On Queue",
+  "Washing",
+  "Ready for Payment",
   "Completed",
-  "Cancelled",
+  "Canceled",
 ];
 
 function OrderStatus({ order, onClose }) {
