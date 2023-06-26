@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Http from "../../../services/Http";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import ShoppingBag from "@mui/icons-material/ShoppingBag";
+import PendingIcon from "@mui/icons-material/PendingActions";
+import PriceCheck from "@mui/icons-material/PriceCheck";
 import MoneyIcon from "@mui/icons-material/Money";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import { NavLink } from "react-router-dom";
@@ -22,6 +25,7 @@ function Dashboard() {
     setIsLoading(true);
     Http.get("/totalsales")
       .then((res) => {
+        console.log(res.data);
         setTotalSales(res.data);
         setIsLoading(false);
       })
@@ -63,7 +67,7 @@ function Dashboard() {
             <h2 className="m-0">Dashboard</h2>
             <div className="col-md-3 py-3 " style={{ margin: "5px" }}>
               <div className="d-flex justify-content-around align-items-center p-3 bg-info ">
-                <div>
+                <div className="orders" style={{ color: "white" }}>
                   <h3 className="fs-4 pt-2">New Orders </h3>
 
                   {newOrders && (
@@ -73,7 +77,7 @@ function Dashboard() {
                   )}
                 </div>
                 <div>
-                  <ShoppingCartIcon
+                  <ShoppingBag
                     style={{ paddingTop: "10px", fontSize: "3em" }}
                   />
                   <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
@@ -93,7 +97,8 @@ function Dashboard() {
                 style={{
                   cursor: "pointer",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 {/* See More <i className="fas fa-arrow-circle-right"></i> */}
                 <a href="#" class="small-box-footer">
                   See More <i class="fas fa-arrow-circle-right"></i>
@@ -103,12 +108,12 @@ function Dashboard() {
 
             <div className="col-md-3 py-3 " style={{ margin: "5px" }}>
               <div className="d-flex justify-content-around align-items-center p-3 bg-success">
-                <div>
+                <div className="orders" style={{ color: "white" }}>
                   <h3>Pending</h3>
                   <h3>{pendingOrdersCount}</h3>
                 </div>
                 <div>
-                  <ShoppingCartIcon
+                  <PendingIcon
                     style={{ paddingTop: "10px", fontSize: "3em" }}
                   />
                   <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
@@ -128,7 +133,8 @@ function Dashboard() {
                 style={{
                   cursor: "pointer",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 <a href="#" class="small-box-footer">
                   See More <i class="fas fa-arrow-circle-right"></i>
                 </a>
@@ -137,14 +143,16 @@ function Dashboard() {
 
             <div className="col-md-3 py-3" style={{ margin: "5px" }}>
               <div className="d-flex justify-content-around align-items-center p-3 bg-warning">
-                <div>
+                <div className="orders" style={{ color: "white" }}>
                   <h3>Sales</h3>
-                  <h3>{pendingOrdersCount}</h3>
+                  {totalsales && (
+                    <div key={totalsales?.sales?.today}>
+                      <h3>{totalsales?.sales?.today}</h3>
+                    </div>
+                  )}
                 </div>
                 <div>
-                  <ShoppingCartIcon
-                    style={{ paddingTop: "10px", fontSize: "3em" }}
-                  />
+                  <PriceCheck style={{ paddingTop: "10px", fontSize: "3em" }} />
                   <p style={{ fontSize: ".6em" }}>Last 24hrs</p>
                 </div>
               </div>
@@ -162,7 +170,8 @@ function Dashboard() {
                 style={{
                   cursor: "pointer",
                   textDecoration: "none",
-                }}>
+                }}
+              >
                 <a href="#" class="small-box-footer">
                   See More <i class="fas fa-arrow-circle-right"></i>
                 </a>

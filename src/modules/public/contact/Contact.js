@@ -12,9 +12,12 @@ function Contact() {
       <div className="custom-container">
         <div className="row">
           <div className="col-md-12">
-            <div className="card custom-card">
-              <div className="row">
-                <div className="col-md-7" id="custom-card-body">
+            <div className="card custom-card" style={{ border: "none" }}>
+              <div
+                className="row"
+                style={{ display: "flex", justifyContent: "center" }}
+              >
+                {/* <div className="col-md-7" id="custom-card-body">
                   <h2>Get in Touch</h2>
                   <div className="mb-3">
                     <label htmlFor="nameInput" className="custom-form-label">
@@ -62,7 +65,7 @@ function Contact() {
                   <div className="custom-primary-btn">
                     <button className="btn customs-btn-primary">Send</button>
                   </div>
-                </div>
+                </div> */}
                 <div className="col-md-5">
                   <h2>Contact Us</h2>
                   <div className="mt-5">

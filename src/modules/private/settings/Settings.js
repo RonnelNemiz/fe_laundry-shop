@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import CMS from "./cms/CMS";
 import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { styled } from "@mui/material/styles";
 import Http from "../../../services/Http";
 import ToastNotification from "../../../components/ToastNotification";
 import { handleErrorResponse } from "../../../utils/helpers";
-import { toast } from "react-toastify";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

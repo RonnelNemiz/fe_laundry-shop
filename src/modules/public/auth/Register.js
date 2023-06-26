@@ -52,7 +52,7 @@ function Register() {
     Http.post("/register", registerInput)
       .then((res) => {
         if (res.status === 200) {
-          swal("Success", res.data.message, "success");
+          // swal("Success", res.data.message, "success");
           history.push("/login");
           setRegister({
             first_name: "",

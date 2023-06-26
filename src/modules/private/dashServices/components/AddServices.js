@@ -12,13 +12,6 @@ import {
 } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import FormFieldData from "../../../../components/FormFieldData";
-import ReeValidate from "ree-validate-18";
-
-const validator = new ReeValidate.Validator({
-  service_name: "required",
-  service_price: "required",
-  description: "required",
-});
 
 const style = {
   position: "absolute",
@@ -50,13 +43,9 @@ export default function AddServices(props) {
 
   const [loading, setLoading] = React.useState(false);
   const [formValues, setFormValues] = React.useState({
-    values: {
-      service_name: "",
-      service_price: "",
-      description: "",
-      image: "",
-    },
-    errors: validator.errors,
+    name: "",
+    description: "",
+    image: "",
   });
 
   const [open, setOpen] = React.useState(false);
@@ -64,34 +53,24 @@ export default function AddServices(props) {
   const handleClose = () => setOpen(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormValues((prev) => ({
-      ...prev,
-      values: {
-        ...prev.values,
-        [name]: value,
-      },
-    }));
-
-    const { errors } = validator;
-
-    validator.validate(name, value).then((success) => {
-      if (!success) {
-        setFormValues((prev) => ({
-          ...prev,
-          errors: errors,
-        }));
-      }
-    });
+    const newData = { ...formValues };
+    newData[e.target.name] = e.target.value;
+    setFormValues(newData);
   };
 
-  const handleSubmit = () => {
-    Http.post("/add/services", formValues.values, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    })
+  React.useEffect(() => {
+    if (open) {
+      setFormValues({
+        name: "",
+        description: "",
+        image: "",
+      });
+    }
+  }, [open]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    Http.post("/add/services", formValues)
       .then((res) => {
         if (res.data.status === 200) {
           ToastNotification("success", "Successfully Saved Data!", options);
@@ -106,19 +85,7 @@ export default function AddServices(props) {
       });
   };
 
-  const handleValidate = () => {
-    validator.validateAll(formValues.values).then((success) => {
-      if (success) {
-        handleSubmit();
-      } else {
-        setFormValues((prev) => ({
-          ...prev,
-          errors: validator.errors,
-        }));
-      }
-    });
-  };
-
+  console.log("Form Values: ", formValues);
   return (
     <div>
       <ToastNotificationContainer />
@@ -155,20 +122,9 @@ export default function AddServices(props) {
           <FormFieldData
             fullWidth
             label="Service"
-            id="service_name"
-            value={formValues.values.service_name}
-            name="service_name"
-            onChange={handleChange}
-            errors={formValues.errors}
-            sx={inputStyle}
-          />
-          <FormFieldData
-            fullWidth
-            label="Price"
-            type="number"
-            id="service_price"
-            value={formValues.values.service_price}
-            name="service_price"
+            id="name"
+            value={formValues.name}
+            name="name"
             onChange={handleChange}
             errors={formValues.errors}
             sx={inputStyle}
@@ -177,7 +133,7 @@ export default function AddServices(props) {
             fullWidth
             label="Description"
             id="description"
-            value={formValues.values.description}
+            value={formValues.description}
             name="description"
             onChange={handleChange}
             errors={formValues.errors}
@@ -187,7 +143,7 @@ export default function AddServices(props) {
             fullWidth
             label="Image"
             id="image"
-            value={formValues.values.image}
+            value={formValues.image}
             name="image"
             onChange={handleChange}
             errors={formValues.errors}
@@ -198,10 +154,9 @@ export default function AddServices(props) {
             fullWidth
             variant="contained"
             color="primary"
-            onClick={handleValidate}
-            disabled={loading}
+            onClick={handleSubmit}
           >
-            {loading ? <CircularProgress size={24} /> : "Submit"}
+            Submit
           </Button>
         </Box>
       </Modal>
